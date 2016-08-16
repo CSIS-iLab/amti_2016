@@ -15,9 +15,7 @@
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'amti' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'amti' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'amti' ), 'amti', '<a href="http://github.com/CSIS-iLab" rel="designer">Ideas Lab</a>' ); ?>
+			<p>© <?php echo date("Y") ?> The Asia Maritime Transparency Initiative and <a href="http://www.csis.org" target="_blank">The Center for Strategic and International Studies</a></p>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
