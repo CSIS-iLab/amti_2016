@@ -140,7 +140,7 @@ require get_template_directory() . '/inc/customizer.php';
 require get_template_directory() . '/inc/jetpack.php';
 
 /*-----------------------------------------------------------------------------------*/
-/* Register features taxonomy
+/* Register Features taxonomy
 /*-----------------------------------------------------------------------------------*/
 add_action( 'init', 'create_feature_type' );
 function create_feature_type() {
@@ -152,6 +152,7 @@ function create_feature_type() {
       ),
       'public' => true,
       'has_archive' => true,
+			'menu_icon'   => 'dashicons-layout',
     )
   );
 }
@@ -184,3 +185,36 @@ function create_features_taxonomy() {
 
 	register_taxonomy( 'features', array( 'feature' ), $args );
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Change Posts to Analysis in admin
+/*-----------------------------------------------------------------------------------*/
+
+function revcon_change_post_label() {
+    global $menu;
+    global $submenu;
+    $menu[5][0] = 'Analysis';
+    $submenu['edit.php'][5][0] = 'Analysis';
+    $submenu['edit.php'][10][0] = 'Add Analysis';
+    $submenu['edit.php'][16][0] = 'Analysis Tags';
+}
+function revcon_change_post_object() {
+    global $wp_post_types;
+    $labels = &$wp_post_types['post']->labels;
+    $labels->name = 'Analysis';
+    $labels->singular_name = 'Analysis';
+    $labels->add_new = 'Add Analysis';
+    $labels->add_new_item = 'Add Analysis';
+    $labels->edit_item = 'Edit Analysis';
+    $labels->new_item = 'Analysis';
+    $labels->view_item = 'View Analysis';
+    $labels->search_items = 'Search Analysis';
+    $labels->not_found = 'No Analysis found';
+    $labels->not_found_in_trash = 'No Analysis found in Trash';
+    $labels->all_items = 'All Analysis';
+    $labels->menu_name = 'Analysis';
+    $labels->name_admin_bar = 'Analysis';
+}
+ 
+add_action( 'admin_menu', 'revcon_change_post_label' );
+add_action( 'init', 'revcon_change_post_object' );
