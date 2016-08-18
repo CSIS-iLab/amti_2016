@@ -20,7 +20,7 @@
 
 		if ( 'post' === get_post_type() ) : ?>
 		<div class="entry-meta">
-			<?php amti_posted_on(); ?>
+			<?php transparency_posted_on(); ?>
 		</div><!-- .entry-meta -->
 		<?php
 		endif; ?>
@@ -30,18 +30,18 @@
 		<?php
 			the_content( sprintf(
 				/* translators: %s: Name of current post. */
-				wp_kses( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'amti' ), array( 'span' => array( 'class' => array() ) ) ),
+				wp_kses( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'transparency' ), array( 'span' => array( 'class' => array() ) ) ),
 				the_title( '<span class="screen-reader-text">"', '"</span>', false )
 			) );
 
 			wp_link_pages( array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'amti' ),
+				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'transparency' ),
 				'after'  => '</div>',
 			) );
 		?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<?php amti_entry_footer(); ?>
+		<?php transparency_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
 </article><!-- #post-## -->
