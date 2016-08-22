@@ -1,7 +1,12 @@
 // Rem output with px fallback
-@mixin font-size($sizeValue: 1) {
-	font-size: ($sizeValue * 16) * 1px;
-	font-size: $sizeValue * 1rem;
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
 }
 
 // Center block
@@ -21,4 +26,28 @@
 // Clear after (not all clearfix need this also)
 @mixin clearfix-after() {
 	clear: both;
+}
+
+// Breakpoints
+@mixin breakpoint($break) {
+	@if $break == large {
+		@media screen and (min-width:1200px) { @content; }
+	}
+	@else if $break == medium {
+		@media screen and (min-width:992px) { @content; }
+	}
+	@else if $break == small {
+		@media screen and (min-width: 768px) { @content; }
+	} @else {
+		@media ($break) { @content; }
+	}
+}
+
+// Transitions
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
 }
