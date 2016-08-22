@@ -41,6 +41,23 @@
 		?>
 	</div><!-- .entry-content -->
 
+	<?php foreach( get_coauthors() as $coauthor ): ?>
+				<div class="author well gap">
+	    				<div class="media">
+	        				<div class="pull-left">
+							<?php echo get_avatar( $coauthor->user_email, '80' ); ?>
+						</div>
+
+						<div class="media-body">
+	            					<div class="media-heading">
+								<strong>About&nbsp;<?php echo $coauthor->display_name; ?></strong>
+							</div>
+							<p><?php echo $coauthor->description; ?></p>
+						</div>
+					</div>
+				</div>
+			<?php endforeach; ?>
+
 	<footer class="entry-footer">
 		<?php transparency_entry_footer(); ?>
 	</footer><!-- .entry-footer -->
