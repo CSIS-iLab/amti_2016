@@ -4024,7 +4024,7 @@ button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background
 .mobile-device { position: absolute; top: 0; left: 0; display: block !important; width: 100%; height: 100% !important; opacity: 0; }
 
 /* line 1, sass/base/_typography.scss */
-body { color: #555; font-family: "PT Sans", sans-serif; font-size: 18px; line-height: 1.5; font-weight: 300; }
+body { color: #555; font-family: "PT Sans", sans-serif; font-size: 18px; font-weight: 300; -webkit-font-smoothing: antialiased; }
 
 /* line 9, sass/base/_typography.scss */
 h1, h2, h3, h4, h5, h6 { font-family: "PT Sans Narrow", sans-serif; color: #0C8D79; font-weight: 900; }
@@ -4033,38 +4033,40 @@ h1.main-title, h2.main-title, h3.main-title, h4.main-title, h5.main-title, h6.ma
 
 /* line 21, sass/base/_typography.scss */
 p { margin-bottom: 25px; line-height: 1.8; font-size: 18px; }
+/* line 26, sass/base/_typography.scss */
+p.title-description { font-size: 22px; margin: 0 15px 0; font-family: "PT Sans Narrow", sans-serif; }
 
-/* line 27, sass/base/_typography.scss */
+/* line 33, sass/base/_typography.scss */
 dfn, cite, em, i { font-style: italic; }
 
-/* line 31, sass/base/_typography.scss */
+/* line 37, sass/base/_typography.scss */
 blockquote { margin: 0 1.5em; }
 
-/* line 35, sass/base/_typography.scss */
+/* line 41, sass/base/_typography.scss */
 blockquote, q { quotes: "" ""; }
-/* line 38, sass/base/_typography.scss */
+/* line 44, sass/base/_typography.scss */
 blockquote:before, blockquote:after, q:before, q:after { content: ""; }
 
-/* line 44, sass/base/_typography.scss */
+/* line 50, sass/base/_typography.scss */
 hr { border: 0; height: 1px; background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.75), transparent); background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, 0.75), transparent); background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, 0.75), transparent); background-image: -o-linear-gradient(left, transparent, rgba(0, 0, 0, 0.75), transparent); display: block; margin: 1em 0; padding: 0; }
 
 /*----------  Links  ----------*/
-/* line 57, sass/base/_typography.scss */
-a { color: #00b29e; }
-/* line 60, sass/base/_typography.scss */
-a:visited { color: #00b29e; }
 /* line 63, sass/base/_typography.scss */
+a { color: #00b29e; word-wrap: break-word; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+/* line 68, sass/base/_typography.scss */
+a:visited { color: #00b29e; }
+/* line 71, sass/base/_typography.scss */
 a:hover, a:focus, a:active { color: #00b29e; text-decoration: none; }
-/* line 69, sass/base/_typography.scss */
+/* line 77, sass/base/_typography.scss */
 a:focus { outline: thin dotted; }
-/* line 72, sass/base/_typography.scss */
-a:hover, a:active { outline: 0; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+/* line 80, sass/base/_typography.scss */
+a:hover, a:active { outline: 0; }
 
 /*----------  Helpers  ----------*/
-/* line 80, sass/base/_typography.scss */
+/* line 87, sass/base/_typography.scss */
 .greentext { color: #0C8D79; }
 
-/* line 84, sass/base/_typography.scss */
+/* line 91, sass/base/_typography.scss */
 .bluetext { color: #023850; }
 
 /*--------------------------------------------------------------
@@ -4206,46 +4208,45 @@ html { box-sizing: border-box; }
 *, *:before, *:after { box-sizing: inherit; }
 
 /* line 9, sass/layout/_layout.scss */
-body { background: #F2F2F2; /* Fallback for when there is no custom background color defined. */ }
+body { background: #F2F2F2; /* Fallback for when there is no custom background color defined. */ -webkit-overflow-scrolling: touch; }
 
-/* line 13, sass/layout/_layout.scss */
+/* line 14, sass/layout/_layout.scss */
 .content-area { float: left; margin: 0 -25% 0 0; width: 100%; }
 
-/* line 19, sass/layout/_layout.scss */
+/* line 20, sass/layout/_layout.scss */
 .site-main { margin: 0 25% 0 0; }
 
-/* line 23, sass/layout/_layout.scss */
+/* line 24, sass/layout/_layout.scss */
 .site-content .widget-area { float: right; overflow: hidden; width: 25%; }
 
-/* line 29, sass/layout/_layout.scss */
+/* line 30, sass/layout/_layout.scss */
 .site-footer { clear: both; width: 100%; }
 
 /*==============================
 =            Header            =
 ==============================*/
 /* line 4, sass/layout/_header.scss */
-.site-header { background-image: url("http://amti.csis.org/wp-content/uploads/2014/10/AMTI_site_header.jpg"); background-repeat: no-repeat; background-color: #023850; padding: 11px 0; border-color: transparent; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+.navbar-fixed-top { background-image: url("http://amti.csis.org/wp-content/uploads/2014/10/AMTI_site_header.jpg"); background-repeat: no-repeat; background-color: #023850; padding: 11px 0; border-color: transparent; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 /* line 12, sass/layout/_header.scss */
-.site-header a { color: #fff; }
+.navbar-fixed-top a { color: #fff; }
 
 /*----------  Main Menu  ----------*/
-/* line 21, sass/layout/_header.scss */
-.main-navigation { float: right; width: auto; }
-/* line 25, sass/layout/_header.scss */
-.main-navigation ul { display: none; list-style: none; margin: 0; padding-left: 0; }
-/* line 31, sass/layout/_header.scss */
-.main-navigation ul li { float: left; position: relative; padding: 10px 15px; }
-/* line 41, sass/layout/_header.scss */
-.main-navigation ul a { margin-left: 0px; color: #fff; display: block; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; line-height: 20px; }
+/* line 18, sass/layout/_header.scss */
+.navbar-nav { float: right; color: #fff; }
+/* line 22, sass/layout/_header.scss */
+.navbar-nav li { -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+/* line 26, sass/layout/_header.scss */
+.navbar-nav > li > a { margin-left: 0px; display: block; font-size: 15px; font-family: "PT Sans Narrow", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
 
-/* Small menu. */
-/* line 55, sass/layout/_header.scss */
-.menu-toggle, .main-navigation.toggled ul { display: block; }
+/* line 36, sass/layout/_header.scss */
+.navbar-default .navbar-toggle { border-color: transparent; }
 
-@media screen and (min-width: 37.5em) { /* line 61, sass/layout/_header.scss */
-  .menu-toggle { display: none; }
-  /* line 64, sass/layout/_header.scss */
-  .main-navigation ul { display: block; } }
+/* line 39, sass/layout/_header.scss */
+.nav > li:hover a, .nav > li:hover span, .nav > li:hover, .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:hover { color: #fff; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
+
+/* line 43, sass/layout/_header.scss */
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus { background-color: transparent; color: #fff; }
+
 /*==============================
 =            Footer            =
 ==============================*/

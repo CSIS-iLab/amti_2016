@@ -1,7 +1,7 @@
 /*==============================
 =            Header            =
 ==============================*/
-.site-header {
+.navbar-fixed-top {
     background-image: url('http://amti.csis.org/wp-content/uploads/2014/10/AMTI_site_header.jpg');
     background-repeat: no-repeat;
     background-color: $dark-blue;
@@ -12,56 +12,35 @@
     a {
     	color: $white;
     }
-
-    .site-branding {
-    }
 }
 
 /*----------  Main Menu  ----------*/
-.main-navigation {
+.navbar-nav {
 	float:right;
-    width:auto;
+	color:$white;
 
-	ul {
-		display: none;
-		list-style: none;
-		margin: 0;
-		padding-left: 0;
+	li {
+		@include transition(all .3s ease-in-out);
+	}
 
-		li {
-			float: left;
-			position: relative;
-			padding:10px 15px;
-
-			&:hover > a,
-			&.focus > a {
-			}
-		}
-
-		a {
-			margin-left: 0px;
-		    color: $white;
-		    display: block;
-		    font-size: 15px;
-		    letter-spacing: .1em;
-		    text-transform: uppercase;
-		    line-height:20px;
-		}
+	& > li > a {
+		margin-left: 0px;
+	    display: block;
+	    font-size: 15px;
+		font-family: $font__PTSN;
+	    letter-spacing: .1em;
+	    text-transform: uppercase;
 	}
 
 }
-
-/* Small menu. */
-.menu-toggle,
-.main-navigation.toggled ul {
-	display: block;
+.navbar-default .navbar-toggle {
+	border-color:transparent;
 }
-
-@media screen and (min-width: 37.5em) {
-	.menu-toggle {
-		display: none;
-	}
-	.main-navigation ul {
-		display: block;
-	}
+.nav > li:hover a, .nav > li:hover span, .nav > li:hover, .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a, .navbar-default .navbar-nav>li>a:hover {
+	color: $white;
+	@include transition(all .3s ease-in-out);
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	background-color:transparent;
+	color: $white;
 }
