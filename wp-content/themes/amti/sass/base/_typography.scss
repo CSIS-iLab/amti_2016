@@ -1,24 +1,25 @@
-body,
-button,
-input,
-select,
-textarea {
+body {
 	color: $color__text-main;
 	font-family: $font__main;
-	font-size:22px;
+	font-size:18px;
 	line-height: $font__line-height-body;
 	font-weight:300;
 }
 
 h1, h2, h3, h4, h5, h6 {
-	clear: both;
 	font-family: $font__PTSN;
 	color: $dark-green;
 	font-weight: 900;
+
+	&.main-title {
+		font-weight: 700;
+    	color: $dark-blue;
+    	text-transform: uppercase;
+	}
 }
 
 p {
-	margin: 0 15px 0;
+	margin-bottom:25px;
 	line-height: 1.8;
 	font-size:18px;
 }
@@ -52,6 +53,7 @@ hr {
     padding: 0;
 }
 
+/*----------  Links  ----------*/
 a {
 	color: $color__link;
 
@@ -72,4 +74,13 @@ a {
 		outline: 0;
 		@include transition(all .3s ease-in-out);
 	}
+}
+
+/*----------  Helpers  ----------*/
+.greentext {
+	color: $dark-green;
+}
+
+.bluetext {
+	color: $dark-blue;
 }

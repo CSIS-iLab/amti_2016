@@ -39,22 +39,18 @@ input[type="submit"] {
 	}
 }
 
-input[type="text"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-input[type="search"],
-input[type="number"],
-input[type="tel"],
-input[type="range"],
-input[type="date"],
-input[type="month"],
-input[type="week"],
-input[type="time"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="color"],
+select {
+	border: 1px solid $color__border-input;
+}
+
 textarea {
+	width: 100%;
+}
+
+/*===================================
+=            Search Bars            =
+===================================*/
+.search {
 	background-color: rgba(0,0,0,0.1);
     color: $color__text-input-focus;
     border: none;
@@ -69,10 +65,4 @@ textarea {
 	}
 }
 
-select {
-	border: 1px solid $color__border-input;
-}
 
-textarea {
-	width: 100%;
-}
