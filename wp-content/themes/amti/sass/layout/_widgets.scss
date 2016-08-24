@@ -21,3 +21,10 @@
 		max-width: 100%;
 	}
 }
+
+/*----------  Widgets in Footer  ----------*/
+.site-footer .widget {
+	.widget-title {
+		color: $color__text-footer-widget;
+	}
+}

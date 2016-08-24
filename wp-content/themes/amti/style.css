@@ -4089,9 +4089,9 @@ textarea { width: 100%; }
 =            Search Bars            =
 ===================================*/
 /* line 53, sass/components/_forms.scss */
-.search { background-color: rgba(0, 0, 0, 0.1); color: #00b29e; border: none; border-radius: 0; padding: 6px 8px; height: 40px; font-weight: bold; letter-spacing: .7px; }
+.form-control { background-color: rgba(0, 0, 0, 0.1); color: #00b29e; border: none; border-radius: 0; padding: 6px 8px; height: 40px; font-weight: bold; letter-spacing: .7px; }
 /* line 63, sass/components/_forms.scss */
-.search:focus { color: #00b29e; }
+.form-control:focus { color: #00b29e; }
 
 /* line 1, sass/components/_lists.scss */
 ul, ol { margin-top: 0; margin-bottom: 10px; }
@@ -4250,6 +4250,15 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 /*==============================
 =            Footer            =
 ==============================*/
+/* line 4, sass/layout/_footer.scss */
+.site-footer { bottom: 0; width: 100%; z-index: -1; padding: 40px 0 0px; background-color: #1a1a1a; color: #9f9f9f; }
+/* line 12, sass/layout/_footer.scss */
+.site-footer .site-info { margin-top: 40px; background-color: rgba(0, 0, 0, 0.8); padding: 30px 0; }
+/* line 18, sass/layout/_footer.scss */
+.site-footer .tagline { font-size: 24px; text-align: right; color: #0C8D79; }
+/* line 24, sass/layout/_footer.scss */
+.site-footer .form-control { background-color: rgba(0, 0, 0, 0.1); }
+
 /* line 5, sass/layout/_menus.scss */
 .site-main .comment-navigation, .site-main .posts-navigation, .site-main .post-navigation { margin: 0 0 1.5em; overflow: hidden; }
 /* line 10, sass/layout/_menus.scss */
@@ -4285,6 +4294,10 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 .widget ul li { margin-bottom: 6px; }
 /* line 20, sass/layout/_widgets.scss */
 .widget select { max-width: 100%; }
+
+/*----------  Widgets in Footer  ----------*/
+/* line 27, sass/layout/_widgets.scss */
+.site-footer .widget .widget-title { color: #f5f5f5; }
 
 /* line 1, sass/layout/_comments.scss */
 .comment-content a { word-wrap: break-word; }
