@@ -1,0 +1,54 @@
+/*==============================
+=            Colors            =
+==============================*/
+$white: #fff;
+$black: #000;
+$dark-blue: #023850;
+$purple: #4d384b;
+$dark-green: #0C8D79;
+$light-green: #00b29e;
+$gray: #555;
+
+$color__background-body: #F2F2F2;
+$color__background-screen: #F2F2F2;
+$color__background-button: none;
+$color__background-pre: #eee;
+$color__background-ins: #fff9c0;
+$color__background-footer: #1a1a1a;
+
+$color__text-screen: #21759b;
+$color__text-input: #555;
+$color__text-input-focus: $light-green;
+$color__link: $light-green;
+$color__link-visited: $light-green;
+$color__link-hover: $light-green;
+$color__text-main: $gray;
+$color__text-button: $light-green;
+$color__text-footer: #9f9f9f;
+$color__text-footer-widget: #f5f5f5;
+
+$color__border-button: $light-green;
+$color__border-button-hover: $light-green;
+$color__border-button-focus: $light-green;
+$color__border-input: #ccc;
+$color__border-abbr: #555;
+
+/*==================================
+=            Typography            =
+==================================*/
+@import 'https://fonts.googleapis.com/css?family=PT+Sans+Narrow|PT+Sans:400,700';
+
+$font__OpenSans: 'Open Sans', sans-serif;
+$font__PTS: 'PT Sans', sans-serif;
+$font__PTSN: 'PT Sans Narrow', sans-serif;
+$font__main: $font__PTS;
+$font__code: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+$font__pre: "Courier 10 Pitch", Courier, monospace;
+$font__line-height-body: 1.5;
+$font__line-height-pre: 1.6;
+
+/*=================================
+=            Structure            =
+=================================*/
+$size__site-main: 100%;
+$size__site-sidebar: 25%;

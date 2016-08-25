@@ -1,0 +1,14 @@
+ul, ol {
+	margin-top: 0;
+    margin-bottom: 10px;
+}
+
+ul {
+	list-style: disc;
+}
+
+li > ul,
+li > ol {
+	margin-bottom: 0;
+	margin-left: 1.5em;
+}

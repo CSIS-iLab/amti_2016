@@ -24,27 +24,37 @@
 <div id="page" class="site">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'transparency' ); ?></a>
 
-	<header id="masthead" class="site-header" role="banner">
-		<div class="site-branding">
-			<?php
-			if ( is_front_page() && is_home() ) : ?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php else : ?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-			<?php
-			endif;
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      	<div class="container">
+        	<div class="row">
+	          	<div class="navbar-header">
+		            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu-top-wrapper">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+		                              <h2><?php bloginfo( 'name' ); ?></h2>
+		                            </a>
+	          	</div>
 
-			$description = get_bloginfo( 'description', 'display' );
-			if ( $description || is_customize_preview() ) : ?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php
-			endif; ?>
-		</div><!-- .site-branding -->
-
-		<nav id="site-navigation" class="main-navigation" role="navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'transparency' ); ?></button>
-			<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_id' => 'primary-menu' ) ); ?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
+				<!-- Bootstrap Navigation -->
+        		<?php
+		            wp_nav_menu( array(
+		                'menu'              => 'primary',
+		                'theme_location'    => 'primary',
+		                'depth'             => 2,
+		                'container'         => 'div',
+		                'container_class'   => 'collapse navbar-collapse navbar-responsive-collapse',
+		        		'container_id'      => 'main-menu-top-wrapper',
+		                'menu_class'        => 'nav navbar-nav',
+		                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+		                'walker'            => new wp_bootstrap_navwalker())
+		            );
+		        ?>
+			</div>
+		</div><!-- /.container-fluid -->
+    </nav>
 
 	<div id="content" class="site-content">

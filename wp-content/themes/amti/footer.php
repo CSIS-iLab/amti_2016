@@ -14,6 +14,13 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
+
+	<div class="widget">
+		<h3 class="widget-title">Navigation</h3>
+		<input class="form-control" placeholder="Search">
+		<button><i class="fa fa-search" aria-hidden="true"></i></button>
+	</div>
+
 		<div class="site-info">
 			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'transparency' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'transparency' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>

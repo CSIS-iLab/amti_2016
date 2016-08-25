@@ -1,0 +1,40 @@
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after { 
+	box-sizing: inherit;
+}
+
+body {
+	background: $color__background-body; /* Fallback for when there is no custom background color defined. */
+	-webkit-overflow-scrolling: touch;
+}
+
+.content-area {
+	float: left;
+	margin: 0 (-$size__site-sidebar) 0 0;
+	width: $size__site-main;
+}
+
+.site-main {
+	margin: 0 $size__site-sidebar 0 0;
+}
+
+.site-content .widget-area {
+	float: right;
+	overflow: hidden;
+	width: $size__site-sidebar;
+}
+
+.site-footer {
+	clear: both;
+	width: $size__site-main;
+}
+
+@import "header";
+@import "footer";
+@import "menus";
+@import "posts-and-pages";
+@import "widgets";
+@import "comments";

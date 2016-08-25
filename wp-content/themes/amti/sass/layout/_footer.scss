@@ -1,0 +1,28 @@
+/*==============================
+=            Footer            =
+==============================*/
+.site-footer {
+	bottom: 0;
+	width: 100%;
+	z-index: -1;
+	padding: 40px 0 0px;
+	background-color: $color__background-footer;
+	color: $color__text-footer;
+
+	.site-info {
+		margin-top: 40px;
+		background-color: rgba(0,0,0,0.8);
+		padding: 30px 0;
+	}
+
+	.tagline {
+		font-size: 24px;
+		text-align:right;
+		color: $dark-green;
+	}
+
+	.form-control {
+		background-color: rgba(0,0,0,0.1);
+	}
+}
+
