@@ -184,6 +184,42 @@ function create_features_taxonomy() {
 	);
 	register_taxonomy( 'features', array( 'feature' ), $args );
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'feature' from post slug
+/*-----------------------------------------------------------------------------------*/
+
+function remove_feature_slug( $post_link, $post, $leavename ) {
+
+    if ( 'feature' != $post->post_type || 'publish' != $post->post_status ) {
+        return $post_link;
+    }
+
+    $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+
+    return $post_link;
+}
+add_filter( 'post_type_link', 'remove_feature_slug', 10, 3 );
+
+
+function parse_request_custom( $query ) {
+
+    // Only noop the main query
+    if ( ! $query->is_main_query() )
+        return;
+
+    // Only noop our very specific rewrite rule match
+    if ( 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
+        return;
+    }
+
+    // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
+    if ( ! empty( $query->query['name'] ) ) {
+        $query->set( 'post_type', array( 'post', 'page', 'feature' ) );
+    }
+}
+add_action( 'pre_get_posts', 'parse_request_custom' );
+
 /*-----------------------------------------------------------------------------------*/
 /* Change Posts to Analysis in admin
 /*-----------------------------------------------------------------------------------*/
