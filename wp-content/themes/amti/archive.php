@@ -5,6 +5,7 @@
  * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package Transparency
+ * Template Name: Archive Page
  */
 
 get_header(); ?>
