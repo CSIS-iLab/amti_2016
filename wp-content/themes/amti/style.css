@@ -4029,7 +4029,7 @@ body { color: #555; font-family: "PT Sans", sans-serif; font-size: 18px; font-we
 /* line 9, sass/base/_typography.scss */
 h1, h2, h3, h4, h5, h6 { font-family: "PT Sans Narrow", sans-serif; color: #0C8D79; font-weight: 900; }
 /* line 14, sass/base/_typography.scss */
-h1.main-title, h2.main-title, h3.main-title, h4.main-title, h5.main-title, h6.main-title { font-weight: 700; color: #023850; text-transform: uppercase; }
+h1.main-title, h1.page-title, h2.main-title, h2.page-title, h3.main-title, h3.page-title, h4.main-title, h4.page-title, h5.main-title, h5.page-title, h6.main-title, h6.page-title { font-weight: 700; color: #023850; text-transform: uppercase; }
 
 /* line 21, sass/base/_typography.scss */
 p { margin-bottom: 25px; line-height: 1.8; font-size: 18px; }
@@ -4073,24 +4073,24 @@ a:hover, a:active { outline: 0; }
 # Components
 --------------------------------------------------------------*/
 /* line 1, sass/components/_forms.scss */
-button, input[type="button"], input[type="reset"], input[type="submit"] { border: 2px solid #00b29e; color: #00b29e; border-radius: 0px; background: none; text-transform: uppercase; font-weight: 700; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; -ms-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s; padding: 8px 18px; display: inline-block; margin-bottom: 0; font-size: 14px; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; -ms-touch-action: manipulation; touch-action: manipulation; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-/* line 28, sass/components/_forms.scss */
-button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover { border-color: #00b29e; background: #00b29e; color: #fff; }
-/* line 34, sass/components/_forms.scss */
-button:active, button:focus, input[type="button"]:active, input[type="button"]:focus, input[type="reset"]:active, input[type="reset"]:focus, input[type="submit"]:active, input[type="submit"]:focus { border-color: #00b29e; background: #00b29e; color: #fff; }
+button, input[type="button"], input[type="reset"], input[type="submit"], .edit-link a { border: 2px solid #00b29e; color: #00b29e; border-radius: 0px; background: none; text-transform: uppercase; font-weight: 700; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; -ms-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s; padding: 8px 18px; display: inline-block; margin-bottom: 0; font-size: 14px; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; -ms-touch-action: manipulation; touch-action: manipulation; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+/* line 29, sass/components/_forms.scss */
+button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover, .edit-link a:hover { border-color: #00b29e; background: #00b29e; color: #fff; }
+/* line 35, sass/components/_forms.scss */
+button:active, button:focus, input[type="button"]:active, input[type="button"]:focus, input[type="reset"]:active, input[type="reset"]:focus, input[type="submit"]:active, input[type="submit"]:focus, .edit-link a:active, .edit-link a:focus { border-color: #00b29e; background: #00b29e; color: #fff; }
 
-/* line 42, sass/components/_forms.scss */
+/* line 43, sass/components/_forms.scss */
 select { border: 1px solid #ccc; }
 
-/* line 46, sass/components/_forms.scss */
+/* line 47, sass/components/_forms.scss */
 textarea { width: 100%; }
 
 /*===================================
 =            Search Bars            =
 ===================================*/
-/* line 53, sass/components/_forms.scss */
+/* line 54, sass/components/_forms.scss */
 .form-control { background-color: rgba(0, 0, 0, 0.1); color: #00b29e; border: none; border-radius: 0; padding: 6px 8px; height: 40px; font-weight: bold; letter-spacing: .7px; }
-/* line 63, sass/components/_forms.scss */
+/* line 64, sass/components/_forms.scss */
 .form-control:focus { color: #00b29e; }
 
 /* line 1, sass/components/_lists.scss */
@@ -4184,6 +4184,15 @@ table { max-width: 100%; width: 100%; margin-bottom: 20px; }
 /* line 13, sass/utils/_alignments.scss */
 .aligncenter { clear: both; display: block; margin-left: auto; margin-right: auto; }
 
+/* line 18, sass/utils/_alignments.scss */
+.text-center { text-align: center; }
+
+/* line 22, sass/utils/_alignments.scss */
+.text-left { text-align: left; }
+
+/* line 26, sass/utils/_alignments.scss */
+.text-right { text-align: right; }
+
 /* line 1, sass/utils/_clearings.scss */
 .clear:before, .clear:after, .entry-content:before, .entry-content:after, .comment-content:before, .comment-content:after, .site-header:before, .site-header:after, .site-content:before, .site-content:after, .site-footer:before, .site-footer:after { content: ""; display: table; table-layout: fixed; }
 
@@ -4211,16 +4220,10 @@ html { box-sizing: border-box; }
 body { background: #F2F2F2; /* Fallback for when there is no custom background color defined. */ -webkit-overflow-scrolling: touch; }
 
 /* line 14, sass/layout/_layout.scss */
-.content-area { float: left; margin: 0 -25% 0 0; width: 100%; }
+.site-content { margin-top: 41px; }
 
-/* line 20, sass/layout/_layout.scss */
-.site-main { margin: 0 25% 0 0; }
-
-/* line 24, sass/layout/_layout.scss */
-.site-content .widget-area { float: right; overflow: hidden; width: 25%; }
-
-/* line 30, sass/layout/_layout.scss */
-.site-footer { clear: both; width: 100%; }
+/* line 18, sass/layout/_layout.scss */
+.site-footer { clear: both; width: 100%; margin-top: 50px; }
 
 /*==============================
 =            Header            =
@@ -4266,24 +4269,77 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 /* line 15, sass/layout/_menus.scss */
 .comment-navigation .nav-next, .posts-navigation .nav-next, .post-navigation .nav-next { float: right; text-align: right; width: 50%; }
 
-/* line 1, sass/layout/_posts-and-pages.scss */
+/*===================================
+=            Post Header            =
+===================================*/
+/* line 4, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header { text-align: center; width: 100%; min-height: 260px; overflow: hidden; margin: 0px; padding: 0px; position: relative; top: 0px; left: 0px; }
+/* line 15, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header .backstretch { width: 100% !important; z-index: -999998; left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 338px; z-index: -999998; position: absolute; }
+/* line 27, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header .backstretch:before { content: ''; min-width: 100%; height: 100%; position: absolute; display: block; z-index: 1; -webkit-box-shadow: inset 0 0 200px 50px rgba(0, 0, 0, 0.6); box-shadow: inset 0 0 200px 50px rgba(0, 0, 0, 0.6); }
+/* line 38, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header .backstretch img { background-repeat: no-repeat; z-index: -999999; position: absolute; margin: 0px; padding: 0px; left: 0px; width: 100%; height: auto; max-height: none; max-width: none; }
+/* line 52, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header .container { margin-top: 6%; }
+/* line 56, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header h1 { color: #fff; font-size: 24px; font-weight: 400; letter-spacing: 1.5px; background: transparent; padding: 15px; margin-top: 0; text-transform: uppercase; text-shadow: rgba(0, 0, 0, 0.8) 0 1px 1px; position: relative; top: 15%; }
+/* line 70, sass/layout/_posts-and-pages.scss */
+.single-post header.entry-header hr { border: 0; height: 1px; background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); background-image: -moz-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); background-image: -ms-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); background-image: -o-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); display: block; margin: 1em auto; padding: 0; max-width: 600px; }
+
+/* line 83, sass/layout/_posts-and-pages.scss */
+.page header, .page-header { text-align: center; }
+
+/*=====  End of Post Header  ======*/
+/*====================================
+=            Post Content            =
+====================================*/
+/* line 91, sass/layout/_posts-and-pages.scss */
+#primary { margin-top: 35px; }
+
+/* line 95, sass/layout/_posts-and-pages.scss */
+.post-share { margin: 10px auto; }
+/* line 98, sass/layout/_posts-and-pages.scss */
+.post-share .facebook { color: #3b5998; }
+/* line 101, sass/layout/_posts-and-pages.scss */
+.post-share .twitter { color: #55acee; }
+/* line 104, sass/layout/_posts-and-pages.scss */
+.post-share .linkedin { color: #007bb6; }
+/* line 107, sass/layout/_posts-and-pages.scss */
+.post-share .google { color: #dd4b39; }
+/* line 110, sass/layout/_posts-and-pages.scss */
+.post-share .print { color: #62665E; }
+/* line 113, sass/layout/_posts-and-pages.scss */
+.post-share .email { color: #669C41; }
+
+/* line 118, sass/layout/_posts-and-pages.scss */
 .sticky { display: block; }
 
-/* line 5, sass/layout/_posts-and-pages.scss */
-.hentry { margin: 0 0 1.5em; }
+/* line 122, sass/layout/_posts-and-pages.scss */
+.hentry { margin: 0 0 3em; }
 
-/* line 9, sass/layout/_posts-and-pages.scss */
+/* line 126, sass/layout/_posts-and-pages.scss */
 .byline, .updated:not(.published) { display: none; }
 
-/* line 14, sass/layout/_posts-and-pages.scss */
+/* line 131, sass/layout/_posts-and-pages.scss */
 .single .byline, .group-blog .byline { display: inline; }
 
-/* line 19, sass/layout/_posts-and-pages.scss */
+/* line 136, sass/layout/_posts-and-pages.scss */
 .page-content, .entry-content, .entry-summary { margin: 1.5em 0 0; }
 
-/* line 25, sass/layout/_posts-and-pages.scss */
+/* line 142, sass/layout/_posts-and-pages.scss */
 .page-links { clear: both; margin: 0 0 1.5em; }
 
+/*=====  End of Post Content  ======*/
+/*=====================================================
+=            Previous/Next Post Navigation            =
+=====================================================*/
+/* line 153, sass/layout/_posts-and-pages.scss */
+.nav-links div { margin: 0; padding: 12px 12px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 2px; }
+/* line 160, sass/layout/_posts-and-pages.scss */
+.nav-links div h4 { margin: 0; font-weight: 700; }
+
+/*=====  End of Previous/Next Post Navigation  ======*/
 /* line 1, sass/layout/_widgets.scss */
 .widget { margin: 0 0 1.5em; font-size: 18px; /* Make sure select elements fit in widgets. */ }
 /* line 5, sass/layout/_widgets.scss */
