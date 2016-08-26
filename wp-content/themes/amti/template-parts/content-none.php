@@ -12,6 +12,7 @@
 <section class="no-results not-found">
 	<header class="page-header">
 		<h1 class="page-title"><?php esc_html_e( 'Nothing Found', 'transparency' ); ?></h1>
+		<hr>
 	</header><!-- .page-header -->
 
 	<div class="page-content">
