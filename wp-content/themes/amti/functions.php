@@ -153,6 +153,7 @@ function create_feature_type() {
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -184,6 +185,7 @@ function create_features_taxonomy() {
 	);
 	register_taxonomy( 'features', array( 'feature' ), $args );
 }
+
 
 /*-----------------------------------------------------------------------------------*/
 /* Remove 'feature' from post slug
