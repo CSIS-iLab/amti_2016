@@ -1,7 +1,8 @@
 button,
 input[type="button"],
 input[type="reset"],
-input[type="submit"] {
+input[type="submit"],
+.edit-link a {
 	border: 2px solid $color__border-button;
 	color: $color__text-button;
 	border-radius: 0px;

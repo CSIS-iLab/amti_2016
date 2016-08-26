@@ -1809,25 +1809,25 @@ input[type=file]:focus, input[type=radio]:focus, input[type=checkbox]:focus { ou
 output { display: block; padding-top: 7px; font-size: 14px; line-height: 1.42857143; color: #555; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.form-control { display: block; width: 100%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s; -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
+.form-control, .widget .search-field { display: block; width: 100%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s; -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.form-control:focus { border-color: #66afe9; outline: 0; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
+.form-control:focus, .widget .search-field:focus { border-color: #66afe9; outline: 0; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
 
 /* line 7, sass/base/_bootstrap.scss */
-.form-control::-moz-placeholder { color: #999; opacity: 1; }
+.form-control::-moz-placeholder, .widget .search-field::-moz-placeholder { color: #999; opacity: 1; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.form-control:-ms-input-placeholder { color: #999; }
+.form-control:-ms-input-placeholder, .widget .search-field:-ms-input-placeholder { color: #999; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.form-control::-webkit-input-placeholder { color: #999; }
+.form-control::-webkit-input-placeholder, .widget .search-field::-webkit-input-placeholder { color: #999; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control { cursor: not-allowed; background-color: #eee; opacity: 1; }
+.form-control[disabled], .widget [disabled].search-field, .form-control[readonly], .widget [readonly].search-field, fieldset[disabled] .form-control, fieldset[disabled] .widget .search-field, .widget fieldset[disabled] .search-field { cursor: not-allowed; background-color: #eee; opacity: 1; }
 
 /* line 7, sass/base/_bootstrap.scss */
-textarea.form-control { height: auto; }
+textarea.form-control, .widget textarea.search-field { height: auto; }
 
 /* line 7, sass/base/_bootstrap.scss */
 input[type=search] { -webkit-appearance: none; }
@@ -1878,28 +1878,28 @@ input[type=radio][disabled], input[type=checkbox][disabled], input[type=radio].d
 .form-control-static.input-lg, .form-control-static.input-sm { padding-right: 0; padding-left: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-sm, .form-group-sm .form-control { height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; }
+.input-sm, .form-group-sm .form-control, .form-group-sm .widget .search-field, .widget .form-group-sm .search-field { height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-select.input-sm, select.form-group-sm .form-control { height: 30px; line-height: 30px; }
+select.input-sm, select.form-group-sm .form-control, select.form-group-sm .widget .search-field, .widget select.form-group-sm .search-field { height: 30px; line-height: 30px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-textarea.input-sm, textarea.form-group-sm .form-control, select[multiple].input-sm, select[multiple].form-group-sm .form-control { height: auto; }
+textarea.input-sm, textarea.form-group-sm .form-control, textarea.form-group-sm .widget .search-field, .widget textarea.form-group-sm .search-field, select[multiple].input-sm, select[multiple].form-group-sm .form-control, select[multiple].form-group-sm .widget .search-field, .widget select[multiple].form-group-sm .search-field { height: auto; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-lg, .form-group-lg .form-control { height: 46px; padding: 10px 16px; font-size: 18px; line-height: 1.33; border-radius: 6px; }
+.input-lg, .form-group-lg .form-control, .form-group-lg .widget .search-field, .widget .form-group-lg .search-field { height: 46px; padding: 10px 16px; font-size: 18px; line-height: 1.33; border-radius: 6px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-select.input-lg, select.form-group-lg .form-control { height: 46px; line-height: 46px; }
+select.input-lg, select.form-group-lg .form-control, select.form-group-lg .widget .search-field, .widget select.form-group-lg .search-field { height: 46px; line-height: 46px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-textarea.input-lg, textarea.form-group-lg .form-control, select[multiple].input-lg, select[multiple].form-group-lg .form-control { height: auto; }
+textarea.input-lg, textarea.form-group-lg .form-control, textarea.form-group-lg .widget .search-field, .widget textarea.form-group-lg .search-field, select[multiple].input-lg, select[multiple].form-group-lg .form-control, select[multiple].form-group-lg .widget .search-field, .widget select[multiple].form-group-lg .search-field { height: auto; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .has-feedback { position: relative; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-feedback .form-control { padding-right: 42.5px; }
+.has-feedback .form-control, .has-feedback .widget .search-field, .widget .has-feedback .search-field { padding-right: 42.5px; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .form-control-feedback { position: absolute; top: 0; right: 0; z-index: 2; display: block; width: 34px; height: 34px; line-height: 34px; text-align: center; pointer-events: none; }
@@ -1914,10 +1914,10 @@ textarea.input-lg, textarea.form-group-lg .form-control, select[multiple].input-
 .has-success .help-block, .has-success .control-label, .has-success .radio, .has-success .checkbox, .has-success .radio-inline, .has-success .checkbox-inline, .has-success.radio label, .has-success.checkbox label, .has-success.radio-inline label, .has-success.checkbox-inline label { color: #3c763d; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-success .form-control { border-color: #3c763d; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+.has-success .form-control, .has-success .widget .search-field, .widget .has-success .search-field { border-color: #3c763d; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-success .form-control:focus { border-color: #2b542c; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168; }
+.has-success .form-control:focus, .has-success .widget .search-field:focus, .widget .has-success .search-field:focus { border-color: #2b542c; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .has-success .input-group-addon { color: #3c763d; background-color: #dff0d8; border-color: #3c763d; }
@@ -1929,10 +1929,10 @@ textarea.input-lg, textarea.form-group-lg .form-control, select[multiple].input-
 .has-warning .help-block, .has-warning .control-label, .has-warning .radio, .has-warning .checkbox, .has-warning .radio-inline, .has-warning .checkbox-inline, .has-warning.radio label, .has-warning.checkbox label, .has-warning.radio-inline label, .has-warning.checkbox-inline label { color: #8a6d3b; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-warning .form-control { border-color: #8a6d3b; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+.has-warning .form-control, .has-warning .widget .search-field, .widget .has-warning .search-field { border-color: #8a6d3b; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-warning .form-control:focus { border-color: #66512c; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b; }
+.has-warning .form-control:focus, .has-warning .widget .search-field:focus, .widget .has-warning .search-field:focus { border-color: #66512c; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #c0a16b; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .has-warning .input-group-addon { color: #8a6d3b; background-color: #fcf8e3; border-color: #8a6d3b; }
@@ -1944,10 +1944,10 @@ textarea.input-lg, textarea.form-group-lg .form-control, select[multiple].input-
 .has-error .help-block, .has-error .control-label, .has-error .radio, .has-error .checkbox, .has-error .radio-inline, .has-error .checkbox-inline, .has-error.radio label, .has-error.checkbox label, .has-error.radio-inline label, .has-error.checkbox-inline label { color: #a94442; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-error .form-control { border-color: #a94442; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
+.has-error .form-control, .has-error .widget .search-field, .widget .has-error .search-field { border-color: #a94442; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075); }
 
 /* line 7, sass/base/_bootstrap.scss */
-.has-error .form-control:focus { border-color: #843534; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483; }
+.has-error .form-control:focus, .has-error .widget .search-field:focus, .widget .has-error .search-field:focus { border-color: #843534; -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .has-error .input-group-addon { color: #a94442; background-color: #f2dede; border-color: #a94442; }
@@ -1967,13 +1967,13 @@ textarea.input-lg, textarea.form-group-lg .form-control, select[multiple].input-
 @media (min-width: 1200px) { /* line 7, sass/base/_bootstrap.scss */
   .form-inline .form-group { display: inline-block; margin-bottom: 0; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
-  .form-inline .form-control { display: inline-block; width: auto; vertical-align: middle; }
+  .form-inline .form-control, .form-inline .widget .search-field, .widget .form-inline .search-field { display: inline-block; width: auto; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
   .form-inline .input-group { display: inline-table; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
-  .form-inline .input-group .input-group-addon, .form-inline .input-group .input-group-btn, .form-inline .input-group .form-control { width: auto; }
+  .form-inline .input-group .input-group-addon, .form-inline .input-group .input-group-btn, .form-inline .input-group .form-control, .form-inline .input-group .widget .search-field, .widget .form-inline .input-group .search-field { width: auto; }
   /* line 7, sass/base/_bootstrap.scss */
-  .form-inline .input-group > .form-control { width: 100%; }
+  .form-inline .input-group > .form-control, .form-inline .widget .input-group > .search-field, .widget .form-inline .input-group > .search-field { width: 100%; }
   /* line 7, sass/base/_bootstrap.scss */
   .form-inline .control-label { margin-bottom: 0; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
@@ -2346,31 +2346,31 @@ tbody.collapse.in { display: table-row-group; }
 .input-group[class*=col-] { float: none; padding-right: 0; padding-left: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group .form-control { position: relative; z-index: 2; float: left; width: 100%; margin-bottom: 0; }
+.input-group .form-control, .input-group .widget .search-field, .widget .input-group .search-field { position: relative; z-index: 2; float: left; width: 100%; margin-bottom: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group-lg > .form-control, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn { height: 46px; padding: 10px 16px; font-size: 18px; line-height: 1.33; border-radius: 6px; }
+.input-group-lg > .form-control, .widget .input-group-lg > .search-field, .input-group-lg > .input-group-addon, .input-group-lg > .input-group-btn > .btn { height: 46px; padding: 10px 16px; font-size: 18px; line-height: 1.33; border-radius: 6px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-select.input-group-lg > .form-control, select.input-group-lg > .input-group-addon, select.input-group-lg > .input-group-btn > .btn { height: 46px; line-height: 46px; }
+select.input-group-lg > .form-control, .widget select.input-group-lg > .search-field, select.input-group-lg > .input-group-addon, select.input-group-lg > .input-group-btn > .btn { height: 46px; line-height: 46px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-textarea.input-group-lg > .form-control, textarea.input-group-lg > .input-group-addon, textarea.input-group-lg > .input-group-btn > .btn, select[multiple].input-group-lg > .form-control, select[multiple].input-group-lg > .input-group-addon, select[multiple].input-group-lg > .input-group-btn > .btn { height: auto; }
+textarea.input-group-lg > .form-control, .widget textarea.input-group-lg > .search-field, textarea.input-group-lg > .input-group-addon, textarea.input-group-lg > .input-group-btn > .btn, select[multiple].input-group-lg > .form-control, .widget select[multiple].input-group-lg > .search-field, select[multiple].input-group-lg > .input-group-addon, select[multiple].input-group-lg > .input-group-btn > .btn { height: auto; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group-sm > .form-control, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .btn { height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; }
+.input-group-sm > .form-control, .widget .input-group-sm > .search-field, .input-group-sm > .input-group-addon, .input-group-sm > .input-group-btn > .btn { height: 30px; padding: 5px 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-select.input-group-sm > .form-control, select.input-group-sm > .input-group-addon, select.input-group-sm > .input-group-btn > .btn { height: 30px; line-height: 30px; }
+select.input-group-sm > .form-control, .widget select.input-group-sm > .search-field, select.input-group-sm > .input-group-addon, select.input-group-sm > .input-group-btn > .btn { height: 30px; line-height: 30px; }
 
 /* line 7, sass/base/_bootstrap.scss */
-textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-addon, textarea.input-group-sm > .input-group-btn > .btn, select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm > .input-group-addon, select[multiple].input-group-sm > .input-group-btn > .btn { height: auto; }
+textarea.input-group-sm > .form-control, .widget textarea.input-group-sm > .search-field, textarea.input-group-sm > .input-group-addon, textarea.input-group-sm > .input-group-btn > .btn, select[multiple].input-group-sm > .form-control, .widget select[multiple].input-group-sm > .search-field, select[multiple].input-group-sm > .input-group-addon, select[multiple].input-group-sm > .input-group-btn > .btn { height: auto; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group-addon, .input-group-btn, .input-group .form-control { display: table-cell; }
+.input-group-addon, .input-group-btn, .input-group .form-control, .input-group .widget .search-field, .widget .input-group .search-field { display: table-cell; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child) { border-radius: 0; }
+.input-group-addon:not(:first-child):not(:last-child), .input-group-btn:not(:first-child):not(:last-child), .input-group .form-control:not(:first-child):not(:last-child), .input-group .widget .search-field:not(:first-child):not(:last-child), .widget .input-group .search-field:not(:first-child):not(:last-child) { border-radius: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .input-group-addon, .input-group-btn { width: 1%; white-space: nowrap; vertical-align: middle; }
@@ -2388,13 +2388,13 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 .input-group-addon input[type=radio], .input-group-addon input[type=checkbox] { margin-top: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child > .btn-group:not(:last-child) > .btn { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.input-group .form-control:first-child, .input-group .widget .search-field:first-child, .widget .input-group .search-field:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child > .btn-group:not(:last-child) > .btn { border-top-right-radius: 0; border-bottom-right-radius: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .input-group-addon:first-child { border-right: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
-.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.input-group .form-control:last-child, .input-group .widget .search-field:last-child, .widget .input-group .search-field:last-child, .input-group-addon:last-child, .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:first-child > .btn-group:not(:first-child) > .btn { border-top-left-radius: 0; border-bottom-left-radius: 0; }
 
 /* line 7, sass/base/_bootstrap.scss */
 .input-group-addon:last-child { border-left: 0; }
@@ -2648,13 +2648,13 @@ textarea.input-group-sm > .form-control, textarea.input-group-sm > .input-group-
 @media (min-width: 1200px) { /* line 7, sass/base/_bootstrap.scss */
   .navbar-form .form-group { display: inline-block; margin-bottom: 0; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
-  .navbar-form .form-control { display: inline-block; width: auto; vertical-align: middle; }
+  .navbar-form .form-control, .navbar-form .widget .search-field, .widget .navbar-form .search-field { display: inline-block; width: auto; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
   .navbar-form .input-group { display: inline-table; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
-  .navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn, .navbar-form .input-group .form-control { width: auto; }
+  .navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn, .navbar-form .input-group .form-control, .navbar-form .input-group .widget .search-field, .widget .navbar-form .input-group .search-field { width: auto; }
   /* line 7, sass/base/_bootstrap.scss */
-  .navbar-form .input-group > .form-control { width: 100%; }
+  .navbar-form .input-group > .form-control, .navbar-form .widget .input-group > .search-field, .widget .navbar-form .input-group > .search-field { width: 100%; }
   /* line 7, sass/base/_bootstrap.scss */
   .navbar-form .control-label { margin-bottom: 0; vertical-align: middle; }
   /* line 7, sass/base/_bootstrap.scss */
@@ -3886,10 +3886,10 @@ button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background
 .bootstrap-select .btn:focus { outline: thin dotted #333 !important; outline: 5px auto -webkit-focus-ring-color !important; outline-offset: -2px; }
 
 /* line 14, sass/base/_bootstrap.scss */
-.bootstrap-select.form-control { margin-bottom: 0; padding: 0; border: none; }
+.bootstrap-select.form-control, .widget .bootstrap-select.search-field { margin-bottom: 0; padding: 0; border: none; }
 
 /* line 14, sass/base/_bootstrap.scss */
-.bootstrap-select.form-control:not([class*=span]):not([class*=col-]) { width: 100%; }
+.bootstrap-select.form-control:not([class*=span]):not([class*=col-]), .widget .bootstrap-select.search-field:not([class*=span]):not([class*=col-]) { width: 100%; }
 
 /* line 14, sass/base/_bootstrap.scss */
 .bootstrap-select.btn-group:not(.input-group-btn), .bootstrap-select.btn-group[class*=span], .bootstrap-select.btn-group[class*=col-] { float: none; display: inline-block; margin-bottom: 10px; margin-left: 0; }
@@ -3901,7 +3901,7 @@ button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background
 .form-search .bootstrap-select.btn-group, .form-inline .bootstrap-select.btn-group, .form-horizontal .bootstrap-select.btn-group, .form-group .bootstrap-select.btn-group { margin-bottom: 0; }
 
 /* line 14, sass/base/_bootstrap.scss */
-.form-inline .bootstrap-select.btn-group .form-control { width: 100%; }
+.form-inline .bootstrap-select.btn-group .form-control, .form-inline .bootstrap-select.btn-group .widget .search-field, .widget .form-inline .bootstrap-select.btn-group .search-field { width: 100%; }
 
 /* line 14, sass/base/_bootstrap.scss */
 .input-append .bootstrap-select.btn-group { margin-left: -1px; }
@@ -4018,7 +4018,7 @@ button.close { -webkit-appearance: none; padding: 0; cursor: pointer; background
 .bootstrap-select-searchbox + .bs-actionsbox { padding: 0 8px 4px; }
 
 /* line 14, sass/base/_bootstrap.scss */
-.bootstrap-select-searchbox input, .bootstrap-select-searchbox .form-control { margin-bottom: 0; width: 100%; }
+.bootstrap-select-searchbox input, .bootstrap-select-searchbox .form-control, .bootstrap-select-searchbox .widget .search-field, .widget .bootstrap-select-searchbox .search-field { margin-bottom: 0; width: 100%; }
 
 /* line 14, sass/base/_bootstrap.scss */
 .mobile-device { position: absolute; top: 0; left: 0; display: block !important; width: 100%; height: 100% !important; opacity: 0; }
@@ -4073,25 +4073,25 @@ a:hover, a:active { outline: 0; }
 # Components
 --------------------------------------------------------------*/
 /* line 1, sass/components/_forms.scss */
-button, input[type="button"], input[type="reset"], input[type="submit"] { border: 2px solid #00b29e; color: #00b29e; border-radius: 0px; background: none; text-transform: uppercase; font-weight: 700; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; -ms-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s; padding: 8px 18px; display: inline-block; margin-bottom: 0; font-size: 14px; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; -ms-touch-action: manipulation; touch-action: manipulation; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
-/* line 28, sass/components/_forms.scss */
-button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover { border-color: #00b29e; background: #00b29e; color: #fff; }
-/* line 34, sass/components/_forms.scss */
-button:active, button:focus, input[type="button"]:active, input[type="button"]:focus, input[type="reset"]:active, input[type="reset"]:focus, input[type="submit"]:active, input[type="submit"]:focus { border-color: #00b29e; background: #00b29e; color: #fff; }
+button, input[type="button"], input[type="reset"], input[type="submit"], .edit-link a { border: 2px solid #00b29e; color: #00b29e; border-radius: 0px; background: none; text-transform: uppercase; font-weight: 700; -webkit-transition: all 0.3s; -moz-transition: all 0.3s; -ms-transition: all 0.3s; -o-transition: all 0.3s; transition: all 0.3s; padding: 8px 18px; display: inline-block; margin-bottom: 0; font-size: 14px; line-height: 1.42857143; text-align: center; white-space: nowrap; vertical-align: middle; -ms-touch-action: manipulation; touch-action: manipulation; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+/* line 29, sass/components/_forms.scss */
+button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover, .edit-link a:hover { border-color: #00b29e; background: #00b29e; color: #fff; }
+/* line 35, sass/components/_forms.scss */
+button:active, button:focus, input[type="button"]:active, input[type="button"]:focus, input[type="reset"]:active, input[type="reset"]:focus, input[type="submit"]:active, input[type="submit"]:focus, .edit-link a:active, .edit-link a:focus { border-color: #00b29e; background: #00b29e; color: #fff; }
 
-/* line 42, sass/components/_forms.scss */
+/* line 43, sass/components/_forms.scss */
 select { border: 1px solid #ccc; }
 
-/* line 46, sass/components/_forms.scss */
+/* line 47, sass/components/_forms.scss */
 textarea { width: 100%; }
 
 /*===================================
 =            Search Bars            =
 ===================================*/
-/* line 53, sass/components/_forms.scss */
-.form-control { background-color: rgba(0, 0, 0, 0.1); color: #00b29e; border: none; border-radius: 0; padding: 6px 8px; height: 40px; font-weight: bold; letter-spacing: .7px; }
-/* line 63, sass/components/_forms.scss */
-.form-control:focus { color: #00b29e; }
+/* line 54, sass/components/_forms.scss */
+.form-control, .widget .search-field { background-color: rgba(0, 0, 0, 0.1); color: #00b29e; border: none; border-radius: 0; padding: 6px 8px; height: 40px; font-weight: bold; letter-spacing: .7px; }
+/* line 64, sass/components/_forms.scss */
+.form-control:focus, .widget .search-field:focus { color: #00b29e; }
 
 /* line 1, sass/components/_lists.scss */
 ul, ol { margin-top: 0; margin-bottom: 10px; }
@@ -4211,16 +4211,10 @@ html { box-sizing: border-box; }
 body { background: #F2F2F2; /* Fallback for when there is no custom background color defined. */ -webkit-overflow-scrolling: touch; }
 
 /* line 14, sass/layout/_layout.scss */
-.content-area { float: left; margin: 0 -25% 0 0; width: 100%; }
+.site-content { margin-top: 41px; }
 
-/* line 20, sass/layout/_layout.scss */
-.site-main { margin: 0 25% 0 0; }
-
-/* line 24, sass/layout/_layout.scss */
-.site-content .widget-area { float: right; overflow: hidden; width: 25%; }
-
-/* line 30, sass/layout/_layout.scss */
-.site-footer { clear: both; width: 100%; }
+/* line 18, sass/layout/_layout.scss */
+.site-footer { clear: both; width: 100%; margin-top: 50px; }
 
 /*==============================
 =            Header            =
@@ -4257,7 +4251,7 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 /* line 18, sass/layout/_footer.scss */
 .site-footer .tagline { font-size: 24px; text-align: right; color: #0C8D79; }
 /* line 24, sass/layout/_footer.scss */
-.site-footer .form-control { background-color: rgba(0, 0, 0, 0.1); }
+.site-footer .form-control, .site-footer .widget .search-field, .widget .site-footer .search-field { background-color: rgba(0, 0, 0, 0.1); }
 
 /* line 5, sass/layout/_menus.scss */
 .site-main .comment-navigation, .site-main .posts-navigation, .site-main .post-navigation { margin: 0 0 1.5em; overflow: hidden; }
@@ -4266,24 +4260,74 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 /* line 15, sass/layout/_menus.scss */
 .comment-navigation .nav-next, .posts-navigation .nav-next, .post-navigation .nav-next { float: right; text-align: right; width: 50%; }
 
-/* line 1, sass/layout/_posts-and-pages.scss */
+/*===================================
+=            Post Header            =
+===================================*/
+/* line 4, sass/layout/_posts-and-pages.scss */
+header.entry-header { text-align: center; width: 100%; min-height: 260px; overflow: hidden; margin: 0px; padding: 0px; position: relative; top: 0px; left: 0px; }
+/* line 15, sass/layout/_posts-and-pages.scss */
+header.entry-header .backstretch { width: 100% !important; z-index: -999998; left: 0px; top: 0px; overflow: hidden; margin: 0px; padding: 0px; height: 338px; z-index: -999998; position: absolute; }
+/* line 27, sass/layout/_posts-and-pages.scss */
+header.entry-header .backstretch:before { content: ''; min-width: 100%; height: 100%; position: absolute; display: block; z-index: 1; -webkit-box-shadow: inset 0 0 200px 50px rgba(0, 0, 0, 0.6); box-shadow: inset 0 0 200px 50px rgba(0, 0, 0, 0.6); }
+/* line 38, sass/layout/_posts-and-pages.scss */
+header.entry-header .backstretch img { background-repeat: no-repeat; z-index: -999999; position: absolute; margin: 0px; padding: 0px; left: 0px; width: 100%; height: auto; max-height: none; max-width: none; }
+/* line 52, sass/layout/_posts-and-pages.scss */
+header.entry-header .container { margin-top: 6%; }
+/* line 56, sass/layout/_posts-and-pages.scss */
+header.entry-header h1 { color: #fff; font-size: 24px; font-weight: 400; letter-spacing: 1.5px; background: transparent; padding: 15px; margin-top: 0; text-transform: uppercase; text-shadow: rgba(0, 0, 0, 0.8) 0 1px 1px; position: relative; top: 15%; }
+/* line 70, sass/layout/_posts-and-pages.scss */
+header.entry-header hr { border: 0; height: 1px; background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); background-image: -moz-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); background-image: -ms-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); background-image: -o-linear-gradient(left, transparent, rgba(255, 255, 255, 0.75), transparent); display: block; margin: 1em auto; padding: 0; max-width: 600px; }
+
+/*=====  End of Post Header  ======*/
+/*====================================
+=            Post Content            =
+====================================*/
+/* line 88, sass/layout/_posts-and-pages.scss */
+#primary { margin-top: 35px; }
+
+/* line 92, sass/layout/_posts-and-pages.scss */
+.post-share { margin: 10px auto; }
+/* line 95, sass/layout/_posts-and-pages.scss */
+.post-share .facebook { color: #3b5998; }
+/* line 98, sass/layout/_posts-and-pages.scss */
+.post-share .twitter { color: #55acee; }
+/* line 101, sass/layout/_posts-and-pages.scss */
+.post-share .linkedin { color: #007bb6; }
+/* line 104, sass/layout/_posts-and-pages.scss */
+.post-share .google { color: #dd4b39; }
+/* line 107, sass/layout/_posts-and-pages.scss */
+.post-share .print { color: #62665E; }
+/* line 110, sass/layout/_posts-and-pages.scss */
+.post-share .email { color: #669C41; }
+
+/* line 115, sass/layout/_posts-and-pages.scss */
 .sticky { display: block; }
 
-/* line 5, sass/layout/_posts-and-pages.scss */
+/* line 119, sass/layout/_posts-and-pages.scss */
 .hentry { margin: 0 0 1.5em; }
 
-/* line 9, sass/layout/_posts-and-pages.scss */
+/* line 123, sass/layout/_posts-and-pages.scss */
 .byline, .updated:not(.published) { display: none; }
 
-/* line 14, sass/layout/_posts-and-pages.scss */
+/* line 128, sass/layout/_posts-and-pages.scss */
 .single .byline, .group-blog .byline { display: inline; }
 
-/* line 19, sass/layout/_posts-and-pages.scss */
+/* line 133, sass/layout/_posts-and-pages.scss */
 .page-content, .entry-content, .entry-summary { margin: 1.5em 0 0; }
 
-/* line 25, sass/layout/_posts-and-pages.scss */
+/* line 139, sass/layout/_posts-and-pages.scss */
 .page-links { clear: both; margin: 0 0 1.5em; }
 
+/*=====  End of Post Content  ======*/
+/*=====================================================
+=            Previous/Next Post Navigation            =
+=====================================================*/
+/* line 150, sass/layout/_posts-and-pages.scss */
+.nav-links div { margin: 0; padding: 12px 12px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 2px; }
+/* line 157, sass/layout/_posts-and-pages.scss */
+.nav-links div h4 { margin: 0; font-weight: 700; }
+
+/*=====  End of Previous/Next Post Navigation  ======*/
 /* line 1, sass/layout/_widgets.scss */
 .widget { margin: 0 0 1.5em; font-size: 18px; /* Make sure select elements fit in widgets. */ }
 /* line 5, sass/layout/_widgets.scss */
@@ -4296,7 +4340,7 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 .widget select { max-width: 100%; }
 
 /*----------  Widgets in Footer  ----------*/
-/* line 27, sass/layout/_widgets.scss */
+/* line 31, sass/layout/_widgets.scss */
 .site-footer .widget .widget-title { color: #f5f5f5; }
 
 /* line 1, sass/layout/_comments.scss */
