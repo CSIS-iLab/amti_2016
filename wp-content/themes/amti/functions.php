@@ -111,6 +111,12 @@ function transparency_scripts() {
 	// Font Awesome
 	wp_enqueue_script('transparency-font-awesome', 'https://use.fontawesome.com/08b1a76eab.js');
 
+	// jQuery
+	wp_enqueue_script('jquery');
+
+	// Bootstrap
+	wp_enqueue_script('transparency-bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array(), '20151215', true );
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
@@ -220,3 +226,19 @@ add_action( 'init', 'revcon_change_post_object' );
 /* Register Custom Navigation Walker - Adds Bootstrap styling to menu
 /*-----------------------------------------------------------------------------------*/
 require_once('wp_bootstrap_navwalker.php');
+
+/*-----------------------------------------------------------------------------------*/
+/* Add Search Bar and Twitter Link to Menu
+/*-----------------------------------------------------------------------------------*/
+add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
+function add_search_box( $items, $args ) {
+    $search = '<li class="search">';
+    $search .= '<form method="get" id="searchform" action="/"><div class="input-group">';
+    $search .= '<label class="screen-reader-text" for="navSearchInput">Search for:</label>';
+    $search .= '<input type="text" class="form-control" name="s" id="navSearchInput" placeholder="Search" />';
+    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
+    $search .= '</div></form>';
+    $search .= '</li>';
+    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
+    return $items.$search.$twitter;
+}
