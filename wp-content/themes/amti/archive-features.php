@@ -15,11 +15,6 @@ get_header(); ?>
 		<?php
 		if ( have_posts() ) : ?>
 
-			<header class="page-header">
-				<h1>AMTI Features</h1>
-				<h2>Browse our archive of special interactive and visual releases</h2>
-			</header><!-- .page-header -->
-
 			<?php
 			/* Start the Loop */
 			while ( have_posts() ) : the_post();
@@ -37,7 +32,7 @@ get_header(); ?>
 
 		else :
 
-			get_template_part( 'template-parts/content-feature', 'none' );
+			get_template_part( 'template-parts/content', 'none' );
 
 		endif; ?>
 

@@ -147,7 +147,7 @@ require get_template_directory() . '/inc/jetpack.php';
 /*-----------------------------------------------------------------------------------*/
 add_action( 'init', 'create_feature_type' );
 function create_feature_type() {
-  register_post_type( 'feature',
+  register_post_type( 'features',
     array(
       'labels' => array(
         'name' => __( 'Features' ),
@@ -183,17 +183,21 @@ function create_features_taxonomy() {
 		'query_var'         => true,
 		'rewrite'           => array( 'slug' => 'features' ),
 	);
-	register_taxonomy( 'features', array( 'feature' ), $args );
+	register_taxonomy( 'categories', array( 'features' ), $args );
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' from post slug
+/*-----------------------------------------------------------------------------------*/
 
 
 /*-----------------------------------------------------------------------------------*/
-/* Remove 'feature' from post slug
+/* Remove 'features' from post slug
 /*-----------------------------------------------------------------------------------*/
 
 function remove_feature_slug( $post_link, $post, $leavename ) {
 
-    if ( 'feature' != $post->post_type || 'publish' != $post->post_status ) {
+    if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
         return $post_link;
     }
 
@@ -217,7 +221,7 @@ function parse_request_custom( $query ) {
 
     // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
     if ( ! empty( $query->query['name'] ) ) {
-        $query->set( 'post_type', array( 'post', 'page', 'feature' ) );
+        $query->set( 'post_type', array( 'post', 'page', 'features' ) );
     }
 }
 add_action( 'pre_get_posts', 'parse_request_custom' );

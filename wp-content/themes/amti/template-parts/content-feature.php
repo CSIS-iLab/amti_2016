@@ -13,41 +13,27 @@
 	<header class="entry-header">
 		<?php
 
+		// Get post meta
 		$the_excerpt = get_the_excerpt();
+		$terms = get_the_terms( $post->ID , 'categories' );
 
-		 if ( is_single() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		 else :
-		the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-		 echo '<div style="float: left;">' . get_the_post_thumbnail( $_post->ID, 'medium' ) . '</div>';
-		 	echo $the_excerpt;
+		// Echo title, date, excerpt, and featured image
+		if ( is_single() ) :
+		  the_title( '<h1 class="entry-title">', '</h1>' );
+		  else :
+		    the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</h2>' );
+		    echo '<div style="float: right;">' . get_the_post_thumbnail( $_post->ID, 'thumbnail' ) . '</a></div><br/><b>' . get_the_date() . ' | </b>' .$the_excerpt;
+		  endif;
 
-		 endif;
-
-		if ( 'post' === get_post_type() ) : ?>
-		<div class="entry-meta">
-			<?php  transparency_posted_on(); ?>
-		</div><!-- .entry-meta -->
-		<?php
-		endif; ?>
+		  // Echo the feature categories
+		    echo '<br />Posted in: ';
+		    foreach ( $terms as $term ) {
+		                    $term_link = get_term_link( $term, 'features' );
+		                    if( is_wp_error( $term_link ) )
+		                    continue;
+		                echo '<a href="' . $term_link . '">' . $term->name . '&nbsp;</a>';
+		  } ?>
 	</header><!-- .entry-header -->
-
-
-
-	<div class="entry-content">
-		<?php
-			// the_content( sprintf(
-				/* translators: %s: Name of current post. */
-		//		wp_kses( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'transparency' ), array( 'span' => array( 'class' => array() ) ) ),
-		//		the_title( '<span class="screen-reader-text">"', '"</span>', false )
-		//	) );
-
-		//	wp_link_pages( array(
-		//		'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'transparency' ),
-		//		'after'  => '</div>',
-		//	) );
-		?>
-	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
 		<?php transparency_entry_footer(); ?>
