@@ -95,6 +95,17 @@ function transparency_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
+
+	register_sidebar(array(
+		'name' => __( 'Footer', 'transparency' ),
+		'id' => 'footer',
+		'description' => __( 'Widgets in this area will be shown in the Footer.' , 'transparency'),
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
+		'before_widget' => '<div id="%1$s" class="widget %2$s col-lg-4 col-md-4 col-sm-6 col-xs-12">',
+		'after_widget' => '</div>'
+	  )
+	);
 }
 add_action( 'widgets_init', 'transparency_widgets_init' );
 

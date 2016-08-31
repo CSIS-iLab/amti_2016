@@ -14,17 +14,18 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
-
-	<div class="widget">
-		<h3 class="widget-title">Navigation</h3>
-		<input class="form-control" placeholder="Search">
-		<button><i class="fa fa-search" aria-hidden="true"></i></button>
-	</div>
+		<?php if ( is_active_sidebar( 'footer' ) ) : ?>
+			<div class="container">
+				<div id="footer-widgets" class="widget-area row" role="complementary">
+					<?php dynamic_sidebar( 'footer' ); ?>
+				</div><!-- #footer-widgets -->
+			</div>
+		<?php endif; ?>
 
 		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'transparency' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'transparency' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'transparency' ), 'transparency', '<a href="http://github.com/CSIS-iLab" rel="designer">CSIS Ideas Lab</a>' ); ?>
+			<div class="container">
+				&copy; 2016 The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies
+			</div>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->
