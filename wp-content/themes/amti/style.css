@@ -4365,3 +4365,29 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 # Pages
 --------------------------------------------------------------*/
 /* Import any additional pages here */
+/* line 1, sass/pages/_homepage.scss */
+#homepage-slider-container { font-family: "PT Sans Narrow", sans-serif; }
+/* line 4, sass/pages/_homepage.scss */
+#homepage-slider-container .menu-home-page-slider-container { max-width: 350px; height: 100%; overflow: visible; padding: 50px; top: 0px; background: rgba(10, 10, 10, 0.70196); float: right; margin-right: 5%; }
+/* line 14, sass/pages/_homepage.scss */
+#homepage-slider-container .menu-home-page-slider-container .menu { padding: 0; margin: 0; list-style: none; font-size: 24px; font-weight: 400; line-height: 25px; letter-spacing: 0.2px; width: 100%; }
+/* line 24, sass/pages/_homepage.scss */
+#homepage-slider-container .menu-home-page-slider-container .menu li { margin-bottom: 30px; opacity: 0.5; -webkit-transition: opacity 0.3s ease-in-out; -moz-transition: opacity 0.3s ease-in-out; -ms-transition: opacity 0.3s ease-in-out; -o-transition: opacity 0.3s ease-in-out; transition: opacity 0.3s ease-in-out; }
+/* line 29, sass/pages/_homepage.scss */
+#homepage-slider-container .menu-home-page-slider-container .menu li:hover, #homepage-slider-container .menu-home-page-slider-container .menu li:active, #homepage-slider-container .menu-home-page-slider-container .menu li:first-child { opacity: 1; }
+/* line 34, sass/pages/_homepage.scss */
+#homepage-slider-container .menu-home-page-slider-container .menu a { color: #fff; }
+/* line 38, sass/pages/_homepage.scss */
+#homepage-slider-container .menu-home-page-slider-container .menu .description { font-size: 16px; font-weight: 700; letter-spacing: 0.6px; }
+/* line 46, sass/pages/_homepage.scss */
+#homepage-slider-container .feature-background { height: 500px; background-size: cover; position: relative; background-repeat: none; }
+/* line 52, sass/pages/_homepage.scss */
+#homepage-slider-container .feature-background .overlay { background: rgba(0, 0, 0, 0.43); width: 100%; height: 100%; }
+/* line 59, sass/pages/_homepage.scss */
+#homepage-slider-container .featuredItem { z-index: 6; min-width: 600px; max-width: 600px; white-space: normal; line-height: 60px; border-width: 0px; margin: 0px; padding: 0px 0px 10px; letter-spacing: 0px; font-weight: 400; font-size: 60px; position: absolute; bottom: 25%; left: 25%; color: #fff; }
+/* line 77, sass/pages/_homepage.scss */
+#homepage-slider-container .description { color: #00b29e; font-size: 22px; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; white-space: nowrap; line-height: 20px; }
+/* line 87, sass/pages/_homepage.scss */
+#homepage-slider-container a.seeMore { line-height: 17px; margin: 0px; padding: 12px 35px; letter-spacing: 2px; text-transform: uppercase; background-color: #fff; color: #000; font-size: 13px; font-weight: 700; font-family: "PT Sans", sans-serif; border: 1px solid #fff; }
+/* line 100, sass/pages/_homepage.scss */
+#homepage-slider-container a.seeMore:hover { color: #fff; background-color: #00b29e; }

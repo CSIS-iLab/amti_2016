@@ -14,6 +14,13 @@
 
 get_header(); ?>
 
+<?php if ( is_active_sidebar( 'home-slider' ) ) : ?>
+	<div id="homepage-slider-container">
+		<?php transparency_slider(); ?>
+	</div><!-- #homepage-slider-container -->
+<?php endif; ?>
+
+
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
 
