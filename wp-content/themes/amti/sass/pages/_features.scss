@@ -1,0 +1,30 @@
+.widget {
+	margin: 0 0 1.5em;
+	font-size:18px;
+
+	.widget-title {
+		margin-top: 0;
+		margin-bottom:20px;
+	}
+
+	ul {
+		list-style:none;
+		margin: 0;
+		padding-left: 0;
+		li {
+			margin-bottom:6px;
+		}
+	}
+
+	/* Make sure select elements fit in widgets. */
+	select {
+		max-width: 100%;
+	}
+}
+
+/*----------  Widgets in Footer  ----------*/
+.site-footer .widget {
+	.widget-title {
+		color: $color__text-footer-widget;
+	}
+}

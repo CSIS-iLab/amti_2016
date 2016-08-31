@@ -147,12 +147,13 @@ require get_template_directory() . '/inc/jetpack.php';
 /*-----------------------------------------------------------------------------------*/
 add_action( 'init', 'create_feature_type' );
 function create_feature_type() {
-  register_post_type( 'feature',
+  register_post_type( 'features',
     array(
       'labels' => array(
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -182,8 +183,49 @@ function create_features_taxonomy() {
 		'query_var'         => true,
 		'rewrite'           => array( 'slug' => 'features' ),
 	);
-	register_taxonomy( 'features', array( 'feature' ), $args );
+	register_taxonomy( 'categories', array( 'features' ), $args );
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' from post slug
+/*-----------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' from post slug
+/*-----------------------------------------------------------------------------------*/
+
+function remove_feature_slug( $post_link, $post, $leavename ) {
+
+    if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
+        return $post_link;
+    }
+
+    $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+
+    return $post_link;
+}
+add_filter( 'post_type_link', 'remove_feature_slug', 10, 3 );
+
+
+function parse_request_custom( $query ) {
+
+    // Only noop the main query
+    if ( ! $query->is_main_query() )
+        return;
+
+    // Only noop our very specific rewrite rule match
+    if ( 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
+        return;
+    }
+
+    // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
+    if ( ! empty( $query->query['name'] ) ) {
+        $query->set( 'post_type', array( 'post', 'page', 'features' ) );
+    }
+}
+add_action( 'pre_get_posts', 'parse_request_custom' );
+
 /*-----------------------------------------------------------------------------------*/
 /* Change Posts to Analysis in admin
 /*-----------------------------------------------------------------------------------*/
