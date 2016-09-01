@@ -3,7 +3,7 @@
 Plugin Name: Disable Comments
 Plugin URI: http://wordpress.org/extend/plugins/disable-comments/
 Description: Allows administrators to globally disable comments on their site. Comments can be disabled according to post type.
-Version: 1.5.1
+Version: 1.5.2
 Author: Samir Shah
 Author URI: http://rayofsolaris.net/
 License: GPL2
@@ -52,11 +52,11 @@ class Disable_Comments {
 	}
 
 	private function check_compatibility() {
-		if ( version_compare( $GLOBALS['wp_version'], '3.7', '<' ) ) {
+		if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			deactivate_plugins( __FILE__ );
 			if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'activate' || $_GET['action'] == 'error_scrape' ) ) {
-				exit( sprintf( __( 'Disable Comments requires WordPress version %s or greater.', 'disable-comments' ), '3.6' ) );
+				exit( sprintf( __( 'Disable Comments requires WordPress version %s or greater.', 'disable-comments' ), '3.8' ) );
 			}
 		}
 	}
@@ -194,7 +194,7 @@ class Disable_Comments {
 
 			if( $this->options['remove_everywhere'] ) {
 				add_filter( 'feed_links_show_comments_feed', '__return_false' );
-				add_action( 'wp_footer', array( $this, 'hide_meta_widget_link' ) );
+				add_action( 'wp_footer', array( $this, 'hide_meta_widget_link' ), 100 );
 			}
 		}
 	}
@@ -245,8 +245,7 @@ class Disable_Comments {
 	public function filter_admin_bar() {
 		if( is_admin_bar_showing() ) {
 			// Remove comments links from admin bar
-			remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 50 );	// WP<3.3
-			remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );	// WP 3.3
+			remove_action( 'admin_bar_menu', 'wp_admin_bar_comments_menu', 60 );
 			if( is_multisite() ) {
 				add_action( 'admin_bar_menu', array( $this, 'remove_network_comment_links' ), 500 );
 			}
@@ -329,13 +328,12 @@ jQuery(document).ready(function($){
 	}
 
 	public function dashboard_js(){
-		if( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
-			// getting hold of the discussion box is tricky. The table_discussion class is used for other things in multisite
-			echo '<script> jQuery(function($){ $("#dashboard_right_now .table_discussion").has(\'a[href="edit-comments.php"]\').first().hide(); }); </script>';
-		}
-		else {
-			echo '<script> jQuery(function($){ $("#dashboard_right_now .comment-count, #latest-comments").hide(); }); </script>';
-		}
+		echo '<script>
+		jQuery(function($){
+			$("#dashboard_right_now .comment-count, #latest-comments").hide();
+		 	$("#welcome-panel .welcome-comments").parent().hide();
+		});
+		</script>';
 	}
 
 	public function hide_meta_widget_link(){
@@ -355,7 +353,6 @@ jQuery(document).ready(function($){
 	}
 
 	public function disable_rc_widget() {
-		// This widget has been removed from the Dashboard in WP 3.8 and can be removed in a future version
 		unregister_widget( 'WP_Widget_Recent_Comments' );
 	}
 

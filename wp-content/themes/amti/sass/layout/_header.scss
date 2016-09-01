@@ -12,12 +12,48 @@
     a {
     	color: $white;
     }
+
+    li.search {
+    	max-width:40%;
+    	padding-left:10px;
+    	padding-right:10px;
+
+    	button {
+    	border:0px;
+    	color: $white;
+
+	    	&:hover {
+	    		background:none;
+	    		border:0px;
+	    	}
+	    }
+
+    	#searchform {
+    		padding-top:8px;
+
+    		label {
+    			padding-top:3px;
+    			margin-left:3px;
+    		}
+    	}
+
+    	.form-control {
+    		display:none;
+    		width:inherit;
+    	}
+    }
+
 }
 
 /*----------  Main Menu  ----------*/
+body.logged-in .navbar-fixed-top { top: 28px !important; }
+
 .navbar-nav {
-	float:right;
 	color:$white;
+
+	@include breakpoint("large") {
+		float:right;
+	}
 
 	li {
 		@include transition(all .3s ease-in-out);
@@ -31,10 +67,11 @@
 	    letter-spacing: .1em;
 	    text-transform: uppercase;
 	}
-
 }
-.navbar-default .navbar-toggle {
+.navbar-default .navbar-toggle, .navbar-default .navbar-collapse, .navbar-default .navbar-form {
 	border-color:transparent;
+	border:0px !important;
+	box-shadow:none;
 }
 .nav > li:hover a, .nav > li:hover span, .nav > li:hover, .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a, .navbar-default .navbar-nav>li>a:hover {
 	color: $white;
@@ -43,4 +80,13 @@
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
 	background-color:transparent;
 	color: $white;
+}
+
+.navbar-default .navbar-toggle {
+	&:hover, &:active, &:visited, &:focus {
+		background-color:transparent;
+	}
+	.icon-bar {
+		background-color: $white;
+	}
 }

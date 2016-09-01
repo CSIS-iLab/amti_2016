@@ -96,6 +96,17 @@ function transparency_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
+
+	register_sidebar(array(
+		'name' => __( 'Footer', 'transparency' ),
+		'id' => 'footer',
+		'description' => __( 'Widgets in this area will be shown in the Footer.' , 'transparency'),
+		'before_title' => '<h3 class="widget-title">',
+		'after_title' => '</h3>',
+		'before_widget' => '<div id="%1$s" class="widget %2$s col-lg-4 col-md-4 col-sm-6 col-xs-12">',
+		'after_widget' => '</div>'
+	  )
+	);
 }
 add_action( 'widgets_init', 'transparency_widgets_init' );
 
@@ -111,6 +122,12 @@ function transparency_scripts() {
 
 	// Font Awesome
 	wp_enqueue_script('transparency-font-awesome', 'https://use.fontawesome.com/08b1a76eab.js');
+
+	// jQuery
+	wp_enqueue_script('jquery');
+
+	// Bootstrap
+	wp_enqueue_script('transparency-bootstrap-js', get_template_directory_uri() . '/js/bootstrap.min.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -148,12 +165,13 @@ require get_template_directory() . '/inc/jetpack.php';
 /*-----------------------------------------------------------------------------------*/
 add_action( 'init', 'create_feature_type' );
 function create_feature_type() {
-  register_post_type( 'feature',
+  register_post_type( 'features',
     array(
       'labels' => array(
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -183,8 +201,49 @@ function create_features_taxonomy() {
 		'query_var'         => true,
 		'rewrite'           => array( 'slug' => 'features' ),
 	);
-	register_taxonomy( 'features', array( 'feature' ), $args );
+	register_taxonomy( 'categories', array( 'features' ), $args );
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' from post slug
+/*-----------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' from post slug
+/*-----------------------------------------------------------------------------------*/
+
+function remove_feature_slug( $post_link, $post, $leavename ) {
+
+    if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
+        return $post_link;
+    }
+
+    $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+
+    return $post_link;
+}
+add_filter( 'post_type_link', 'remove_feature_slug', 10, 3 );
+
+
+function parse_request_custom( $query ) {
+
+    // Only noop the main query
+    if ( ! $query->is_main_query() )
+        return;
+
+    // Only noop our very specific rewrite rule match
+    if ( 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
+        return;
+    }
+
+    // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
+    if ( ! empty( $query->query['name'] ) ) {
+        $query->set( 'post_type', array( 'post', 'page', 'features' ) );
+    }
+}
+add_action( 'pre_get_posts', 'parse_request_custom' );
+
 /*-----------------------------------------------------------------------------------*/
 /* Change Posts to Analysis in admin
 /*-----------------------------------------------------------------------------------*/
@@ -223,6 +282,7 @@ add_action( 'init', 'revcon_change_post_object' );
 require_once('wp_bootstrap_navwalker.php');
 
 /*-----------------------------------------------------------------------------------*/
+
 /* Add featured image to post and page items in home slider menu
 /*-----------------------------------------------------------------------------------*/
 require_once('homepage_slider_navwalker.php');
@@ -254,4 +314,19 @@ function transparency_slider() {
 	echo "<div class='featuredItem'><span class='description'>".$feat_description."</span><br />".$feat_title."<br /><a href='".$feat_link."' class='seeMore'>See More</a></div>";
 	wp_nav_menu( array('theme_location' => 'home-page-slider','menu' => 'home-page-slider','walker' => $walker,'activeID' => $feat_id) );
 	echo "</div></div>";
+}
+
+/* Add Search Bar and Twitter Link to Menu
+/*-----------------------------------------------------------------------------------*/
+add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
+function add_search_box( $items, $args ) {
+    $search = '<li class="search">';
+    $search .= '<form method="get" id="searchform" action="/"><div class="input-group">';
+    $search .= '<label class="screen-reader-text" for="navSearchInput">Search for:</label>';
+    $search .= '<input type="text" class="form-control" name="s" id="navSearchInput" placeholder="Search" />';
+    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
+    $search .= '</div></form>';
+    $search .= '</li>';
+    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
+    return $items.$search.$twitter;
 }

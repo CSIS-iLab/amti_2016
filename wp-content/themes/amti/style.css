@@ -4232,23 +4232,45 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 .navbar-fixed-top { background-image: url("http://amti.csis.org/wp-content/uploads/2014/10/AMTI_site_header.jpg"); background-repeat: no-repeat; background-color: #023850; padding: 11px 0; border-color: transparent; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 /* line 12, sass/layout/_header.scss */
 .navbar-fixed-top a { color: #fff; }
+/* line 16, sass/layout/_header.scss */
+.navbar-fixed-top li.search { max-width: 40%; padding-left: 10px; padding-right: 10px; }
+/* line 21, sass/layout/_header.scss */
+.navbar-fixed-top li.search button { border: 0px; color: #fff; }
+/* line 25, sass/layout/_header.scss */
+.navbar-fixed-top li.search button:hover { background: none; border: 0px; }
+/* line 31, sass/layout/_header.scss */
+.navbar-fixed-top li.search #searchform { padding-top: 8px; }
+/* line 34, sass/layout/_header.scss */
+.navbar-fixed-top li.search #searchform label { padding-top: 3px; margin-left: 3px; }
+/* line 40, sass/layout/_header.scss */
+.navbar-fixed-top li.search .form-control { display: none; width: inherit; }
 
 /*----------  Main Menu  ----------*/
-/* line 18, sass/layout/_header.scss */
-.navbar-nav { float: right; color: #fff; }
-/* line 22, sass/layout/_header.scss */
+/* line 49, sass/layout/_header.scss */
+body.logged-in .navbar-fixed-top { top: 28px !important; }
+
+/* line 51, sass/layout/_header.scss */
+.navbar-nav { color: #fff; }
+@media screen and (min-width: 1200px) { /* line 51, sass/layout/_header.scss */
+  .navbar-nav { float: right; } }
+/* line 58, sass/layout/_header.scss */
 .navbar-nav li { -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
-/* line 26, sass/layout/_header.scss */
+/* line 62, sass/layout/_header.scss */
 .navbar-nav > li > a { margin-left: 0px; display: block; font-size: 15px; font-family: "PT Sans Narrow", sans-serif; letter-spacing: .1em; text-transform: uppercase; }
 
-/* line 36, sass/layout/_header.scss */
-.navbar-default .navbar-toggle { border-color: transparent; }
+/* line 71, sass/layout/_header.scss */
+.navbar-default .navbar-toggle, .navbar-default .navbar-collapse, .navbar-default .navbar-form { border-color: transparent; border: 0px !important; box-shadow: none; }
 
-/* line 39, sass/layout/_header.scss */
+/* line 76, sass/layout/_header.scss */
 .nav > li:hover a, .nav > li:hover span, .nav > li:hover, .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:hover { color: #fff; -webkit-transition: all 0.3s ease-in-out; -moz-transition: all 0.3s ease-in-out; -ms-transition: all 0.3s ease-in-out; -o-transition: all 0.3s ease-in-out; transition: all 0.3s ease-in-out; }
 
-/* line 43, sass/layout/_header.scss */
+/* line 80, sass/layout/_header.scss */
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus { background-color: transparent; color: #fff; }
+
+/* line 86, sass/layout/_header.scss */
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:active, .navbar-default .navbar-toggle:visited, .navbar-default .navbar-toggle:focus { background-color: transparent; }
+/* line 89, sass/layout/_header.scss */
+.navbar-default .navbar-toggle .icon-bar { background-color: #fff; }
 
 /*==============================
 =            Footer            =
@@ -4391,3 +4413,18 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 #homepage-slider-container a.seeMore { line-height: 17px; margin: 0px; padding: 12px 35px; letter-spacing: 2px; text-transform: uppercase; background-color: #fff; color: #000; font-size: 13px; font-weight: 700; font-family: "PT Sans", sans-serif; border: 1px solid #fff; }
 /* line 100, sass/pages/_homepage.scss */
 #homepage-slider-container a.seeMore:hover { color: #fff; background-color: #00b29e; }
+
+/* line 1, sass/pages/_features.scss */
+.widget { margin: 0 0 1.5em; font-size: 18px; /* Make sure select elements fit in widgets. */ }
+/* line 5, sass/pages/_features.scss */
+.widget .widget-title { margin-top: 0; margin-bottom: 20px; }
+/* line 10, sass/pages/_features.scss */
+.widget ul { list-style: none; margin: 0; padding-left: 0; }
+/* line 14, sass/pages/_features.scss */
+.widget ul li { margin-bottom: 6px; }
+/* line 20, sass/pages/_features.scss */
+.widget select { max-width: 100%; }
+
+/*----------  Widgets in Footer  ----------*/
+/* line 27, sass/pages/_features.scss */
+.site-footer .widget .widget-title { color: #f5f5f5; }

@@ -3,6 +3,7 @@
  *
  * Handles toggling the navigation menu for small screens and enables TAB key
  * navigation support for dropdown menus.
+ * Toggles search bar in header navigation. - Added by JS
  */
 ( function() {
 	var container, button, menu, links, subMenus, i, len;
@@ -109,4 +110,14 @@
 			}
 		}
 	}( container ) );
+
 } )();
+
+jQuery( document ).ready( function( $ ) {
+    /**
+	 * Toggles `active` class on search form.
+	 */
+	$('#navSearchLabel').click(function() {
+	    $('#navSearchInput').toggle('slow');
+	});
+} );
