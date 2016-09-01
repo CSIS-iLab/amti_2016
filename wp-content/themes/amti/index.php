@@ -14,7 +14,7 @@
 
 get_header(); ?>
 
-<?php if ( is_active_sidebar( 'home-slider' ) ) : ?>
+<?php if ( has_nav_menu( 'home-page-slider' ) ) : ?>
 	<div id="homepage-slider-container">
 		<?php transparency_slider(); ?>
 	</div><!-- #homepage-slider-container -->

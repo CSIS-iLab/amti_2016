@@ -45,6 +45,7 @@ function transparency_setup() {
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => esc_html__( 'Primary', 'transparency' ),
+		'home-page-slider' => esc_html__( 'Home Page Slider', 'transparency' ),
 	) );
 
 	/*
@@ -94,16 +95,6 @@ function transparency_widgets_init() {
 		'after_widget'  => '</section>',
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
-	) );
-
-	register_sidebar( array(
-		'name'          => esc_html__( 'Home Page Slider', 'transparency' ),
-		'id'            => 'home-slider',
-		'description'   => esc_html__( 'Contains the home page slider menu.', 'transparency' ),
-		'before_widget' => '<div id="%1$s" class="%2$s">',
-		'after_widget'  => '</div>',
-		'before_title'  => '',
-		'after_title'   => '',
 	) );
 }
 add_action( 'widgets_init', 'transparency_widgets_init' );
@@ -246,6 +237,7 @@ function transparency_slider() {
 	$feat_title = "";
 	$feat_description = "";
 	$feat_link = "";
+	$feat_id = "";
 
 	foreach($menu_items as $key => $itemObj) {
 		if(get_post_thumbnail_id($itemObj->object_id)) {
@@ -253,22 +245,13 @@ function transparency_slider() {
 			$feat_title = $itemObj->title;
 			$feat_description = $itemObj->description;
 			$feat_link = $itemObj->url;
-			$itemObj->object_id = apply_filters( 'nav_menu_css_class', 'special_nav_class');
+			$feat_id = $itemObj->object_id;
 			break;
 		}
 	}
 
 	echo "<div class='feature-background' style='background-image:url(".$feat_image.");'><div class='overlay'>";
 	echo "<div class='featuredItem'><span class='description'>".$feat_description."</span><br />".$feat_title."<br /><a href='".$feat_link."' class='seeMore'>See More</a></div>";
-	wp_nav_menu( array('menu' => 'home-page-slider','walker' => $walker) );
+	wp_nav_menu( array('theme_location' => 'home-page-slider','menu' => 'home-page-slider','walker' => $walker,'activeID' => $feat_id) );
 	echo "</div></div>";
 }
-
-function special_nav_class( $classes, $item, $id = "" ){
-	echo $id;
- if( is_home() && $item->title == 'Sample Page' ){ 
- $classes[] = "special-class";
- }
- return $classes;
-}
-add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);

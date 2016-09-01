@@ -26,7 +26,7 @@
                 opacity: 0.5;
                 @include transition(opacity .3s ease-in-out);
 
-                &:hover,&:active, &:first-child {
+                &:hover,&:active, &.activeItem {
                     opacity: 1;
                 }
             }

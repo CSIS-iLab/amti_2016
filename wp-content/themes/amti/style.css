@@ -4374,7 +4374,7 @@ body { background: #F2F2F2; /* Fallback for when there is no custom background c
 /* line 24, sass/pages/_homepage.scss */
 #homepage-slider-container .menu-home-page-slider-container .menu li { margin-bottom: 30px; opacity: 0.5; -webkit-transition: opacity 0.3s ease-in-out; -moz-transition: opacity 0.3s ease-in-out; -ms-transition: opacity 0.3s ease-in-out; -o-transition: opacity 0.3s ease-in-out; transition: opacity 0.3s ease-in-out; }
 /* line 29, sass/pages/_homepage.scss */
-#homepage-slider-container .menu-home-page-slider-container .menu li:hover, #homepage-slider-container .menu-home-page-slider-container .menu li:active, #homepage-slider-container .menu-home-page-slider-container .menu li:first-child { opacity: 1; }
+#homepage-slider-container .menu-home-page-slider-container .menu li:hover, #homepage-slider-container .menu-home-page-slider-container .menu li:active, #homepage-slider-container .menu-home-page-slider-container .menu li.activeItem { opacity: 1; }
 /* line 34, sass/pages/_homepage.scss */
 #homepage-slider-container .menu-home-page-slider-container .menu a { color: #fff; }
 /* line 38, sass/pages/_homepage.scss */

@@ -9,6 +9,12 @@ class Menu_With_Description extends Walker_Nav_Menu {
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
+
+		$activeID = esc_attr( $args->activeID );
+		if($item->object_id == $activeID) {
+			$class_names .= " activeItem";		
+		}
+
 		$class_names = ' class="' . esc_attr( $class_names ) . '"';
 
 		$output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names .'>';
