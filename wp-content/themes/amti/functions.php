@@ -285,13 +285,17 @@ require_once('wp_bootstrap_navwalker.php');
 /*-----------------------------------------------------------------------------------*/
 add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
 function add_search_box( $items, $args ) {
-    $search = '<li class="search">';
-    $search .= '<form method="get" id="searchform" action="/"><div class="input-group">';
-    $search .= '<label class="screen-reader-text" for="navSearchInput">Search for:</label>';
-    $search .= '<input type="text" class="form-control" name="s" id="navSearchInput" placeholder="Search" />';
-    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
-    $search .= '</div></form>';
-    $search .= '</li>';
-    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
-    return $items.$search.$twitter;
+
+	if($args->theme_location == 'primary') {
+	    $search = '<li class="search">';
+	    $search .= '<form method="get" id="searchform" action="/"><div class="input-group">';
+	    $search .= '<label class="screen-reader-text" for="navSearchInput">Search for:</label>';
+	    $search .= '<input type="text" class="form-control" name="s" id="navSearchInput" placeholder="Search" />';
+	    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
+	    $search .= '</div></form>';
+	    $search .= '</li>';
+	    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
+	    return $items.$search.$twitter;
+	}
+	return $items;
 }
