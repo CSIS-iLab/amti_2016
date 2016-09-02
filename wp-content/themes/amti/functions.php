@@ -45,6 +45,7 @@ function transparency_setup() {
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => esc_html__( 'Primary', 'transparency' ),
+		'home-page-slider' => esc_html__( 'Home Page Slider', 'transparency' ),
 	) );
 
 	/*
@@ -281,6 +282,40 @@ add_action( 'init', 'revcon_change_post_object' );
 require_once('wp_bootstrap_navwalker.php');
 
 /*-----------------------------------------------------------------------------------*/
+
+/* Add featured image to post and page items in home slider menu
+/*-----------------------------------------------------------------------------------*/
+require_once('homepage_slider_navwalker.php');
+
+function transparency_slider() {
+	$menu_name = 'home-page-slider';
+	$menu_items = wp_get_nav_menu_items($menu_name);
+	$walker = new Menu_With_Description; 
+
+	// Get the feature image, title, description, and url of the first menu item that has an image
+	$feat_image = "";
+	$feat_title = "";
+	$feat_description = "";
+	$feat_link = "";
+	$feat_id = "";
+
+	foreach($menu_items as $key => $itemObj) {
+		if(get_post_thumbnail_id($itemObj->object_id)) {
+			$feat_image = wp_get_attachment_url( get_post_thumbnail_id($itemObj->object_id) );
+			$feat_title = $itemObj->title;
+			$feat_description = $itemObj->description;
+			$feat_link = $itemObj->url;
+			$feat_id = $itemObj->object_id;
+			break;
+		}
+	}
+
+	echo "<div class='feature-background' style='background-image:url(".$feat_image.");'><div class='overlay'>";
+	echo "<div class='featuredItem'><span class='description'>".$feat_description."</span><br />".$feat_title."<br /><a href='".$feat_link."' class='seeMore'>See More</a></div>";
+	wp_nav_menu( array('theme_location' => 'home-page-slider','menu' => 'home-page-slider','walker' => $walker,'activeID' => $feat_id) );
+	echo "</div></div>";
+}
+
 /* Add Search Bar and Twitter Link to Menu
 /*-----------------------------------------------------------------------------------*/
 add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
