@@ -10,43 +10,50 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+	<div id="primary" class="container posts-index">
+		<div class="row">
+			<main id="main" class="col-xs-12" role="main">
 
-		<?php
-		if ( have_posts() ) :
+				<header class="entry-header">
+					<?php single_post_title( '<h1 class="page-title">', '</h1>' ); ?>
+					<hr>
+				</header><!-- .entry-header -->
+				<div class="text-center search-container">
+					<p>Read commentary and analysis from the top AMTI experts on maritime Asia.</p>
+					<?php get_search_form(); ?>
+				</div>
 
-			if ( is_home() && ! is_front_page() ) : ?>
-				<header>
-					<h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-				</header>
+				<?php
+				if ( have_posts() ) :
+				?>
 
-			<?php
-			endif;
+					<?php
 
-			/* Start the Loop */
-			while ( have_posts() ) : the_post();
+					/* Start the Loop */
+					while ( have_posts() ) : the_post();
 
-				/*
-				 * Include the Post-Format-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-				 */
-				get_template_part( 'template-parts/content', get_post_format() );
+						/*
+						 * Include the Post-Format-specific template for the content.
+						 * If you want to override this in a child theme, then include a file
+						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
+						 */
+						get_template_part( 'template-parts/content', get_post_format() );
 
-			endwhile;
+					endwhile;
 
-			the_posts_navigation();
+				else :
 
-		else :
+					get_template_part( 'template-parts/content', 'none' );
 
-			get_template_part( 'template-parts/content', 'none' );
+				endif; ?>
 
-		endif; ?>
+				<div class="more-archives">
+					<a href="/archives">Want more? Browse our full text-based archive of analysis.</a>
+				</div>
 
 		</main><!-- #main -->
-	</div><!-- #primary -->
+	</div><!-- .row -->
+</div><!-- #primary -->
 
 <?php
-get_sidebar();
 get_footer();
