@@ -2,7 +2,8 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
-.edit-link a {
+.edit-link a,
+.btn-outline {
 	border: 2px solid $color__border-button;
 	color: $color__text-button;
 	border-radius: 0px;
