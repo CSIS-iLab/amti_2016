@@ -208,11 +208,6 @@ function create_features_taxonomy() {
 /* Remove 'features' from post slug
 /*-----------------------------------------------------------------------------------*/
 
-
-/*-----------------------------------------------------------------------------------*/
-/* Remove 'features' from post slug
-/*-----------------------------------------------------------------------------------*/
-
 function remove_feature_slug( $post_link, $post, $leavename ) {
 
     if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
@@ -277,12 +272,39 @@ add_action( 'admin_menu', 'revcon_change_post_label' );
 add_action( 'init', 'revcon_change_post_object' );
 
 /*-----------------------------------------------------------------------------------*/
+/* Add Staff Editor Role
+/*-----------------------------------------------------------------------------------*/
+
+$staffed = add_role( 'staff_editor', __(
+
+'Staff Editor' ),
+
+array(
+
+	'read' => true,
+	'edit_posts' => true,
+	'edit_pages' => true,
+	'edit_others_posts' => true,
+	'create_posts' => true,
+	'manage_categories' => true,
+	'publish_posts' => true,
+	'edit_themes' => false,
+	'edit_theme_options' => true,
+	'install_plugins' => false,
+	'update_plugin' => false,
+	'unfiltered_html' => false,
+	'update_core' => false
+
+)
+
+);
+
+/*-----------------------------------------------------------------------------------*/
 /* Register Custom Navigation Walker - Adds Bootstrap styling to menu
 /*-----------------------------------------------------------------------------------*/
 require_once('wp_bootstrap_navwalker.php');
 
 /*-----------------------------------------------------------------------------------*/
-
 /* Add featured image to post and page items in home slider menu
 /*-----------------------------------------------------------------------------------*/
 require_once('homepage_slider_navwalker.php');
@@ -290,7 +312,7 @@ require_once('homepage_slider_navwalker.php');
 function transparency_slider() {
 	$menu_name = 'home-page-slider';
 	$menu_items = wp_get_nav_menu_items($menu_name);
-	$walker = new Menu_With_Description; 
+	$walker = new Menu_With_Description;
 
 	// Get the feature image, title, description, and url of the first menu item that has an image
 	$feat_image = "";
@@ -316,6 +338,7 @@ function transparency_slider() {
 	echo "</div></div>";
 }
 
+/*-----------------------------------------------------------------------------------*/
 /* Add Search Bar and Twitter Link to Menu
 /*-----------------------------------------------------------------------------------*/
 add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
