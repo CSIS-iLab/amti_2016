@@ -14,12 +14,6 @@
 
 get_header(); ?>
 
-<?php if ( has_nav_menu( 'home-page-slider' ) ) : ?>
-	<div id="homepage-slider-container">
-		<?php transparency_slider(); ?>
-	</div><!-- #homepage-slider-container -->
-<?php endif; ?>
-
 	<div id="primary" class="container posts-index archives-index">
 		<header class="entry-header">
 			<h1 class="page-title"><?php single_post_title( ); ?></h1>
