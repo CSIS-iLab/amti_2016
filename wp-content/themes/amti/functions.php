@@ -357,3 +357,57 @@ function add_search_box( $items, $args ) {
 	}
 	return $items;
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Add Setting to "Reading" options for # of posts on analysis page
+/*-----------------------------------------------------------------------------------*/
+// Register and define the settings
+add_action('admin_init', 'transparency_postListing_admin_init');
+function transparency_postListing_admin_init(){
+	register_setting(
+		'reading',                 						// settings page
+		'transparency_postListing_options',          	// option name
+		'transparency_postListing_validate_options'  	// validation callback
+	);
+	
+	add_settings_field(
+		'transparency_postListing_limit',      			// # of Posts to Display
+		'Analysis Page Post Limit',              		// setting title
+		'transparency_postListing_setting_input',    	// display callback
+		'reading',                 						// settings page
+		'default'                  						// settings section
+	);
+
+}
+
+// Display and fill the form field
+function transparency_postListing_setting_input() {
+	// get option 'post_limit' value from the database
+	$options = get_option( 'transparency_postListing_options' );
+	$value = $options['post_limit'];
+	
+	// echo the field
+	?>
+<input id='post_limit' name='transparency_postListing_options[post_limit]'
+ type='number' step='1' min='1' class='small-text' value='<?php echo esc_attr( $value ); ?>' /> posts
+	<?php
+}
+
+// Validate user input
+function transparency_postListing_validate_options( $input ) {
+	$valid = array();
+	$valid['post_limit'] = intval(sanitize_text_field( $input['post_limit'] ));
+	
+	// Something dirty entered? Warn user.
+	if( $valid['post_limit'] != $input['post_limit'] ) {
+		add_settings_error(
+			'transparency_postListing_post_limit',           // setting title
+			'transparency_postListing_texterror',            // error ID
+			'Invalid number',   // error message
+			'error'                        // type of message
+		);		
+	}
+	
+	return $valid;
+}
+

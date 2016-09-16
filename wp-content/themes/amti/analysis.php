@@ -1,11 +1,12 @@
 <?php
 /**
- * The template for displaying the latest blog posts.
+ * The template for displaying the analysis post listing page.
  *
  *
  * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package Transparency
+ * Template Name: Analysis Listing
  */
 
 get_header(); ?>
@@ -23,29 +24,16 @@ get_header(); ?>
 					<?php get_search_form(); ?>
 				</div>
 
-				<?php
-				if ( have_posts() ) :
+				<?php 
+					$analysisSettings = get_option("transparency_postListing_options");
+					$args = array( 'posts_per_page' => $analysisSettings['post_limit']);
+					$recent_posts = new WP_Query( $args );
+
+					while ( $recent_posts->have_posts() ) : $recent_posts->the_post();
+				    	get_template_part( 'template-parts/content', get_post_format() );
+					endwhile; // end of the loop.
+					wp_reset_postdata();
 				?>
-
-					<?php
-
-					/* Start the Loop */
-					while ( have_posts() ) : the_post();
-
-						/*
-						 * Include the Post-Format-specific template for the content.
-						 * If you want to override this in a child theme, then include a file
-						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-						 */
-						get_template_part( 'template-parts/content', get_post_format() );
-
-					endwhile;
-
-				else :
-
-					get_template_part( 'template-parts/content', 'none' );
-
-				endif; ?>
 
 				<div class="more-archives">
 					<a href="/archives">Want more? Browse our full text-based archive of analysis.</a>

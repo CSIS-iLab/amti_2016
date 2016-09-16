@@ -58,3 +58,9 @@
     </nav>
 
 	<div id="content" class="site-content">
+
+	<?php if ( has_nav_menu( 'home-page-slider' ) && is_front_page() ) : ?>
+		<div id="homepage-slider-container">
+			<?php transparency_slider(); ?>
+		</div><!-- #homepage-slider-container -->
+	<?php endif; ?>
