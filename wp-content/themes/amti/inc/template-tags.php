@@ -15,7 +15,7 @@ if ( ! function_exists( 'transparency_posted_on' ) ) :
 /* Rewrote/simplified get_the_coauthor function -PF */
 
 function transparency_posted_on() {
-	echo 'Posted by: ';
+	echo 'By ';
  	if ( function_exists( 'coauthors_posts_links' ) ) {
  		coauthors_posts_links();
  	}

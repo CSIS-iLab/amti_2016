@@ -338,6 +338,17 @@ function transparency_slider() {
 	echo "</div></div>";
 }
 
+// Add menu item for slider
+function add_slider_admin_menu_item() {
+	$theme_locations = get_nav_menu_locations();
+	$menu_obj = get_term( $theme_locations['home-page-slider'], 'nav_menu' );
+	$menuID = $menu_obj->term_id;
+
+  // $page_title, $menu_title, $capability, $menu_slug, $callback_function
+  add_menu_page(__('Home Page Slider'), __('Home Page Slider'), 'edit_theme_options', 'nav-menus.php?action=edit&menu='.$menuID, '', 'dashicons-images-alt2', 58);
+}
+add_action('admin_menu', 'add_slider_admin_menu_item');
+
 /*-----------------------------------------------------------------------------------*/
 /* Add Search Bar and Twitter Link to Menu
 /*-----------------------------------------------------------------------------------*/
@@ -410,4 +421,3 @@ function transparency_postListing_validate_options( $input ) {
 	
 	return $valid;
 }
-

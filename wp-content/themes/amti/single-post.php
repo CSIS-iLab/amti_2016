@@ -33,34 +33,6 @@ $feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 					<header>
 						<?php
 						if ( 'post' === get_post_type() ) : ?>
-						<div class="post-share">
-							<a href="https://www.facebook.com/sharer.php?<?php echo esc_url( get_permalink() ); ?>">
-								<span class="fa-stack">
-								  <i class="fa fa-circle fa-stack-2x facebook"></i>
-								  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-								</span>
-							</a>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x twitter"></i>
-							  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x linkedin"></i>
-							  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x google"></i>
-							  <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x printer"></i>
-							  <i class="fa fa-print fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x email"></i>
-							  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-							</span>
-						</div>
 						<div class="entry-meta">
 							<?php transparency_posted_on(); ?><br />
 							<?php transparency_entry_footer(); ?>
@@ -86,34 +58,6 @@ $feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 
 					<?php
 						if ( 'post' === get_post_type() ) : ?>
-						<div class="post-share">
-							<a href="https://www.facebook.com/sharer.php?<?php echo esc_url( get_permalink() ); ?>">
-								<span class="fa-stack">
-								  <i class="fa fa-circle fa-stack-2x facebook"></i>
-								  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-								</span>
-							</a>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x twitter"></i>
-							  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x linkedin"></i>
-							  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x google"></i>
-							  <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x printer"></i>
-							  <i class="fa fa-print fa-stack-1x fa-inverse"></i>
-							</span>
-							<span class="fa-stack">
-							  <i class="fa fa-circle fa-stack-2x email"></i>
-							  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-							</span>
-						</div>
 						<?php
 						endif; ?>
 
