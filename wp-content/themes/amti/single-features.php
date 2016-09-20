@@ -15,7 +15,7 @@ get_header(); ?>
 
 			<?php
 			while ( have_posts() ) : the_post();
-				get_template_part( 'template-parts/content', 'content-feature-single' );
+				get_template_part( 'template-parts/content-feature-single', 'none' );
 			endwhile; // End of the loop.
 			?>
 
@@ -24,5 +24,4 @@ get_header(); ?>
 </div><!-- #primary -->
 
 <?php
-get_sidebar();
 get_footer();
