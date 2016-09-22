@@ -13,6 +13,7 @@
 	<div class="entry-content">
 		<?php
 			the_content();
+			echo do_shortcode('[ssba]');
 		?>
 	</div><!-- .entry-content -->
 </article><!-- #post-## -->
