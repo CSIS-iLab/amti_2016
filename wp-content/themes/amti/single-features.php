@@ -7,7 +7,14 @@
  * @package Transparency
  */
 
-get_header(); ?>
+get_header();
+
+if ( has_post_format( 'image' )) {
+	echo '<div class="full-width">';
+	echo get_the_post_thumbnail( $_post->ID, 'full');
+	echo '</div>';
+}
+?>
 
 <div id="primary" class="container">
 	<div class="row">
