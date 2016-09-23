@@ -160,6 +160,39 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
+/**
+* Custom Post Type Formats
+**/
+
+add_theme_support( 'post-formats', array( 'standard', 'image' ) );
+
+function rename_post_formats( $safe_text ) {
+    if ( $safe_text == 'Image' )
+        return 'Full-Width';
+
+    return $safe_text;
+}
+add_filter( 'esc_html', 'rename_post_formats' );
+
+//rename image in posts list table
+function live_rename_formats() {
+    global $current_screen;
+
+    if ( $current_screen->id == 'edit-post' ) { ?>
+        <script type="text/javascript">
+        jQuery('document').ready(function() {
+
+            jQuery("span.post-state-format").each(function() {
+                if ( jQuery(this).text() == "Image" )
+                    jQuery(this).text("Full-Width");
+            });
+
+        });
+        </script>
+<?php }
+}
+add_action('admin_head', 'live_rename_formats');
+
 /*-----------------------------------------------------------------------------------*/
 /* Register Features taxonomy
 /*-----------------------------------------------------------------------------------*/
@@ -171,7 +204,7 @@ function create_feature_type() {
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail', 'post-formats' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -426,7 +459,7 @@ function transparency_postListing_admin_init(){
 		'transparency_postListing_options',          	// option name
 		'transparency_postListing_validate_options'  	// validation callback
 	);
-	
+
 	add_settings_field(
 		'transparency_postListing_limit',      			// # of Posts to Display
 		'Analysis Page Post Limit',              		// setting title
@@ -442,6 +475,7 @@ function transparency_postListing_setting_input() {
 	// get option 'post_limit' value from the database
 	$options = get_option( 'transparency_postListing_options' );
 	$value = $options['post_limit'];
+
 	?>
 <input id='post_limit' name='transparency_postListing_options[post_limit]'
  type='number' step='1' min='1' class='small-text' value='<?php echo esc_attr( $value ); ?>' /> posts
@@ -452,7 +486,7 @@ function transparency_postListing_setting_input() {
 function transparency_postListing_validate_options( $input ) {
 	$valid = array();
 	$valid['post_limit'] = intval(sanitize_text_field( $input['post_limit'] ));
-	
+
 	// Something dirty entered? Warn user.
 	if( $valid['post_limit'] != $input['post_limit'] ) {
 		add_settings_error(
@@ -460,8 +494,8 @@ function transparency_postListing_validate_options( $input ) {
 			'transparency_postListing_texterror',            // error ID
 			'Invalid number',   // error message
 			'error'                        // type of message
-		);		
+		);
 	}
-	
+
 	return $valid;
 }
