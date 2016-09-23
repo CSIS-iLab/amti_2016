@@ -12,6 +12,13 @@ get_header(); ?>
 	<div id="primary" class="container">
 		<div class="row">
 			<main id="main" class="col-xs-12" role="main">
+				<header class="page-header">
+					<?php
+					echo "<h1 class='main-title'>Land Reclamation By Country</h1>";
+					echo "<hr>";
+					echo "<p>China’s large-scale island-building in the South China Sea since late 2013 has focused international attention on the disputes and invited widespread criticism that Beijing is responsible for escalating tensions. China has responded by pointing out that other claimants have also engaged in land reclamation. Explore the scale of each claimants’ reclamation work, documented by satellite imagery, below.</p>";
+					?>
+				</header><!-- .page-header -->
 				<div class="row">
 					<?php 
 						$args=array(
@@ -23,7 +30,6 @@ get_header(); ?>
 						  foreach ($taxonomies  as $taxonomy ) {
 						  	$terms = get_terms($taxonomy->name);
 		        			foreach ( $terms as $term) {
-		        				echo $term->term_id;
 
 		        				$posts_array = get_posts(
 								    array(
@@ -43,8 +49,12 @@ get_header(); ?>
 
 		        			?>
 
-		        			<div class="col-xs-12 col-sm-6 country-listing" style="background-image:url('<?php echo $image[0]; ?>');">
-		        				<a href="<?php echo $term->slug; ?>"><?php echo $term->name; ?></a>
+		        			<div class="col-xs-12 col-sm-6">
+		        				<a href="<?php echo $term->slug; ?>">
+			        				<div class="country-listing" style="background-image:url('<?php echo $image[0]; ?>');">
+			        					<div class="title"><?php echo $term->name; ?></div>
+			        				</div>
+			        			</a>
 		        			</div>
 
 		        			<?
