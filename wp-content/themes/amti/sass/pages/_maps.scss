@@ -1,0 +1,22 @@
+#mapContainer {
+
+	.map {
+		min-height:400px;
+		background-size:cover;
+		background-repeat:no-repeat;
+	}	
+
+	div.title {
+	    position: absolute;
+	    font-size: 35px;
+	    line-height: 47px;
+	    color: $white;
+	    font-weight: 800;
+	    z-index: 2 !important;
+	    text-transform: uppercase;
+	    width: 95%;
+	    bottom: 0.7em;
+	    padding: 10px;
+	    background-color:$light-green;
+	}
+}
