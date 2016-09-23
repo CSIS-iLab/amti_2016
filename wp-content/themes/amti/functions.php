@@ -205,12 +205,58 @@ function create_features_taxonomy() {
 }
 
 /*-----------------------------------------------------------------------------------*/
-/* Remove 'features' from post slug
+/* Register Island Tracker Taxonomy
+/*-----------------------------------------------------------------------------------*/
+add_action( 'init', 'create_island_tracker_type' );
+function create_island_tracker_type() {
+  register_post_type( 'island-tracker',
+    array(
+      'labels' => array(
+        'name' => __( 'Island Tracker' ),
+        'singular_name' => __( 'Island' )
+      ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+      'public' => true,
+      'has_archive' => true,
+			'menu_icon'   => 'dashicons-layout',
+    )
+  );
+}
+add_action( 'init', 'create_countries_taxonomy', 0 );
+function create_countries_taxonomy() {
+	$labels = array(
+		'name'              => _x( 'Countries', 'taxonomy general name' ),
+		'singular_name'     => _x( 'Country', 'taxonomy singular name' ),
+		'search_items'      => __( 'Search Countries' ),
+		'all_items'         => __( 'All Countries' ),
+		'parent_item'       => __( 'Parent Country' ),
+		'parent_item_colon' => __( 'Parent Country:' ),
+		'edit_item'         => __( 'Edit Country' ),
+		'update_item'       => __( 'Update Country' ),
+		'add_new_item'      => __( 'Add New Country' ),
+		'new_item_name'     => __( 'New Country Name' ),
+		'menu_name'         => __( 'Countries' ),
+	);
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'island-tracker' ),
+		'with_front'        => false,
+	);
+	register_taxonomy( 'countries', array( 'island-tracker' ), $args );
+}
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' and 'island-tracker' from post slug
 /*-----------------------------------------------------------------------------------*/
 
 function remove_feature_slug( $post_link, $post, $leavename ) {
+	$post_types = array("features","island-tracker");
 
-    if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
+    if ( !in_array($post->post_type,$post_types) || 'publish' != $post->post_status ) {
         return $post_link;
     }
 
@@ -234,7 +280,7 @@ function parse_request_custom( $query ) {
 
     // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
     if ( ! empty( $query->query['name'] ) ) {
-        $query->set( 'post_type', array( 'post', 'page', 'features' ) );
+        $query->set( 'post_type', array( 'post', 'page', 'features', 'island-tracker' ) );
     }
 }
 add_action( 'pre_get_posts', 'parse_request_custom' );
@@ -396,8 +442,6 @@ function transparency_postListing_setting_input() {
 	// get option 'post_limit' value from the database
 	$options = get_option( 'transparency_postListing_options' );
 	$value = $options['post_limit'];
-	
-	// echo the field
 	?>
 <input id='post_limit' name='transparency_postListing_options[post_limit]'
  type='number' step='1' min='1' class='small-text' value='<?php echo esc_attr( $value ); ?>' /> posts
