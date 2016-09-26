@@ -476,7 +476,6 @@ function transparency_postListing_setting_input() {
 	$options = get_option( 'transparency_postListing_options' );
 	$value = $options['post_limit'];
 
-	// echo the field
 	?>
 <input id='post_limit' name='transparency_postListing_options[post_limit]'
  type='number' step='1' min='1' class='small-text' value='<?php echo esc_attr( $value ); ?>' /> posts
