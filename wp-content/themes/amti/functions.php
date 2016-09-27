@@ -354,25 +354,34 @@ add_action( 'init', 'revcon_change_post_object' );
 /* Add Staff Editor Role
 /*-----------------------------------------------------------------------------------*/
 
-$staffed = add_role( 'staff_editor', __(
-
-'Staff Editor' ),
+$staffed = add_role( 'staff_editor', __( 'Staff Editor' ),
 
 array(
 
-	'read' => true,
-	'edit_posts' => true,
-	'edit_pages' => true,
+	'delete_others_posts' => true,
+	'delete_pages' => false,
+	'delete_posts' => true,
+	'delete_private_pages' => false,
+	'delete_private_posts' => true,
+	'delete_published_pages' => false,
+	'delete_published_posts' => true,
+	'edit_others_pages' => true,
 	'edit_others_posts' => true,
-	'create_posts' => true,
+	'edit_pages' => false,
+	'edit_posts' => true,
+	'edit_private_pages' => false,
+	'edit_private_posts' => true,
+	'edit_published_pages' => false,
+	'edit_published_posts' => true,
 	'manage_categories' => true,
+	'manage_links' => false,
+	'publish_pages' => true,
 	'publish_posts' => true,
-	'edit_themes' => false,
-	'edit_theme_options' => true,
-	'install_plugins' => false,
-	'update_plugin' => false,
-	'unfiltered_html' => false,
-	'update_core' => false
+	'read' => true,
+	'read_private_pages' => true,
+	'read_private_posts' => true,
+	'unfiltered_html' => true,
+	'upload_files' => true,
 
 )
 
