@@ -9,8 +9,18 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+<div id="primary" class="container posts-index">
+	<div class="row">
+		<main id="main" class="col-xs-12" role="main">
+
+			<header class="entry-header">
+				<?php single_post_title( '<h1 class="page-title">', '</h1>' ); ?>
+				<hr>
+			</header><!-- .entry-header -->
+			<div class="text-center search-container">
+				<p>Dive deep on the latest maritime issues in AMTI's Features, an interactive and media-rich repository of information.</p>
+				<?php get_search_form(); ?>
+			</div>
 
 		<?php
 		if ( have_posts() ) : ?>
@@ -36,9 +46,13 @@ get_header(); ?>
 
 		endif; ?>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+		<div class="more-archives">
+			<a href="/archives">Want more? Browse our full text-based archive of analysis.</a>
+		</div>
+
+</main><!-- #main -->
+</div><!-- .row -->
+</div><!-- #primary -->
 
 <?php
-get_sidebar();
 get_footer();

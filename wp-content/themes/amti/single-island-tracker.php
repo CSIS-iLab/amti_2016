@@ -1,28 +1,21 @@
 <?php
 /**
- * The template for displaying all single posts.
+ * The template for displaying all single island trackers.
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/#single-post
  *
  * @package Transparency
  */
 
-get_header();
-
-if ( has_post_format( 'image' )) {
-	echo '<div class="full-width">';
-	echo get_the_post_thumbnail( $_post->ID, 'full');
-	echo '</div>';
-}
-?>
+get_header(); ?>
 
 <div id="primary" class="container">
 	<div class="row">
 		<main id="main" class="col-xs-12" role="main">
-
+			
 			<?php
 			while ( have_posts() ) : the_post();
-				get_template_part( 'template-parts/content-feature-single', 'none' );
+				get_template_part( 'template-parts/content-island-tracker-single', 'none' );
 			endwhile; // End of the loop.
 			?>
 

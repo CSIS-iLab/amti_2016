@@ -160,6 +160,39 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
+/**
+* Custom Post Type Formats
+**/
+
+add_theme_support( 'post-formats', array( 'standard', 'image' ) );
+
+function rename_post_formats( $safe_text ) {
+    if ( $safe_text == 'Image' )
+        return 'Full-Width';
+
+    return $safe_text;
+}
+add_filter( 'esc_html', 'rename_post_formats' );
+
+//rename image in posts list table
+function live_rename_formats() {
+    global $current_screen;
+
+    if ( $current_screen->id == 'edit-post' ) { ?>
+        <script type="text/javascript">
+        jQuery('document').ready(function() {
+
+            jQuery("span.post-state-format").each(function() {
+                if ( jQuery(this).text() == "Image" )
+                    jQuery(this).text("Full-Width");
+            });
+
+        });
+        </script>
+<?php }
+}
+add_action('admin_head', 'live_rename_formats');
+
 /*-----------------------------------------------------------------------------------*/
 /* Register Features taxonomy
 /*-----------------------------------------------------------------------------------*/
@@ -171,7 +204,7 @@ function create_feature_type() {
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail', 'post-formats' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -205,12 +238,58 @@ function create_features_taxonomy() {
 }
 
 /*-----------------------------------------------------------------------------------*/
-/* Remove 'features' from post slug
+/* Register Island Tracker Taxonomy
+/*-----------------------------------------------------------------------------------*/
+add_action( 'init', 'create_island_tracker_type' );
+function create_island_tracker_type() {
+  register_post_type( 'island-tracker',
+    array(
+      'labels' => array(
+        'name' => __( 'Island Tracker' ),
+        'singular_name' => __( 'Island' )
+      ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+      'public' => true,
+      'has_archive' => true,
+			'menu_icon'   => 'dashicons-layout',
+    )
+  );
+}
+add_action( 'init', 'create_countries_taxonomy', 0 );
+function create_countries_taxonomy() {
+	$labels = array(
+		'name'              => _x( 'Countries', 'taxonomy general name' ),
+		'singular_name'     => _x( 'Country', 'taxonomy singular name' ),
+		'search_items'      => __( 'Search Countries' ),
+		'all_items'         => __( 'All Countries' ),
+		'parent_item'       => __( 'Parent Country' ),
+		'parent_item_colon' => __( 'Parent Country:' ),
+		'edit_item'         => __( 'Edit Country' ),
+		'update_item'       => __( 'Update Country' ),
+		'add_new_item'      => __( 'Add New Country' ),
+		'new_item_name'     => __( 'New Country Name' ),
+		'menu_name'         => __( 'Countries' ),
+	);
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'island-tracker' ),
+		'with_front'        => false,
+	);
+	register_taxonomy( 'countries', array( 'island-tracker' ), $args );
+}
+
+/*-----------------------------------------------------------------------------------*/
+/* Remove 'features' and 'island-tracker' from post slug
 /*-----------------------------------------------------------------------------------*/
 
 function remove_feature_slug( $post_link, $post, $leavename ) {
+	$post_types = array("features","island-tracker");
 
-    if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
+    if ( !in_array($post->post_type,$post_types) || 'publish' != $post->post_status ) {
         return $post_link;
     }
 
@@ -234,7 +313,7 @@ function parse_request_custom( $query ) {
 
     // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
     if ( ! empty( $query->query['name'] ) ) {
-        $query->set( 'post_type', array( 'post', 'page', 'features' ) );
+        $query->set( 'post_type', array( 'post', 'page', 'features', 'island-tracker' ) );
     }
 }
 add_action( 'pre_get_posts', 'parse_request_custom' );
@@ -275,25 +354,34 @@ add_action( 'init', 'revcon_change_post_object' );
 /* Add Staff Editor Role
 /*-----------------------------------------------------------------------------------*/
 
-$staffed = add_role( 'staff_editor', __(
-
-'Staff Editor' ),
+$staffed = add_role( 'staff_editor', __( 'Staff Editor' ),
 
 array(
 
-	'read' => true,
-	'edit_posts' => true,
-	'edit_pages' => true,
+	'delete_others_posts' => true,
+	'delete_pages' => false,
+	'delete_posts' => true,
+	'delete_private_pages' => false,
+	'delete_private_posts' => true,
+	'delete_published_pages' => false,
+	'delete_published_posts' => true,
+	'edit_others_pages' => true,
 	'edit_others_posts' => true,
-	'create_posts' => true,
+	'edit_pages' => false,
+	'edit_posts' => true,
+	'edit_private_pages' => false,
+	'edit_private_posts' => true,
+	'edit_published_pages' => false,
+	'edit_published_posts' => true,
 	'manage_categories' => true,
+	'manage_links' => false,
+	'publish_pages' => true,
 	'publish_posts' => true,
-	'edit_themes' => false,
-	'edit_theme_options' => true,
-	'install_plugins' => false,
-	'update_plugin' => false,
-	'unfiltered_html' => false,
-	'update_core' => false
+	'read' => true,
+	'read_private_pages' => true,
+	'read_private_posts' => true,
+	'unfiltered_html' => true,
+	'upload_files' => true,
 
 )
 
@@ -380,7 +468,7 @@ function transparency_postListing_admin_init(){
 		'transparency_postListing_options',          	// option name
 		'transparency_postListing_validate_options'  	// validation callback
 	);
-	
+
 	add_settings_field(
 		'transparency_postListing_limit',      			// # of Posts to Display
 		'Analysis Page Post Limit',              		// setting title
@@ -396,8 +484,7 @@ function transparency_postListing_setting_input() {
 	// get option 'post_limit' value from the database
 	$options = get_option( 'transparency_postListing_options' );
 	$value = $options['post_limit'];
-	
-	// echo the field
+
 	?>
 <input id='post_limit' name='transparency_postListing_options[post_limit]'
  type='number' step='1' min='1' class='small-text' value='<?php echo esc_attr( $value ); ?>' /> posts
@@ -408,7 +495,7 @@ function transparency_postListing_setting_input() {
 function transparency_postListing_validate_options( $input ) {
 	$valid = array();
 	$valid['post_limit'] = intval(sanitize_text_field( $input['post_limit'] ));
-	
+
 	// Something dirty entered? Warn user.
 	if( $valid['post_limit'] != $input['post_limit'] ) {
 		add_settings_error(
@@ -416,8 +503,8 @@ function transparency_postListing_validate_options( $input ) {
 			'transparency_postListing_texterror',            // error ID
 			'Invalid number',   // error message
 			'error'                        // type of message
-		);		
+		);
 	}
-	
+
 	return $valid;
 }
