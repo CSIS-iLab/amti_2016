@@ -14,7 +14,7 @@ get_header(); ?>
 			<main id="main" class="col-xs-12" role="main">
 				<header class="page-header">
 					<?php
-					echo "<h1 class='main-title'>Land Reclamation By Country</h1>";
+					echo "<h1 class='page-title'>Land Reclamation By Country</h1>";
 					echo "<hr>";
 					echo "<p>China’s large-scale island-building in the South China Sea since late 2013 has focused international attention on the disputes and invited widespread criticism that Beijing is responsible for escalating tensions. China has responded by pointing out that other claimants have also engaged in land reclamation. Explore the scale of each claimants’ reclamation work, documented by satellite imagery, below.</p>";
 					?>

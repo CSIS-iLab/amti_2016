@@ -11,7 +11,7 @@ h1, h2, h3 {
 	color: $dark-green;
 	font-weight: 900;
 
-	&.main-title, &.page-title {
+	&.page-title {
 		font-weight: 700;
     	color: $dark-blue;
     	text-transform: uppercase;
@@ -103,4 +103,13 @@ a {
 	color: $dark-green;
     font-weight: bold;
     line-height: 1.8;
+}
+
+.photo-captions {
+	color: $dark-green;
+    font-size: 22px;
+    text-align: left;
+    line-height: 1.2;
+    font-weight: 700;
+    margin-bottom: 20px;
 }

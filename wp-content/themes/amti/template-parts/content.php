@@ -29,7 +29,7 @@
 				<div class="entry-meta">
 					<?php
 						transparency_posted_on();
-						echo " | Posted in: ".get_the_category_list(', ');
+						echo " | Categories: ".get_the_category_list(', ');
 		  			?>
 
 				</div><!-- .entry-meta -->
