@@ -11,10 +11,10 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="row">
-		<div class="col-xs-2">
+		<div class="hidden-xs col-sm-2">
 			<?php echo get_the_post_thumbnail( $_post->ID, 'thumbnail' ); ?>
 		</div>
-		<div class="col-xs-10">
+		<div class="col-xs-12 col-sm-10">
 
 			<header>
 				<?php
