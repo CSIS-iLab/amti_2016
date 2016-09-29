@@ -1,3 +1,9 @@
+/*----------  Change Container Width for Standard Width Features  ----------*/
+.single-features #primary .container, .single-features #primary.container {
+	max-width:780px;
+}
+
+
 .single-features header.entry-header {
 	text-align:center;
 }

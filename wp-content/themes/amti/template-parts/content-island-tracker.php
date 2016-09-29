@@ -12,7 +12,9 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="row">
 		<div class="col-xs-12 col-sm-6">
-			<?php echo get_the_post_thumbnail( $_post->ID, 'full' ); ?>
+			<a href="<?php echo esc_url( get_permalink() ); ?>">
+				<?php echo get_the_post_thumbnail( $_post->ID, 'large' ); ?>
+			</a>
 		</div>
 		<div class="col-xs-12 col-sm-6">
 			<?php

@@ -79,9 +79,9 @@ body.logged-in .navbar-fixed-top {
     padding: 12px 0 0;
 
     h2 {
-    	color: #fff;
-	    font-family: "pt sans narrow";
-	    font-size: 25px;
+    	color: $white;
+	    font-family: $font__PTSN;
+	    font-size: 1.3em;
 	    font-weight: lighter;
 	    letter-spacing: 1.5px;
 	    text-transform: uppercase;
@@ -110,4 +110,47 @@ body.logged-in .navbar-fixed-top {
 	.icon-bar {
 		background-color: $white;
 	}
+}
+
+// Change Mobile breakpoint
+@media (max-width: 992px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: inline-block;
+    }
+    .navbar-fixed-top {
+		top: 0;
+		border-width: 0 0 1px;
+	}
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+		margin-top: 7.5px;
+	}
+	.navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+  		display:block !important;
+	}
+    .navbar-brand h2 {
+        padding:5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand h2 {
+        font-size:18px;
+    }
 }
