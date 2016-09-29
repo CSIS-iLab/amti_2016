@@ -4,53 +4,39 @@
 .single-post header.entry-header, .single-features header.entry-header.full-width {
 	text-align:center;
 	width:100%;
-	min-height: 260px;
+	min-height: 160px;
+	max-height:325px;
 	overflow:hidden;
 	margin:0px;
 	padding:0px;
 	position:relative;
 	top:0px;
 	left:0px;
+	background-repeat:no-repeat;
+	background-position:50% 50%;
+	background-size:cover;
+
+	@include breakpoint("small") {
+		min-height: 260px;
+	}
 
 	.backstretch {
-		width:100% !important;
-		z-index: -999998;
 		left: 0px;
 	    top: 0px;
 	    overflow: hidden;
 	    margin: 0px;
 	    padding: 0px;
-	    height: 338px;
-	    z-index: -999998;
 	    position: absolute;
-
-		&:before {
-			content: '';
-		    min-width: 100%;
-		    height: 100%;
-		    position: absolute;
-		    display: block;
-		    z-index: 1;
-		    -webkit-box-shadow: inset 0 0 200px 50px rgba(0,0,0,0.6);
-		    box-shadow: inset 0 0 200px 50px rgba(0,0,0,0.6);
-		}
-
-		img {
-			background-repeat: no-repeat;
-			z-index: -999999;
-			position:absolute;
-			margin:0px;
-			padding:0px;
-			left:0px;
-			width: 100%;
-		    height: auto;
-		    max-height: none;
-		    max-width: none;
-		}
+	    min-width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    z-index: 1;
+	    -webkit-box-shadow: inset 0 0 100px 50px rgba(0,0,0,0.6);
+	    box-shadow: inset 0 0 100px 50px rgba(0,0,0,0.6);
 	}
 
 	.container {
-		margin-top:6%;
+		margin-top:7%;
 	}
 
 	h1 {
@@ -65,6 +51,8 @@
 	    text-shadow: rgba(0,0,0,0.8) 0 1px 1px;
 	    position: relative;
 	    top: 50%;
+	    z-index:10;
+	    margin-bottom:10px;
 	}
 
 	hr {
@@ -78,6 +66,8 @@
 	    margin: 1em auto;
 	    padding: 0;
 	    max-width: 600px;
+	    position:relative;
+	    z-index:10;
 	}
 }
 .page header, .page-header {

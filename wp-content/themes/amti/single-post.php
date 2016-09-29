@@ -14,14 +14,12 @@ while ( have_posts() ) : the_post();
 
 $feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 ?>
-	<header class="entry-header">
+	<header class="entry-header" style="background-image:url('<?php echo $feat_image; ?>');">
 		<div class="container">
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 			<hr>
 		</div>
-		<div class="backstretch">
-			<img src="<?php echo $feat_image; ?>" />
-		</div>
+		<div class="backstretch"></div>
 	</header>
 
 	<div id="primary" class="container">
