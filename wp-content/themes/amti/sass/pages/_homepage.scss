@@ -2,10 +2,10 @@
     font-family: $font__PTSN;
 
     .menu-home-page-slider-container {
-        max-width: 350px;
+        max-width: 35%;
         height: 100%;
         overflow: visible;
-        padding: 50px;
+        padding: 8% 50px;
         top: 0px;
         background: rgba(10, 10, 10, 0.70196);
         float: right;
@@ -44,10 +44,11 @@
     }
 
     .feature-background {
-        height: 500px;
+        height: 560px;
         background-size: cover;
         position: relative;
-        background-repeat:none;
+        background-repeat:no-repeat;
+        background-position:50% 50%;
 
         .overlay {
             background: rgba(0, 0, 0, 0.43);
@@ -58,19 +59,17 @@
 
     .featuredItem {
         z-index: 6;
-        min-width: 600px;
-        max-width: 600px;
+        max-width: 55%;
+        height: 100%;
         white-space: normal;
-        line-height: 60px;
+        line-height: 1em;
         border-width: 0px;
         margin: 0px;
-        padding: 0px 0px 10px;
+        padding: 10% 0px 10% 10%;
         letter-spacing: 0px;
         font-weight: 400;
-        font-size: 60px;
+        font-size: 4em;
         position: absolute;
-        bottom: 25%;
-        left: 25%;
         color: $white;
     }
 
@@ -102,4 +101,14 @@
             background-color: $light-green;
         }
     }
+}
+
+// Mobile Styles for Slider
+@media screen and (max-width: 768px) { 
+    .menu-home-page-slider-container {display:none !important;}
+    .featuredItem {
+        max-width:100% !important;
+        padding:10% 10% 10% 30% !important;
+    }
+
 }

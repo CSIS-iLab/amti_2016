@@ -1,7 +1,7 @@
 /*===================================
 =            Post Header            =
 ===================================*/
-.single-post header.entry-header {
+.single-post header.entry-header, .single-features header.entry-header.full-width {
 	text-align:center;
 	width:100%;
 	min-height: 260px;
@@ -64,7 +64,7 @@
 	    text-transform: uppercase;
 	    text-shadow: rgba(0,0,0,0.8) 0 1px 1px;
 	    position: relative;
-	    top: 15%;
+	    top: 50%;
 	}
 
 	hr {
