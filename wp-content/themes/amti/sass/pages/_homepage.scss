@@ -4,7 +4,7 @@
     .menu-home-page-slider-container {
         max-width: 35%;
         height: 100%;
-        overflow: visible;
+        overflow: hidden;
         padding: 8% 50px;
         top: 0px;
         background: rgba(10, 10, 10, 0.70196);
@@ -108,7 +108,7 @@
     .menu-home-page-slider-container {display:none !important;}
     .featuredItem {
         max-width:100% !important;
-        padding:10% 10% 10% 30% !important;
+        padding:10% 10% 10% 10% !important;
     }
 
 }
