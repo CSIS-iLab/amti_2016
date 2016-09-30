@@ -508,3 +508,14 @@ function transparency_postListing_validate_options( $input ) {
 
 	return $valid;
 }
+
+// Remove comments from media attachments, specifically the comments on the JetPack Carousel Slides
+function filter_media_comment_status( $open, $post_id ) {
+	$post = get_post( $post_id );
+	if( $post->post_type == 'attachment' ) {
+		return false;
+	}
+	return $open;
+}
+add_filter( 'comments_open', 'filter_media_comment_status', 10 , 2 );
+// ------------------------------------
