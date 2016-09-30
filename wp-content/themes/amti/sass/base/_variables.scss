@@ -16,8 +16,8 @@ $color__background-pre: #eee;
 $color__background-ins: #fff9c0;
 $color__background-footer: #1a1a1a;
 
-$color__text-screen: #21759b;
-$color__text-input: #555;
+$color__text-screen: $gray;
+$color__text-input: $gray;
 $color__text-input-focus: $light-green;
 $color__link: $light-green;
 $color__link-visited: $light-green;
@@ -31,7 +31,7 @@ $color__border-button: $light-green;
 $color__border-button-hover: $light-green;
 $color__border-button-focus: $light-green;
 $color__border-input: #ccc;
-$color__border-abbr: #555;
+$color__border-abbr: $gray;
 
 /*==================================
 =            Typography            =

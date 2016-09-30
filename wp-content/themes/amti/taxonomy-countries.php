@@ -43,13 +43,13 @@ get_header(); ?>
 					get_template_part( 'template-parts/content-island-tracker', 'none' );
 
 				endif; ?>
+				<footer>
+					<nav class="navigation posts-navigation" role="navigation">
+						<h2 class="screen-reader-text">Posts navigation</h2>
+						<div class="nav-links"><div class="nav-previous"><a href="/island-tracker"><i class="fa fa-angle-left" aria-hidden="true"></i> Return to Island Tracker</a></div></div>
+					</nav>
+				</footer>
 			</main><!-- #main -->
-			<footer>
-				<nav class="navigation posts-navigation" role="navigation">
-					<h2 class="screen-reader-text">Posts navigation</h2>
-					<div class="nav-links"><div class="nav-previous"><a href="/island-tracker"><i class="fa fa-angle-left" aria-hidden="true"></i> Return to Island Tracker</a></div></div>
-				</nav>
-			</footer>
 		</div>
 	</div><!-- #primary -->
 
