@@ -48,10 +48,6 @@ get_header(); ?>
 
 		endif; ?>
 
-		<div class="more-archives">
-			<a href="/archives">Want more? Browse our full text-based archive of analysis.</a>
-		</div>
-
 </main><!-- #main -->
 </div><!-- .row -->
 </div><!-- #primary -->
