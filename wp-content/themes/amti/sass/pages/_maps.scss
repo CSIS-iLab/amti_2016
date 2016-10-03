@@ -18,5 +18,9 @@
 	    bottom: 0.7em;
 	    padding: 10px;
 	    background-color:$light-green;
+
+	    &:hover, &:active, &:focus {
+	    	background-color:$dark-blue;
+	    }
 	}
 }

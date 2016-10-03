@@ -33,5 +33,9 @@
 	    top:333px;
 	    padding: 10px;
 	    background-color:$light-green;
+
+	    &:hover, &:active, &:focus {
+	    	background-color:$dark-blue;
+	    }
 	}
 }

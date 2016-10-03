@@ -8,7 +8,6 @@ body {
 
 h1, h2, h3 {
 	font-family: $font__PTSN;
-	color: $dark-green;
 	font-weight: 900;
 	margin-top:30px;
 	margin-bottom:20px;
@@ -18,6 +17,14 @@ h1, h2, h3 {
     	color: $dark-blue;
     	text-transform: uppercase;
 	}
+}
+
+h1, h3 {
+	color: $dark-green;
+}
+
+h2 {
+	color: $dark-blue;
 }
 
 p {

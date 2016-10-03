@@ -34,6 +34,11 @@
     		label {
     			padding-top:3px;
     			margin-left:3px;
+
+                &:hover, &:focus {
+                    color: $light-green;
+                    @include transition(all .3s ease-in-out);
+                }
     		}
     	}
 
@@ -68,6 +73,11 @@ body.logged-in .navbar-fixed-top {
 		font-family: $font__PTSN;
 	    letter-spacing: .1em;
 	    text-transform: uppercase;
+
+        &:hover, &:focus {
+            color: $light-green !important;
+        }
+
 	}
 }
 
