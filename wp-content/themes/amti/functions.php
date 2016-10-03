@@ -206,7 +206,7 @@ function create_feature_type() {
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail', 'post-formats' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail', 'post-formats' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -250,7 +250,7 @@ function create_island_tracker_type() {
         'name' => __( 'Island Tracker' ),
         'singular_name' => __( 'Island' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -377,6 +377,7 @@ array(
 	'edit_published_posts' => true,
 	'manage_categories' => true,
 	'manage_links' => false,
+  'manage_options' => true,
 	'publish_pages' => true,
 	'publish_posts' => true,
 	'read' => true,
@@ -388,7 +389,6 @@ array(
 )
 
 );
-
 /*-----------------------------------------------------------------------------------*/
 /* Register Custom Navigation Walker - Adds Bootstrap styling to menu
 /*-----------------------------------------------------------------------------------*/
