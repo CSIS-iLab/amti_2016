@@ -160,7 +160,12 @@ body.logged-in .navbar-fixed-top {
 }
 
 @media (max-width: 768px) {
+
+    .navbar-brand {
+        max-width:80%;
+    }
     .navbar-brand h2 {
         font-size:18px;
+        word-break:break-normal;
     }
 }

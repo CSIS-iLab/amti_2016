@@ -31,8 +31,7 @@
 		<div class="entry-meta">
 		<?php
 		echo get_the_date();
-		echo ' | ';
-		echo get_the_term_list( $post->ID, 'categories', 'Categories: ', ', ' );
+		echo get_the_term_list( $post->ID, 'categories', ' | Categories: ', ', ' );
 			echo '<div class="entry-content">';
 			echo get_the_excerpt();
 			echo '</div>';

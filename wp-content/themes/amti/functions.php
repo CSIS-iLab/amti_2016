@@ -120,6 +120,8 @@ function transparency_scripts() {
 
 	wp_enqueue_script( 'transparency-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
+	wp_enqueue_script( 'transparency-topbutton', get_template_directory_uri() . '/js/topbutton.js', array(), '20151215', true );
+
 	// Font Awesome
 	wp_enqueue_script('transparency-font-awesome', 'https://use.fontawesome.com/08b1a76eab.js');
 
@@ -204,7 +206,7 @@ function create_feature_type() {
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail', 'post-formats' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail', 'post-formats' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -248,7 +250,7 @@ function create_island_tracker_type() {
         'name' => __( 'Island Tracker' ),
         'singular_name' => __( 'Island' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -375,6 +377,7 @@ array(
 	'edit_published_posts' => true,
 	'manage_categories' => true,
 	'manage_links' => false,
+  'manage_options' => true,
 	'publish_pages' => true,
 	'publish_posts' => true,
 	'read' => true,
@@ -386,7 +389,6 @@ array(
 )
 
 );
-
 /*-----------------------------------------------------------------------------------*/
 /* Register Custom Navigation Walker - Adds Bootstrap styling to menu
 /*-----------------------------------------------------------------------------------*/
@@ -508,3 +510,14 @@ function transparency_postListing_validate_options( $input ) {
 
 	return $valid;
 }
+
+// Remove comments from media attachments, specifically the comments on the JetPack Carousel Slides
+function filter_media_comment_status( $open, $post_id ) {
+	$post = get_post( $post_id );
+	if( $post->post_type == 'attachment' ) {
+		return false;
+	}
+	return $open;
+}
+add_filter( 'comments_open', 'filter_media_comment_status', 10 , 2 );
+// ------------------------------------

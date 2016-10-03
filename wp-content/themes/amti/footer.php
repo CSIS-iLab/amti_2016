@@ -10,7 +10,7 @@
  */
 
 ?>
-
+	<a href="#" class="topbutton"><span class="hidden-xs">Back to Top </span><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
