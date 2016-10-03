@@ -9,8 +9,9 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+	<div id="primary" class="container">
+		<div class="row">
+			<main id="main" class="col-xs-12" role="main">
 
 			<section class="error-404 not-found">
 				<header class="page-header">
@@ -48,7 +49,7 @@ get_header(); ?>
 						endif;
 
 						/* translators: %1$s: smiley */
-						$archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'transparency' ), convert_smilies( ':)' ) ) . '</p>';
+						$archive_content = '<p>' . sprintf('Try looking in the monthly archives.', 'transparency' ) . '</p>';
 						the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
 
 						the_widget( 'WP_Widget_Tag_Cloud' );
@@ -58,6 +59,7 @@ get_header(); ?>
 			</section><!-- .error-404 -->
 
 		</main><!-- #main -->
+		</div>
 	</div><!-- #primary -->
 
 <?php
