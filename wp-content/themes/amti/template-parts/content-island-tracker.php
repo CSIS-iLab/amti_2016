@@ -50,7 +50,7 @@
 			?>
 			</p>
 			<p>
-				<a href="<?php echo esc_url( get_permalink() ); ?>">Click here to explore.</a>
+				<a href="<?php echo esc_url( get_permalink() ); ?>"><button>Explore</button></a>
 			</p>
 
 		</div>
