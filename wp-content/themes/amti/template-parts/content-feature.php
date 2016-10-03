@@ -32,11 +32,13 @@
 		<?php
 		echo get_the_date();
 		echo get_the_term_list( $post->ID, 'categories', ' | Categories: ', ', ' );
+		?>
+		</div>
+		<?php
 			echo '<div class="entry-content">';
 			echo get_the_excerpt();
 			echo '</div>';
 		?>
-		</div>
 	</div><!-- .entry-content -->
 </div>
 </article><!-- #post-## -->
