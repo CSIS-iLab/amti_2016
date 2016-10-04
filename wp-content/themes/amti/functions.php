@@ -423,8 +423,6 @@ function transparency_slider() {
 	if ( class_exists( 'hps_custom_menu' ) ) {
 	    foreach($menu_items as $key => $itemObj) {
 
-	    	echo $itemObj->type_label;
-
 			if($itemObj->featured_image) {
 				$feat_image = $itemObj->featured_image;
 				$feat_title = $itemObj->title;
