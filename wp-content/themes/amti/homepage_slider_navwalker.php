@@ -24,9 +24,11 @@ class Menu_With_Description extends Walker_Nav_Menu {
 		$attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) .'"' : '';
 		$attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) .'"' : '';
 
+		$description = ! empty( $item->description ) ? $item->description : $item->type_label;
+
 		$item_output = $args->before;
 		$item_output .= '<a'. $attributes .'>';
-		$item_output .= '<span class="description">' . $item->description . '</span><br />';
+		$item_output .= '<span class="description">' . $description . '</span><br />';
 		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
