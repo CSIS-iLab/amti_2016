@@ -1,3 +1,13 @@
+/*----------  Change Container Width for Standard Width Features  ----------*/
+.single-features #primary .container, .single-features #primary.container {
+	max-width:780px;
+}
+
+
+.single-features header.entry-header {
+	text-align:center;
+}
+
 .widget {
 	margin: 0 0 1.5em;
 	font-size:18px;
@@ -20,6 +30,10 @@
 	select {
 		max-width: 100%;
 	}
+}
+
+.single-features article footer {
+	text-align:center;
 }
 
 /*----------  Widgets in Footer  ----------*/

@@ -9,16 +9,15 @@
 
 get_header(); ?>
 
-	<section id="primary" class="container">
+	<section id="primary" class="container search-results">
+		<header class="page-header">
+			<h1 class="page-title"><?php printf( esc_html__( 'Search Results for: %s', 'transparency' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
+			<hr>
+		</header><!-- .page-header -->
 		<main id="main" class="col-xs-12 col-md-9" role="main">
 
 		<?php
 		if ( have_posts() ) : ?>
-
-			<header class="page-header">
-				<h1 class="page-title"><?php printf( esc_html__( 'Search Results for: %s', 'transparency' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
-				<hr>
-			</header><!-- .page-header -->
 
 			<?php
 			/* Start the Loop */
@@ -33,7 +32,7 @@ get_header(); ?>
 
 			endwhile;
 
-			the_posts_navigation();
+			the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> Older Posts', 'next_text' => 'Newer Posts <i class="fa fa-angle-right" aria-hidden="true"></i>'));
 
 		else :
 

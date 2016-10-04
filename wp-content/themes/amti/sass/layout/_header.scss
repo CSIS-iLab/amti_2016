@@ -34,6 +34,11 @@
     		label {
     			padding-top:3px;
     			margin-left:3px;
+
+                &:hover, &:focus {
+                    color: $light-green;
+                    @include transition(all .3s ease-in-out);
+                }
     		}
     	}
 
@@ -46,7 +51,9 @@
 }
 
 /*----------  Main Menu  ----------*/
-body.logged-in .navbar-fixed-top { top: 28px !important; }
+body.logged-in .navbar-fixed-top {
+	top: 28px !important;
+}
 
 .navbar-nav {
 	color:$white;
@@ -66,8 +73,32 @@ body.logged-in .navbar-fixed-top { top: 28px !important; }
 		font-family: $font__PTSN;
 	    letter-spacing: .1em;
 	    text-transform: uppercase;
+
+        &:hover, &:focus {
+            color: $light-green !important;
+        }
+
 	}
 }
+
+.navbar-brand {
+	float: left;
+    font-size: 18px;
+    height: 50px;
+    line-height: 20px;
+    padding: 12px 0 0;
+
+    h2 {
+    	color: $white;
+	    font-family: $font__PTSN;
+	    font-size: 1.3em;
+	    font-weight: lighter;
+	    letter-spacing: 1.5px;
+	    text-transform: uppercase;
+	    margin: 0;
+    }
+}
+
 .navbar-default .navbar-toggle, .navbar-default .navbar-collapse, .navbar-default .navbar-form {
 	border-color:transparent;
 	border:0px !important;
@@ -89,4 +120,52 @@ body.logged-in .navbar-fixed-top { top: 28px !important; }
 	.icon-bar {
 		background-color: $white;
 	}
+}
+
+// Change Mobile breakpoint
+@media (max-width: 992px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: inline-block;
+    }
+    .navbar-fixed-top {
+		top: 0;
+		border-width: 0 0 1px;
+	}
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+		margin-top: 7.5px;
+	}
+	.navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+  		display:block !important;
+	}
+    .navbar-brand h2 {
+        padding:5px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .navbar-brand {
+        max-width:80%;
+    }
+    .navbar-brand h2 {
+        font-size:18px;
+        word-break:break-normal;
+    }
 }

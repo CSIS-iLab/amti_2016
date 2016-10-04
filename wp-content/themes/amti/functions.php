@@ -77,7 +77,7 @@ add_action( 'after_setup_theme', 'transparency_setup' );
  * @global int $content_width
  */
 function transparency_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'transparency_content_width', 640 );
+	$GLOBALS['content_width'] = apply_filters( 'transparency_content_width', 1200 );
 }
 add_action( 'after_setup_theme', 'transparency_content_width', 0 );
 
@@ -120,6 +120,8 @@ function transparency_scripts() {
 
 	wp_enqueue_script( 'transparency-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
+	wp_enqueue_script( 'transparency-topbutton', get_template_directory_uri() . '/js/topbutton.js', array(), '20151215', true );
+
 	// Font Awesome
 	wp_enqueue_script('transparency-font-awesome', 'https://use.fontawesome.com/08b1a76eab.js');
 
@@ -160,6 +162,39 @@ require get_template_directory() . '/inc/customizer.php';
  */
 require get_template_directory() . '/inc/jetpack.php';
 
+/**
+* Custom Post Type Formats
+**/
+
+add_theme_support( 'post-formats', array( 'standard', 'image' ) );
+
+function rename_post_formats( $safe_text ) {
+    if ( $safe_text == 'Image' )
+        return 'Full-Width';
+
+    return $safe_text;
+}
+add_filter( 'esc_html', 'rename_post_formats' );
+
+//rename image in posts list table
+function live_rename_formats() {
+    global $current_screen;
+
+    if ( $current_screen->id == 'edit-post' ) { ?>
+        <script type="text/javascript">
+        jQuery('document').ready(function() {
+
+            jQuery("span.post-state-format").each(function() {
+                if ( jQuery(this).text() == "Image" )
+                    jQuery(this).text("Full-Width");
+            });
+
+        });
+        </script>
+<?php }
+}
+add_action('admin_head', 'live_rename_formats');
+
 /*-----------------------------------------------------------------------------------*/
 /* Register Features taxonomy
 /*-----------------------------------------------------------------------------------*/
@@ -171,7 +206,7 @@ function create_feature_type() {
         'name' => __( 'Features' ),
         'singular_name' => __( 'Feature' )
       ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'thumbnail' ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail', 'post-formats' ),
       'public' => true,
       'has_archive' => true,
 			'menu_icon'   => 'dashicons-layout',
@@ -205,17 +240,58 @@ function create_features_taxonomy() {
 }
 
 /*-----------------------------------------------------------------------------------*/
-/* Remove 'features' from post slug
+/* Register Island Tracker Taxonomy
 /*-----------------------------------------------------------------------------------*/
-
+add_action( 'init', 'create_island_tracker_type' );
+function create_island_tracker_type() {
+  register_post_type( 'island-tracker',
+    array(
+      'labels' => array(
+        'name' => __( 'Island Tracker' ),
+        'singular_name' => __( 'Island' )
+      ),
+			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail' ),
+      'public' => true,
+      'has_archive' => true,
+			'menu_icon'   => 'dashicons-layout',
+    )
+  );
+}
+add_action( 'init', 'create_countries_taxonomy', 0 );
+function create_countries_taxonomy() {
+	$labels = array(
+		'name'              => _x( 'Countries', 'taxonomy general name' ),
+		'singular_name'     => _x( 'Country', 'taxonomy singular name' ),
+		'search_items'      => __( 'Search Countries' ),
+		'all_items'         => __( 'All Countries' ),
+		'parent_item'       => __( 'Parent Country' ),
+		'parent_item_colon' => __( 'Parent Country:' ),
+		'edit_item'         => __( 'Edit Country' ),
+		'update_item'       => __( 'Update Country' ),
+		'add_new_item'      => __( 'Add New Country' ),
+		'new_item_name'     => __( 'New Country Name' ),
+		'menu_name'         => __( 'Countries' ),
+	);
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'island-tracker' ),
+		'with_front'        => false,
+	);
+	register_taxonomy( 'countries', array( 'island-tracker' ), $args );
+}
 
 /*-----------------------------------------------------------------------------------*/
-/* Remove 'features' from post slug
+/* Remove 'features' and 'island-tracker' from post slug
 /*-----------------------------------------------------------------------------------*/
 
 function remove_feature_slug( $post_link, $post, $leavename ) {
+	$post_types = array("features","island-tracker");
 
-    if ( 'features' != $post->post_type || 'publish' != $post->post_status ) {
+    if ( !in_array($post->post_type,$post_types) || 'publish' != $post->post_status ) {
         return $post_link;
     }
 
@@ -239,7 +315,7 @@ function parse_request_custom( $query ) {
 
     // 'name' will be set if post permalinks are just post_name, otherwise the page rule will match
     if ( ! empty( $query->query['name'] ) ) {
-        $query->set( 'post_type', array( 'post', 'page', 'features' ) );
+        $query->set( 'post_type', array( 'post', 'page', 'features', 'island-tracker' ) );
     }
 }
 add_action( 'pre_get_posts', 'parse_request_custom' );
@@ -277,12 +353,48 @@ add_action( 'admin_menu', 'revcon_change_post_label' );
 add_action( 'init', 'revcon_change_post_object' );
 
 /*-----------------------------------------------------------------------------------*/
+/* Add Staff Editor Role
+/*-----------------------------------------------------------------------------------*/
+
+$staffed = add_role( 'staff_editor', __( 'Staff Editor' ),
+
+array(
+
+	'delete_others_posts' => true,
+	'delete_pages' => false,
+	'delete_posts' => true,
+	'delete_private_pages' => false,
+	'delete_private_posts' => true,
+	'delete_published_pages' => false,
+	'delete_published_posts' => true,
+	'edit_others_pages' => true,
+	'edit_others_posts' => true,
+	'edit_pages' => false,
+	'edit_posts' => true,
+	'edit_private_pages' => false,
+	'edit_private_posts' => true,
+	'edit_published_pages' => false,
+	'edit_published_posts' => true,
+	'manage_categories' => true,
+	'manage_links' => false,
+  'manage_options' => true,
+	'publish_pages' => true,
+	'publish_posts' => true,
+	'read' => true,
+	'read_private_pages' => true,
+	'read_private_posts' => true,
+	'unfiltered_html' => true,
+	'upload_files' => true,
+
+)
+
+);
+/*-----------------------------------------------------------------------------------*/
 /* Register Custom Navigation Walker - Adds Bootstrap styling to menu
 /*-----------------------------------------------------------------------------------*/
 require_once('wp_bootstrap_navwalker.php');
 
 /*-----------------------------------------------------------------------------------*/
-
 /* Add featured image to post and page items in home slider menu
 /*-----------------------------------------------------------------------------------*/
 require_once('homepage_slider_navwalker.php');
@@ -290,7 +402,7 @@ require_once('homepage_slider_navwalker.php');
 function transparency_slider() {
 	$menu_name = 'home-page-slider';
 	$menu_items = wp_get_nav_menu_items($menu_name);
-	$walker = new Menu_With_Description; 
+	$walker = new Menu_With_Description;
 
 	// Get the feature image, title, description, and url of the first menu item that has an image
 	$feat_image = "";
@@ -316,17 +428,96 @@ function transparency_slider() {
 	echo "</div></div>";
 }
 
+// Add menu item for slider
+function add_slider_admin_menu_item() {
+	$theme_locations = get_nav_menu_locations();
+	$menu_obj = get_term( $theme_locations['home-page-slider'], 'nav_menu' );
+	$menuID = $menu_obj->term_id;
+
+  // $page_title, $menu_title, $capability, $menu_slug, $callback_function
+  add_menu_page(__('Home Page Slider'), __('Home Page Slider'), 'edit_theme_options', 'nav-menus.php?action=edit&menu='.$menuID, '', 'dashicons-images-alt2', 58);
+}
+add_action('admin_menu', 'add_slider_admin_menu_item');
+
+/*-----------------------------------------------------------------------------------*/
 /* Add Search Bar and Twitter Link to Menu
 /*-----------------------------------------------------------------------------------*/
 add_filter( 'wp_nav_menu_items','add_search_box', 10, 2 );
 function add_search_box( $items, $args ) {
-    $search = '<li class="search">';
-    $search .= '<form method="get" id="searchform" action="/"><div class="input-group">';
-    $search .= '<label class="screen-reader-text" for="navSearchInput">Search for:</label>';
-    $search .= '<input type="text" class="form-control" name="s" id="navSearchInput" placeholder="Search" />';
-    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
-    $search .= '</div></form>';
-    $search .= '</li>';
-    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
-    return $items.$search.$twitter;
+
+	if($args->theme_location == 'primary') {
+	    $search = '<li class="search">';
+	    $search .= '<form method="get" id="searchform" action="/"><div class="input-group">';
+	    $search .= '<label class="screen-reader-text" for="navSearchInput">Search for:</label>';
+	    $search .= '<input type="text" class="form-control" name="s" id="navSearchInput" placeholder="Search" />';
+	    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
+	    $search .= '</div></form>';
+	    $search .= '</li>';
+	    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
+	    return $items.$search.$twitter;
+	}
+	return $items;
 }
+
+/*-----------------------------------------------------------------------------------*/
+/* Add Setting to "Reading" options for # of posts on analysis page
+/*-----------------------------------------------------------------------------------*/
+// Register and define the settings
+add_action('admin_init', 'transparency_postListing_admin_init');
+function transparency_postListing_admin_init(){
+	register_setting(
+		'reading',                 						// settings page
+		'transparency_postListing_options',          	// option name
+		'transparency_postListing_validate_options'  	// validation callback
+	);
+
+	add_settings_field(
+		'transparency_postListing_limit',      			// # of Posts to Display
+		'Analysis Page Post Limit',              		// setting title
+		'transparency_postListing_setting_input',    	// display callback
+		'reading',                 						// settings page
+		'default'                  						// settings section
+	);
+
+}
+
+// Display and fill the form field
+function transparency_postListing_setting_input() {
+	// get option 'post_limit' value from the database
+	$options = get_option( 'transparency_postListing_options' );
+	$value = $options['post_limit'];
+
+	?>
+<input id='post_limit' name='transparency_postListing_options[post_limit]'
+ type='number' step='1' min='1' class='small-text' value='<?php echo esc_attr( $value ); ?>' /> posts
+	<?php
+}
+
+// Validate user input
+function transparency_postListing_validate_options( $input ) {
+	$valid = array();
+	$valid['post_limit'] = intval(sanitize_text_field( $input['post_limit'] ));
+
+	// Something dirty entered? Warn user.
+	if( $valid['post_limit'] != $input['post_limit'] ) {
+		add_settings_error(
+			'transparency_postListing_post_limit',           // setting title
+			'transparency_postListing_texterror',            // error ID
+			'Invalid number',   // error message
+			'error'                        // type of message
+		);
+	}
+
+	return $valid;
+}
+
+// Remove comments from media attachments, specifically the comments on the JetPack Carousel Slides
+function filter_media_comment_status( $open, $post_id ) {
+	$post = get_post( $post_id );
+	if( $post->post_type == 'attachment' ) {
+		return false;
+	}
+	return $open;
+}
+add_filter( 'comments_open', 'filter_media_comment_status', 10 , 2 );
+// ------------------------------------

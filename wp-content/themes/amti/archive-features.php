@@ -9,8 +9,20 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+<div id="primary" class="container posts-index">
+	<div class="row">
+		<main id="main" class="col-xs-12" role="main">
+
+			<header class="entry-header">
+				<?php
+				echo "<h1 class='page-title'>Features</h1>";
+				echo "<hr>";
+				echo "<p>Dive deep on the latest maritime issues in AMTI's Features, an interactive and media-rich repository of information.</p>";
+				?>
+			</header><!-- .entry-header -->
+			<div class="text-center search-container">
+				<?php get_search_form(); ?>
+			</div>
 
 		<?php
 		if ( have_posts() ) : ?>
@@ -28,7 +40,7 @@ get_header(); ?>
 
 			endwhile;
 
-			the_posts_navigation();
+			the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> Older Posts', 'next_text' => 'Newer Posts <i class="fa fa-angle-right" aria-hidden="true"></i>'));
 
 		else :
 
@@ -36,9 +48,9 @@ get_header(); ?>
 
 		endif; ?>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+</main><!-- #main -->
+</div><!-- .row -->
+</div><!-- #primary -->
 
 <?php
-get_sidebar();
 get_footer();

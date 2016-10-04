@@ -22,7 +22,17 @@
 	}
 
 	.form-control {
-		background-color: rgba(0,0,0,0.1);
+		background-color: $color__background-footer-search;
 	}
 }
 
+.topbutton {
+	padding: 8px 15px;
+	position:fixed;
+	right:0px;
+	bottom:0px;
+	z-index:1;
+	background-color: $color__background-footer;
+	display:none;
+	color: $color__text-footer !important;
+}

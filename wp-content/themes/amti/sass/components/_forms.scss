@@ -2,7 +2,8 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
-.edit-link a {
+.edit-link a,
+.btn-outline {
 	border: 2px solid $color__border-button;
 	color: $color__text-button;
 	border-radius: 0px;
@@ -46,6 +47,12 @@ select {
 
 textarea {
 	width: 100%;
+}
+
+textarea:focus, input:focus, input[type]:focus, button:focus {   
+    border-color: rgba(12, 141, 121, 0.8);
+    box-shadow: 0 1px 1px rgba(12, 141, 121, 0.075) inset, 0 0 8px rgba(12, 141, 121, 0.6);
+    outline: 0 none;
 }
 
 /*===================================

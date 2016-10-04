@@ -58,6 +58,7 @@ object {
 	text-align: center;
 	vertical-align: top;
 	width: 100%;
+	padding: 10px;
 
 	.gallery-columns-2 & {
 		max-width: 50%;
@@ -95,3 +96,14 @@ object {
 .gallery-caption {
 	display: block;
 }
+
+/*--------------------------------------------------------------
+## Slideshow - Jetpack
+--------------------------------------------------------------*/
+.slideshow-window {
+	background-color:transparent !important;
+	border:none !important;
+	border-radius:0px;
+}
+
+.jp-carousel-comments, #jp-carousel-comments-loading {display:none !important;}
