@@ -385,6 +385,14 @@ array(
 	'read_private_posts' => true,
 	'unfiltered_html' => true,
 	'upload_files' => true,
+	'list_users' => true,
+	'create_users' => true,
+	'edit_users' => true,
+	'delete_users' => true,
+	'promote_users' => true,
+	'add_users' => true,
+	'remove_users' => true,
+	'edit_theme_options' => true,
 
 )
 
@@ -435,7 +443,7 @@ function transparency_slider() {
 					break;
 				}
 			}
-			
+
 		}
 	}
 	else {
