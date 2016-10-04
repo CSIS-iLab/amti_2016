@@ -12,9 +12,14 @@ get_header();
 // Begin the post loop so we can get the post title and featured image to display in the header
 while ( have_posts() ) : the_post();
 
-$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+	if(get_post_thumbnail_id($post->ID)) {
+		$feat_image = 'style="background-image:url('.wp_get_attachment_url( get_post_thumbnail_id($post->ID) ).');"';
+	}
+	else {
+		$feat_image = "";
+	}
 ?>
-	<header class="entry-header" style="background-image:url('<?php echo $feat_image; ?>');">
+	<header class="entry-header" <?php echo $feat_image; ?>>
 		<div class="container">
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 			<hr>
