@@ -411,14 +411,43 @@ function transparency_slider() {
 	$feat_link = "";
 	$feat_id = "";
 
-	foreach($menu_items as $key => $itemObj) {
-		if(get_post_thumbnail_id($itemObj->object_id)) {
-			$feat_image = wp_get_attachment_url( get_post_thumbnail_id($itemObj->object_id) );
-			$feat_title = $itemObj->title;
-			$feat_description = $itemObj->description;
-			$feat_link = $itemObj->url;
-			$feat_id = $itemObj->object_id;
-			break;
+	// Check if js-homepage-slider is installed, if so, pull the featured image from there
+	if ( class_exists( 'hps_custom_menu' ) ) {
+	    foreach($menu_items as $key => $itemObj) {
+
+	    	echo $itemObj->type_label;
+
+			if($itemObj->featured_image) {
+				$feat_image = $itemObj->featured_image;
+				$feat_title = $itemObj->title;
+				$feat_description = $itemObj->description ?: $itemObj->type_label;
+				$feat_link = $itemObj->url;
+				$feat_id = $itemObj->object_id;
+				break;
+			}
+			else {
+				if(get_post_thumbnail_id($itemObj->object_id)) {
+					$feat_image = wp_get_attachment_url( get_post_thumbnail_id($itemObj->object_id) );
+					$feat_title = $itemObj->title;
+					$feat_description = $itemObj->description ?: $itemObj->type_label;
+					$feat_link = $itemObj->url;
+					$feat_id = $itemObj->object_id;
+					break;
+				}
+			}
+			
+		}
+	}
+	else {
+		foreach($menu_items as $key => $itemObj) {
+			if(get_post_thumbnail_id($itemObj->object_id)) {
+				$feat_image = wp_get_attachment_url( get_post_thumbnail_id($itemObj->object_id) );
+				$feat_title = $itemObj->title;
+				$feat_description = $itemObj->description ?: $itemObj->type_label;
+				$feat_link = $itemObj->url;
+				$feat_id = $itemObj->object_id;
+				break;
+			}
 		}
 	}
 
