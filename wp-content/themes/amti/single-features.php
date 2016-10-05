@@ -10,10 +10,15 @@
 get_header();
 
 if ( has_post_format( 'image' )) { 
-	$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+	if(get_post_thumbnail_id($post->ID)) {
+		$feat_image = 'style="background-image:url('.wp_get_attachment_url( get_post_thumbnail_id($post->ID) ).');"';
+	}
+	else {
+		$feat_image = "";
+	}
 	?>
 
-	<header class="entry-header full-width" style="background-image:url('<?php echo $feat_image; ?>');">
+	<header class="entry-header full-width" <?php echo $feat_image; ?>>
 		<div class="container">
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 			<hr>

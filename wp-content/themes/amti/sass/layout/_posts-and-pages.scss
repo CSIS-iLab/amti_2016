@@ -13,8 +13,9 @@
 	top:0px;
 	left:0px;
 	background-repeat:no-repeat;
-	background-position:50% 50%;
+	background-position:50% 0%;
 	background-size:cover;
+	background-image:url('http://amti.csis.org/wp-content/uploads/2016/08/banner_3.jpg');
 
 	@include breakpoint("small") {
 		min-height: 260px;
@@ -110,6 +111,12 @@
 .page-links {
 	clear: both;
 	margin: 0 0 1.5em;
+}
+
+.entry-meta {
+	font-size:14px;
+	text-transform:uppercase;
+	font-family:$font__PTSN;
 }
 
 /*=====  End of Post Content  ======*/

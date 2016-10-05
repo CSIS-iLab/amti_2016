@@ -31,27 +31,25 @@ get_header(); ?>
 						  	$terms = get_terms($taxonomy->name);
 		        			foreach ( $terms as $term) {
 
-		        				$posts_array = get_posts(
-								    array(
-								        'posts_per_page' => 1,
-								        'post_type' => 'island-tracker',
-								        'order'		=> 'DESC',
-								        'tax_query' => array(
-								            array(
-								                'taxonomy' => 'countries',
-								                'field' => 'term_id',
-								                'terms' => $term->term_id,
-								            )
-								        )
-								    )
-								);
-								$image = wp_get_attachment_image_src( get_post_thumbnail_id( $posts_array[0]->ID ), 'full' );
+		        				switch($term->name) {
+		        					case "China":
+		        						$image = "/wp-content/uploads/2015/04/150415_fiery_cross_tmb.jpg?w=880";
+		        						break;
+		        					case "Taiwan":
+		        						$image = "/wp-content/uploads/2016/03/20160127_itu-aba.jpg?w=880";
+		        						break;
+		        					case "Vietnam";
+		        						$image = "/wp-content/uploads/2015/05/wl_island_tmb.jpg?w=880";
+		        						break;
+		        					default:
+		        						$image = "";
+		        				}
 
 		        			?>
 
 		        			<div class="col-xs-12 col-sm-6">
 		        				<a href="<?php echo $term->slug; ?>">
-			        				<div class="country-listing" style="background-image:url('<?php echo $image[0]; ?>');">
+			        				<div class="country-listing" style="background-image:url('<?php echo $image; ?>');">
 			        					<div class="title"><?php echo $term->name; ?></div>
 			        				</div>
 			        			</a>
