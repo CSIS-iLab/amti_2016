@@ -9,56 +9,44 @@
 
 get_header(); ?>
 
+<div class="error-404-header">
+	<img src="/wp-content/uploads/2016/10/404_AMTI_2_transparent.png" />
+</div>
+
 	<div id="primary" class="container">
 		<div class="row">
 			<main id="main" class="col-xs-12" role="main">
 
-			<section class="error-404 not-found">
-				<header class="page-header">
-					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'transparency' ); ?></h1>
-				</header><!-- .page-header -->
+				<section class="error-404 not-found">
+					<div class="page-content">
+						<p class="text-center"><?php esc_html_e( 'We can\'t seem to find the page you\'re looking for. Try one of the links below instead.', 'transparency' ); ?></p>
+						<hr />
 
-				<div class="page-content">
-					<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'transparency' ); ?></p>
+						<div class="row">
+							<div class="col-xs-12 col-sm-4">
+							<div class="widget widget_recent_entries">
+								<h2 class="widgettitle">Navigation</h2>		
 
-					<?php
-						get_search_form();
+									<?php 
+										wp_nav_menu( array('menu' => 'Footer Menu') );
+									?>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-4">
+								<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
+							</div>
+							<div class="col-xs-12 col-sm-4">
+								<?php
+									the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
+								?>
+							</div>
+						</div>
 
-						the_widget( 'WP_Widget_Recent_Posts' );
 
-						// Only show the widget if site has multiple categories.
-						if ( transparency_categorized_blog() ) :
-					?>
+					</div><!-- .page-content -->
+				</section><!-- .error-404 -->
 
-					<div class="widget widget_categories">
-						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'transparency' ); ?></h2>
-						<ul>
-						<?php
-							wp_list_categories( array(
-								'orderby'    => 'count',
-								'order'      => 'DESC',
-								'show_count' => 1,
-								'title_li'   => '',
-								'number'     => 10,
-							) );
-						?>
-						</ul>
-					</div><!-- .widget -->
-
-					<?php
-						endif;
-
-						/* translators: %1$s: smiley */
-						$archive_content = '<p>' . sprintf('Try looking in the monthly archives.', 'transparency' ) . '</p>';
-						the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
-
-						the_widget( 'WP_Widget_Tag_Cloud' );
-					?>
-
-				</div><!-- .page-content -->
-			</section><!-- .error-404 -->
-
-		</main><!-- #main -->
+			</main><!-- #main -->
 		</div>
 	</div><!-- #primary -->
 
