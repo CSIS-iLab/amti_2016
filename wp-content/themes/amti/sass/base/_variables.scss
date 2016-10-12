@@ -48,8 +48,9 @@ $font__pre: "Courier 10 Pitch", Courier, monospace;
 $font__line-height-body: 1.5;
 $font__line-height-pre: 1.6;
 
-/*=================================
-=            Structure            =
-=================================*/
-$size__site-main: 100%;
-$size__site-sidebar: 25%;
+/*==============================
+=            Images            =
+==============================*/
+
+$image__main-navigation: "/wp-content/uploads/2014/10/AMTI_site_header.jpg";
+$image__analysis-fallback: "/wp-content/uploads/2016/08/banner_3.jpg";
