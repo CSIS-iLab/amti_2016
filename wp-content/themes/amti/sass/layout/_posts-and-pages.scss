@@ -15,7 +15,7 @@
 	background-repeat:no-repeat;
 	background-position:50% 0%;
 	background-size:cover;
-	background-image:url('http://amti.csis.org/wp-content/uploads/2016/08/banner_3.jpg');
+	background-image:url($image__analysis-fallback);
 
 	@include breakpoint("small") {
 		min-height: 260px;
