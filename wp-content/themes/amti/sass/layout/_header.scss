@@ -2,7 +2,7 @@
 =            Header            =
 ==============================*/
 .navbar-fixed-top {
-    background-image: url('/wp-content/uploads/2014/10/AMTI_site_header.jpg');
+    background-image: url($image__main-navigation);
     background-repeat: no-repeat;
     background-color: $dark-blue;
     padding: 11px 0;
@@ -165,7 +165,7 @@ body.logged-in .navbar-fixed-top {
         max-width:80%;
     }
     .navbar-brand h2 {
-        font-size:18px;
+        font-size:14px;
         word-break:break-normal;
     }
 }
