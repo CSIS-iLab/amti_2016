@@ -10,7 +10,7 @@
  */
 
 ?>
-	<a href="#" class="topbutton"><span class="hidden-xs">Back to Top </span><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+	<a href="#" class="topbutton"><span class="hidden-xs"><?php echo __('Back to Top', 'transparency'); ?></span><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
@@ -24,7 +24,7 @@
 
 		<div class="site-info">
 			<div class="container">
-				&copy; 2016 The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies
+				&copy; <?php echo __('2016 The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies', 'transparency'); ?>
 			</div>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->

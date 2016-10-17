@@ -20,7 +20,7 @@ get_header(); ?>
 					<hr>
 				</header><!-- .entry-header -->
 				<div class="text-center search-container">
-					<p>Read commentary and analysis from the top AMTI experts on maritime Asia.</p>
+					<p><?php echo __("Read commentary and analysis from the top AMTI experts on maritime Asia.", "transparency"); ?></p>
 					<?php get_search_form(); ?>
 				</div>
 
@@ -36,7 +36,7 @@ get_header(); ?>
 				?>
 
 				<div class="more-archives">
-					<a href="/archives">Want more? Browse our full text-based archive of analysis.</a>
+					<a href="/archives"><?php echo __("Want more? Browse our full text-based archive of analysis.", "transparency"); ?></a>
 				</div>
 
 		</main><!-- #main -->

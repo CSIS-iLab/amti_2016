@@ -73,7 +73,7 @@ while ( have_posts() ) : the_post();
 
 								<div class="media-body">
 				        					<div class="media-heading">
-										<strong>About&nbsp;<?php echo $coauthor->display_name; ?></strong>
+										<strong><?php echo __('About', 'transparency')." ".$coauthor->display_name; ?></strong>
 									</div>
 									<p><?php echo $coauthor->description; ?></p>
 								</div>

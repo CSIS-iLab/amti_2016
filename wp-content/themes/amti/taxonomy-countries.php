@@ -46,7 +46,7 @@ get_header(); ?>
 				<footer>
 					<nav class="navigation posts-navigation" role="navigation">
 						<h2 class="screen-reader-text">Posts navigation</h2>
-						<div class="nav-links"><div class="nav-previous"><a href="/island-tracker"><i class="fa fa-angle-left" aria-hidden="true"></i> Return to Island Tracker</a></div></div>
+						<div class="nav-links"><div class="nav-previous"><a href="/island-tracker"><i class="fa fa-angle-left" aria-hidden="true"></i> <?php echo __('Return to Island Tracker', 'transparency'); ?></a></div></div>
 					</nav>
 				</footer>
 			</main><!-- #main -->

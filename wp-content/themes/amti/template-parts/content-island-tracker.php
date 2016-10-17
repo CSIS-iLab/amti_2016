@@ -30,27 +30,27 @@
 				$custom = get_post_custom();
 
 				if(isset($custom['us'])) {
-				    echo '<strong>U.S. Board of Geographic Names:</strong> '.$custom['us'][0]."<br />";
+				    echo '<strong>'.__('U.S. Board of Geographic Names:', 'transparency').'</strong> '.$custom['us'][0]."<br />";
 				}
 				if(isset($custom['china'])) {
-				    echo '<strong>China:</strong> '.$custom['china'][0]."<br />";
+				    echo '<strong>'.__('China:', 'transparency').'</strong> '.$custom['china'][0]."<br />";
 				}
 				if(isset($custom['philippines'])) {
-				    echo '<strong>Philippines:</strong> '.$custom['philippines'][0]."<br />";
+				    echo '<strong>'.__('Philippines:', 'transparency').'</strong> '.$custom['philippines'][0]."<br />";
 				}
 				if(isset($custom['taiwan'])) {
-				    echo '<strong>Taiwan:</strong> '.$custom['taiwan'][0]."<br />";
+				    echo '<strong>'.__('Taiwan:', 'transparency').'</strong> '.$custom['taiwan'][0]."<br />";
 				}
 				if(isset($custom['malaysia'])) {
-				    echo '<strong>Malaysia:</strong> '.$custom['malaysia'][0]."<br />";
+				    echo '<strong>'.__('Malaysia:', 'transparency').'</strong> '.$custom['malaysia'][0]."<br />";
 				}
 				if(isset($custom['vietnam'])) {
-				    echo '<strong>Vietnam:</strong> '.$custom['vietnam'][0]."<br />";
+				    echo '<strong>'.__('Vietnam:', 'transparency').'</strong> '.$custom['vietnam'][0]."<br />";
 				}
 			?>
 			</p>
 			<p>
-				<a href="<?php echo esc_url( get_permalink() ); ?>"><button>Explore</button></a>
+				<a href="<?php echo esc_url( get_permalink() ); ?>"><button><?php echo __('Explore', 'transparency'); ?></button></a>
 			</p>
 
 		</div>

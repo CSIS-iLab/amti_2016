@@ -18,7 +18,7 @@ get_header(); ?>
 		<header class="entry-header">
 			<h1 class="page-title"><?php single_post_title( ); ?></h1>
 			<hr>
-			<p class='title-description'>Browse all of our analysis.</p>
+			<p class='title-description'><?php echo __('Browse all of our analysis.', 'transparency'); ?></p>
 		</header><!-- .entry-header -->
 		<div class="row">
 			<main id="main" class="col-xs-12 col-md-9" role="main">
@@ -41,7 +41,7 @@ get_header(); ?>
 
 					endwhile;
 
-					the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> Older Posts', 'next_text' => 'Newer Posts <i class="fa fa-angle-right" aria-hidden="true"></i>'));
+					the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> '.__("Older Posts", "transparency"), 'next_text' => __("Newer Posts", "transparency").' <i class="fa fa-angle-right" aria-hidden="true"></i>'));
 
 				else :
 
