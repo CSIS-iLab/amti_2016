@@ -31,7 +31,7 @@
 		<div class="entry-meta">
 		<?php
 		echo get_the_date();
-		echo get_the_term_list( $post->ID, 'categories', ' | Categories: ', ', ' );
+		echo get_the_term_list( $post->ID, 'categories', ' | '.__('Categories:', 'transparency').' ', ', ' );
 		?>
 		</div>
 		<?php

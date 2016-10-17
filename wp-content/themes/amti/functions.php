@@ -246,14 +246,15 @@ add_action( 'init', 'create_island_tracker_type' );
 function create_island_tracker_type() {
   register_post_type( 'island-tracker',
     array(
-      'labels' => array(
-        'name' => __( 'Island Tracker' ),
-        'singular_name' => __( 'Island' )
-      ),
-			'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail' ),
-      'public' => true,
-      'has_archive' => true,
-			'menu_icon'   => 'dashicons-layout',
+      	'labels' => array(
+        	'name' => __( 'Island Tracker' ),
+        	'singular_name' => __( 'Island' )
+      	),
+      	'description' => __('Description of the Island Tracker'),
+		'supports' => array( 'title', 'editor', 'excerpt', 'custom-fields', 'publicize', 'thumbnail' ),
+      	'public' => true,
+      	'has_archive' => true,
+		'menu_icon'   => 'dashicons-layout',
     )
   );
 }
@@ -283,6 +284,9 @@ function create_countries_taxonomy() {
 	);
 	register_taxonomy( 'countries', array( 'island-tracker' ), $args );
 }
+
+// Include Countries custom meta
+include_once("js-countries-meta.php");
 
 /*-----------------------------------------------------------------------------------*/
 /* Remove 'features' and 'island-tracker' from post slug
@@ -458,7 +462,7 @@ function transparency_slider() {
 	}
 
 	echo "<div class='feature-background' style='background-image:url(".$feat_image.");'><div class='overlay'>";
-	echo "<div class='featuredItem'><span class='description'>".$feat_description."</span><br />".$feat_title."<br /><a href='".$feat_link."' class='seeMore'>See More</a></div>";
+	echo "<div class='featuredItem'><span class='description'>".$feat_description."</span><br />".$feat_title."<br /><a href='".$feat_link."' class='seeMore'>".__('See More', 'transparency')."</a></div>";
 	wp_nav_menu( array('theme_location' => 'home-page-slider','menu' => 'home-page-slider','walker' => $walker,'activeID' => $feat_id) );
 	echo "</div></div>";
 }

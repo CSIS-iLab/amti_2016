@@ -32,7 +32,7 @@
 				$terms = get_the_terms( $post->ID , 'countries' );
 		  ?>
 			<h2 class="screen-reader-text">Posts navigation</h2>
-			<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/<?php echo $terms[0]->slug; ?>"><i class="fa fa-angle-left" aria-hidden="true"></i> Return to <?php echo $terms[0]->name; ?>'s Island Tracker</a></div></div>
+			<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/<?php echo $terms[0]->slug; ?>"><i class="fa fa-angle-left" aria-hidden="true"></i> <?php echo sprintf( __('Return to %s\'s Island Tracker', 'transparency'), $terms[0]->name );?></a></div></div>
 		</nav>
 	</footer>
 </article><!-- #post-## -->
