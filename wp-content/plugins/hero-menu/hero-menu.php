@@ -51,11 +51,6 @@ class HeroMenu {
 		
 		// edit menu walker
 		add_filter( 'wp_edit_nav_menu_walker', array( $this, 'js_hm_edit_walker'), 10, 2 );
-
-		/*----------  Frontend Filters  ----------*/
-		
-		// Display Slider
-		add_action('wp_head', array($this, 'js_hm_display_slider'));
 		
 
 	} // end constructor
@@ -225,8 +220,9 @@ class HeroMenu {
 		}
 
 		if ( has_nav_menu( $location ) && $showConditional ) {
-		
-			$menu_items = wp_get_nav_menu_items($location);
+			$locations = get_nav_menu_locations();
+			$menu = get_term( $locations[$location], 'nav_menu' );
+			$menu_items = wp_get_nav_menu_items($menu->term_id);
 			$walker = new Slider_Menu_With_Description;
 
 			// Get the feature image, title, description, and url of the first menu item that has an image
@@ -306,6 +302,10 @@ class HeroMenu {
 
 // instantiate plugin's class
 $GLOBALS['heroMenu'] = new HeroMenu();
+
+function putHeroMenu() {
+	return $GLOBALS['heroMenu']->js_hm_display_slider();
+}
 
 include_once( 'admin_options.php' );
 include_once( 'walkers/admin_menus_custom_walker.php' );
