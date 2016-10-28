@@ -33,10 +33,14 @@ get_header(); ?>
 
 		        				$image = get_term_meta( $term->term_id, 'countries_feature_image', true );
 
+		        				if(function_exists('icl_object_id') && ICL_LANGUAGE_CODE != "en") {
+		        					$langQuery = "/?lang=".ICL_LANGUAGE_CODE;
+		        				}
+
 		        			?>
 
 		        			<div class="col-xs-12 col-sm-6">
-		        				<a href="<?php echo $term->slug; ?>">
+		        				<a href="<?php echo $term->slug.$langQuery; ?>">
 			        				<div class="country-listing" style="background-image:url('<?php echo $image; ?>');">
 			        					<div class="title"><?php echo $term->name; ?></div>
 			        				</div>
