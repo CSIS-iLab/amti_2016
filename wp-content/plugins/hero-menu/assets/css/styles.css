@@ -83,7 +83,6 @@
 
 #hero-menu-container .featuredItem {
 	z-index:6;
-	max-width:55%;
 	white-space:normal;
 	line-height:1em;
 	border-width:0px;
@@ -92,7 +91,6 @@
 	letter-spacing:0px;
 	font-weight:400;
 	font-size:3em;
-	position:absolute;
 	color:#fff;
 }
 
