@@ -21,9 +21,9 @@
 	padding:0;
 	margin:0;
 	list-style:none;
-	font-size:24px;
+	font-size:1.4em;
 	font-weight:400;
-	line-height:25px;
+	line-height:1.3em;
 	letter-spacing:0.2px;
 	width:100%;
 }
@@ -53,7 +53,7 @@
 }
 
 #hero-menu-container .menu-hero-menu-container .menu .description {
-	font-size:16px;
+	font-size:0.7em;
 	font-weight:700;
 	letter-spacing:0.6px;
 }
@@ -83,8 +83,6 @@
 
 #hero-menu-container .featuredItem {
 	z-index:6;
-	max-width:55%;
-	/*height:100%;*/
 	white-space:normal;
 	line-height:1em;
 	border-width:0px;
@@ -93,29 +91,28 @@
 	letter-spacing:0px;
 	font-weight:400;
 	font-size:3em;
-	position:absolute;
 	color:#fff;
 }
 
 #hero-menu-container .description {
 	color:#00b29e;
-	font-size:22px;
+	font-size:0.4em;
 	font-weight:900;
 	text-transform:uppercase;
 	margin-bottom:5px;
 	white-space:nowrap;
-	line-height:20px;
+	line-height:0.5em;
 }
 
 #hero-menu-container a.seeMore {
-	line-height:17px;
+	line-height:0.4em;
 	margin:0px;
 	padding:12px 35px;
 	letter-spacing:2px;
 	text-transform:uppercase;
 	background-color:#fff;
 	color:#000;
-	font-size:13px;
+	font-size:0.3em;
 	font-weight:700;
 	border:1px solid #fff;
 }
@@ -133,8 +130,5 @@
 	.featuredItem {
 		max-width:100% !important;
 		padding:10% 10% 10% 5% !important;
-	}
-	#hero-menu-container .description {
-		font-size:16px !important;
 	}
 }

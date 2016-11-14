@@ -30,9 +30,12 @@
 		<nav class="navigation posts-navigation" role="navigation">
 			<?php
 				$terms = get_the_terms( $post->ID , 'countries' );
+				if(function_exists('icl_object_id') && ICL_LANGUAGE_CODE != "en") {
+					$langQuery = "/?lang=".ICL_LANGUAGE_CODE;
+				}
 		  ?>
 			<h2 class="screen-reader-text">Posts navigation</h2>
-			<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/<?php echo $terms[0]->slug; ?>"><i class="fa fa-angle-left" aria-hidden="true"></i> <?php echo sprintf( __('Return to %s\'s Island Tracker', 'transparency'), $terms[0]->name );?></a></div></div>
+			<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/<?php echo $terms[0]->slug.$langQuery; ?>"><i class="fa fa-angle-left" aria-hidden="true"></i> <?php echo sprintf( __('Return to %s\'s Island Tracker', 'transparency'), $terms[0]->name );?></a></div></div>
 		</nav>
 	</footer>
 </article><!-- #post-## -->
