@@ -4,6 +4,7 @@
 		min-height:400px;
 		background-size:cover;
 		background-repeat:no-repeat;
+		position:relative;
 	}	
 
 	div.title {
@@ -14,8 +15,8 @@
 	    font-weight: 800;
 	    z-index: 2 !important;
 	    text-transform: uppercase;
-	    width: 95%;
-	    bottom: 0.7em;
+	    width: 100%;
+	    bottom: 0em;
 	    padding: 10px;
 	    background-color:$light-green;
 
