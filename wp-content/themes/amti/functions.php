@@ -372,16 +372,16 @@ array(
 	'delete_published_posts' => true,
 	'edit_others_pages' => true,
 	'edit_others_posts' => true,
-	'edit_pages' => false,
+	'edit_pages' => true,
 	'edit_posts' => true,
-	'edit_private_pages' => false,
+	'edit_private_pages' => true,
 	'edit_private_posts' => true,
-	'edit_published_pages' => false,
+	'edit_published_pages' => true,
 	'edit_published_posts' => true,
 	'manage_categories' => true,
 	'manage_links' => false,
-  'manage_options' => true,
-	'publish_pages' => true,
+  	'manage_options' => true,
+	'publish_pages' => false,
 	'publish_posts' => true,
 	'read' => true,
 	'read_private_pages' => true,
@@ -487,3 +487,10 @@ function filter_media_comment_status( $open, $post_id ) {
 }
 add_filter( 'comments_open', 'filter_media_comment_status', 10 , 2 );
 // ------------------------------------
+
+// Full Width Shortcode
+// Add Shortcode
+function shortcode_fullWidth( $atts , $content = null ) {
+	return "<div class='fullWidthFeatureContent'>".$content."</div>";
+}
+add_shortcode( 'fullWidth', 'shortcode_fullWidth' );
