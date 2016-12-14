@@ -82,6 +82,7 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	    }
 
 	    $title = empty( $item->label ) ? $title : $item->label;
+	    $description = empty( $item->description ) ? $item->type_label : $item->description;
 
 	    ?>
 	    <li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
@@ -165,9 +166,9 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	            </p>
 	            <p class="field-description description description-wide">
 	                <label for="edit-menu-item-description-<?php echo $item_id; ?>">
-	                    <?php _e( 'Description' ); ?><br />
-	                    <textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $item->description ); // textarea_escaped ?></textarea>
-	                    <span class="description"><?php _e('The description will be displayed in the menu if the current theme supports it.'); ?></span>
+	                    <?php _e( 'Content Type' ); ?><br />
+	                    <input type="text" id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat code edit-menu-item-description" name="menu-item-description[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $description ); ?>" />
+	                    <span class="description"><?php _e('Ex: Feature, Analysis, Podcast, Question, etc.'); ?></span>
 	                </label>
 	            </p>        
 	            <?php
@@ -175,10 +176,28 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	             * This is the added field
 	             */
 	            ?>      
-	            <p class="field-custom description description-wide">
+	            <p class="field-custom description-wide">
 	                <label for="edit-menu-item-featured-image-<?php echo $item_id; ?>">
 	                    <?php _e( 'Featured Image (Overrides post featured image)' ); ?><br />
 	                    <input type="text" id="edit-menu-item-featured-image-<?php echo $item_id; ?>" class="widefat code edit-menu-item-featured-image" name="menu-item-featured-image[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->featured_image ); ?>" />
+	                </label>
+	            </p>
+	            <p class="field-custom description-wide">
+	                <label for="edit-menu-item-cta-<?php echo $item_id; ?>">
+	                    <?php _e( 'Call to Action Text' ); ?><br />
+	                    <input type="text" id="edit-menu-item-cta-<?php echo $item_id; ?>" class="widefat code edit-menu-item-cta" name="menu-item-cta[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->cta ); ?>" />
+	                </label>
+	            </p>
+	            <p class="field-custom description-thin">
+	                <label for="edit-menu-item-bgpos-x-<?php echo $item_id; ?>">
+	                    <?php _e( 'Background Image X Position:' ); ?><br />
+	                    <input type="text" id="edit-menu-item-bgpos-x-<?php echo $item_id; ?>" class="widefat code edit-menu-item-bgpos-x" name="menu-item-bgpos-x[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->bgpos_x ); ?>" />
+	                </label>
+	            </p>
+	            <p class="field-custom description-thin">
+	                <label for="edit-menu-item-bgpos-y-<?php echo $item_id; ?>">
+	                    <?php _e( 'Background Image Y Position:' ); ?><br />
+	                    <input type="text" id="edit-menu-item-bgpos-y-<?php echo $item_id; ?>" class="widefat code edit-menu-item-bgpos-y" name="menu-item-bgpos-y[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->bgpos_y ); ?>" />
 	                </label>
 	            </p>
 	            <?php

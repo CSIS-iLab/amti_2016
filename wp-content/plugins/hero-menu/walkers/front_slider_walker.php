@@ -1,5 +1,5 @@
 <?php
-class Menu_With_Description extends Walker_Nav_Menu {
+class Slider_Menu_With_Description extends Walker_Nav_Menu {
 	function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
 		global $wp_query;
 		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
@@ -12,7 +12,12 @@ class Menu_With_Description extends Walker_Nav_Menu {
 
 		$activeID = esc_attr( $args->activeID );
 		if($item->object_id == $activeID) {
-			$class_names .= " activeItem";		
+			if($args->hideFeature == true) {
+				return;
+			}
+			else {
+				$class_names .= " activeItem";
+			}		
 		}
 
 		$class_names = ' class="' . esc_attr( $class_names ) . '"';

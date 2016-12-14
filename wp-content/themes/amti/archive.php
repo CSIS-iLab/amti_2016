@@ -37,7 +37,7 @@ get_header(); ?>
 
 				endwhile;
 
-				the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> Older Posts', 'next_text' => 'Newer Posts <i class="fa fa-angle-right" aria-hidden="true"></i>'));
+				the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> '.__("Older Posts", "transparency"), 'next_text' => __("Newer Posts", "transparency").' <i class="fa fa-angle-right" aria-hidden="true"></i>'));
 
 			else :
 

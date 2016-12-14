@@ -15,9 +15,9 @@ get_header(); ?>
 
 			<header class="entry-header">
 				<?php
-				echo "<h1 class='page-title'>Features</h1>";
+				echo "<h1 class='page-title'>".__("Features", "transparency")."</h1>";
 				echo "<hr>";
-				echo "<p>Dive deep on the latest maritime issues in AMTI's Features, an interactive and media-rich repository of information.</p>";
+				echo "<p>".__("Dive deep on the latest maritime issues in AMTI's Features, an interactive and media-rich repository of information.", "transparency")."</p>";
 				?>
 			</header><!-- .entry-header -->
 			<div class="text-center search-container">
@@ -40,7 +40,7 @@ get_header(); ?>
 
 			endwhile;
 
-			the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> Older Posts', 'next_text' => 'Newer Posts <i class="fa fa-angle-right" aria-hidden="true"></i>'));
+			the_posts_navigation(array('prev_text' => '<i class="fa fa-angle-left" aria-hidden="true"></i> '.__("Older Posts", "transparency"), 'next_text' => __("Newer Posts", "transparency").' <i class="fa fa-angle-right" aria-hidden="true"></i>'));
 
 		else :
 

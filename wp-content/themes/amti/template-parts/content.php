@@ -29,7 +29,7 @@
 				<div class="entry-meta">
 					<?php
 						transparency_posted_on();
-						echo " | Categories: ".get_the_category_list(', ');
+						echo " | ".__('Categories:', 'transparency')." ".get_the_category_list(', ');
 		  			?>
 
 				</div><!-- .entry-meta -->

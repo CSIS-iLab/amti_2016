@@ -25,7 +25,7 @@ get_header(); ?>
 						<div class="row">
 							<div class="col-xs-12 col-sm-4">
 							<div class="widget widget_recent_entries">
-								<h2 class="widgettitle">Navigation</h2>		
+								<h2 class="widgettitle"><?php echo __('Navigation', 'transparency'); ?></h2>		
 
 									<?php 
 										wp_nav_menu( array('menu' => 'Footer Menu') );

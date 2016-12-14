@@ -1,5 +1,15 @@
 /*----------  Change Container Width for Standard Width Features  ----------*/
 .single-features #primary .container, .single-features #primary.container {
+
+	.fullWidthFeatureContent {
+		width: 100vw;
+		position: relative;
+		left: 50%;
+		right: 50%;
+		margin-left: -50vw;
+		margin-right: -50vw;
+	}
+
 	max-width:780px;
 }
 

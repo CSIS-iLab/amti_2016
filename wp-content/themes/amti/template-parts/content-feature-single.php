@@ -13,7 +13,7 @@
 	<div class="entry-meta">
 		<?php
 			echo "Published: ".get_the_date();
-			echo get_the_term_list( $post->ID, 'categories', ' | Categories: ', ', ' );
+			echo get_the_term_list( $post->ID, 'categories', ' | '.__('Categories:', 'transparency').' ', ', ' );
 		?>
 	</div>
 
@@ -24,6 +24,6 @@
 		?>
 	</div><!-- .entry-content -->
 	<footer>
-		<a href="/features"><button>More Features</button></a>
+		<a href="/features"><button><?php echo __('More Features', 'transparency'); ?></button></a>
 	</footer>
 </article><!-- #post-## -->
