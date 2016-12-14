@@ -64,6 +64,11 @@ function transparency_setup() {
 		'default-color' => 'ffffff',
 		'default-image' => '',
 	) ) );
+
+	// Disable WPML Stylesheet if one exists
+	if ( function_exists('icl_object_id') ) {
+	    define('ICL_DONT_LOAD_LANGUAGE_SELECTOR_CSS', true);
+	}
 }
 endif;
 add_action( 'after_setup_theme', 'transparency_setup' );
