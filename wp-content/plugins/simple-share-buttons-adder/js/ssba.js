@@ -38,9 +38,3 @@ jQuery(document).ready(function() {
         }
 	});
 });
-
-// sharethis
-var options = {};
-options.publisher = "4d48b7c5-0ae3-43d4-bfbe-3ff8c17a8ae6";
-options.product = "simpleshare";
-stLight.options(options);

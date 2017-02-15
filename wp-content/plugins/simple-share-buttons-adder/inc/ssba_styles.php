@@ -7,18 +7,23 @@ add_action( 'wp_enqueue_scripts', 'ssba_page_scripts' );
 // add css scripts for page/post use
 function ssba_page_scripts() {
     // get settings
-	$arrSettings = get_ssba_settings();
+   $arrSettings = get_ssba_settings();
 
-	// if the sharethis terms have been accepted
-	if ($arrSettings['accepted_sharethis_terms'] == 'Y') {
-		if (is_ssl()) {
-			// include https sharethis tracking js
-			wp_enqueue_script('ssba-sharethis', 'https://ws.sharethis.com/button/st_insights.js', null, null, true);
-		} else {
-            // include http sharethis tracking js
-            wp_enqueue_script('ssba-sharethis', 'http://w.sharethis.com/button/st_insights.js', null, null, true);
-		}
-	}
+   if (is_ssl()) {
+      $st_insights = 'https://ws.sharethis.com/button/st_insights.js';
+    } else {
+      $st_insights = 'http://w.sharethis.com/button/st_insights.js';
+    }
+
+    // add call to st_insights.js with params
+    $url = add_query_arg( array(
+        'publisher' => '4d48b7c5-0ae3-43d4-bfbe-3ff8c17a8ae6',
+        'product'   => 'simpleshare',
+    ), $st_insights );
+    if ( 'Y' === $arrSettings['accepted_sharethis_terms'] ) {
+        wp_enqueue_script( 'ssba-sharethis', $url, null, null );
+        add_filter( 'script_loader_tag', 'ssba_script_tags', 10, 2 );
+    }
 
     // ssba.min.js
     wp_enqueue_script('ssba', plugins_url('js/ssba.min.js', SSBA_FILE), array('jquery'), false, true);
@@ -33,6 +38,19 @@ function ssba_page_scripts() {
 		wp_register_style('ssbaFont', '//fonts.googleapis.com/css?family=Reenie+Beanie');
 		wp_enqueue_style( 'ssbaFont');
 	}
+}
+
+/**
+ * Adds ID to sharethis script.
+ * @param string $tag    HTML script tag.
+ * @param string $handle Script handle.
+ * @return string
+ */
+function ssba_script_tags( $tag, $handle ) {
+	if ( 'ssba-sharethis' === $handle ) {
+		return str_replace( '<script ', '<script id=\'st_insights_js\' ', $tag );
+	}
+	return $tag;
 }
 
 // add CSS to the head

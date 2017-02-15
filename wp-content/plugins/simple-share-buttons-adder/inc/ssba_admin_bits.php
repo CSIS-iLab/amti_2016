@@ -1,6 +1,12 @@
 <?php
 defined('ABSPATH') or die('No direct access permitted');
 
+// Adds ST terms to array if they don't exist.
+$arrSettings = wp_parse_args( $arrSettings, array(
+    'accepted_sharethis_terms' => 'N',
+    'hide_sharethis_terms' => false,
+) );
+
 // if the sharethis terms have not yet been accepted
 if (
     'Y' !== $arrSettings['accepted_sharethis_terms'] &&
@@ -10,7 +16,7 @@ if (
     {
         ?>
         <div id="sharethis_terms_notice" class="update-nag notice is-dismissible">
-            <p>There are some <strong>great new features</strong> available with Simple Share Buttons Adder 6.2, such as an improved mobile Facebook sharing experience and Facebook analytics.
+            <p>There are some <strong>great new features</strong> available with Simple Share Buttons Adder 6.3, such as an improved mobile Facebook sharing experience and Facebook analytics.
             We've updated our <a href="http://simplesharebuttons.com/privacy" target="_blank">privacy policy and terms of use</a> with important changes you should review. To take advantage of the new features, please review and accept the new <a href="http://simplesharebuttons.com/privacy" target="_blank">terms and privacy policy</a>.
             <a href="options-general.php?page=simple-share-buttons-adder&accept-terms=Y"><span class="button button-primary">I accept</span></a></p>
         </div>

@@ -57,13 +57,14 @@ class WPSEO_Help_Center {
 	 * Add the contact support help center item to the help center.
 	 */
 	private function add_contact_support_item() {
+		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		/* translators: %1$s: expands to 'Yoast SEO Premium', %2$s: links to Yoast SEO Premium plugin page. */
 		$popup_content = sprintf( __( 'To be able to contact our support team, you need %1$s. You can buy the plugin, including one year of support, updates and upgrades, on %2$s.', 'wordpress-seo' ),
 			'<a href="https://yoast.com/wordpress/plugins/seo-premium/#utm_source=wordpress-seo-metabox&utm_medium=popup&utm_campaign=multiple-keywords">Yoast SEO Premium</a>',
 			'yoast.com' );
 
-		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h2', $popup_title, $popup_content );
+		$premium_popup                    = new WPSEO_Premium_Popup( 'contact-support', 'h3', $popup_title, $popup_content );
 		$contact_support_help_center_item = new WPSEO_Help_Center_Item(
 			'contact-support',
 			__( 'Email support', 'wordpress-seo' ),
@@ -178,7 +179,7 @@ class WPSEO_Help_Center {
 	 * @return bool
 	 */
 	private function is_a_help_center_item( $item ) {
-		return is_a( $item, 'WPSEO_Help_Center_Item' );
+		return ( $item instanceof WPSEO_Help_Center_Item );
 	}
 
 	/**
@@ -191,8 +192,9 @@ class WPSEO_Help_Center {
 	public static function get_translated_texts() {
 		return array(
 			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
-			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template.', 'wordpress-seo' ), '<code>%s</code>' ) . ' ' . __( 'See the help tab for more info.', 'wordpress-seo' ),
-			'locale' => get_locale(),
+			'variable_warning' => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
+			'contentLocale' => get_locale(),
+			'userLocale'    => WPSEO_Utils::get_user_locale(),
 			/* translators: %d: number of knowledge base search results found. */
 			'kb_found_results' => __( 'Number of search results: %d', 'wordpress-seo' ),
 			'kb_no_results' => __( 'No results found.', 'wordpress-seo' ),

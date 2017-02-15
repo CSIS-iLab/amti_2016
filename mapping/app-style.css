@@ -1,0 +1,177 @@
+/*Defaults*/
+
+body{
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    color: #333;
+}
+
+/* CARTO OVERRIDES */
+
+div.cartodb-legend-stack div.cartodb-legend:last-child {
+    border-bottom: 0;
+    padding-bottom: 20px !important;
+  }
+
+  div.cartodb-popup.header div.cartodb-popup-header h1 {
+    font: 700 16px "Lato",Helvetica,Arial !important;
+}
+
+div.cartodb-legend .legend-title {
+  font-family: "Lato", sans-serif;
+}
+
+div.cartodb-legend.category ul li {
+  font-family: "Lato", sans-serif;
+}
+
+
+h1{
+font-weight: 700;
+color: #023850;
+line-height: 1.5;
+text-transform: uppercase;
+font-size: 18px;
+}
+
+h2{
+font-size: 15px;
+margin: 10px 0 10px 0;
+font-weight: 300;
+color: #000;
+
+}
+
+label{
+font-weight: 400;
+color: #000;
+display: inline-block;
+vertical-align: middle;
+margin: 0 0 0 4px;
+}
+
+input[type=checkbox]:checked+label{
+    font-weight: 400;
+    color: #333;
+}
+
+/*Custom Elements*/
+.cartodb-logo{
+   display:none!important;
+}
+
+#map{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.header{
+    background-color: #FAFAFA;
+    padding: 20px 0 20px 20px;
+    margin: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.10);
+    -webkit-border-top-left-radius: 4px; -webkit-border-top-right-radius: 4px; -moz-border-radius-topleft: 4px; -moz-border-radius-topright: 4px; border-top-left-radius: 4px; border-top-right-radius: 4px;
+}
+
+#selector {
+  position: absolute;
+max-height: 100%;
+width: 200px;
+webkit-box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+-moz-box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+border-radius: 4px;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+-ms-border-radius: 4px;
+-o-border-radius: 4px;
+background: #fff;
+overflow: auto;
+
+}
+
+/* old selector style
+#selector{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    max-height: 400px;
+    width: 280px;
+    webkit-box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+    -moz-box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+    box-shadow: rgba(0,0,0,.2) 0 0 4px 2px;
+    border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.4);
+    background: #fff;
+    overflow: auto;
+} */
+
+#selector ul{
+    margin: 0 20px 20px 20px;
+}
+
+#selector ul li{
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    padding: 15px 0 15px 0;
+}
+
+#selector ul li:last-child{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+button#menuctrl {
+  /* float: left; */
+position: relative;
+color: #004165;
+/* margin-right: 10px; */
+font-size: 12px;
+font-family: "Lato", sans-serif;
+font-style: italic;
+/* margin-bottom: 90px; */
+/* padding-bottom: 10px; */
+}
+
+button#keyctrl {
+  position: absolute;
+right: 20px;
+bottom: 35px;
+z-index: 9999;
+color: #004165;
+font-size: 14px;
+font-family: "Lato", sans-serif;
+font-style: italic;
+}
+
+/*AMTI includes */
+
+.copyright_bug {
+position: absolute;
+background: rgba(255,255,255,.7);
+font-size: 11px;
+right: 0;
+bottom: 16px;
+width: 106px;
+height: 16px;
+text-align: center;
+padding-top: 2px;
+}
+
+/*Overriding styles*/
+
+div.cartodb-zoom{
+    position: absolute;
+    right: 20px;
+    top: 50px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x.ng-cloak {
+    display: none !important;
+}
+
+td {
+    vertical-align: middle;
+}

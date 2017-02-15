@@ -226,6 +226,9 @@ function upgrade_ssba($arrSettings, $version) {
 	// button helper array
 	ssba_button_helper_array();
 
+    // Show the ST terms notice after upgrades if the user hasn't agreed.
+    ssba_update_options( array( 'hide_sharethis_terms' => false ) );
+
 	// update version number
 	update_option('ssba_version', SSBA_VERSION);
 }

@@ -14,8 +14,16 @@ function ssba_format_number($intNumber)
     return $intNumber;
 }
 
-// add share buttons to content and/or excerpts
-add_filter('the_content', 'show_share_buttons', (int) $arrSettings['ssba_content_priority']);
+/**
+ * Adds a filter around the content.
+ */
+function ssba_add_button_filter() {
+    $arrSettings = get_ssba_settings();
+    add_filter( 'the_content', 'show_share_buttons', (int) $arrSettings['ssba_content_priority'] );
+}
+
+add_action( 'wp_head', 'ssba_add_button_filter', 99 );
+
 
 // get and show share buttons
 function show_share_buttons($content, $booShortCode = FALSE, $atts = '') {
@@ -698,8 +706,10 @@ function getPinterestShareCount($urlCurrentPage) {
 // get stumbleupon button
 function ssba_stumbleupon($arrSettings, $urlCurrentPage, $strPageTitle, $booShowShareCount) {
 
+    $url = 'http://www.stumbleupon.com/submit?url=' . $urlCurrentPage  . '&amp;title=' . $strPageTitle;
+
     // stumbleupon share link
-    $htmlShareButtons = '<a data-site="stumbleupon" class="ssba_stumbleupon_share ssba_share_link" href="http://www.stumbleupon.com/submit?url=' . $urlCurrentPage  . '&amp;title=' . $strPageTitle . '" ' . ($arrSettings['ssba_share_new_window'] == 'Y' ? ' target="_blank" ' : NULL) . ($arrSettings['ssba_rel_nofollow'] == 'Y' ? ' rel="nofollow" ' : NULL) . '>';
+    $htmlShareButtons = '<a data-site="stumbleupon" class="ssba_stumbleupon_share ssba_share_link" href="' . esc_url( $url ) . '" ' . ($arrSettings['ssba_share_new_window'] == 'Y' ? ' target="_blank" ' : NULL) . ($arrSettings['ssba_rel_nofollow'] == 'Y' ? ' rel="nofollow" ' : NULL) . '>';
 
     // if image set is not custom
     if ($arrSettings['ssba_image_set'] != 'custom') {
@@ -751,8 +761,10 @@ function ssba_email($arrSettings, $urlCurrentPage, $strPageTitle, $booShowShareC
     // replace ampersands as needed for email link
     $emailTitle = str_replace('&', '%26', $strPageTitle);
 
+    $url = 'mailto:?subject=' . $emailTitle . '&amp;body=' . $arrSettings['ssba_email_message'] . ' ' . $urlCurrentPage;
+
     // email share link
-    $htmlShareButtons = '<a data-site="email" class="ssba_email_share" href="mailto:?subject=' . $emailTitle . '&amp;body=' . $arrSettings['ssba_email_message'] . '%20' . $urlCurrentPage  . '">';
+    $htmlShareButtons = '<a data-site="email" class="ssba_email_share" href="' . esc_url( $url ) . '">';
 
     // if image set is not custom
     if ($arrSettings['ssba_image_set'] != 'custom') {

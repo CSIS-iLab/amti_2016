@@ -170,8 +170,14 @@ class Sharing_Service {
 		$enabled  = get_option( 'sharing-services' );
 		$services = $this->get_all_services();
 
-		if ( !is_array( $options ) )
+		/**
+		 * Check if options exist and are well formatted.
+		 * This avoids issues on sites with corrupted options.
+		 * @see https://github.com/Automattic/jetpack/issues/6121
+		 */
+		if ( ! is_array( $options ) || ! isset( $options['button_style'], $options['global'] ) ) {
 			$options = array( 'global' => $this->get_global_options() );
+		}
 
 		$global = $options['global'];
 
@@ -583,6 +589,11 @@ add_action( 'template_redirect', 'sharing_process_requests', 9 );
 function sharing_display( $text = '', $echo = false ) {
 	global $post, $wp_current_filter;
 
+	require_once JETPACK__PLUGIN_DIR . '/sync/class.jetpack-sync-settings.php';
+	if ( Jetpack_Sync_Settings::is_syncing() ) {
+		return $text;
+	}
+
 	if ( empty( $post ) )
 		return $text;
 
@@ -681,8 +692,23 @@ function sharing_display( $text = '', $echo = false ) {
 
 			// Wrapper
 			$sharing_content .= '<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-' . $global['button_style'] . ' sd-sharing">';
-			if ( $global['sharing_label'] != '' )
-				$sharing_content .= '<h3 class="sd-title">' . $global['sharing_label'] . '</h3>';
+			if ( $global['sharing_label'] != '' ) {
+				$sharing_content .= sprintf(
+					/**
+					 * Filter the sharing buttons' headline structure.
+					 *
+					 * @module sharedaddy
+					 *
+					 * @since 4.4.0
+					 *
+					 * @param string $sharing_headline Sharing headline structure.
+					 * @param string $global['sharing_label'] Sharing title.
+					 * @param string $sharing Module name.
+					 */
+					apply_filters( 'jetpack_sharing_headline_html', '<h3 class="sd-title">%s</h3>', $global['sharing_label'], 'sharing' ),
+					esc_html( $global['sharing_label'] )
+				);
+			}
 			$sharing_content .= '<div class="sd-content"><ul>';
 
 			// Visible items
