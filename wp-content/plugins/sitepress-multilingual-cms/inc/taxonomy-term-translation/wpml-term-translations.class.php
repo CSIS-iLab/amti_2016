@@ -364,16 +364,37 @@ class WPML_Terms_Translations {
 			$translated_slug = false;
 
 			if ( ! $term && isset( $original_term->name ) ) {
+				$term = $original_term->name;
+
+				/**
+				 * @deprecated use 'wpml_duplicate_generic_string' instead, with the same arguments
+				 */
                 $term = apply_filters( 'icl_duplicate_generic_string',
-                    $original_term->name,
+                    $term,
+                    $lang_code,
+                    array( 'context' => 'taxonomy', 'attribute' => $taxonomy, 'key' => $original_term->term_id ) );
+
+                $term = apply_filters( 'wpml_duplicate_generic_string',
+	                $term,
                     $lang_code,
                     array( 'context' => 'taxonomy', 'attribute' => $taxonomy, 'key' => $original_term->term_id ) );
 			}
 			if ( isset( $original_term->slug ) ) {
+				$translated_slug = $original_term->slug;
+
+				/**
+				 * @deprecated use 'wpml_duplicate_generic_string' instead, with the same arguments
+				 */
                 $translated_slug =  apply_filters( 'icl_duplicate_generic_string',
-                    $original_term->slug,
+	                $translated_slug,
                     $lang_code,
                     array( 'context' => 'taxonomy_slug', 'attribute' => $taxonomy, 'key' => $original_term->term_id ) );
+
+                $translated_slug =  apply_filters( 'wpml_duplicate_generic_string',
+	                $translated_slug,
+                    $lang_code,
+                    array( 'context' => 'taxonomy_slug', 'attribute' => $taxonomy, 'key' => $original_term->term_id ) );
+
 				$translated_slug = self::term_unique_slug( $translated_slug, $taxonomy, $lang_code );
 			}
 			$new_translated_term = false;

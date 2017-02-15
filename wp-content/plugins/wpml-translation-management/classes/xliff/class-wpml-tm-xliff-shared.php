@@ -66,7 +66,7 @@ abstract class WPML_TM_Xliff_Shared extends WPML_TM_Job_Factory_User {
 			$type   = (string) $attr['id'];
 			$target = $this->get_xliff_node_target( $node );
 
-			if ( ! $this->is_valid_target( $target ) ) {
+			if ( ! $this->is_valid_unit_content( $target ) ) {
 				return $this->invalid_xliff_error( array( 'target' ) );
 			}
 
@@ -198,15 +198,5 @@ abstract class WPML_TM_Xliff_Shared extends WPML_TM_Job_Factory_User {
 	protected function does_not_belong_error() {
 
 		return new WP_Error( 'xliff_does_not_match', __( "The uploaded xliff file doesn't belong to this system.", 'wpml-translation-management' ) );
-	}
-
-	/**
-	 * @param $target
-	 *
-	 * @return bool
-	 */
-	protected function is_valid_target( $target ) {
-		$target = preg_replace( '/^[\s\t\n\r]+$/m', '', $target );
-		return $target || '0' === $target;
 	}
 }

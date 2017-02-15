@@ -1,6 +1,8 @@
 <?php
 
-class WPML_TM_Records extends WPML_WPDB_User {
+class WPML_TM_Records {
+	/** @var WPDB $wpdb */
+	public $wpdb;
 
 	/** @var array $cache */
 	private $cache = array(
@@ -17,14 +19,17 @@ class WPML_TM_Records extends WPML_WPDB_User {
 	private $wpml_term_translations;
 
 	public function __construct( $wpdb, $wpml_post_translations, $wpml_term_translations ) {
-		parent::__construct( $wpdb );
+		$this->wpdb                   = &$wpdb;
 		$this->wpml_post_translations = $wpml_post_translations;
 		$this->wpml_term_translations = $wpml_term_translations;
 	}
 
 	public function wpdb() {
-
 		return $this->wpdb;
+	}
+
+	public function get_new_wpml_wp_cache( $group = '' ) {
+		return new WPML_WP_Cache( $group );
 	}
 
 	public function get_post_translations() {

@@ -291,7 +291,7 @@ class WPML_Translation_Editor_UI extends WPML_WPDB_And_SP_User {
 			}
 		}
 
-		return $fields;
+		return apply_filters( 'wpml_tm_adjust_translation_fields', $fields, $this->job );
 	}
 
 	private function add_rtl_attribues( $fields ) {

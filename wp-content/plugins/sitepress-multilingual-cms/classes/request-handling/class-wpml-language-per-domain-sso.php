@@ -3,13 +3,14 @@
 /**
  * Class WPML_Language_Per_Domain_SSO
  */
-class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
+class WPML_Language_Per_Domain_SSO {
 
 	const WPML_LANGUAGE_PER_DOMAIN_SSO_NONCE_ACTION = '_wpml_gen_iframe_content';
 	const WPML_LANGUAGE_PER_DOMAIN_SSO_CACHE_KEY = '_wpml_user_signed_nonce';
 	const WPML_LANGUAGE_PER_DOMAIN_SSO_TIMEOUT = MINUTE_IN_SECONDS;
 	private $site_url;
 	private $domains;
+	private $sitepress;
 
 	/**
 	 * WPML_Language_Per_Domain_SSO constructor.
@@ -17,9 +18,9 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 	 * @param SitePress $sitepress
 	 */
 	public function __construct( $sitepress ) {
-		parent::__construct( $sitepress );
-		$this->site_url = get_option( 'siteurl' );
-		$this->domains  = $this->get_domains();
+		$this->sitepress        = $sitepress;
+		$this->site_url         = $this->sitepress->convert_url( $this->sitepress->get_wp_api()->get_home_url(), $this->sitepress->get_default_language() );
+		$this->domains          = $this->get_domains();
 	}
 
 	public function init_hooks() {
@@ -36,15 +37,24 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 		add_action( 'login_enqueue_scripts',             array( $this, 'enqueue_sso_script' ) );
 
 		// Add AJAX actions
-		add_action( 'wp_ajax_wpml_sign_in_user',         array( $this, 'sign_in_user' ) );
-		add_action( 'wp_ajax_nopriv_wpml_sign_in_user',  array( $this, 'sign_in_user' ) );
+		add_action( 'wp_ajax_wpml_sign_in_user',             array( $this, 'sign_in_user' ) );
+		add_action( 'wp_ajax_nopriv_wpml_sign_in_user',      array( $this, 'sign_in_user' ) );
 
-		add_action( 'wp_ajax_wpml_sign_out_user',        array( $this, 'sign_out_user' ) );
-		add_action( 'wp_ajax_nopriv_wpml_sign_out_user', array( $this, 'sign_out_user' ) );
+		add_action( 'wp_ajax_wpml_sign_out_user',            array( $this, 'sign_out_user' ) );
+		add_action( 'wp_ajax_nopriv_wpml_sign_out_user',     array( $this, 'sign_out_user' ) );
 
 		// Add and remove hash keys.
-		add_action( 'wp_login',                          array( $this, 'store_hash_key_in_db' ) );
-		add_action( 'wp_logout',                         array( $this, 'store_hash_key_in_db' ) );
+		add_action( 'wp_login',                              array( $this, 'store_hash_key_in_db' ) );
+		add_action( 'wp_logout',                             array( $this, 'store_hash_key_in_db' ) );
+
+		add_action( 'wpml_delete_sso_logged_in_time_option', array( $this, 'wpml_delete_sso_logged_in_time_option' ) );
+	}
+
+	/**
+	 * Delete expired key for SSO.
+	 */
+	public function wpml_delete_sso_logged_in_time_option() {
+	    delete_option( 'wpml_sso_logged_in_time' );
 	}
 
 	/**
@@ -58,22 +68,24 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 			<script>
 				function sendXHRHttpRequest( params ) {
 					var xhr = new XMLHttpRequest();
-					xhr.open('POST', "<?php echo admin_url( 'admin-ajax.php' ); ?>", true);
+					xhr.open( 'POST', "<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>", true );
 					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 					xhr.send(params);
 				}
 				window.onmessage = function(e) {
 					var payload = JSON.parse(e.data),
-						params = '';
+						params = '',
+						domains = '<?php echo json_encode( $this->domains ); ?>';
 
-					if (e.origin !== "<?php echo $this->site_url; ?>") {
+					domains = Object.values( JSON.parse( domains ) );
+					if ( -1 === domains.indexOf(e.origin) ) {
 						return;
 					}
 
 					if ( 'wpml_is_user_signed_in' === payload.key ) {
-						params = 'action=wpml_sign_in_user&nonce=' + "<?php echo $nonce; ?>" + '&user_id=' + parseInt(payload.data);
+						params = 'action=wpml_sign_in_user&nonce=' + "<?php echo esc_attr( $nonce ); ?>" + '&user_id=' + parseInt(payload.data);
 					} else if ( 'wpml_is_user_signed_out' === payload.key ) {
-						params = 'action=wpml_sign_out_user&nonce=' + "<?php echo $nonce; ?>";
+						params = 'action=wpml_sign_out_user&nonce=' + "<?php echo esc_attr( $nonce ); ?>";
 					}
 					sendXHRHttpRequest( params );
 				};
@@ -89,9 +101,9 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 	public function add_to_footer() {
 		foreach ( $this->domains as $domain ) {
 			$nonce = $this->get_url_hash( $domain );
-			if ( $nonce !== $this->get_url_hash() && get_transient( '_wpml_sso_logged_in_time' ) ) {
+			if ( $nonce !== $this->get_url_hash() && get_option( 'wpml_sso_logged_in_time' ) ) {
 				?>
-				<iframe class="wpml_iframe" style="display:none" src="<?php echo $domain; ?>/?gen_iframe=true&_wpml_gen_iframe_nonce=<?php echo $nonce; ?>"></iframe>
+				<iframe class="wpml_iframe" style="display:none" src="<?php echo esc_url( $domain ); ?>/?gen_iframe=true&_wpml_gen_iframe_nonce=<?php echo esc_attr( $nonce ); ?>"></iframe>
 				<?php
 			}
 		}
@@ -113,7 +125,7 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 				'is_user_logged_in' => is_user_logged_in(),
 				'current_user_id'   => get_current_user_id(),
 				'nonce'             => $nonce,
-				'is_expired'        => ! get_transient( '_wpml_sso_logged_in_time' ),
+				'is_expired'        => ! get_option( 'wpml_sso_logged_in_time' ),
 			)
 		);
 	}
@@ -124,7 +136,7 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 	public function sign_in_user() {
 		$user_id = isset( $_POST['user_id'] ) ? absint( $_POST['user_id'] ) : false;
 		$url_hash = $this->get_url_hash();
-		$sso_nonce_from_origin = get_transient( $url_hash );
+		$sso_nonce_from_origin = get_option( $url_hash );
 		if ( $user_id
 		     && $sso_nonce_from_origin
 		     && $this->is_valid_ajax()
@@ -132,7 +144,8 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 		     && $sso_nonce_from_origin === $url_hash ) {
 
 			wp_set_auth_cookie( $user_id );
-			delete_transient( $url_hash );
+			delete_option( $url_hash );
+			wp_schedule_single_event( time() + self::WPML_LANGUAGE_PER_DOMAIN_SSO_TIMEOUT, 'wpml_delete_sso_logged_in_time_option' );
 		}
 	}
 
@@ -143,7 +156,8 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 		if ( $this->is_valid_ajax() && is_user_logged_in() ) {
 			wp_clear_auth_cookie();
 			$url_hash = $this->get_url_hash();
-			delete_transient( $url_hash );
+			delete_option( $url_hash );
+			wp_schedule_single_event( time() + self::WPML_LANGUAGE_PER_DOMAIN_SSO_TIMEOUT, 'wpml_delete_sso_logged_in_time_option' );
 		}
 	}
 
@@ -152,7 +166,7 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 	 */
 	public function remove_hash_key_from_db() {
 		foreach ( $this->domains as $domain ) {
-			delete_transient( $this->get_url_hash( $domain ) );
+			delete_option( $this->get_url_hash( $domain ) );
 		}
 	}
 
@@ -160,10 +174,10 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 	 * Store specific key to DB, to check later in other domains.
 	 */
 	public function store_hash_key_in_db() {
-		set_transient( '_wpml_sso_logged_in_time', time(), self::WPML_LANGUAGE_PER_DOMAIN_SSO_TIMEOUT );
+		update_option( 'wpml_sso_logged_in_time', time(), false );
 		foreach ( $this->domains as $domain ) {
 			$hash_url = $this->get_url_hash( $domain );
-			set_transient( $hash_url, $hash_url, self::WPML_LANGUAGE_PER_DOMAIN_SSO_TIMEOUT );
+			update_option( $hash_url, $hash_url, false );
 		}
 	}
 
@@ -175,8 +189,20 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 	 * @return string
 	 */
 	private function get_url_hash( $url = null ) {
-		$url = $url ? $url : (  is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'];
-		return hash( 'sha256', self::WPML_LANGUAGE_PER_DOMAIN_SSO_NONCE_ACTION . $url . get_transient( '_wpml_sso_logged_in_time' ) );
+		if ( ! $url ) {
+			$protocol = 'http://';
+			$host     = '';
+
+			if ( is_ssl() ) {
+				$protocol = 'https://';
+			}
+			if ( array_key_exists( 'HTTP_HOST', $_SERVER ) ) {
+				$host = (string) $_SERVER['HTTP_HOST'];
+			}
+			$url = $protocol . $host;
+		}
+
+		return hash( 'sha256', self::WPML_LANGUAGE_PER_DOMAIN_SSO_NONCE_ACTION . $url . get_option( 'wpml_sso_logged_in_time' ) );
 	}
 
 	/**
@@ -189,9 +215,9 @@ class WPML_Language_Per_Domain_SSO extends WPML_SP_User {
 			$scheme = 'https://';
 		}
 
-		array_walk( $domains, function( &$domain, $key, $scheme ) {
+		foreach ( $domains as &$domain ) {
 			$domain = $scheme . $domain;
-		}, $scheme);
+		}
 
 		$domains[] = $this->site_url;
 		return $domains;

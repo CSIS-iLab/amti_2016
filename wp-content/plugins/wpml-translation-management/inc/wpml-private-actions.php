@@ -1,8 +1,8 @@
 <?php
-require WPML_TM_PATH . '/inc/translation-jobs/helpers/wpml-translation-job-helper.class.php';
-require WPML_TM_PATH . '/inc/translation-jobs/helpers/wpml-translation-job-helper-with-api.class.php';
+require_once WPML_TM_PATH . '/inc/translation-jobs/helpers/wpml-translation-job-helper.class.php';
+require_once WPML_TM_PATH . '/inc/translation-jobs/helpers/wpml-translation-job-helper-with-api.class.php';
 require_once WPML_TM_PATH . '/inc/translation-jobs/wpml-translation-jobs-collection.class.php';
-require WPML_TM_PATH . '/inc/translation-jobs/helpers/wpml-save-translation-data-action.class.php';
+require_once WPML_TM_PATH . '/inc/translation-jobs/helpers/wpml-save-translation-data-action.class.php';
 
 function wpml_tm_save_job_fields_from_post( $job_id ) {
 	$job = new WPML_Post_Translation_Job( $job_id );
@@ -38,7 +38,7 @@ function wpml_tm_add_translation_job( $rid, $translator_id, $translation_package
 
 add_action( 'wpml_add_translation_job', 'wpml_tm_add_translation_job', 10, 3 );
 
-require dirname( __FILE__ ) . '/wpml-private-filters.php';
+require_once dirname( __FILE__ ) . '/wpml-private-filters.php';
 
 function wpml_set_job_translated_term_values( $job_id, $delete = false ) {
 

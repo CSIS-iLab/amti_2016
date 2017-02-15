@@ -30,8 +30,6 @@ abstract class WPML_Request extends WPML_URL_Converter_User {
 		$this->default_language = $default_language;
 		$this->cookie           = $cookie;
 		$this->wp_api           = $wp_api;
-		add_filter( 'WPML_get_language_cookie', array( $this, 'get_cookie_lang' ), 10, 0 );
-		add_filter( 'wmpl_get_language_cookie', array( $this, 'get_cookie_lang' ), 10, 0 );
 	}
 
 	protected abstract function get_cookie_name();
@@ -80,7 +78,7 @@ abstract class WPML_Request extends WPML_URL_Converter_User {
 		global $wpml_language_resolution;
 		$cookie_name  = $this->get_cookie_name();
 		$cookie_value = $this->cookie->get_cookie( $cookie_name );
-		$lang         = $cookie_value ? substr( $cookie_value, 0, 10 ) : "";
+		$lang         = $cookie_value ? substr( $cookie_value, 0, 10 ) : null;
 		$lang         = $wpml_language_resolution->is_language_active( $lang ) ? $lang : $this->default_language;
 
 		return $lang;
@@ -120,6 +118,8 @@ abstract class WPML_Request extends WPML_URL_Converter_User {
 			$this->cookie->set_cookie( $cookie_name, $lang_code, time() + DAY_IN_SECONDS, $cookie_path, $cookie_domain );
 		}
 		$_COOKIE[ $cookie_name ] = $lang_code;
+
+		do_action( 'wpml_language_cookie_added', $lang_code );
 	}
 
 	/**
@@ -152,62 +152,27 @@ abstract class WPML_Request extends WPML_URL_Converter_User {
 	}
 
 	/**
-	 * @return string
+	 * Gets the source_language $_GET parameter from the HTTP_REFERER
+	 * @return string|bool
 	 */
-	public function get_request_url() {
-		$scheme = isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
-		$host   = $this->get_server_host_name();
-		$uri    = isset( $_SERVER['REQUEST_URI'] ) ? $_SERVER['REQUEST_URI'] : '';
+	public function get_source_language_from_referer() {
+		$referer = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '';
+		$query   = wpml_parse_url( $referer, PHP_URL_QUERY );
+		parse_str( $query, $query_parts );
+		$source_lang = isset( $query_parts['source_lang'] ) ? $query_parts['source_lang'] : false;
 
-		return $scheme . '://' . $host . $uri;
-	}
-
-	private function set_referer_url_cookie() {
-		if ( ! $this->cookie->headers_sent() ) {
-
-			$this->cookie->set_cookie(
-				$this->get_referer_url_cookie_name(),
-				$this->get_request_url(),
-				time() + DAY_IN_SECONDS,
-				defined( 'COOKIEPATH' ) ? COOKIEPATH : '/',
-				$this->get_cookie_domain()
-			);
-		}
+		return $source_lang;
 	}
 
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public abstract function get_referer_url_cookie_name();
+	public function get_comment_language() {
+		$comment_language = $this->default_language;
 
-	/**
-	 * @return string
-	 */
-	private function get_referer_url_cookie() {
-		return urldecode( $this->cookie->get_cookie( $this->get_referer_url_cookie_name() ) );
-	}
-
-	public function detect_user_switch_language() {
-
-		if ( ! $this->wp_api->constant( 'DOING_AJAX' ) ) {
-
-			$lang_from = $this->get_cookie_lang();
-			$lang_to   = $this->get_requested_lang();
-
-			if ( $lang_from && $lang_from !== $lang_to ) {
-				$referer_url = $this->get_referer_url_cookie();
-
-				/**
-				 * Hook fired when the user changes the site language
-				 *
-				 * @param string $lang_from   the previous language
-				 * @param string $lang_to     the new language
-				 * @param string $referer_url the previous URL
-				 */
-				do_action( 'wpml_user_switch_language', $lang_from, $lang_to, $referer_url );
-			}
-
-			$this->set_referer_url_cookie();
+		if ( array_key_exists( WPML_WP_Comments::LANG_CODE_FIELD, $_POST ) ) {
+			$comment_language = filter_var( $_POST[WPML_WP_Comments::LANG_CODE_FIELD], FILTER_SANITIZE_SPECIAL_CHARS );
 		}
+		return $comment_language;
 	}
 }

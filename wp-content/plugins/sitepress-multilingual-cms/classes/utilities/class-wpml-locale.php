@@ -23,7 +23,7 @@ class WPML_Locale extends WPML_WPDB_And_SP_User {
 	}
 
 	public function init() {
-		if ( $this->is_need_filter_title_sanitization() ) {
+		if ( $this->language_needs_title_sanitization() ) {
 			add_filter( 'sanitize_title', array( $this, 'filter_sanitize_title' ), 10, 2 );
 		}
 	}
@@ -197,14 +197,13 @@ class WPML_Locale extends WPML_WPDB_And_SP_User {
 		return true;
 	}
 
-	private function is_need_filter_title_sanitization() {
-		$active_languages = $this->sitepress->get_active_languages();
-		$needs_filter     = false;
-		foreach ( $active_languages as $lang ) {
-			if ( in_array( $lang[ 'default_locale' ], array( 'de_DE', 'da_DK' ) ) ) {
-				$needs_filter = true;
-				break;
-			}
+	private function language_needs_title_sanitization() {
+		$lang_needs_filter = array( 'de_DE', 'da_DK' );
+		$current_lang = $this->sitepress->get_language_details( $this->sitepress->get_current_language() );
+		$needs_filter = false;
+
+		if ( in_array( $current_lang['default_locale'], $lang_needs_filter ) ) {
+			$needs_filter = true;
 		}
 
 		return $needs_filter;

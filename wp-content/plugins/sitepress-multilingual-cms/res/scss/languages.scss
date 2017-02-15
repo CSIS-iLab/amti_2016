@@ -1,4 +1,5 @@
 @import "mixins";
+@import "variables";
 
 #icl_save_default_button,
 #icl_cancel_default_button,
@@ -7,15 +8,19 @@
 }
 
 /* Wizard */
-#icl_setup_wizard .icl_setup_wizard_step {
+
+.icl_setup_wizard_step {
   float: left;
   width: 25%;
-  font-weight: bold;
-  font-size: 11px;
+	text-align: center;
+	font-size: 17px;
+	[dir='rtl'] & {
+		float: right;
+	}
 }
 
 #icl_setup_wizard_progress {
-  margin: 10px 0 10px 0;
+  margin: 15px 0 3px 0;
   width: 100%;
   height: 10px;
   background-color: #ccc;
@@ -23,7 +28,7 @@
 
 #icl_setup_wizard_progress_bar {
   height: 10px;
-  background-color: #777;
+  background-color: $wpml-blue;
 }
 /* Wizard END */
 
@@ -62,40 +67,29 @@
   list-style: square inside;
 }
 
-
-/* Wizard section */
-.wpml-section-wizard-steps h3 {
-  color: #278ab7;
-}
-/* Wizard section END */
-
 /* Languages section */
 .wpml-section-languages {
   .selected {
     font-weight: bold;
   }
+	.wpml-major, .wpml-selected {
+		font-weight: 600;
+	}
   .available-languages, .enabled-languages {
     margin: 0 0 20px 0;
   }
   .available-languages {
     overflow: hidden;
-
+	  column-width: 180px;
 		li {
-			display: inline-block;
-			width: 170px;
-			&:hover {
-				color: #21759b;
-				font-weight: bold;
+			img {
+				vertical-align: -1px;
+				margin-right: 4px;
 			}
 		}
   }
   .enabled-languages {
-    li {
-      position: relative;
-    }
     input[type="radio"] {
-      /*position: absolute;*/
-      /*left: -18px;*/
       display: none;
     }
   }
@@ -122,52 +116,3 @@
   margin: 10px 0;
 }
 /* URL format END */
-
-/* Language switcher */
-.language-selector-preview {
-  float: right;
-  padding: 0 15px;
-  height: 30px;
-  border: 1px solid #ccc;
-}
-
-.language-selector-preview-footer {
-  float: none;
-  padding: 15px;
-  min-height: 80px;
-  height: auto;
-}
-
-.wpml-section-language-switcher .languages-order {
-  overflow: hidden;
-  li {
-    float: left;
-    margin: 0 8px 0 0;
-    padding: 2px 8px;
-    border: 1px solid #DFDFDF;
-    border-radius: 2px;
-		/* autoprefixer: off */
-		@include background-gradient( to top, #ececec, #f9f9f9, #f1f1f1 );
-    cursor: move;
-  }
-}
-
-.wpml-section-language-switcher {
-  span.dashicons {
-    font-size: 14px;
-    display: inline;
-    width: auto;
-    height: auto;
-    line-height: inherit;
-    vertical-align: baseline;
-    background-image: none;
-    background-position: 0% 0%;
-    background-repeat: repeat;
-    margin-top: 0;
-    font-weight: 900;
-    font-style: normal;
-    text-decoration: inherit;
-    -webkit-font-smoothing: none;
-  }
-}
-/* Language switcher END */

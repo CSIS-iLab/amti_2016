@@ -2,10 +2,24 @@
 
 class WPML_XDomain_Data_Parser {
 
-	public function __construct() {
-		global $sitepress_settings;
+	const SCRIPT_HANDLER = 'wpml-xdomain-data';
 
-		if ( ! isset( $sitepress_settings['xdomain_data'] ) || $sitepress_settings['xdomain_data'] != WPML_XDOMAIN_DATA_OFF ) {
+	/**
+	 * @var array $settings
+	 */
+	private $settings;
+
+	/**
+	 * WPML_XDomain_Data_Parser constructor.
+	 *
+	 * @param array $settings
+	 */
+	public function __construct( &$settings ) {
+		$this->settings = &$settings;
+	}
+
+	public function init_hooks() {
+		if ( ! isset( $this->settings['xdomain_data'] ) || $this->settings['xdomain_data'] != WPML_XDOMAIN_DATA_OFF ) {
 			add_action( 'init', array( $this, 'init' ) );
 			add_filter( 'wpml_get_cross_domain_language_data', array( $this, 'get_xdomain_data' ) );
 		}
@@ -19,13 +33,19 @@ class WPML_XDomain_Data_Parser {
 
 	public function register_scripts_action() {
 		if ( !defined( 'DOING_AJAX' ) || !DOING_AJAX ) {
-			wp_enqueue_script( 'wpml-xdomain-data', ICL_PLUGIN_URL . '/res/js/xdomain-data.js', array( 'jquery', 'sitepress' ), ICL_SITEPRESS_VERSION );
+
+			$ls_parameters = WPML_Language_Switcher::parameters();
+
+			$js_xdomain_data = array(
+				'css_selector' => $ls_parameters['css_prefix'] . 'item',
+			);
+
+			wp_enqueue_script( self::SCRIPT_HANDLER, ICL_PLUGIN_URL . '/res/js/xdomain-data.js', array( 'jquery', 'sitepress' ), ICL_SITEPRESS_VERSION );
+			wp_localize_script( self::SCRIPT_HANDLER, 'wpml_xdomain_data', $js_xdomain_data );
 		}
 	}
 
 	public function set_up_xdomain_language_data(){
-		global $sitepress_settings;
-
 		$ret = array();
 
 		$data = apply_filters( 'WPML_cross_domain_language_data', array() );
@@ -46,7 +66,7 @@ class WPML_XDomain_Data_Parser {
 			$base64_encoded_data = base64_encode( $encoded_data );
 			$ret['xdomain_data'] = urlencode( $base64_encoded_data );
 
-			$ret['method'] = WPML_XDOMAIN_DATA_POST == $sitepress_settings['xdomain_data'] ? 'post' : 'get';
+			$ret['method'] = WPML_XDOMAIN_DATA_POST == $this->settings['xdomain_data'] ? 'post' : 'get';
 
 		}
 
@@ -66,13 +86,12 @@ class WPML_XDomain_Data_Parser {
 		$xdomain_data = array();
 
 		if ( isset( $_GET['xdomain_data'] ) || isset( $_POST['xdomain_data'] ) ) {
-			global $sitepress_settings;
 
 			$xdomain_data_request = false;
 
-			if ( WPML_XDOMAIN_DATA_GET == $sitepress_settings['xdomain_data'] ) {
+			if ( WPML_XDOMAIN_DATA_GET == $this->settings['xdomain_data'] ) {
 				$xdomain_data_request = isset( $_GET['xdomain_data'] ) ? $_GET['xdomain_data'] : false;
-			} elseif ( WPML_XDOMAIN_DATA_POST == $sitepress_settings['xdomain_data'] ) {
+			} elseif ( WPML_XDOMAIN_DATA_POST == $this->settings['xdomain_data'] ) {
 				$xdomain_data_request = isset( $_POST['xdomain_data'] ) ? urldecode( $_POST['xdomain_data'] ) : false;
 			}
 

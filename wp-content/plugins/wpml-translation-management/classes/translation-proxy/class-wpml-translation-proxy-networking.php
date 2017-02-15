@@ -46,8 +46,8 @@ class WPML_Translation_Proxy_Networking {
 
 		if ( $params ) {
 			$url = TranslationProxy_Api::add_parameters_to_url( $url, $params );
-			if ( $method === 'GET' ) {
-				$url .= '?' . http_build_query( $params );
+			if ( 'GET' === $method ) {
+				$url .= '?' . wpml_http_build_query( $params );
 			}
 		}
 		if ( ! isset( $params['api_version'] ) || ! $params['api_version'] ) {

@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @deprecated This file should be removed in WPML 3.8.0: it has been kept to allow error-less updates from pre 3.6.2.
+ * @since 3.6.2
  * @author OnTheGo Systems
  */
 class WPML_Notice_Render {
@@ -47,6 +49,7 @@ class WPML_Notice_Render {
 			$class = implode( ' ', $classes );
 
 			$result .= '<div class="' . $class . '" data-id="' . esc_attr( $notice->get_id() ) . '" data-group="' . esc_attr( $notice->get_group() ) . '"';
+			$result .= $this->get_data_nonce_attribute();
 
 			if ( $this->hide_html_added || $notice->can_be_hidden() ) {
 				$result .= ' data-hide-text="' . __( 'Hide', 'sitepress' ) . '" ';
@@ -92,7 +95,19 @@ class WPML_Notice_Render {
 		$restrict_to_pages = $notice->get_restrict_to_pages();
 		$allow_this_page   = ! $restrict_to_pages || in_array( $current_page, $restrict_to_pages, true );
 
-		return ! $page_excluded && $allow_this_page;
+		$allow_by_callback = true;
+		$display_callbacks = $notice->get_display_callbacks();
+		if ( $display_callbacks ) {
+			$allow_by_callback = false;
+			foreach ( $display_callbacks as $callback ) {
+				if ( call_user_func( $callback ) ) {
+					$allow_by_callback = true;
+					break;
+				}
+			}
+		}
+
+		return ! $page_excluded && $allow_this_page && $allow_by_callback;
 	}
 
 	/**
@@ -144,7 +159,7 @@ class WPML_Notice_Render {
 	 */
 	private function get_hide_html( $localized_text = null ) {
 		$hide_html = '';
-		$hide_html .= '<span class="otgs-notice-hide notice-dismiss"><span class="screen-reader-text">';
+		$hide_html .= '<span class="otgs-notice-hide notice-hide"><span class="screen-reader-text">';
 		if ( $localized_text ) {
 			$hide_html .= esc_html( $localized_text );
 		} else {
@@ -268,15 +283,23 @@ class WPML_Notice_Render {
 
 		if ( $action->get_group_to_dismiss() ) {
 			$action_url .= ' data-dismiss-group="' . esc_attr( $action->get_group_to_dismiss() ) . '"';
-			$action_url .= ' data-nonce="' . wp_create_nonce( 'otgs-hide-notice-for-group' ) . '"';
 		}
 		if ( $action->get_js_callback() ) {
 			$action_url .= ' data-js-callback="' . esc_attr( $action->get_js_callback() ) . '"';
 		}
+
+		$action_url .= $this->get_data_nonce_attribute();
 		$action_url .= '>';
 		$action_url .= $action->get_text();
 		$action_url .= '</a>';
 
 		return $action_url;
+	}
+
+	/**
+	 * @return string
+	 */
+	private function get_data_nonce_attribute() {
+		return ' data-nonce="' . wp_create_nonce( WPML_Notices::NONCE_NAME ) . '"';
 	}
 }

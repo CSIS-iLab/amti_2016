@@ -71,7 +71,7 @@ abstract class WPML_TM_MCS_Custom_Field_Settings_Menu {
 								$html_disabled = $setting->is_read_only() ? 'disabled="disabled"' : '';
 								?>
 								<tr>
-									<td><?php echo $cf_key ?></td>
+									<td><?php echo esc_html( $cf_key ); ?></td>
 									<?php
 									foreach (
 										array(

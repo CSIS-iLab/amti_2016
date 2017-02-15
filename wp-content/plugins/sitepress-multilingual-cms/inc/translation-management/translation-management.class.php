@@ -151,7 +151,7 @@ class TranslationManagement {
 	/**
 	 * @param $code
 	 *
-*@return bool
+	 * @return bool
 	 */
 	private function is_valid_language_code_format( $code ) {
 		return $code && is_string( $code ) && strlen( $code ) >= 2;
@@ -229,6 +229,10 @@ class TranslationManagement {
 				$this->settings[ 'doc_translation_method' ] = ICL_TM_TMETHOD_MANUAL;
 			}
 		}
+	}
+
+	public function get_settings() {
+		return $this->settings;
 	}
 
 	public function wpml_add_duplicate_check_actions() {
@@ -886,7 +890,8 @@ class TranslationManagement {
 
 				if ( $comment_meta ) {
 					foreach ( $comment_meta as $key => $value ) {
-						update_comment_meta( $dup, $key, $value );
+						wp_cache_delete( $dup, 'comment_meta' );
+						update_comment_meta( $dup, $value->meta_key, $value->meta_value );
 					}
 				}
 			}
@@ -1724,29 +1729,6 @@ class TranslationManagement {
 		}
 	}
 
-	function read_settings_recursive( $config_settings ) {
-		global $sitepress;
-		$settings_portion = false;
-		foreach ( $config_settings as $s ) {
-			if ( isset( $s[ 'key' ] ) ) {
-				if ( ! is_numeric( key( $s[ 'key' ] ) ) ) {
-					$sub_key[ 0 ] = $s[ 'key' ];
-				} else {
-					$sub_key = $s[ 'key' ];
-				}
-				$read_settings_recursive = $this->read_settings_recursive( $sub_key );
-				if ( $read_settings_recursive ) {
-					$sitepress->set_setting( $s[ 'attr' ][ 'name' ], $read_settings_recursive );
-				}
-			} else {
-				$sitepress->set_setting( $s[ 'attr' ][ 'name' ], $s[ 'value' ] );
-				$settings_portion[ $s[ 'attr' ][ 'name' ] ] = $s[ 'value' ];
-			}
-		}
-
-		return $settings_portion;
-	}
-
 	function render_option_writes( $name, $value, $key = '' ) {
 		if ( ! defined( 'WPML_ST_FOLDER' ) ) {
 			return;
@@ -1802,7 +1784,7 @@ class TranslationManagement {
 
 		$context_html = '';
 		if ( ! $key ) {
-			$context_html = '[' . $context . ': ' . $slug . '] ';
+			$context_html = '[' . esc_html( $context ) . ': ' . esc_html( $slug ) . '] ';
 		}
 
 		if ( is_scalar( $value ) ) {
@@ -1826,9 +1808,9 @@ class TranslationManagement {
 
 				if ( ! $key ) {
 					if ( icl_st_is_registered_string( $es_context, $name ) ) {
-						$edit_link = '[<a href="' . admin_url( 'admin.php?page=' . WPML_ST_FOLDER . '/menu/string-translation.php&context=' . $es_context ) . '">' . __( 'translate', 'sitepress' ) . '</a>]';
+						$edit_link = '[<a href="' . admin_url( 'admin.php?page=' . WPML_ST_FOLDER . '/menu/string-translation.php&context=' . esc_html( $es_context ) ) . '">' . esc_html__( 'translate', 'sitepress' ) . '</a>]';
 					} else {
-						$edit_link = '<div class="updated below-h2">' . __( 'string not registered', 'sitepress' ) . '</div>';
+						$edit_link = '<div class="updated below-h2">' . esc_html__( 'string not registered', 'sitepress' ) . '</div>';
 					}
 				} else {
 					$edit_link = '';
@@ -1836,19 +1818,19 @@ class TranslationManagement {
 			}
 
 			if ( false !== strpos( $name, '*' ) ) {
-				$o_value = '<span style="color:#bbb">{{ ' . __( 'Multiple options', 'wpml-translation-management' ) . ' }}</span>';
+				$o_value = '<span style="color:#bbb">{{ ' . esc_html__( 'Multiple options', 'wpml-translation-management' ) . ' }}</span>';
 			} else {
 				$o_value = esc_html( $o_value );
 				if ( strlen( $o_value ) > 200 ) {
 					$o_value = substr( $o_value, 0, 200 ) . ' ...';
 				}
 			}
-			echo '<li>' . $context_html . $name . ': <i>' . $o_value . '</i> ' . $edit_link . '</li>';
+			echo '<li>' . $context_html . esc_html( $name ) . ': <i>' . $o_value . '</i> ' . $edit_link . '</li>';
 		} else {
-			$edit_link = '[<a href="' . admin_url( 'admin.php?page=' . WPML_ST_FOLDER . '/menu/string-translation.php&context=' . $es_context ) . '">' . __( 'translate', 'sitepress' ) . '</a>]';
+			$edit_link = '[<a href="' . admin_url( 'admin.php?page=' . WPML_ST_FOLDER . '/menu/string-translation.php&context=' . esc_html( $es_context ) ) . '">' . esc_html__( 'translate', 'sitepress' ) . '</a>]';
 			echo '<strong>' . $context_html . $name . '</strong> ' . $edit_link;
 			if ( ! icl_st_is_registered_string( $es_context, $name ) ) {
-				$notice = '<div class="updated below-h2">' . __( 'some strings might be not registered', 'sitepress' ) . '</div>';
+				$notice = '<div class="updated below-h2">' . esc_html__( 'some strings might be not registered', 'sitepress' ) . '</div>';
 				echo $notice;
 			}
 

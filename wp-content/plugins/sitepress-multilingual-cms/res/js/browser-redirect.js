@@ -49,16 +49,10 @@ var WPMLBrowserRedirect = function () {
                 for (var i = 0; i < browserLanguagesLength; i++) {
                     browserLanguage = browserLanguages[i];
 
-					if( pageLanguage === browserLanguage.substr(0, 2) ){
+					if ( pageLanguage === browserLanguage ) {
 						self.setCookie(browserLanguage);
 						break;
-					}else if( pageLanguage === browserLanguage ){
-						self.setCookie(browserLanguage);
-						break;
-					}else if( pageLanguage === browserLanguage.substr(3, browserLanguage.length) ){
-						self.setCookie(browserLanguage);
-						break;
-					}else{
+					} else {
 						redirectUrl = self.getRedirectUrl(browserLanguage);
 						if (false !== redirectUrl) {
 							self.setCookie(browserLanguage);

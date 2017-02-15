@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class WPML_TM_Post_Edit_Custom_Field_Settings_Menu
+ */
 class WPML_TM_Post_Edit_Custom_Field_Settings_Menu extends WPML_SP_User {
 
 	/** @var  WPML_Custom_Field_Setting_Factory $setting_factory */
@@ -35,7 +38,7 @@ class WPML_TM_Post_Edit_Custom_Field_Settings_Menu extends WPML_SP_User {
 			<table class="widefat">
 				<thead>
 				<tr>
-					<th colspan="2"><?php _e( 'Custom fields', 'sitepress' ); ?></th>
+					<th colspan="2"><?php esc_html_e( 'Custom fields', 'sitepress' ); ?></th>
 				</tr>
 				</thead>
 				<tbody>
@@ -47,28 +50,28 @@ class WPML_TM_Post_Edit_Custom_Field_Settings_Menu extends WPML_SP_User {
 					}
 					$this->rendered = true;
 					$radio_disabled = $field_setting->is_read_only() ? 'disabled="disabled"' : '';
-					$status         = $field_setting->status();
-					$checked0       = $status == WPML_IGNORE_CUSTOM_FIELD ? ' checked="checked"' : '';
-					$checked1       = $status == WPML_COPY_CUSTOM_FIELD ? ' checked="checked"' : '';
-					$checked2       = $status == WPML_TRANSLATE_CUSTOM_FIELD ? ' checked="checked"' : '';
+					$status         = (int) $field_setting->status();
+					$checked0       = WPML_IGNORE_CUSTOM_FIELD === $status ? ' checked="checked"' : '';
+					$checked1       = WPML_COPY_CUSTOM_FIELD === $status ? ' checked="checked"' : '';
+					$checked2       = WPML_TRANSLATE_CUSTOM_FIELD === $status ? ' checked="checked"' : '';
 					?>
 					<tr>
-						<td id="icl_mcs_cf_<?php echo base64_encode( $cfield ); ?>"><?php echo $cfield; ?></td>
+						<td id="icl_mcs_cf_<?php echo esc_attr( base64_encode( $cfield ) ); ?>"><?php echo esc_html( $cfield ); ?></td>
 						<td align="right">
 							<label><input class="icl_mcs_cfs"
-							              name="icl_mcs_cf_<?php echo base64_encode( $cfield ); ?>"
+							              name="icl_mcs_cf_<?php echo esc_attr( base64_encode( $cfield ) ); ?>"
 							              type="radio"
-							              value="0" <?php echo $radio_disabled . $checked0 ?> />&nbsp;<?php _e( "Don't translate", 'sitepress' ) ?>
+							              value="0" <?php echo esc_attr( $radio_disabled . $checked0 ); ?> />&nbsp;<?php esc_html_e( "Don't translate", 'sitepress' ) ?>
 							</label>
 							<label><input class="icl_mcs_cfs"
-							              name="icl_mcs_cf_<?php echo base64_encode( $cfield ); ?>"
+							              name="icl_mcs_cf_<?php echo esc_attr( base64_encode( $cfield ) ); ?>"
 							              type="radio"
-							              value="1" <?php echo $radio_disabled . $checked1 ?> />&nbsp;<?php _e( "Copy", 'sitepress' ) ?>
+							              value="1" <?php echo esc_attr( $radio_disabled . $checked1 ); ?> />&nbsp;<?php esc_html_e( 'Copy', 'sitepress' ); ?>
 							</label>
 							<label><input class="icl_mcs_cfs"
-							              name="icl_mcs_cf_<?php echo base64_encode( $cfield ); ?>"
+							              name="icl_mcs_cf_<?php echo esc_attr( base64_encode( $cfield ) ); ?>"
 							              type="radio"
-							              value="2" <?php echo $radio_disabled . $checked2 ?> />&nbsp;<?php _e( "Translate", 'sitepress' ) ?>
+							              value="2" <?php echo esc_attr( $radio_disabled . $checked2 ); ?> />&nbsp;<?php esc_html_e( 'Translate', 'sitepress' ) ?>
 							</label>
 						</td>
 					</tr>
@@ -80,7 +83,6 @@ class WPML_TM_Post_Edit_Custom_Field_Settings_Menu extends WPML_SP_User {
 			<br/>
 			<?php
 		}
-
 		return ob_get_clean();
 	}
 

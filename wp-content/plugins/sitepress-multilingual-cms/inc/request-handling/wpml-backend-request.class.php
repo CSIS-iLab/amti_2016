@@ -40,25 +40,11 @@ class WPML_Backend_Request extends WPML_Request {
 						 && $_GET[ 'page' ] === WPML_TM_FOLDER . '/menu/translations-queue.php' ) );
 	}
 
-	/**
-	 * Gets the source_language $_GET parameter from the HTTP_REFERER
-	 *
-	 * @return string|bool
-	 */
-	public function get_source_language_from_referer() {
-		$referer = isset( $_SERVER[ 'HTTP_REFERER' ] ) ? $_SERVER[ 'HTTP_REFERER' ] : '';
-		$query   = wpml_parse_url( $referer, PHP_URL_QUERY );
-		parse_str( $query, $query_parts );
-		$source_lang = isset( $query_parts[ 'source_lang' ] ) ? $query_parts[ 'source_lang' ] : false;
-
-		return $source_lang;
-	}
-
 	private function get_ajax_request_lang() {
 		$al   = $this->active_languages;
-		$lang = isset( $_POST[ 'lang' ] ) && isset( $al[ $_POST[ 'lang' ] ] ) ? $_POST[ 'lang' ] : null;
-		$lang = $lang === null ? ( $cookie_lang = $this->get_cookie_lang() ) : $lang;
-		$lang = $lang === null && isset( $_SERVER[ 'HTTP_REFERER' ] )
+		$lang = isset( $_POST['lang'] ) && in_array( $_POST['lang'], $al, true ) ? sanitize_text_field( $_POST['lang'] ) : null;
+		$lang = null === $lang ? ( $cookie_lang = $this->get_cookie_lang() ) : $lang;
+		$lang = null === $lang && isset( $_SERVER[ 'HTTP_REFERER' ] )
 			? $this->url_converter->get_language_from_url( $_SERVER[ 'HTTP_REFERER' ] ) : $lang;
 		$lang = $lang ? $lang : ( isset( $cookie_lang ) ? $cookie_lang : $this->get_cookie_lang() );
 		$lang = $lang ? $lang : $this->default_language;
@@ -78,18 +64,28 @@ class WPML_Backend_Request extends WPML_Request {
 		 */
 		global $wpml_language_resolution, $wpml_post_translations;
 
+		$url_lang_param = '';
+		if ( isset( $_GET[ 'lang' ] ) ) {
+			$url_lang_param = filter_var( $_GET[ 'lang' ], FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		}
+
+		$icl_post_language = '';
+		if ( isset( $_POST[ 'icl_post_language' ] ) ) {
+			$icl_post_language = filter_var( $_POST[ 'icl_post_language' ], FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+		}
+
 		if ( $this->force_default() === true ) {
 			$lang = $this->default_language;
-		} elseif ( isset( $_GET[ 'lang' ] )
-				   && $wpml_language_resolution->is_language_active( $_GET[ 'lang' ], true )
+		} elseif ( $url_lang_param
+				   && $wpml_language_resolution->is_language_active( $url_lang_param, true )
 		) {
-			$lang = $_GET[ 'lang' ];
+			$lang = $url_lang_param;
 		} elseif ( wpml_is_ajax() ) {
 			$lang = $this->get_ajax_request_lang();
-		} elseif ( isset( $_POST[ 'icl_post_language' ] )
-				   && $wpml_language_resolution->is_language_active( $_POST[ 'icl_post_language' ] )
+		} elseif ( $icl_post_language
+				   && $wpml_language_resolution->is_language_active( $icl_post_language )
 		) {
-			$lang = $_POST[ 'icl_post_language' ];
+			$lang = $icl_post_language;
 		} elseif ( isset( $_GET[ 'p' ] )
 				   && ( $p = (int) $_GET[ 'p' ] ) > 0
 				   && (bool) ( $posts_lang = $wpml_post_translations->get_element_lang_code( $p ) ) === true
@@ -106,12 +102,5 @@ class WPML_Backend_Request extends WPML_Request {
 
 		return wpml_is_ajax() && $this->check_if_admin_action_from_referer() === false
 			? '_icl_current_language' : '_icl_current_admin_language_' . md5( $this->get_cookie_domain() );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function get_referer_url_cookie_name() {
-		return 'wpml_admin_referer_url';
 	}
 }

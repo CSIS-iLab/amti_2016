@@ -36,13 +36,18 @@ function iclSaveThemeLocalizationType(){
         jQuery(this).find('.icl_form_errors_1').fadeIn();
         return false;
     }
-    
+
+    var data = jQuery(this).serializeArray();
+    data.push({
+        'name': 'action',
+        'value' : 'WPML_Theme_Localization_Type'
+    });
+
     jQuery.ajax({
         type: "POST",
-        url: icl_ajx_url,
-        data: "icl_ajx_action="+jQuery(this).attr('name')+"&"+jQuery(this).serialize(),
+        url: ajaxurl,
+        data: data,
         success: function(msg){
-            spl = msg.split('|');
             location.href=location.href.replace(/#(.*)$/,'');
         }
     });
@@ -60,9 +65,11 @@ function iclCheckColumn(){
 function iclEditThemeLocalizationType(){
     var val = jQuery(this).val();
     if(val == 2){
-        jQuery('#icl_tt_type_extra').fadeIn();        
+        jQuery('#icl_tt_type_extra').fadeIn();
+        jQuery('#wpml_st_display_strings_scan_notices_box').fadeOut();
     }else{
         jQuery('#icl_tt_type_extra').fadeOut();
+        jQuery('#wpml_st_display_strings_scan_notices_box').fadeIn();
     }
 }
 

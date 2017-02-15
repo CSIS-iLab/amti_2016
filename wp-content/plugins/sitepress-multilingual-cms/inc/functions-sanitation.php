@@ -42,7 +42,7 @@ function wpml_is_valid_hex_color( $input ) {
 	if ( 'transparent' === $input || preg_match( '/' . wpml_get_valid_hex_color_pattern() . '/i', $input ) ) {
 		$is_valid = true;
 	} else {
-		$try_rgb2hex = rgb_to_hex( $input );
+		$try_rgb2hex = wpml_rgb_to_hex( $input );
 		$is_valid = $try_rgb2hex ? preg_match( '/' . wpml_get_valid_hex_color_pattern() . '/i', $try_rgb2hex ) : false;
 	}
 
@@ -53,15 +53,22 @@ function wpml_get_valid_hex_color_pattern() {
 	return '(^#[a-fA-F0-9]{6}$)|(^#[a-fA-F0-9]{3}$)';
 }
 
-function rgb_to_hex( $rgb ) {
+/**
+ * Convert RGB color code to HEX code.
+ *
+ * @param array $rgb
+ *
+ * @return bool|string
+ */
+function wpml_rgb_to_hex( $rgb ) {
 	if ( ! is_array( $rgb ) || count( $rgb ) < 3 ) {
 		return false;
 	}
 
 	$hex = '#';
-	$hex .= str_pad(dechex($rgb[0]), 2, '0', STR_PAD_LEFT);
-	$hex .= str_pad(dechex($rgb[1]), 2, '0', STR_PAD_LEFT);
-	$hex .= str_pad(dechex($rgb[2]), 2, '0', STR_PAD_LEFT);
+	$hex .= str_pad( dechex( $rgb[0] ), 2, '0', STR_PAD_LEFT );
+	$hex .= str_pad( dechex( $rgb[1] ), 2, '0', STR_PAD_LEFT );
+	$hex .= str_pad( dechex( $rgb[2] ), 2, '0', STR_PAD_LEFT );
 
 	return $hex;
 }

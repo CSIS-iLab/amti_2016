@@ -234,8 +234,7 @@ class WPML_TM_Menus
         }
     }
 
-    private function build_content()
-    {
+    private function build_content() {
         $tm_sub_menu = $this->get_current_shown_item();
         foreach ($this->tab_items as $id => $tab_item) {
             if (!isset($tab_item['caption'])) {
@@ -249,7 +248,7 @@ class WPML_TM_Menus
                 if (isset($tab_item['target'])) {
                     $target = $tab_item['target'];
                     /** @noinspection PhpIncludeInspection */
-                    include $this->build_tab_item_target_url($target);
+                    include_once $this->build_tab_item_target_url($target);
                 }
                 if (isset($tab_item['callback'])) {
                     $callback = $tab_item['callback'];
@@ -277,7 +276,6 @@ class WPML_TM_Menus
         global $iclTranslationManagement, $wpdb, $sitepress;
 
         $translator_settings = new WPML_Translator_Settings( $wpdb, $sitepress, $iclTranslationManagement );
-        $translator_settings->build_header_content();
         ?>
 
 		<a href="#your_translators"><?php _e( 'Your Translators', 'wpml-translation-management' ); ?></a> &nbsp;&nbsp;
@@ -584,6 +582,9 @@ class WPML_TM_Menus
             <li>
                 <a href="#ml-content-setup-sec-cf"><?php _e('Custom fields translation', 'wpml-translation-management'); ?></a>
             </li>
+            <li>
+                <a href="#ml-content-setup-sec-tcf"><?php _e('Custom Term Meta Translation', 'wpml-translation-management'); ?></a>
+            </li>
             <?php
 
 
@@ -699,7 +700,7 @@ class WPML_TM_Menus
 
         </div> <!-- .wpml-section -->
 
-        <?php include ICL_PLUGIN_PATH . '/menu/_posts_sync_options.php'; ?>
+        <?php include_once ICL_PLUGIN_PATH . '/menu/_posts_sync_options.php'; ?>
 
         <div class="wpml-section" id="ml-content-setup-sec-3">
 
@@ -710,7 +711,7 @@ class WPML_TM_Menus
             <div class="wpml-section-content">
 
                 <form name="icl_tdo_options" id="icl_tdo_options" action="">
-                    <?php wp_nonce_field('icl_tdo_options_nonce', '_icl_nonce'); ?>
+                    <?php wp_nonce_field('wpml-translated-document-options-nonce', WPML_TM_Options_Ajax::NONCE_TRANSLATED_DOCUMENT); ?>
 
                     <div class="wpml-section-content-inner">
                         <h4>
@@ -767,8 +768,7 @@ class WPML_TM_Menus
                     <div class="wpml-section-content-inner">
                         <p class="buttons-wrap">
                             <span class="icl_ajx_response" id="icl_ajx_response_tdo"></span>
-                            <input type="submit" class="button-primary"
-                                   value="<?php _e('Save', 'wpml-translation-management') ?>"/>
+                            <input id="js-translated_document-options-btn" type="button" class="button-primary" value="<?php _e('Save', 'wpml-translation-management') ?>"/>
                         </p>
                     </div>
 
@@ -778,7 +778,7 @@ class WPML_TM_Menus
 
         </div> <!-- .wpml-section -->
 
-        <?php if (defined('WPML_ST_VERSION')) include WPML_ST_PATH . '/menu/_slug-translation-options.php'; ?>
+        <?php if (defined('WPML_ST_VERSION')) include_once WPML_ST_PATH . '/menu/_slug-translation-options.php'; ?>
 
         <div class="wpml-section" id="ml-content-setup-sec-5">
 
@@ -789,7 +789,7 @@ class WPML_TM_Menus
             <div class="wpml-section-content">
 
                 <form id="icl_translation_pickup_mode" name="icl_translation_pickup_mode" action="">
-                    <?php wp_nonce_field('set_pickup_mode_nonce', '_icl_nonce') ?>
+                    <?php wp_nonce_field( 'wpml_save_translation_pickup_mode', WPML_TM_Pickup_Mode_Ajax::NONCE_PICKUP_MODE ) ?>
 
                     <p>
                         <?php echo __('How should the site receive completed translations from Translation Service?', 'wpml-translation-management'); ?>
@@ -816,8 +816,8 @@ class WPML_TM_Menus
 
                     <p class="buttons-wrap">
                         <span class="icl_ajx_response" id="icl_ajx_response_tpm"></span>
-                        <input class="button-primary" name="save"
-                               value="<?php _e('Save', 'wpml-translation-management') ?>" type="submit"/>
+                        <input id="translation-pickup-mode" class="button-primary" name="save"
+                               value="<?php _e('Save', 'wpml-translation-management') ?>" type="button"/>
                     </p>
 
                     <?php
@@ -831,11 +831,11 @@ class WPML_TM_Menus
         </div> <!-- .wpml-section -->
 
         <?php
-        include WPML_TM_PATH . '/menu/xliff-options.php';
+	    include_once WPML_TM_PATH . '/menu/xliff-options.php';
 	    $this->build_content_mcs_custom_fields();
 
 
-	      include ICL_PLUGIN_PATH . '/menu/_custom_types_translation.php'; ?>
+	    include_once ICL_PLUGIN_PATH . '/menu/_custom_types_translation.php'; ?>
 
         <?php if (!empty($iclTranslationManagement->admin_texts_to_translate) && function_exists('icl_register_string')): //available only with the String Translation plugin ?>
         <div class="wpml-section" id="ml-content-setup-sec-9">
@@ -1031,12 +1031,18 @@ class WPML_TM_Menus
 			if ( $this->source_language ) {
 				$this->translation_filter[ 'from_lang' ] = $this->source_language;
 			} else {
-				$this->translation_filter[ 'from_lang' ] = isset( $_GET[ 'lang' ] ) ? $_GET[ 'lang' ] : $this->current_language;
+				$this->translation_filter[ 'from_lang' ] = $this->current_language;
+				if ( array_key_exists( 'lang', $_GET ) && $lang = filter_var( $_GET['lang'] , FILTER_SANITIZE_STRING, FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) {
+					$this->translation_filter[ 'from_lang' ] = $lang;
+				}
 			}
 		}
 
         if (!isset($this->translation_filter['to_lang'])) {
-            $this->translation_filter['to_lang'] = isset($_GET['to_lang']) ? $_GET['to_lang'] : '';
+            $this->translation_filter['to_lang'] = '';
+	        if ( array_key_exists( 'to_lang', $_GET ) && $lang = filter_var( $_GET['to_lang'] , FILTER_SANITIZE_STRING, FILTER_SANITIZE_FULL_SPECIAL_CHARS ) ) {
+		        $this->translation_filter[ 'to_lang' ] = $lang;
+	        }
         }
 
         if ($this->translation_filter['to_lang'] == $this->translation_filter['from_lang']) {
@@ -1071,7 +1077,7 @@ class WPML_TM_Menus
         $this->post_types = apply_filters('wpml_tm_dashboard_translatable_types', $this->post_types);
         $this->build_external_types();
 
-        $this->translation_filter['limit_no'] = isset($_GET['show_all']) && $_GET['show_all'] ? 10000 : ICL_TM_DOCS_PER_PAGE;
+        $this->translation_filter['limit_no'] = isset( $this->translation_filter[ 'limit_no' ] ) ? absint( $this->translation_filter[ 'limit_no' ] ) : ICL_TM_DOCS_PER_PAGE;
         if (!isset($this->translation_filter['parent_type'])) {
             $this->translation_filter['parent_type'] = 'any';
         }
@@ -1153,7 +1159,7 @@ class WPML_TM_Menus
 	            $lang = $active_languages[ $this->translation_filter['to_lang'] ];
                 ?>
 
-                    <span title="<?php echo $lang[ 'display_name' ]; ?>"><img src="<?php echo $sitepress->get_flag_url( $this->translation_filter[ 'to_lang' ] ) ?>" width="16" height="12" alt="<?php echo $this->translation_filter[ 'to_lang' ] ?>"/></span>
+	                    <span title="<?php echo $lang[ 'display_name' ]; ?>"><img src="<?php echo $sitepress->get_flag_url( $this->translation_filter[ 'to_lang' ] ) ?>" width="16" height="12" alt="<?php echo $this->translation_filter[ 'to_lang' ] ?>"/></span>
             <?php
             } else {
 	            foreach ( $active_languages as $lang ) {
@@ -1190,27 +1196,7 @@ class WPML_TM_Menus
             ?>
             </tbody>
         </table>
-        <?php
-	    global $wp_query;
-        if (isset($_GET['show_all']) && $_GET['show_all'] && count($this->documents) > ICL_TM_DOCS_PER_PAGE) {
-            echo '<a style="width: auto; float:right" href="' . admin_url('admin.php?page=' . WPML_TM_FOLDER . '/menu/main.php&sm=dashboard') . '">' . sprintf(__('Show %d documents per page', 'wpml-translation-management'), ICL_TM_DOCS_PER_PAGE) . '</a>';
-        }
-        // pagination
-        $paged = (int)filter_input(INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT);
-        $paged = $paged ? $paged : 1;
-        $page_links = paginate_links(array(
-            'base' => add_query_arg('paged', '%#%'),
-            'format' => '',
-            'prev_text' => '&laquo;',
-            'next_text' => '&raquo;',
-            'total' => $wp_query->max_num_pages,
-            'current' => $paged,
-            'add_args' => isset($this->translation_filter) ? $this->translation_filter : array()
-        ));
-
-        ?>
-
-	    <div class="tablenav">
+        <div class="tablenav">
 		    <div style="float:left;margin-top:4px;">
 			    <strong><?php echo __( 'Word count estimate:', 'wpml-translation-management' ) ?></strong>
 			    <?php printf( __( '%s words', 'wpml-translation-management' ), '<span id="icl-tm-estimated-words-count">0</span>' ) ?>
@@ -1218,32 +1204,9 @@ class WPML_TM_Menus
 	                <?php printf( __( 'in %s document(s)', 'wpml-translation-management' ), '<span id="icl-tm-sel-doc-count">0</span>' ); ?>
                 </span>
 		    </div>
-		    <?php
-		    if ( $page_links ) {
-			    ?>
-			    <div class="tablenav-pages">
-				    <?php
-				    if ( ! isset( $_GET[ 'show_all' ] ) && $wp_query->found_posts > ICL_TM_DOCS_PER_PAGE ) {
-					    echo '<a style="width: auto; font-weight:normal" href="' . admin_url( 'admin.php?page=' . WPML_TM_FOLDER . '/menu/main.php&sm=dashboard&show_all=1' ) . '">' . __( 'show all', 'wpml-translation-management' ) . '</a>';
-				    }
-				    $page_links_parts[ 'from' ]  = number_format_i18n( ( $paged - 1 ) * $wp_query->query_vars[ 'posts_per_page' ] + 1 );
-				    $page_links_parts[ 'to' ]    = number_format_i18n( min( $paged * $wp_query->query_vars[ 'posts_per_page' ], $wp_query->found_posts ) );
-				    $page_links_parts[ 'total' ] = number_format_i18n( $wp_query->found_posts );
-				    ?>
-				    <span class="displaying-num">
-	                <?php
-	                echo sprintf( __( 'Displaying %s&#8211;%s of %s', 'wpml-translation-management' ) . '</span>', $page_links_parts[ 'from' ], $page_links_parts[ 'to' ], $page_links_parts[ 'total' ] );
-	                ?>
-	                </span>
-				    <?php
-				    echo $page_links;
-				    ?>
-			    </div>
-		    <?php
-		    }
-		    ?>
-	    </div>
-        <?php // pagination - end
+        </div>
+        <?php
+
     }
 
 	public function build_content_dashboard_fetch_translations_box() {
@@ -1430,19 +1393,8 @@ class WPML_TM_Menus
     }
 
     private function build_dashboard_documents() {
-        global $wpdb;
-        $types          = $this->translatable_types;
-        $filtered_types = array();
-        foreach ( $types as $type ) {
-            $filtered_types[ ] = 'post_' . $type->name;
-        }
-        $ext_types = $this->post_types;
-        foreach ( $ext_types as $key => $type ) {
-            if ( isset( $type->prefix ) ) {
-                $filtered_types[ ] = $type->prefix . '_' . $key;
-            }
-        }
-        $tm_dashboard    = new WPML_TM_Dashboard( $wpdb, $this->active_languages, $filtered_types );
+        global $wpdb, $sitepress;
+        $tm_dashboard    = new WPML_TM_Dashboard( $wpdb, $sitepress );
         $this->documents = $tm_dashboard->get_documents( $this->translation_filter );
     }
 

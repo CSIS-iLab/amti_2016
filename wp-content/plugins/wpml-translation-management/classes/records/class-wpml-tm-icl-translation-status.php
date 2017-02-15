@@ -1,6 +1,8 @@
 <?php
 
-class WPML_TM_ICL_Translation_Status extends WPML_WPDB_User {
+class WPML_TM_ICL_Translation_Status {
+	/** @var WPDB $wpdb */
+	public $wpdb;
 
 	private $tm_records;
 
@@ -18,8 +20,8 @@ class WPML_TM_ICL_Translation_Status extends WPML_WPDB_User {
 	 * @param int             $id
 	 * @param string          $type
 	 */
-	public function __construct( &$wpdb, &$tm_records, $id, $type = 'translation_id' ) {
-		parent::__construct( $wpdb );
+	public function __construct( $wpdb, &$tm_records, $id, $type = 'translation_id' ) {
+		$this->wpdb = $wpdb;
 		$this->tm_records = &$tm_records;
 		if ( $id > 0 && in_array(
 				$type, array(
@@ -89,7 +91,7 @@ class WPML_TM_ICL_Translation_Status extends WPML_WPDB_User {
 	 */
 	public function md5() {
 
-		return (int) $this->wpdb->get_var(
+		return $this->wpdb->get_var(
 			"SELECT md5
 		     FROM {$this->wpdb->prefix}{$this->table} "
 			. $this->get_where() );

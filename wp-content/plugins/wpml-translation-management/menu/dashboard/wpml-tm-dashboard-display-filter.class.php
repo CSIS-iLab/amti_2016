@@ -135,6 +135,8 @@ class WPML_TM_Dashboard_Display_Filter {
                 <?php $this->to_lang_select() ?>
                 &nbsp;
                 <?php $this->translation_status_select() ?>
+
+	            <?php $this->number_of_ducuments_select() ?>
                 <br/>
                 <?php $this->display_source_lang_locked_message() ?>
             </td>
@@ -289,4 +291,22 @@ class WPML_TM_Dashboard_Display_Filter {
         <br/>
     <?php
     }
+
+	private function number_of_ducuments_select() {
+		?>
+        <label for="filter_limit_no">
+            <strong><?php echo __( 'Number of documents:', 'wpml-translation-management' ) ?></strong>
+        </label>
+        <select id="filter_limit_no" name="filter[limit_no]">
+			<?php
+			foreach ( array( 10, 20, 50, 100 ) as $limit ) {
+				$selected = selected( $this->translation_filter[ 'limit_no' ], $limit, false );
+				?>
+                <option value="<?php echo $limit ?>" <?php echo $selected; ?>><?php echo $limit ?></option>
+				<?php
+			}
+			?>
+        </select>
+		<?php
+	}
 }

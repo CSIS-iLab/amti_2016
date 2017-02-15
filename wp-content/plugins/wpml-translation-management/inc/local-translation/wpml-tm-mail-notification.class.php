@@ -1,5 +1,5 @@
 <?php
-require WPML_TM_PATH . '/inc/local-translation/wpml-tm-blog-translators.class.php';
+require_once WPML_TM_PATH . '/inc/local-translation/wpml-tm-blog-translators.class.php';
 
 /**
  * Class WPML_TM_Mail_Notification

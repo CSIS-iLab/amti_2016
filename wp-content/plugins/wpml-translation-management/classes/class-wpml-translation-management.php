@@ -2,8 +2,11 @@
 /**
  * Class WPML_Translation_Management
  */
-class WPML_Translation_Management extends WPML_SP_User {
+class WPML_Translation_Management {
 	var $load_priority = 200;
+
+	/** @var  SitePress $sitepress */
+	protected $sitepress;
 
 	/** @var  WPML_TM_Loader $tm_loader */
 	private $tm_loader;
@@ -31,12 +34,12 @@ class WPML_Translation_Management extends WPML_SP_User {
 	 * @param TranslationManagement $tm_instance
 	 * @param WPML_TP_Translator $wpml_tp_translator
 	 */
-	function __construct( &$sitepress, &$tm_loader, &$tm_instance, WPML_TP_Translator &$wpml_tp_translator = null ) {
-		parent::__construct( $sitepress );
+	function __construct( $sitepress, $tm_loader, $tm_instance, WPML_TP_Translator $wpml_tp_translator = null ) {
+		$this->sitepress = $sitepress;
 		global $wpdb;
 
-		$this->tm_loader     = &$tm_loader;
-		$this->tm_instance   = &$tm_instance;
+		$this->tm_loader     = $tm_loader;
+		$this->tm_instance   = $tm_instance;
 		$this->wpml_tm_menus = new WPML_TM_Menus();
 		$this->wpml_tp_translator = $wpml_tp_translator;
 		if ( null === $this->wpml_tp_translator ) {
@@ -64,7 +67,8 @@ class WPML_Translation_Management extends WPML_SP_User {
 			}
 			return false;
 		} elseif ( ! $this->sitepress->get_setting( 'setup_complete' ) ) {
-			add_action( 'admin_notices', array( $this, '_wpml_not_installed_warning' ) );
+			$this->maybe_show_wpml_not_installed_warning();
+
 			return false;
 		}
 		if ( isset( $_GET['icl_action'] ) ) {
@@ -150,10 +154,19 @@ class WPML_Translation_Management extends WPML_SP_User {
 			add_action ( 'wpml_translation_basket_page_after', array( $this, 'add_com_log_link' ) );
 
 			$this->translate_independently();
+
+			$page_builder_hooks = new WPML_TM_Page_Builders_Hooks();
+			$page_builder_hooks->init_hooks();
 		}
 		do_action( 'wpml_tm_loaded' );
 
 		return true;
+	}
+
+	public function maybe_show_wpml_not_installed_warning() {
+		if ( ! ( isset( $_GET['page'] ) && 'sitepress-multilingual-cms/menu/languages.php' === $_GET['page'] ) ) {
+			add_action( 'admin_notices', array( $this, '_wpml_not_installed_warning' ) );
+		}
 	}
 
 	private function translate_independently() {

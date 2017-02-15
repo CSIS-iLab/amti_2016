@@ -1,13 +1,15 @@
 <?php
 
-class WPML_TM_Translation_Status extends WPML_TM_Record_User {
+class WPML_TM_Translation_Status {
+	/** @var WPML_TM_Records $tm_records */
+	protected $tm_records;
 
 	private $element_id_cache;
 	private $wpml_cache;
 
 	public function __construct( WPML_TM_Records $tm_records ) {
-		parent::__construct( $tm_records );
-		$this->wpml_cache = new WPML_WP_Cache( 'element_translations' );
+		$this->tm_records = $tm_records;
+		$this->wpml_cache = $this->tm_records->get_new_wpml_wp_cache( 'element_translations' );
 	}
 
 	public function init() {
@@ -44,7 +46,7 @@ class WPML_TM_Translation_Status extends WPML_TM_Record_User {
 			}
 
 			if ( false !== $new_status ) {
-				$this->wpml_cache->set( $cache_key, $status );
+				$this->wpml_cache->set( $cache_key, $new_status );
 			}
 		}
 
