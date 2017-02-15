@@ -76,6 +76,10 @@ body.logged-in .navbar-fixed-top {
 
         &:hover, &:focus {
             color: $light-green !important;
+
+            span {
+                color: $light-green !important;
+            }
         }
 
 	}
@@ -120,6 +124,26 @@ body.logged-in .navbar-fixed-top {
 	.icon-bar {
 		background-color: $white;
 	}
+}
+
+// Dropdown Menu
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+    color: $white;
+    background-color: transparent;
+    border:0px;
+}
+
+.dropdown-menu {
+    border-radius:0px;
+    box-shadow:none;
+    color: $gray;
+    min-width: 100px;
+    background-clip: border-box !important;
+
+    &>li>a {
+        color: $gray !important;
+        padding: 5px;
+    }
 }
 
 // Change Mobile breakpoint

@@ -424,8 +424,7 @@ function add_search_box( $items, $args ) {
 	    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
 	    $search .= '</div></form>';
 	    $search .= '</li>';
-	    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
-	    return $items.$search.$twitter;
+	    return $items.$search;
 	}
 	return $items;
 }
@@ -499,3 +498,54 @@ function shortcode_fullWidth( $atts , $content = null ) {
 	return "<div class='fullWidthFeatureContent'>".$content."</div>";
 }
 add_shortcode( 'fullWidth', 'shortcode_fullWidth' );
+
+/*-----------------------------------------------------------------------------------*/
+/* WPML Custom Language Switcher
+/* Filter wp_nav_menu() to add additional links and other output
+/* Show only other language in language switcher
+/* Use the new filter: https://wpml.org/wpml-hook/wpml_active_languages/ 
+/*-----------------------------------------------------------------------------------*/
+add_filter('wp_nav_menu_items', 'new_nav_menu_items', 10, 2);
+function new_nav_menu_items($items, $args) {
+    // get languages
+    $languages = apply_filters( 'wpml_active_languages', NULL, 'skip_missing=1' );
+    
+    if ( $languages && $args->theme_location == 'primary') {
+
+ 
+        if(!empty($languages)){
+
+        	// Create Menu Item
+ 			$active = "";
+ 			$list = "";
+
+            foreach($languages as $l){
+
+            	// First Item
+            	if($l['active']) {
+        			$active = '<img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $l['language_code'];
+            	}
+            	else {
+                	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $l['native_name'].'</a></li>';
+                }
+
+                $count++;
+            }
+
+            // Combine List Items into dropdown if we have more than one language available
+            if($list) {
+	            $items = $items . '<li class="menu-item-language menu-item menu-item-has-children wpml-ls-slot-2 wpml-ls-item wpml-ls-current-language wpml-ls-menu-item wpml-ls-first-item dropdown">
+	            <a href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">'.$active.'<span class="caret"></span></a><ul role="menu" class="dropdown-menu">';
+	            $items = $items . $list;
+	            $items = $items . '</ul></li>';
+	        }
+	        else {
+	        	$items = $items . '<li class="menu-item-language menu-item menu-item-has-children wpml-ls-slot-2 wpml-ls-item wpml-ls-current-language wpml-ls-menu-item wpml-ls-first-item">
+	            <a href="#">'.$active.'</a>';
+	        }
+
+        }
+    }
+ 
+    return $items;
+}
