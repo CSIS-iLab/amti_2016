@@ -137,14 +137,49 @@ body.logged-in .navbar-fixed-top {
     border-radius:0px;
     box-shadow:none;
     color: $gray;
-    min-width: 100px;
+    min-width: 150px;
     background-clip: border-box !important;
+    padding: 10px 0px;
+    background-color: #022e41 !important;
 
-    &>li>a {
+
+    li.last {
+        padding:15px 15px 10px 30px;
+        color: #f2f2f2;
+        }
+
+        &>li>a {
+        color: white !important;
+        padding:10px 15px 5px 30px !important;
+        }
+    
+}
+
+@media (min-width: 993px) {
+    .dropdown-menu {
+        min-width: 150px;
+        right: 0px !important;
+        left: inherit;
+        padding: 5px 0px 0px;
+        margin-top: 10px;
+        background-color: white !important;     
+
+
+        li.last {
+        padding:10px 10px;
+        background-color: #f2f2f2 !important;
+        font-size: 90%;
+        margin-top: 5px;
+        color: $gray;
+        }
+
+        &>li>a {
         color: $gray !important;
-        padding: 5px;
+        padding:5px 10px !important;
+        }
     }
 }
+
 
 // Change Mobile breakpoint
 @media (max-width: 992px) {

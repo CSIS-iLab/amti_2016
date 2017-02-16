@@ -537,6 +537,7 @@ function new_nav_menu_items($items, $args) {
 	            $items = $items . '<li class="menu-item-language menu-item menu-item-has-children wpml-ls-slot-2 wpml-ls-item wpml-ls-current-language wpml-ls-menu-item wpml-ls-first-item dropdown">
 	            <a href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">'.$active.'<span class="caret"></span></a><ul role="menu" class="dropdown-menu">';
 	            $items = $items . $list;
+	            $items = $items . '<li class="last"><div>NOTE: Some content may not be available in all languages.</div></li>';
 	            $items = $items . '</ul></li>';
 	        }
 	        else {
