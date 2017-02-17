@@ -7,7 +7,7 @@ function wpml_tm_load_element_translations() {
 	global $wpml_tm_element_translations, $wpdb, $wpml_post_translations, $wpml_term_translations;
 
 	if ( ! isset( $wpml_tm_element_translations ) ) {
-		require WPML_TM_PATH . '/inc/core/wpml-tm-element-translations.class.php';
+		require_once WPML_TM_PATH . '/inc/core/wpml-tm-element-translations.class.php';
 		$tm_records                   = new WPML_TM_Records( $wpdb, $wpml_post_translations, $wpml_term_translations );
 		$wpml_tm_element_translations = new WPML_TM_Element_Translations( $tm_records );
 		$wpml_tm_element_translations->init_hooks();
@@ -81,7 +81,7 @@ function wpml_tm_init_mail_notifications() {
 	global $wpml_tm_mailer, $sitepress, $wpdb, $iclTranslationManagement, $wpml_translation_job_factory;
 
 	if ( ! isset( $wpml_tm_mailer ) ) {
-		require WPML_TM_PATH . '/inc/local-translation/wpml-tm-mail-notification.class.php';
+		require_once WPML_TM_PATH . '/inc/local-translation/wpml-tm-mail-notification.class.php';
 		$blog_translators         = wpml_tm_load_blog_translators();
 		$iclTranslationManagement = $iclTranslationManagement ? $iclTranslationManagement : wpml_load_core_tm();
 		if ( empty( $iclTranslationManagement->settings ) ) {
@@ -107,7 +107,7 @@ function wpml_tm_load_tm_dashboard_ajax(){
 	global $wpml_tm_dashboard_ajax;
 
 	if ( ! isset( $wpml_tm_dashboard_ajax ) ) {
-		require WPML_TM_PATH . '/menu/dashboard/wpml-tm-dashboard-ajax.class.php';
+		require_once WPML_TM_PATH . '/menu/dashboard/wpml-tm-dashboard-ajax.class.php';
 		$wpml_tm_dashboard_ajax = new WPML_Dashboard_Ajax();
 
 		if ( defined( 'OTG_TRANSLATION_PROXY_URL' ) ) {
@@ -149,12 +149,12 @@ function tm_after_load() {
 	global $wpml_tm_translation_status, $wpdb, $wpml_post_translations, $wpml_term_translations;
 
 	if ( ! isset( $wpml_tm_translation_status ) ) {
-		require WPML_TM_PATH . '/inc/actions/wpml-tm-action-helper.class.php';
-		require WPML_TM_PATH . '/inc/translation-jobs/collections/wpml-abstract-job-collection.class.php';
-		require WPML_TM_PATH . '/inc/translation-proxy/wpml-translation-basket.class.php';
-		require WPML_TM_PATH . '/inc/translation-jobs/wpml-translation-batch.class.php';
-		require WPML_TM_PATH . '/inc/translation-proxy/translationproxy.class.php';
-		require WPML_TM_PATH . '/inc/ajax.php';
+		require_once WPML_TM_PATH . '/inc/actions/wpml-tm-action-helper.class.php';
+		require_once WPML_TM_PATH . '/inc/translation-jobs/collections/wpml-abstract-job-collection.class.php';
+		require_once WPML_TM_PATH . '/inc/translation-proxy/wpml-translation-basket.class.php';
+		require_once WPML_TM_PATH . '/inc/translation-jobs/wpml-translation-batch.class.php';
+		require_once WPML_TM_PATH . '/inc/translation-proxy/translationproxy.class.php';
+		require_once WPML_TM_PATH . '/inc/ajax.php';
 		wpml_tm_load_job_factory();
 		wpml_tm_init_mail_notifications();
 		wpml_tm_load_element_translations();
@@ -162,7 +162,7 @@ function tm_after_load() {
 		$wpml_tm_translation_status = new WPML_TM_Translation_Status( $tm_records );
 		$wpml_tm_translation_status->init();
 		add_action( 'wpml_pre_status_icon_display', 'wpml_tm_load_status_display_filter' );
-		require WPML_TM_PATH . '/inc/wpml-private-actions.php';
+		require_once WPML_TM_PATH . '/inc/wpml-private-actions.php';
 	}
 }
 

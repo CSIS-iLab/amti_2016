@@ -6,8 +6,7 @@
  * @package    wpml-core
  * @subpackage post-translation
  */
-
-class WPML_Admin_Post_Actions extends  WPML_Post_Translation {
+class WPML_Admin_Post_Actions extends WPML_Post_Translation {
 
 	public function init() {
 		parent::init ();
@@ -62,8 +61,7 @@ class WPML_Admin_Post_Actions extends  WPML_Post_Translation {
 		if ( isset( $post_vars['action'] ) && $post_vars['action'] === 'post-quickpress-publish' ) {
 			$language_code = $default_language;
 		} else {
-			$post_id       = isset( $post_vars['post_ID'] ) ? $post_vars['post_ID']
-				: $pidd; //latter case for XML-RPC publishing
+			$post_id       = isset( $post_vars['post_ID'] ) ? $post_vars['post_ID'] : $pidd; //latter case for XML-RPC publishing
 			$language_code = $this->get_save_post_lang( $post_id, $sitepress );
 		}
 
@@ -150,12 +148,11 @@ class WPML_Admin_Post_Actions extends  WPML_Post_Translation {
 	 * @return null|string
 	 */
 	protected function get_save_post_source_lang( $trid, $language_code, $default_language ) {
-		/** @var WPML_Backend_Request $wpml_request_handler */
+		/** @var WPML_Backend_Request|WPML_Frontend_Request $wpml_request_handler */
 		global $wpml_request_handler;
 
 		$source_language = filter_input ( INPUT_GET, 'source_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS );
-		$source_language = $source_language ? $source_language
-			: $wpml_request_handler->get_source_language_from_referer ();
+		$source_language = $source_language ? $source_language : $wpml_request_handler->get_source_language_from_referer();
 		$source_language = $source_language ? $source_language : SitePress::get_source_language_by_trid ( $trid );
 		$source_language = $source_language === 'all' ? $default_language : $source_language;
 		$source_language = $source_language !== $language_code ? $source_language : null;

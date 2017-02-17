@@ -11,7 +11,7 @@ var WPML_TM = WPML_TM || {};
 		},
 
 		getOriginal: function () {
-			return this.$el.find('textarea.original_value').val();
+			return this.$el.find('textarea.original_value').text();
 		},
 
 		getTranslation: function () {

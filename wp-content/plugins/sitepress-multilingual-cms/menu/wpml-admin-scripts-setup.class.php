@@ -20,42 +20,41 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 		$this->page = $page;
 	}
 
-	private function print_js_globals(){
-		$icl_ajax_url_root = rtrim ( get_site_url (), '/' );
-		if ( defined ( 'FORCE_SSL_ADMIN' ) && FORCE_SSL_ADMIN ) {
-			$icl_ajax_url_root = str_replace ( 'http://', 'https://', $icl_ajax_url_root );
+	private function print_js_globals() {
+		$icl_ajax_url_root = rtrim( get_site_url(), '/' );
+		if ( defined( 'FORCE_SSL_ADMIN' ) && FORCE_SSL_ADMIN ) {
+			$icl_ajax_url_root = str_replace( 'http://', 'https://', $icl_ajax_url_root );
 		}
 		$icl_ajax_url = $icl_ajax_url_root . '/wp-admin/admin.php?page=' . ICL_PLUGIN_FOLDER . '/menu/languages.php';
 		?>
-		<script type="text/javascript">
-			// <![CDATA[
-			var icl_ajx_url;
-			icl_ajx_url = '<?php echo $icl_ajax_url; ?>';
-			var icl_ajx_saved = '<?php echo icl_js_escape( __('Data saved','sitepress')); ?>';
-			var icl_ajx_error = '<?php echo icl_js_escape( __('Error: data not saved','sitepress')); ?>';
-			var icl_default_mark = '<?php echo icl_js_escape(__('default','sitepress')); ?>';
-			var icl_this_lang = '<?php echo $this->sitepress->get_current_language() ?>';
-			var icl_ajxloaderimg_src = '<?php echo ICL_PLUGIN_URL ?>/res/img/ajax-loader.gif';
-			var icl_cat_adder_msg = '<?php echo icl_js_escape(sprintf(__('To add categories that already exist in other languages go to the <a%s>category management page</a>','sitepress'), ' href="'.admin_url('edit-tags.php?taxonomy=category').'"'));?>';
-			// ]]>
+        <script type="text/javascript">
+            // <![CDATA[
+            var icl_ajx_url = '<?php echo esc_url( $icl_ajax_url ); ?>',
+                icl_ajx_saved = '<?php echo icl_js_escape( __( 'Data saved', 'sitepress' ) ); ?>',
+                icl_ajx_error = '<?php echo icl_js_escape( __( 'Error: data not saved', 'sitepress' ) ); ?>',
+                icl_default_mark = '<?php echo icl_js_escape( __( 'default', 'sitepress' ) ); ?>',
+                icl_this_lang = '<?php echo esc_js( $this->sitepress->get_current_language() ); ?>',
+                icl_ajxloaderimg_src = '<?php echo esc_url( ICL_PLUGIN_URL ); ?>/res/img/ajax-loader.gif',
+                icl_cat_adder_msg = '<?php echo icl_js_escape( sprintf( __( 'To add categories that already exist in other languages go to the <a%s>category management page</a>', 'sitepress' ), ' href="' . admin_url( 'edit-tags.php?taxonomy=category' ) . '"' ) );?>';
+            // ]]>
 
 			<?php if ( ! $this->sitepress->get_setting( 'ajx_health_checked' ) && ! (bool) get_option( '_wpml_inactive' ) ) : ?>
-			addLoadEvent(function () {
-				jQuery.ajax({
-					type: "POST", url: icl_ajx_url, data: "icl_ajx_action=health_check", error: function (msg) {
-						var icl_initial_language = jQuery('#icl_initial_language');
-						if (icl_initial_language.length) {
-							icl_initial_language.find('input').attr('disabled', 'disabled');
-						}
-						jQuery('.wrap').prepend('<div class="error"><p><?php
-							echo icl_js_escape(sprintf(__("WPML can't run normally. There is an installation or server configuration problem. %sShow details%s",'sitepress'),
-							'<a href="#" onclick="jQuery(this).parent().next().slideToggle()">', '</a>'));
-						?></p><p style="display:none"><?php echo icl_js_escape(__('AJAX Error:', 'sitepress'))?> ' + msg.statusText + ' [' + msg.status + ']<br />URL:' + icl_ajx_url + '</p></div>');
-					}
-				});
-			});
+            addLoadEvent(function () {
+                jQuery.ajax({
+                    type: "POST", url: icl_ajx_url, data: "icl_ajx_action=health_check", error: function (msg) {
+                        var icl_initial_language = jQuery('#icl_initial_language');
+                        if (icl_initial_language.length) {
+                            icl_initial_language.find('input').attr('disabled', 'disabled');
+                        }
+                        jQuery('.wrap').prepend('<div class="error"><p><?php
+								echo icl_js_escape( sprintf( __( "WPML can't run normally. There is an installation or server configuration problem. %sShow details%s", 'sitepress' ),
+									'<a href="#" onclick="jQuery(this).parent().next().slideToggle()">', '</a>' ) );
+								?></p><p style="display:none"><?php echo icl_js_escape( __( 'AJAX Error:', 'sitepress' ) )?> ' + msg.statusText + ' [' + msg.status + ']<br />URL:' + icl_ajx_url + '</p></div>');
+                    }
+                });
+            });
 			<?php endif; ?>
-		</script>
+        </script>
 		<?php
 
 	}
@@ -87,21 +86,27 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 		}
 
 		if ( 'edit-tags.php' === $pagenow || 'term.php' === $pagenow ) {
+			$post_type = isset( $_GET['post_type'] ) ? '&post_type=' . esc_html( $_GET['post_type'] ) : '';
+			$admin_url = admin_url( 'edit-tags.php' );
+			$admin_url = add_query_arg( 'taxonomy', esc_js( $_GET['taxonomy'] ), $admin_url );
+			$admin_url = add_query_arg( 'lang', $current_language, $admin_url );
+			$admin_url = add_query_arg( 'message', 3, $admin_url );
+			if ( $post_type ) {
+				$admin_url = add_query_arg( 'post_type', $post_type, $admin_url );
+			}
 			?>
 			<script type="text/javascript">
 				addLoadEvent(function () {
 					var edit_tag = jQuery('#edittag');
 					if (edit_tag.find('[name="_wp_original_http_referer"]').length && edit_tag.find('[name="_wp_http_referer"]').length) {
-						edit_tag.find('[name="_wp_original_http_referer"]').val('<?php
-							$post_type = isset($_GET['post_type']) ? '&post_type=' . esc_html($_GET['post_type']) : '';
-							echo admin_url('edit-tags.php?taxonomy=' . esc_js($_GET['taxonomy']) . '&lang='.$current_language.'&message=3'.$post_type) ?>');
+						edit_tag.find('[name="_wp_original_http_referer"]').val('<?php echo esc_js( $admin_url ); ?>');
 					}
 				});
 			</script>
 		<?php
 		}
 		$trid        = filter_input( INPUT_GET, 'trid', FILTER_SANITIZE_NUMBER_INT );
-		$source_lang = $trid !== null ? filter_input( INPUT_GET,
+		$source_lang = null !== $trid ? filter_input( INPUT_GET,
 		                                              'source_lang',
 		                                              FILTER_SANITIZE_FULL_SPECIAL_CHARS ) : null;
 		if ( 'post-new.php' === $pagenow ) {
@@ -111,7 +116,7 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 					'pre_option_sticky_posts',
 					array(
 						$sitepress,
-						'option_sticky_posts'
+						'option_sticky_posts',
 					)
 				); // remove filter used to get language relevant stickies. get them all
 				$sticky_posts = get_option( 'sticky_posts' );
@@ -129,8 +134,7 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 				if ( $this->sitepress->get_setting( 'sync_ping_status' ) || $this->sitepress->get_setting( 'sync_comment_status' ) ) {
 					$this->print_ping_and_comment_sync_js( $trid, $source_lang );
 				}
-				if ($this->sitepress->get_setting( 'sync_private_flag' ) && 'private' === $this->post_translations->get_original_post_status ( $trid, $source_lang )
-				) {
+				if ( $this->sitepress->get_setting( 'sync_private_flag' ) && 'private' === $this->post_translations->get_original_post_status( $trid, $source_lang ) ) {
 					?>
 					<script type="text/javascript">addLoadEvent(function () {
 							jQuery('#visibility-radio-private').attr('checked', 'checked');
@@ -145,7 +149,7 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 				$custom_field_note->print_sync_copy_custom_field_note( $source_lang, $translations );
 			}
 			?>
-			<?php if ( !empty( $is_sticky ) && $this->sitepress->get_setting( 'sync_sticky_flag' ) ): ?>
+			<?php if ( ! empty( $is_sticky ) && $this->sitepress->get_setting( 'sync_sticky_flag' ) ): ?>
 				<script type="text/javascript">
 					addLoadEvent(
 						function () {
@@ -213,12 +217,12 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 								function () {
 									var h = jQuery(this).attr('href');
 									var urlg = -1 === h.indexOf('?') ? '?' : '&';
-									jQuery(this).attr('href', h + urlg + 'lang=<?php echo $current_language?>');
+									jQuery(this).attr('href', h + urlg + 'lang=<?php echo esc_js( $current_language ); ?>');
 								}
 							);
 							jQuery('.column-categories a, .column-tags a, .column-posts a').each(
 								function () {
-									jQuery(this).attr('href', jQuery(this).attr('href') + '&lang=<?php echo $current_language?>');
+									jQuery(this).attr('href', jQuery(this).attr('href') + '&lang=<?php echo esc_js( $current_language ); ?>');
 								}
 							);
 						}
@@ -248,10 +252,10 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 			?>
 			<script type="text/javascript">addLoadEvent(function () { <?php
 						if($menu_order){ ?>
-					jQuery('#menu_order').val(<?php echo $menu_order ?>);
+					jQuery('#menu_order').val(<?php echo esc_js( $menu_order ); ?>);
 					<?php }
 			if($page_template && 'default' !== $page_template){ ?>
-					jQuery('#page_template').val('<?php echo $page_template ?>');
+					jQuery('#page_template').val('<?php echo esc_js( $page_template ); ?>');
 					<?php }
 			?>
 				});</script><?php
@@ -303,14 +307,14 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 				<script type="text/javascript">
 					addLoadEvent(
 						function () {
-							jQuery('#aa').val('<?php echo $aa ?>').attr('readonly', 'readonly');
-							jQuery('#mm').val('<?php echo $mm ?>').attr('disabled', 'disabled').attr('id', 'mm-disabled').attr('name', 'mm-disabled');
+							jQuery('#aa').val('<?php echo esc_js( $aa ); ?>').attr('readonly', 'readonly');
+							jQuery('#mm').val('<?php echo esc_js( $mm ); ?>').attr('disabled', 'disabled').attr('id', 'mm-disabled').attr('name', 'mm-disabled');
 							// create a hidden element for month because we wont get anything returned from the disabled month dropdown.
 							jQuery('<input type="hidden" id="mm" name="mm" value="<?php echo $mm ?>" />').insertAfter('#mm-disabled')
-							jQuery('#jj').val('<?php echo $jj ?>').attr('readonly', 'readonly');
-							jQuery('#hh').val('<?php echo $hh ?>').attr('readonly', 'readonly');
-							jQuery('#mn').val('<?php echo $mn ?>').attr('readonly', 'readonly');
-							jQuery('#ss').val('<?php echo $ss ?>').attr('readonly', 'readonly');
+							jQuery('#jj').val('<?php echo esc_js( $jj ); ?>').attr('readonly', 'readonly');
+							jQuery('#hh').val('<?php echo esc_js( $hh ); ?>').attr('readonly', 'readonly');
+							jQuery('#mn').val('<?php echo esc_js( $mn ); ?>').attr('readonly', 'readonly');
+							jQuery('#ss').val('<?php echo esc_js( $ss ); ?>').attr('readonly', 'readonly');
 							var timestamp = jQuery('#timestamp');
 							timestamp.find('b').append(( '<span> <?php esc_html_e('Copied From the Original', 'sitepress') ?></span>'));
 							timestamp.next().html('<span style="margin-left:1em;"><?php esc_html_e('Edit', 'sitepress') ?></span>');
@@ -326,11 +330,20 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 		$source_lang       = isset( $_GET['source_lang'] )
 			? filter_input( INPUT_GET, 'source_lang', FILTER_SANITIZE_FULL_SPECIAL_CHARS )
 			: $this->sitepress->get_default_language();
+
+		$trid = filter_var( $_GET['trid'], FILTER_SANITIZE_NUMBER_INT );
+		$translations      = $this->sitepress->get_element_translations( $trid, 'post_' . $post_type );
+		if ( ! isset( $translations[ $source_lang ] ) ) {
+			return;
+		}
+
 		$current_lang      = $this->sitepress->get_current_language();
 		$translatable_taxs = $this->sitepress->get_translatable_taxonomies( true, $post_type );
 		$all_taxs          = get_object_taxonomies( $post_type );
-		$translations      = $this->sitepress->get_element_translations( $_GET['trid'], 'post_' . $post_type );
+		
 		$js                = array();
+		
+		$this->sitepress->switch_lang($source_lang);
 		foreach ( $all_taxs as $tax ) {
 			$tax_detail = get_taxonomy( $tax );
 			$terms      = get_the_terms( $translations[ $source_lang ]->element_id, $tax );
@@ -358,24 +371,27 @@ class WPML_Admin_Scripts_Setup extends WPML_Full_Translation_API {
 			}
 
 			if ( $term_names ) {
-				$js[] = "jQuery('#{$tax} .taghint').css('visibility','hidden');";
-				$js[] = "jQuery('#new-tag-{$tax}').val('" . join( ', ', $term_names ) . "');";
+				$js[] = "jQuery('#" . esc_js( $tax ) . ".taghint').css('visibility','hidden');";
+				$js[] = "jQuery('#new-tag-" . esc_js( $tax ) . "').val('" . esc_js( join( ', ', $term_names ) ) . "');";
 			}
 		}
+		$this->sitepress->switch_lang($current_lang);
 
 		if ( $js ) {
-			echo '<script type="text/javascript">';
-			echo PHP_EOL . '// <![CDATA[' . PHP_EOL;
-			echo 'addLoadEvent(function(){' . PHP_EOL;
-			echo join( PHP_EOL, $js );
-			echo PHP_EOL . 'jQuery().ready(function() {
-								jQuery(".tagadd").click();
-								jQuery(\'html, body\').prop({scrollTop:0});
-								jQuery(\'#title\').focus();
-								});' . PHP_EOL;
-			echo PHP_EOL . '});' . PHP_EOL;
-			echo PHP_EOL . '// ]]>' . PHP_EOL;
-			echo '</script>';
+			?>
+            <script type="text/javascript">
+			// <![CDATA[
+			addLoadEvent(function(){
+			    <?php echo join( PHP_EOL, $js ); ?>
+			    jQuery().ready(function() {
+			        jQuery(".tagadd").click();
+                    jQuery('html, body').prop({scrollTop:0});
+                    jQuery('#title').focus();
+			    });
+			});
+			// ]]>
+			</script>
+            <?php
 		}
 	}
 

@@ -76,6 +76,7 @@ class WPML_Translation_Proxy_Basket_Networking {
 		$basket_name = $basket_name ? $basket_name : $posted_basket_name;
 		$batch       = $this->basket->get_basket_batch( $basket_name );
 		$batch->cancel_all_remote_jobs();
+		$batch->clear_batch_data();
 	}
 
 	/**

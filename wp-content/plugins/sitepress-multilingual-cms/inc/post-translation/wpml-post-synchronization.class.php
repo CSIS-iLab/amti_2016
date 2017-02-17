@@ -9,6 +9,8 @@
 
 class WPML_Post_Synchronization extends WPML_SP_And_PT_User {
 
+	/** @var bool[] */
+	private $sync_parent_cpt = array();
 	/** @var $sync_parent bool */
 	private $sync_parent;
 	/** @var $sync_delete bool */
@@ -53,6 +55,14 @@ class WPML_Post_Synchronization extends WPML_SP_And_PT_User {
 		$this->sync_menu_order      = isset( $settings[ 'sync_page_ordering' ] ) ? $settings[ 'sync_page_ordering' ] : array();
 	}
 
+	private function must_sync_parents( $post_type ) {
+		if ( ! array_key_exists( $post_type, $this->sync_parent_cpt ) ) {
+			$this->sync_parent_cpt[ $post_type ] = apply_filters( 'wpml_sync_parent_for_post_type', $this->sync_parent, $post_type );
+		}
+
+		return $this->sync_parent_cpt[ $post_type ];
+	}
+
 	/**
 	 * Fixes parents of translations for hierarchical post types
 	 *
@@ -62,7 +72,7 @@ class WPML_Post_Synchronization extends WPML_SP_And_PT_User {
 	 * @param string $post_type - post_type that should have the translated parents fixed
 	 */
 	private function maybe_fix_translated_parent( $post_type ) {
-		if ( $this->sync_parent ) {
+		if ( $this->must_sync_parents( $post_type ) ) {
 			$sync_helper = wpml_get_hierarchy_sync_helper();
 			$sync_helper->sync_element_hierarchy( $post_type );
 		}
@@ -141,7 +151,7 @@ class WPML_Post_Synchronization extends WPML_SP_And_PT_User {
 		$post_password = $this->sync_password ? $post->post_password : null;
 		$sync_parent_private = $this->sync_private_flag && get_post_status( $post_id ) === 'private' ? 'private' : null;
 		$menu_order = $this->sync_menu_order && ! empty( $post->menu_order ) ? $post->menu_order : null;
-		$page_template = $this->sync_page_template && get_post_type( $post_id ) === 'page' ? get_page_template_slug( $post_id ) : null;
+		$page_template = $this->sync_page_template && get_post_type( $post_id ) === 'page' ? get_post_meta( $post_id, '_wp_page_template', true ) : null;
 		$post_date = $this->sync_post_date ? $wpdb->get_var( $wpdb->prepare( "SELECT post_date FROM {$wpdb->posts} WHERE ID=%d LIMIT 1", $post_id ) ) : null;
 
 
@@ -195,16 +205,17 @@ class WPML_Post_Synchronization extends WPML_SP_And_PT_User {
 			}
 			$this->sync_with_translations ( $translated_pid );
 		}
-		if ( $this->sync_parent ) {
-			$this->maybe_fix_translated_parent( get_post_type( $post_id ) );
-		}
+		$this->maybe_fix_translated_parent( get_post_type( $post_id ) );
 
-		if ( $menu_order !== null && (bool)$translated_ids !== false ) {
-			$wpdb->query (
+		if ( $menu_order !== null && (bool) $translated_ids !== false ) {
+			$query = $wpdb->prepare(
 				"UPDATE {$wpdb->posts}
-				   SET menu_order={$menu_order}
-				   WHERE ID IN (" . wpml_prepare_in ( $translated_ids, '%d' ) . ")"
+				   SET menu_order=%s
+				   WHERE ID IN (%s)",
+				$menu_order,
+				wpml_prepare_in( $translated_ids, '%d' )
 			);
+			$wpdb->query( $query );
 		}
 	}
 

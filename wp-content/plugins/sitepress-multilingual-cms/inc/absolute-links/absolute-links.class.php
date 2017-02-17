@@ -527,9 +527,9 @@ class AbsoluteLinks{
 		global $wpdb;
 		if ( $st_id ) {
 			if ( $translation ) {
-				$string_value = $wpdb->get_var( "SELECT value FROM {$wpdb->prefix}icl_string_translations WHERE id=" . $st_id );
+				$string_value = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$wpdb->prefix}icl_string_translations WHERE id=%d", $st_id ) );
 			} else {
-				$string_value = $wpdb->get_var( "SELECT value FROM {$wpdb->prefix}icl_strings WHERE id=" . $st_id );
+				$string_value = $wpdb->get_var( $wpdb->prepare( "SELECT value FROM {$wpdb->prefix}icl_strings WHERE id=%d", $st_id ) );
 			}
 			$string_value_up  = $this->convert_text( $string_value );
 			if ( $string_value_up != $string_value ) {

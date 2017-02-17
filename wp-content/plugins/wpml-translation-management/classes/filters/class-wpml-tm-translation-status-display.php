@@ -1,17 +1,35 @@
 <?php
 
-class WPML_TM_Translation_Status_Display extends WPML_Full_PT_API {
+class WPML_TM_Translation_Status_Display {
+
+	const BLOCKED_LINK = '###';
 
 	private $statuses = array();
 
-	/** @var  WPML_Post_Status $status_helper */
+	/**
+	 * @var WPML_Post_Status
+	 */
 	private $status_helper;
 
-	/** @var WPML_Translation_Job_Factory $job_factory */
+	/**
+	 * @var WPML_Translation_Job_Factory
+	 */
 	private $job_factory;
 
-	/** @var WPML_TM_API $tm_api */
+	/**
+	 * @var WPML_TM_API
+	 */
 	private $tm_api;
+
+	/**
+	 * @var WPML_Post_Translation
+	 */
+	private $post_translations;
+
+	/**
+	 * @var SitePress
+	 */
+	private $sitepress;
 
 	/**
 	 * WPML_TM_Translation_Status_Display constructor.
@@ -29,11 +47,12 @@ class WPML_TM_Translation_Status_Display extends WPML_Full_PT_API {
 		&$job_factory,
 		&$tm_api
 	) {
-		$post_translation = $sitepress->post_translations();
-		parent::__construct( $wpdb, $sitepress, $post_translation );
+		$this->post_translations = $sitepress->post_translations();
+		$this->wpdb = $wpdb;
 		$this->status_helper = &$status_helper;
 		$this->job_factory   = &$job_factory;
 		$this->tm_api        = &$tm_api;
+		$this->sitepress     = $sitepress;
 	}
 
 	public function init() {
@@ -144,13 +163,13 @@ class WPML_TM_Translation_Status_Display extends WPML_Full_PT_API {
 		$this->maybe_load_stats( $trid );
 		$is_remote        = $this->is_remote( $trid, $lang );
 		$is_in_progress   = $this->is_in_progress( $trid, $lang );
-		$use_tm_editor    = $this->sitepress->get_setting( 'doc_translation_method' );
+		$use_tm_editor    = $this->is_using_tm_editor();
 		$use_tm_editor    = apply_filters( 'wpml_use_tm_editor', $use_tm_editor );
 		$source_lang_code = $this->post_translations->get_element_lang_code( $post_id );
 		if ( ( $is_remote && $is_in_progress ) || $this->is_in_basket( $trid,
 				$lang ) || ! $this->is_lang_pair_allowed( $lang, $source_lang )
 		) {
-			$link = '###';
+			$link = self::BLOCKED_LINK;
 		} elseif ( $source_lang_code !== $lang ) {
 			if ( ( $is_in_progress && ! $is_remote ) || ( $use_tm_editor && $translated_element_id ) ) {
 				$job_id = $this->job_factory->job_id_by_trid_and_lang( $trid, $lang );
@@ -165,6 +184,20 @@ class WPML_TM_Translation_Status_Display extends WPML_Full_PT_API {
 		}
 
 		return $link;
+	}
+
+	private function is_using_tm_editor() {
+		$tm_settings = $this->sitepress->get_setting( 'translation-management' );
+		$sitepress_settings = $this->sitepress->get_settings();
+		$use_tm_editor = 0;
+
+		if( array_key_exists( 'doc_translation_method', $tm_settings ) ) {
+			$use_tm_editor = $tm_settings['doc_translation_method'];
+		} elseif ( array_key_exists( 'doc_translation_method', $sitepress_settings ) ) {
+			$use_tm_editor = $this->sitepress->get_setting( 'doc_translation_method' );
+		}
+
+		return $use_tm_editor;
 	}
 
 	private function get_link_for_new_job( $trid, $lang, $source_lang_code ) {

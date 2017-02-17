@@ -27,6 +27,16 @@ if ( ! class_exists( 'TranslationProxy_Basket' ) ) {
 			self::$messages[] = $array;
 		}
 
+		public static function remove_message( $text ) {
+			if( is_array( self::$messages ) ) {
+				foreach ( self::$messages as $key => $message ) {
+					if ( array_key_exists( 'text', $message ) && $message['text'] === $text ) {
+						unset( self::$messages[ $key ] );
+					}
+				}
+			}
+		}
+
 		public static function get_basket( $force = false ) {
 			if ( ! isset( self::$basket ) || $force ) {
 				self::$basket = get_option( self::ICL_TRANSLATION_JOBS_BASKET );

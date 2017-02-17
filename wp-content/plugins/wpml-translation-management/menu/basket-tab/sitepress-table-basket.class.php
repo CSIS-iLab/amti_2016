@@ -1,5 +1,5 @@
 <?php
-require WPML_TM_PATH . '/menu/sitepress-table.class.php';
+require_once WPML_TM_PATH . '/menu/sitepress-table.class.php';
 
 class SitePress_Table_Basket extends SitePress_Table {
 

@@ -10,7 +10,9 @@ class WPML_Cookie {
 	 * @param        $domain
 	 */
 	public function set_cookie( $name, $value, $expires, $path, $domain ) {
-		setcookie( $name, $value, $expires, $path, $domain );
+		if ( $this->should_set_cookie() ) {
+			setcookie( $name, $value, $expires, $path, $domain );
+		}
 	}
 
 	/**
@@ -34,5 +36,9 @@ class WPML_Cookie {
 	public function headers_sent() {
 
 		return headers_sent();
+	}
+
+	private function should_set_cookie() {
+		return is_user_logged_in();
 	}
 }

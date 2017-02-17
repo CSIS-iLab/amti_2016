@@ -470,20 +470,6 @@ class WPML_Translator_Settings extends WPML_WPDB_And_SP_User {
 		<?php
 	}
 
-	public function build_header_content() {
-		if ( !$this->active_service && ( !defined( 'ICL_HIDE_TRANSLATION_SERVICES' ) || !ICL_HIDE_TRANSLATION_SERVICES) ) {
-			$no_service_selected_information = '<p>';
-			$no_service_selected_information .= '<strong>';
-			$no_service_selected_information .= __( 'No Translation Service selected: you can only use local translators.', 'wpml-translation-management' );
-			$no_service_selected_information .= '</strong>';
-			$no_service_selected_information .= '</p>';
-			$no_service_selected_information .= '<p>';
-			$no_service_selected_information .= __( 'If you wish to use a translation service for your content, please select one from the available services.', 'wpml-translation-management' );
-			$no_service_selected_information .= '</p>';
-			ICL_AdminNotifier::display_instant_message( $no_service_selected_information, 'information' );
-		}
-	}
-
     private function translators_head_foot_row() {
         ?>
         <tr class="thead">

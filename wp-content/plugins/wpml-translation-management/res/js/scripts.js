@@ -118,11 +118,6 @@ jQuery(document).ready(function () {
 		icl_tb_set_size('a.icl_thickbox');
 	}
 
-	var icl_tdo_options = jQuery('#icl_tdo_options');
-	if (icl_tdo_options.length) {
-		icl_tdo_options.submit(iclSaveForm);
-	}
-
 	// Translator notes - translation dashboard - start
 	jQuery('.icl_tn_link').click(function () {
 		jQuery('.icl_post_note:visible').slideUp();

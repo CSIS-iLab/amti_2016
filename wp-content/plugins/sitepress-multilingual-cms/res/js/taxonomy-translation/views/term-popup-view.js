@@ -27,6 +27,8 @@
 			var self = this,
 				trid = self.model.get('trid'),
 				term = self.model.getNameSlugAndDescription(),
+				term_meta = self.model.getMetaData(),
+				original_term_meta = TaxonomyTranslation.classes.taxonomy.getOriginalTermMeta( trid ),
 				original_term = TaxonomyTranslation.classes.taxonomy.getOriginalTerm( trid );
 
 			self.$el.html(
@@ -37,7 +39,9 @@
 					langs: TaxonomyTranslation.data.activeLanguages,
 					ttid: self.model.get('term_taxonomy_id'),
 					term: term,
-					original_term: original_term.getNameSlugAndDescription()
+					original_term: original_term.getNameSlugAndDescription(),
+					term_meta: term_meta,
+					original_term_meta: original_term_meta
 				})
 			);
 
@@ -52,20 +56,27 @@
 			return self;
 		},
 		saveTerm: function (e) {
-			var self = this;
+			var self = this,
+				meta_data = {};
 
 			self.undelegateEvents();
 
 			e.preventDefault();
-			var name = self.$el.find('#term-name').val();
-			var slug = self.$el.find('#term-slug').val();
-			var description = self.$el.find('#term-description').val();
+			var name = self.$el.find('#term-name').val(),
+				slug = self.$el.find('#term-slug').val(),
+				description = self.$el.find('#term-description').val();
+
+
+			var term_metas = self.$el.find('.term-meta');
+			_.each( term_metas, function ( meta_object ) {
+				meta_data[ meta_object.dataset.metaKey ] = meta_object.value;
+			});
 
 			if (name) {
 				self.$el.find('.spinner').show();
 				self.$el.find('.term-save').prop( 'disabled', true );
 				self.$el.find('.cancel').prop( 'disabled', true );
-				self.model.save(name, slug, description);
+				self.model.save(name, slug, description, meta_data);
 			}
 
 			return self;

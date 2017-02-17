@@ -149,7 +149,7 @@ class WPML_TM_Xliff_Writer extends WPML_TM_Job_Factory_User {
 				if ( ! isset( $field_data_translated ) || $field_data_translated == '' ) {
 					$field_data_translated = $field_data;
 				}
-				if ( $field_data != '' ) {
+				if ( $this->is_valid_unit_content( $field_data ) ) {
 					$translation_units .= $this->get_translation_unit( $element->field_type, $element->field_type, $field_data, $field_data_translated );
 				}
 			}

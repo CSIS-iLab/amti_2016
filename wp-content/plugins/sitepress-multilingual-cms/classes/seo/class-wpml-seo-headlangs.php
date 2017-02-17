@@ -66,7 +66,7 @@ class WPML_SEO_HeadLangs {
 		foreach ( array( 1, 10 ) as $priority ) {
 			$label    = __( 'As early as possible', 'sitepress' );
 			if ( $priority > 1 ) {
-				$label = sprintf( __( 'Later in the head section (priority %d)', 'sitepress' ), $priority );
+				$label = sprintf( esc_html__( 'Later in the head section (priority %d)', 'sitepress' ), $priority );
 			}
 			$options[ $priority ] = array(
 				'selected' => ( $priority == $seo['head_langs_priority'] ),
@@ -77,7 +77,7 @@ class WPML_SEO_HeadLangs {
 		?>
 		<div class="wpml-section wpml-section-seo-options" id="lang-sec-9-5">
 			<div class="wpml-section-header">
-				<h3><?php _e( 'SEO Options', 'sitepress' ) ?></h3>
+				<h3><?php esc_html_e( 'SEO Options', 'sitepress' ) ?></h3>
 			</div>
 			<div class="wpml-section-content">
 				<form id="icl_seo_options" name="icl_seo_options" action="">
@@ -85,15 +85,15 @@ class WPML_SEO_HeadLangs {
 					<p>
 						<input type="checkbox" id="icl_seo_head_langs" name="icl_seo_head_langs" <?php if ( $seo['head_langs'] )
 							echo 'checked="checked"' ?> value="1"/>
-						<label for="icl_seo_head_langs"><?php _e( "Display alternative languages in the HEAD section.", 'sitepress' ); ?></label>
+						<label for="icl_seo_head_langs"><?php esc_html_e( "Display alternative languages in the HEAD section.", 'sitepress' ); ?></label>
 					</p>
 					<p>
-						<label for="wpml-seo-head-langs-priority"><?php echo __( 'Position of hreflang links', 'sitepress' ); ?></label>
+						<label for="wpml-seo-head-langs-priority"><?php esc_html_e( 'Position of hreflang links', 'sitepress' ); ?></label>
 						<select name="wpml_seo_head_langs_priority" id="wpml-seo-head-langs-priority" <?php if ( ! $seo['head_langs'] ) echo 'disabled="disabled"' ?>>
 							<?php
 							foreach ($options as $priority => $option ) {
 								?>
-								<option value="<?php echo $priority; ?>" <?php echo $option['selected'] ? 'selected="selected"' :''; ?>><?php echo $option['label']; ?></option>
+								<option value="<?php echo esc_html( $priority ); ?>" <?php echo $option['selected'] ? 'selected="selected"' :''; ?>><?php echo esc_html( $option['label'] ); ?></option>
 								<?php
 							}
 							?>
@@ -101,7 +101,7 @@ class WPML_SEO_HeadLangs {
 					</p>
 					<p class="buttons-wrap">
 						<span class="icl_ajx_response" id="icl_ajx_response_seo"></span>
-						<input class="button button-primary" name="save" value="<?php _e( 'Save', 'sitepress' ) ?>" type="submit"/>
+						<input class="button button-primary" name="save" value="<?php esc_attr_e( 'Save', 'sitepress' ) ?>" type="submit"/>
 					</p>
 				</form>
 			</div>

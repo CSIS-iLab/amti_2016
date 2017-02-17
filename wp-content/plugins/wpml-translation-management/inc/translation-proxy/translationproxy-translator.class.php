@@ -168,7 +168,6 @@ class TranslationProxy_Translator {
 	 */
 	private static function get_website_details( $project, $force = false ) {
 
-		require_once ICL_PLUGIN_PATH . '/lib/Snoopy.class.php';
 		require_once ICL_PLUGIN_PATH . '/inc/utilities/xml2array.php';
 		require_once ICL_PLUGIN_PATH . '/lib/icl_api.php';
 
@@ -314,7 +313,6 @@ class TranslationProxy_Translator {
 			}
 		}
 
-		require_once ICL_PLUGIN_PATH . '/lib/Snoopy.class.php';
 		require_once ICL_PLUGIN_PATH . '/inc/utilities/xml2array.php';
 		require_once ICL_PLUGIN_PATH . '/lib/icl_api.php';
 		$icl_query = new ICanLocalizeQuery();
@@ -322,7 +320,7 @@ class TranslationProxy_Translator {
 	}
 
 	public static function flush_website_details_cache() {
-		delete_transient( ICanLocalizeQuery::WEBSITE_DETAILS_TRANSIENT_KEY );
+		delete_transient( WEBSITE_DETAILS_TRANSIENT_KEY );
 	}
 
 	public static function flush_website_details_cache_action() {

@@ -1,6 +1,10 @@
 <?php
 
 class WPML_Remote_String_Translation {
+	/**
+	 * @var WPML_String_Translation_Job_Email_Notification
+	 */
+	private static $email_notification;
 
 	/**
 	 * @param $item_type_name
@@ -89,87 +93,49 @@ class WPML_Remote_String_Translation {
 		return false;
 	}
 
-	public static function translation_send_strings_local( $string_ids, $target, $translator = null, $basket_name = null ) {
-		global $wpdb;
-		static $site_translators;
-		if ( ! isset( $site_translators ) ) {
-			$site_translators = TranslationManagement::get_blog_translators();
-		}
-
-		$mkey  = $wpdb->prefix . 'strings_notification';
-		$lkey  = $wpdb->prefix . 'language_pairs';
-		$slang = TranslationProxy_Basket::get_source_language();
+	public static function translation_send_strings_local( $string_ids, $target, $translator_id = null, $basket_name = null ) {
+		$added = 0;
+		$batch_id = TranslationProxy_Batch::update_translation_batch( $basket_name );
 
 		foreach ( $string_ids as $string_id ) {
-
-			$batch_id = TranslationProxy_Batch::update_translation_batch( $basket_name );
-
-			$added = icl_add_string_translation( $string_id,
+			$result = icl_add_string_translation( $string_id,
 				$target,
 				null,
 				ICL_TM_WAITING_FOR_TRANSLATOR,
-				$translator,
+				$translator_id,
 				'local',
-				$batch_id );
+				$batch_id
+			);
 
-			if ( $added ) {
-
-				foreach ( $site_translators as $key => $st ) {
-					$ulangs = isset( $st->$lkey ) ? $st->$lkey : false;
-					if ( ! empty( $ulangs ) && ! empty( $ulangs[ $slang ][ $target ] ) ) {
-
-						$enot = isset( $st->$mkey ) ? $st->$mkey : false;
-						if ( empty( $enot[ $slang ][ $target ] ) ) {
-							self::translator_notification( $st, $slang, $target );
-							$enot[ $slang ][ $target ]       = 1;
-							$site_translators[ $key ]->$mkey = $enot;
-							update_option( $wpdb->prefix . 'icl_translators_cached', $site_translators );
-						}
-					}
-				}
+			if ( $result ) {
+				$added ++;
 			}
+		}
+
+		if ( $added ) {
+			$source_lang = TranslationProxy_Basket::get_source_language();
+			self::create_email_notification()->notify( $source_lang, $target, $translator_id );
 		}
 
 		return 1;
 	}
 
-	public static function translator_notification( $user, $source, $target ) {
-		global $wpdb, $sitepress;
+	/**
+	 * @return WPML_String_Translation_Job_Email_Notification
+	 */
+	private static function create_email_notification() {
+		if ( ! self::$email_notification ) {
+			global $sitepress, $wpdb;
+			self::$email_notification = new WPML_String_Translation_Job_Email_Notification(
+				$sitepress,
+				$wpdb,
+				wpml_tm_load_blog_translators()
+			);
+		}
 
-		$_ldetails = $sitepress->get_language_details( $source );
-		$source_en = $_ldetails['english_name'];
-		$_ldetails = $sitepress->get_language_details( $target );
-		$target_en = $_ldetails['english_name'];
-
-		$message = __( "You have been assigned to a new translation job from %s to %s.
-
-	Start editing: %s
-
-	You can view your other translation jobs here: %s
-
-	 This message was automatically sent by Translation Management running on WPML. To stop receiving these notifications contact the system administrator at %s.
-
-	 This email is not monitored for replies.
-
-	 - WPML team
-	", 'wpml-translation-management' );
-
-		$to      = $user->user_email;
-		$subject = sprintf( __( "You have been assigned to a new translation job on %s.", 'wpml-translation-management' ),
-			get_bloginfo( 'name' ) );
-		$body    = sprintf( $message,
-			$source_en,
-			$target_en,
-			admin_url( 'admin.php?page=' . WPML_ST_FOLDER . '/menu/string-translation.php' ),
-			admin_url( 'admin.php?page=' . WPML_TM_FOLDER . '/menu/translations-queue.php' ),
-			home_url() );
-
-		wp_mail( $to, $subject, $body );
-
-		$meta                       = get_user_meta( $user->ID, $wpdb->prefix . 'strings_notification', 1 );
-		$meta[ $source ][ $target ] = 1;
-		update_user_meta( $user->ID, $wpdb->prefix . 'strings_notification', $meta );
+		return self::$email_notification;
 	}
+
 
 	public static function display_string_menu( $lang_filter ) {
 		global $sitepress;

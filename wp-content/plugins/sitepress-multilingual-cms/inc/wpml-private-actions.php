@@ -4,10 +4,10 @@ function new_duplicated_terms_filter( $post_ids, $duplicates_only = true ) {
 	global $wpdb, $sitepress, $wpml_admin_notices;
 
 	require_once ICL_PLUGIN_PATH . '/inc/taxonomy-term-translation/wpml-term-hierarchy-duplication.class.php';
-	$hier_dupl = new WPML_Term_Hierarchy_Duplication( $wpdb, $sitepress );
+	$hier_dupl  = new WPML_Term_Hierarchy_Duplication( $wpdb, $sitepress );
 	$taxonomies = $hier_dupl->duplicates_require_sync( $post_ids, $duplicates_only );
 	if ( (bool) $taxonomies ) {
-		$text = __(
+		$text      = __(
 			'<p>Some taxonomy terms are out of sync between languages. This means that content in some languages will not have the correct tags or categories.</p>
 			 <p>In order to synchronize the taxonomies, you need to go over each of them from the following list and click the "Update taxonomy hierarchy" button.</p>',
 			'wpml-translation-management'
@@ -16,10 +16,10 @@ function new_duplicated_terms_filter( $post_ids, $duplicates_only = true ) {
 
 		foreach ( $taxonomies as $taxonomy ) {
 			$text .= '<p><a href="admin.php?page='
-					 . ICL_PLUGIN_FOLDER . '/menu/taxonomy-translation.php&taxonomy='
-					 . $taxonomy . '&sync=1">' . get_taxonomy_labels(
-						 get_taxonomy( $taxonomy )
-					 )->name . '</a></p>';
+			         . ICL_PLUGIN_FOLDER . '/menu/taxonomy-translation.php&taxonomy='
+			         . $taxonomy . '&sync=1">' . get_taxonomy_labels(
+				         get_taxonomy( $taxonomy )
+			         )->name . '</a></p>';
 		}
 
 		$text .= '<p align="right"><a target="_blank" href="https://wpml.org/documentation/getting-started-guide/translating-post-categories-and-custom-taxonomies/#synchronizing-hierarchical-taxonomies">Help about translating taxonomy >></a></p>';
@@ -30,6 +30,7 @@ function new_duplicated_terms_filter( $post_ids, $duplicates_only = true ) {
 		$notice->set_hideable( false );
 		$notice->set_dismissible( false );
 		$notice->set_collapsable( true );
+		$wpml_admin_notices = wpml_get_admin_notices();
 		$wpml_admin_notices->add_notice( $notice );
 	} else {
 		remove_taxonomy_hierarchy_message();
@@ -45,12 +46,7 @@ function display_tax_sync_message( $post_id ) {
 add_action( 'save_post', 'display_tax_sync_message', 10 );
 
 function remove_taxonomy_hierarchy_message() {
-	global $wpml_admin_notices;
-	if ( ! $wpml_admin_notices ) {
-		$wpml_notice_render = new WPML_Notice_Render();
-		$wpml_admin_notices = new WPML_Notices( $wpml_notice_render );
-		$wpml_admin_notices->init_hooks();
-	}
+	$wpml_admin_notices = wpml_get_admin_notices();
 	$wpml_admin_notices->remove_notice( 'wpml-core', 'wpml-taxonomy-hierarchy-sync' );
 }
 
@@ -62,6 +58,21 @@ function taxonomy_hierarchy_sync_message_script() {
 }
 
 add_action( 'admin_enqueue_scripts', 'taxonomy_hierarchy_sync_message_script' );
+
+
+/**
+ * @return WPML_Notices
+ */
+function wpml_get_admin_notices() {
+	global $wpml_admin_notices;
+
+	if ( ! $wpml_admin_notices ) {
+		$wpml_admin_notices = new WPML_Notices( new WPML_Notice_Render() );
+		$wpml_admin_notices->init_hooks();
+	}
+
+	return $wpml_admin_notices;
+}
 
 function wpml_validate_language_domain_action() {
 

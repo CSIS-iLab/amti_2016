@@ -36,7 +36,11 @@ if ( $element_id ) {
 	}
 } else {
 	$trid              = isset( $_GET[ 'trid' ] ) ? intval( $_GET[ 'trid' ] ) : false;
-	$element_lang_code = isset( $_GET[ 'lang' ] ) ? strip_tags( $_GET[ 'lang' ] ) : $current_language;
+
+	$element_lang_code = $current_language;
+	if( array_key_exists( 'lang', $_GET ) ) {
+		$element_lang_code = filter_var( $_GET['lang'], FILTER_SANITIZE_FULL_SPECIAL_CHARS );
+	}
 }
 
 $translations = false;

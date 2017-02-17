@@ -25,33 +25,33 @@ class WPML_Lang_Domains_Box extends WPML_SP_User {
 					<td>
 						<label
 							for="<?php echo $textbox_id ?>">
-							<?php echo $lang['display_name'] ?>
+							<?php echo esc_html( $lang['display_name'] ); ?>
 						</label>
 					</td>
 					<?php if ( $code === $default_language ): ?>
 						<td id="icl_ln_home">
 							<code>
-								<?php echo $default_home ?>
+								<?php echo esc_url( $default_home ); ?>
 							</code>
 						</td>
 						<td>&nbsp;</td>
 					<?php else: ?>
 						<td style="white-space: nowrap">
-							<code><?php echo $home_schema ?></code>
+							<code><?php echo esc_html( $home_schema ); ?></code>
 							<input
 								type="text"
 								id="<?php echo $textbox_id ?>"
 								name="language_domains[<?php echo esc_attr($code) ?>]"
-								value="<?php echo isset( $language_domains[ $code ] ) ? preg_replace( array(
+								value="<?php echo isset( $language_domains[ $code ] ) ? filter_var( preg_replace( array(
 									'#^' . $home_schema . '#',
 									'#' . $home_path . '$#'
 								), '',
-									$language_domains[ $code ] ) : $this->render_suggested_url( $default_home,
-									$code ); ?>"
+									$language_domains[ $code ] ), FILTER_SANITIZE_URL ) : filter_var( $this->render_suggested_url( $default_home,
+									$code ), FILTER_SANITIZE_URL ); ?>"
 								data-language="<?php echo esc_attr($code); ?>"
 								size="30"/>
 							<?php if ( isset( $home_path[1] ) ): ?>
-								<code><?php echo $home_path ?></code>
+								<code><?php echo esc_html( $home_path ); ?></code>
 							<?php endif; ?>
 						</td>
 						<td>
@@ -79,18 +79,18 @@ class WPML_Lang_Domains_Box extends WPML_SP_User {
 				<td colspan="2">
 					<label for="sso_enabled">
 						<input type="checkbox" id="sso_enabled" name="sso_enabled" value="1" <?php checked( $is_sso_enabled, true, true ); ?>>
-						<?php _e( 'Auto sign-in and sign-out users from all domains', 'sitepress' ); ?>
+						<?php esc_html_e( 'Auto sign-in and sign-out users from all domains', 'sitepress' ); ?>
 					</label>
 					<span id="sso_information"><i class="otgs-ico-help"></i></span>
 					<div id="sso_enabled_notice" style="display: none;">
-						<?php _e( 'Please log-out and login again in order to be able to access the admin features in all language domains.', 'sitepress' ); ?>
+						<?php esc_html_e( 'Please log-out and login again in order to be able to access the admin features in all language domains.', 'sitepress' ); ?>
 					</div>
 				</td>
 			</tr>
 		</table>
 		<div id="language_per_domain_sso_description" style="display:none;">
 			<p>
-				<?php _e( 'This feature allows the theme and plugins to work correctly when on sites that use languages in domains.<br/>It requires a call to each of the site\'s language domains on both log-in and log-out, so there\'s a small performance penalty to using it.' );?>
+				<?php esc_html_e( 'This feature allows the theme and plugins to work correctly when on sites that use languages in domains.<br/>It requires a call to each of the site\'s language domains on both log-in and log-out, so there\'s a small performance penalty to using it.' );?>
 			</p>
 		</div>
 		<?php

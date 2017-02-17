@@ -50,7 +50,8 @@
 		        		'container_id'      => 'main-menu-top-wrapper',
 		                'menu_class'        => 'nav navbar-nav',
 		                'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-		                'walker'            => new wp_bootstrap_navwalker())
+		                'walker'            => new wp_bootstrap_navwalker()
+		            	)
 		            );
 		        ?>
 			</div>
