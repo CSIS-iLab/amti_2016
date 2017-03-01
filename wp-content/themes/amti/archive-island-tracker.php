@@ -25,11 +25,13 @@ get_header(); ?>
 						  'name' => 'countries'
 						);
 						$output = 'objects'; // or names
-						$taxonomies=get_taxonomies($args,$output); 
-						if  ($taxonomies) {
+						$taxonomies=get_taxonomies($args,$output);
+
+						if ($taxonomies) {
 						  foreach ($taxonomies  as $taxonomy ) {
-						  	$terms = get_terms($taxonomy->name);
+						  	$terms = get_terms($taxonomy->name, array('parent' => 0));
 		        			foreach ( $terms as $term) {
+
 
 		        				$image = get_term_meta( $term->term_id, 'countries_feature_image', true );
 
