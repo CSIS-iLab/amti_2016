@@ -536,7 +536,13 @@ function new_nav_menu_items($items, $args) {
         			$active = '<img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $label;
             	}
             	else {
-                	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $l['native_name'].'</a></li>';
+            		if($l['language_code'] == 'zh-hant') {
+            			$native = "正體中文";
+            		}
+            		else {
+            			$native = $l['native_name'];
+            		}
+                	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $native.'</a></li>';
                 }
 
                 $count++;
