@@ -523,7 +523,17 @@ function new_nav_menu_items($items, $args) {
 
             	// First Item
             	if($l['active']) {
-        			$active = '<img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $l['language_code'];
+            		if($l['language_code'] == 'zh-hans') {
+            			$label = "CH";
+            		}
+            		elseif($l['language_code'] == 'zh-hant') {
+            			$label = "TW";
+            		}
+            		else {
+            			$label = $l['language_code'];
+            		}
+
+        			$active = '<img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $label;
             	}
             	else {
                 	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $l['native_name'].'</a></li>';
