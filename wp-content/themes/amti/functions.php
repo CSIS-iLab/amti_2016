@@ -636,3 +636,67 @@ function features_save_meta_box_data( $post_id ){
 	}
 }
 add_action( 'save_post', 'features_save_meta_box_data' );
+
+/**
+ * Don't index pages where the robot index option
+ * in the Yoast SEO plugin is set to noindex.
+ *
+ * @param bool    $should_index
+ * @param WP_Post $post
+ *
+ * @return bool
+ */
+function filter_post( $should_index, WP_Post $post )
+{
+    if ( false === $should_index ) {
+        return false;
+    }
+
+    return get_post_meta($post->ID, '_yoast_wpseo_meta-robots-noindex', true) == 1 ? false : true;
+}
+
+// Hook into Algolia to manipulate the post that should be indexed.
+add_filter( 'algolia_should_index_searchable_post', 'filter_post', 10, 2 );
+
+/**
+ * Don't index pages where the robot index option
+ * in the Yoast SEO plugin is set to noindex.
+ *
+ * @param bool    $should_index
+ * @param WP_Post $post
+ *
+ * @return bool
+ */
+function filter_multilanguage_post( $should_index, WP_Post $post )
+{
+	if ( false === $should_index ) {
+        return false;
+    }
+    
+    $language_details = apply_filters( 'wpml_post_language_details', null,  $post->ID );
+
+    if($language_details['language_code'] != "en") {
+    	return false;
+    }
+    else {
+    	return true;
+    }
+}
+
+// Hook into Algolia to manipulate the post that should be indexed.
+add_filter( 'algolia_should_index_searchable_post', 'filter_multilanguage_post', 10, 2 );
+
+add_filter('algolia_autocomplete_config', function(array $config) {
+    $new_labels = array(
+        'searchable_posts' => 'Analysis & Features',
+        'users' => 'Authors',
+    );
+
+    foreach ($config as &$item) {
+        if(isset($new_labels[$item['index_id']])) {
+            $item['label'] = $new_labels[$item['index_id']];
+        }
+    }
+
+    return $config;
+});
