@@ -77,6 +77,7 @@ abstract class WPML_TM_MCS_Custom_Field_Settings_Menu {
 										array(
 											WPML_IGNORE_CUSTOM_FIELD    => __( "Don't translate", 'wpml-translation-management' ),
 											WPML_COPY_CUSTOM_FIELD      => __( "Copy from original to translation", 'wpml-translation-management' ),
+											WPML_COPY_ONCE_CUSTOM_FIELD => __( "Copy once", 'wpml-translation-management' ),
 											WPML_TRANSLATE_CUSTOM_FIELD => __( "Translate", 'wpml-translation-management' )
 										) as $ref_status => $title
 									) {
@@ -155,7 +156,10 @@ abstract class WPML_TM_MCS_Custom_Field_Settings_Menu {
 				<?php _e( "Don't translate", 'wpml-translation-management' ) ?>
 			</th>
 			<th>
-				<?php _e( "Copy from original to translation", 'wpml-translation-management' ) ?>
+				<?php echo _x( "Copy", 'Verb', 'wpml-translation-management' ) ?>
+			</th>
+			<th>
+				<?php _e( "Copy once", 'wpml-translation-management' ) ?>
 			</th>
 			<th>
 				<?php _e( "Translate", 'wpml-translation-management' ) ?>

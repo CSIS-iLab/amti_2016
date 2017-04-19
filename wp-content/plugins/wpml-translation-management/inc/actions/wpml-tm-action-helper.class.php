@@ -87,7 +87,13 @@ class WPML_TM_Action_Helper {
 					}
 				}
 			}
-			$md5str = $post->post_title . ';' . $post->post_content . ';' . join( ',', $post_tags ) . ';' . join( ',',
+
+			$custom_fields_values = apply_filters( 'wpml_custom_field_values_for_post_signature', $custom_fields_values, $post->ID );
+
+			$content = $post->post_content;
+			$content = apply_filters( 'wpml_pb_shortcode_content_for_translation', $content, $post->ID );
+
+			$md5str = $post->post_title . ';' . $content . ';' . join( ',', $post_tags ) . ';' . join( ',',
 			                                                                                                      $post_categories ) . ';' . join( ',', $custom_fields_values );
 			if ( ! empty( $all_taxs ) ) {
 				$md5str .= ';' . join( ';', $all_taxs );

@@ -2,8 +2,7 @@
 
 class WPML_Translation_Job_Helper {
 
-	public function encode_field_data( $data, $format ) {
-
+	public function encode_field_data( $data ) {
 		return base64_encode( $data );
 	}
 
@@ -12,11 +11,12 @@ class WPML_Translation_Job_Helper {
 	}
 
 	protected function get_tm_setting( $indexes ) {
-		if ( empty( $this->get_core_translation_management()->settings ) ) {
-			$this->get_core_translation_management()->init();
+		$core_tm     = $this->get_core_translation_management();
+		if ( empty( $core_tm->settings ) ) {
+			$core_tm->init();
 		}
 
-		$settings = $this->get_core_translation_management()->get_settings();
+		$settings = $core_tm->get_settings();
 
 		foreach ( $indexes as $index ) {
 			$settings = isset( $settings[ $index ] ) ? $settings[ $index ] : null;

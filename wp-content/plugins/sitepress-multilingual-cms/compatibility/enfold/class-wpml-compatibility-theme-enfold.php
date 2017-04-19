@@ -20,11 +20,15 @@ class WPML_Compatibility_Theme_Enfold {
 	 * @param WP_Post $post
 	 */
 	public function wp_insert_post_action( $post_ID, $post ) {
-		$page_builder_active         = get_post_meta( $post_ID, '_aviaLayoutBuilder_active', true );
-		$page_builder_shortcode_tree = get_post_meta( $post_ID, '_avia_builder_shortcode_tree', true );
+		$is_original = apply_filters( 'wpml_is_original_content', false, $post_ID, 'post_' . $post->post_type );
 
-		if ( $page_builder_active && $page_builder_shortcode_tree ) {
-			update_post_meta( $post_ID, '_aviaLayoutBuilderCleanData', $post->post_content );
+		if ( ! $is_original ) {
+			$page_builder_active         = get_post_meta( $post_ID, '_aviaLayoutBuilder_active', true );
+			$page_builder_shortcode_tree = get_post_meta( $post_ID, '_avia_builder_shortcode_tree', true );
+
+			if ( $page_builder_active && $page_builder_shortcode_tree ) {
+				update_post_meta( $post_ID, '_aviaLayoutBuilderCleanData', $post->post_content );
+			}
 		}
 	}
 }

@@ -19,17 +19,22 @@ var WPML_TM = WPML_TM || {};
 		updateUI: function () {
 			var self = this;
 			if (self.$el.is(':visible')) {
-				var original = self.getOriginal();
-				var translation = self.getTranslation();
+				try {
+					var original = self.getOriginal();
+					var translation = self.getTranslation();
 
-				self.$el.find('.icl_tm_copy_link').prop('disabled', translation !== '' || original === '');
-				self.translationCompleteCheckbox.prop('disabled', translation === '');
-				if ('' === translation) {
-					self.translationCompleteCheckbox.prop('checked', false);
-					self.translationCompleteCheckbox.trigger('change');
+					self.$el.find('.icl_tm_copy_link').prop('disabled', translation !== '' || original === '');
+					self.translationCompleteCheckbox.prop('disabled', translation === '');
+					if ('' === translation) {
+						self.translationCompleteCheckbox.prop('checked', false);
+						self.translationCompleteCheckbox.trigger('change');
+					}
+					self.sendMessageToGroupView();
+					jQuery(document).trigger('WPML_TM.editor.field_update_ui', self);
 				}
-				self.sendMessageToGroupView();
-				jQuery(document).trigger('WPML_TM.editor.field_update_ui', self);
+				catch(err) {
+					// this try - catch block is needed because this is sometimes called before tiny MCE editor is completely initialized
+				}
 			}
 		},
 		render: function (field, labels) {

@@ -35,9 +35,7 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 
 	public function init() {
 		add_action( 'wpml_tm_empty_mail_queue', array( $this, 'send_queued_mails' ), 10, 0 );
-		add_action( 'wpml_tm_new_job_notification', array( $this, 'new_job_notification_mail' ), 10, 1 );
 		add_action( 'wpml_tm_complete_job_notification', array( $this, 'wpml_tm_job_complete_mail' ), 10, 2 );
-		add_action( 'wpml_tm_assign_job_notification', array( $this, 'new_job_translator_mail' ), 10, 2 );
 		add_action( 'wpml_tm_remove_job_notification', array( $this, 'translator_removed_mail' ), 10, 2 );
 		add_action( 'wpml_tm_resign_job_notification', array( $this, 'translator_resign_mail' ), 10, 2 );
 		add_action( 'icl_ajx_custom_call', array( $this, 'send_queued_mails' ), 10, 0 );
@@ -55,13 +53,13 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 					$home_url = get_home_url();
 					if ( $type === 'translator' ) {
 						$footer = sprintf(
-							          __( 'You can view your other translation jobs here: %s', 'sitepress' ),
+							          __( 'You can view your other translation jobs here: %s', 'wpml-translation-management' ),
 							          $tj_url
 						          ) . "\n\n--\n";
 						$footer .= sprintf(
 							__(
 								"This message was automatically sent by Translation Management running on %s. To stop receiving these notifications contact the system administrator at %s.\n\nThis email is not monitored for replies.",
-								'sitepress'
+								'wpml-translation-management'
 							),
 							get_bloginfo( 'name' ),
 							$home_url
@@ -70,7 +68,7 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 						$footer = "\n--\n" . sprintf(
 								__(
 									"This message was automatically sent by Translation Management running on %s. To stop receiving these notifications, go to Notification Settings, or contact the system administrator at %s.\n\nThis email is not monitored for replies.",
-									'sitepress'
+									'wpml-translation-management'
 								),
 								get_bloginfo( 'name' ),
 								$home_url
@@ -90,66 +88,6 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 		}
 		$this->mail_cache         = array();
 		$this->process_mail_queue = false;
-	}
-
-	/**
-	 * Sends an email to all potential translators for the given job_id
-	 *
-	 * @param WPML_Translation_Job|int $job
-	 *
-	 * @return array
-	 */
-	public function new_job_notification_mail( $job ) {
-		$mails = array();
-		list( $manager_id, $job ) = $this->get_mail_elements( $job );
-		if ( ! $job ) {
-			return $mails;
-		}
-		$job_id      = $job->get_id();
-		$translators = $this->blog_translators->get_blog_translators( array( 'to' => $job->get_language_code() ) );
-
-		/** @var WPML_Element_Translation_Job $job */
-		$edit_url = strtolower( $job->get_type() ) !== 'string' ? apply_filters(
-			'icl_job_edit_url',
-			admin_url(
-				'admin.php?page=' . WPML_TM_FOLDER . '/menu/translations-queue.php&job_id=' . $job_id
-			),
-			$job_id
-		) : "";
-
-		foreach ( $translators as $t ) {
-			if ( $manager_id == $t->ID || ! $job->user_can_translate( $t ) ) {
-				continue;
-			}
-			$user_language = $this->sitepress->get_user_admin_language( $t->ID );
-			$this->sitepress->switch_locale( $user_language );
-			list( $lang_from, $lang_to ) = $this->get_lang_to_from( $job, $user_language );
-			if ( strtolower( $job->get_type() ) !== 'string' ) {
-				/** @var WPML_Element_Translation_Job $job */
-				$post_link = $job->get_url( true );
-				$post_link = $post_link != "" ? sprintf( __( "\nView the original document in %s here: %s\n",
-				                                             'sitepress' ),
-				                                         $lang_from,
-				                                         $post_link ) : "";
-			} else {
-				$post_link = "";
-			}
-			$mail['to']      = $t->display_name . ' <' . $t->user_email . '>';
-			$mail['subject'] = sprintf( __( 'New translation job from %s', 'sitepress' ), get_bloginfo( 'name' ) );
-			$mail['body']    = sprintf(
-				__( "New job available from %s to %s.\n%s\nStart editing: %s", 'sitepress' ),
-				$lang_from,
-				$lang_to,
-				$post_link,
-				$edit_url
-			);
-			$mail['type']    = 'translator';
-			$this->enqueue_mail( $mail );
-			$this->sitepress->switch_locale();
-			$mails[] = $mail;
-		}
-
-		return $mails;
 	}
 
 	/**
@@ -184,20 +122,20 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 			$mail['to'] = $manager->display_name . ' <' . $manager->user_email . '>';
 			if ( $update ) {
 				$mail['subject']  = sprintf(
-					__( 'Translator has updated translation job for %s', 'sitepress' ),
+					__( 'Translator has updated translation job for %s', 'wpml-translation-management' ),
 					get_bloginfo( 'name' )
 				);
 				$body_placeholder = __(
 					"Translator %shas updated translation of job \"%s\" for %s to %s." . $jobs_links,
-					'sitepress'
+					'wpml-translation-management'
 				);
 			} else {
 				$mail['subject']  = sprintf(
-					__( 'Translator has completed translation job for %s', 'sitepress' ),
+					__( 'Translator has completed translation job for %s', 'wpml-translation-management' ),
 					get_bloginfo( 'name' ) );
 				$body_placeholder = __(
 					"Translator %shas completed translation of job \"%s\" for %s to %s." . $jobs_links,
-					'sitepress'
+					'wpml-translation-management'
 				);
 			}
 			$translator_name = ! empty( $translator->display_name ) ? '(' . $translator->display_name . ') ' : '';
@@ -210,67 +148,6 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 			$mail['type']    = 'admin';
 			$this->enqueue_mail( $mail );
 		}
-		$this->sitepress->switch_locale();
-
-		return $mail;
-	}
-
-	/**
-	 * @param WPML_Translation_Job|int $job
-	 * @param int                      $translator_id
-	 *
-	 * @return bool|false|array representation of the email to be sent, false on error
-	 */
-	public function new_job_translator_mail( $job, $translator_id ) {
-		/** @var WPML_Translation_Job $job */
-		list( $manager_id, $job ) = $this->get_mail_elements( $job );
-		if ( !$job || $manager_id == $job->get_translator_id() ) {
-			return false;
-		}
-		$user          = new WP_User( $translator_id );
-		$edit_url      = "";
-		$post_link     = "";
-		$user_language = $this->sitepress->get_user_admin_language( $user->ID );
-		list( $lang_from, $lang_to ) = $this->get_lang_to_from( $job, $user_language );
-		$this->sitepress->switch_locale( $user_language );
-		if ( strtolower( $job->get_type() ) !== 'string' ) {
-			$edit_url  = apply_filters(
-				'icl_job_edit_url',
-				admin_url(
-					'admin.php?page=' . WPML_TM_FOLDER . '/menu/translations-queue.php&job_id=' . $job->get_id()
-				),
-				$job->get_id()
-			);
-			$post_link = $this->tm_post_permalink( $job->get_original_element_id() );
-			if ( $post_link != "" ) {
-				$post_link = sprintf(
-					__( "\nView the original document in %s here: %s\n", 'sitepress' ),
-					$lang_from,
-					$post_link
-				);
-			}
-		}
-		$mail['to'] = $user->display_name . ' <' . $user->user_email . '>';
-		//$mail['to'] = $user->user_email;
-		$mail['subject'] = sprintf( __( 'New translation job from %s', 'sitepress' ), get_bloginfo( 'name' ) );
-		//exit;
-		$mail['body'] = sprintf( __( "Hi %s,", 'sitepress' ), $user->display_name );
-		$mail['body'] .= "\n\n";
-		$mail['body'] .= sprintf(
-			__( "You have been assigned to new translation job from %s to %s.\n%s\nStart editing: %s", 'sitepress' ),
-			$lang_from,
-			$lang_to,
-			$post_link,
-			$edit_url
-		);
-		$mail['type'] = 'translator';
-		$mail         = apply_filters( 'wpml_new_job_notification', $mail, $job->get_id() );
-
-		/**
-		 * @deprecated Use 'wpml_new_job_notification' instead
-		 */
-		$mail         = apply_filters( 'WPML_new_job_notification', $mail, $job->get_id() );
-		$this->enqueue_mail( $mail );
 		$this->sitepress->switch_locale();
 
 		return $mail;
@@ -295,9 +172,9 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 		$this->sitepress->switch_locale( $user_language );
 		list( $lang_from, $lang_to ) = $this->get_lang_to_from( $job, $user_language );
 		$mail['to']      = $translator->display_name . ' <' . $translator->user_email . '>';
-		$mail['subject'] = sprintf( __( 'Removed from translation job on %s', 'sitepress' ), get_bloginfo( 'name' ) );
+		$mail['subject'] = sprintf( __( 'Removed from translation job on %s', 'wpml-translation-management' ), get_bloginfo( 'name' ) );
 		$mail['body']    = sprintf(
-			__( 'You have been removed from the translation job "%s" for %s to %s.', 'sitepress' ),
+			__( 'You have been removed from the translation job "%s" for %s to %s.', 'wpml-translation-management' ),
 			$doc_title,
 			$lang_from,
 			$lang_to
@@ -331,13 +208,13 @@ class WPML_TM_Mail_Notification extends WPML_WPDB_And_SP_User {
 		$mail = array();
 		if ( $this->notification_settings['resigned'] == ICL_TM_NOTIFICATION_IMMEDIATELY ) {
 			$mail['to']         = $manager->display_name . ' <' . $manager->user_email . '>';
-			$mail['subject']    = sprintf( __( 'Translator has resigned from job on %s', 'sitepress' ),
+			$mail['subject']    = sprintf( __( 'Translator has resigned from job on %s', 'wpml-translation-management' ),
 			                               get_bloginfo( 'name' ) );
-			$original_doc_title = $doc_title ? $doc_title : __( "Deleted", "sitepress" );
+			$original_doc_title = $doc_title ? $doc_title : __( 'Deleted', 'wpml-translation-management');
 			$mail['body']       = sprintf(
 				__(
 					'Translator %s has resigned from the translation job "%s" for %s to %s.%sView translation jobs: %s',
-					'sitepress'
+					'wpml-translation-management'
 				),
 				$translator->display_name,
 				$original_doc_title,

@@ -2,10 +2,10 @@
 /*
 Plugin Name: WPML Translation Management
 Plugin URI: https://wpml.org/
-Description: Add a complete translation process for WPML | <a href="https://wpml.org">Documentation</a> | <a href="https://wpml.org/version/wpml-2-2-7/">WPML 2.2.7 release notes</a>
+Description: Add a complete translation process for WPML | <a href="https://wpml.org">Documentation</a> | <a href="https://wpml.org/version/wpml-2-3-0/">WPML 2.3.0 release notes</a>
 Author: OnTheGoSystems
 Author URI: http://www.onthegosystems.com/
-Version: 2.2.7
+Version: 2.3.0
 Plugin Slug: wpml-translation-management
 */
 
@@ -26,7 +26,7 @@ if ( defined( 'ICL_SITEPRESS_VERSION' ) && is_array( $bundle ) ) {
 	}
 }
 
-define( 'WPML_TM_VERSION', '2.2.7' );
+define( 'WPML_TM_VERSION', '2.3.0' );
 
 // Do not uncomment the following line!
 // If you need to use this constant, use it in the wp-config.php file
@@ -68,6 +68,11 @@ function wpml_tm_load_ui() {
 		$WPML_Translation_Management = new WPML_Translation_Management( $sitepress, $tm_loader, $core_translation_management, $wpml_tp_translator );
 		$WPML_Translation_Management->load();
 
+		if ( ! $ICL_Pro_Translation ) {
+			$job_factory         = wpml_tm_load_job_factory();
+			$ICL_Pro_Translation = new WPML_Pro_Translation( $job_factory );
+		}
+
 		if ( is_admin() ) {
 			$wpml_wp_api      = new WPML_WP_API();
 			$TranslationProxy = new WPML_Translation_Proxy_API();
@@ -79,15 +84,11 @@ function wpml_tm_load_ui() {
 				$wpml_tm_options_ajax = new WPML_TM_Options_Ajax( $sitepress );
 				$wpml_tm_options_ajax->ajax_hooks();
 
-				if ( ! isset( $ICL_Pro_Translation ) ) {
-					$job_factory         = wpml_tm_load_job_factory();
-					$ICL_Pro_Translation = new WPML_Pro_Translation( $job_factory );
-				}
-
 				$wpml_tm_pickup_mode_ajax = new WPML_TM_Pickup_Mode_Ajax( $sitepress, $ICL_Pro_Translation );
 				$wpml_tm_pickup_mode_ajax->ajax_hooks();
 			}
 		}
+
 	}
 }
 

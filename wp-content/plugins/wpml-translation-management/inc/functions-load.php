@@ -78,7 +78,39 @@ function wpml_tm_load_blog_translators() {
  * @return WPML_TM_Mail_Notification
  */
 function wpml_tm_init_mail_notifications() {
-	global $wpml_tm_mailer, $sitepress, $wpdb, $iclTranslationManagement, $wpml_translation_job_factory;
+	global $wpml_tm_mailer, $sitepress, $wpdb, $iclTranslationManagement, $wpml_translation_job_factory, $wp_api;
+
+	if ( null === $wp_api ) {
+		$wp_api = new WPML_WP_API();
+	}
+
+	if ( is_admin() ) {
+		$blog_translators            = wpml_tm_load_blog_translators();
+		$twig_loader                 = new WPML_Twig_Template_Loader( array( WPML_TM_PATH . '/templates/batch-report/' ) );
+		$batch_report                = new WPML_TM_Batch_Report( $blog_translators );
+		$batch_report_email_template = new WPML_TM_Batch_Report_Email_Template( $twig_loader->get_template(), $blog_translators, $sitepress );
+		$batch_report_email_builder  = new WPML_TM_Batch_Report_Email_Builder( $batch_report, $batch_report_email_template );
+		$batch_report_email_process  = new WPML_TM_Batch_Report_Email_Process( $batch_report, $batch_report_email_builder );
+		$batch_report_hooks          = new WPML_TM_Batch_Report_Hooks( $batch_report, $batch_report_email_process );
+		$batch_report_hooks->add_hooks();
+
+		$wpml_tm_unsent_jobs = new WPML_TM_Unsent_Jobs( $blog_translators, $sitepress );
+		$wpml_tm_unsent_jobs->add_hooks();
+
+		$wpml_tm_unsent_jobs_notice       = new WPML_TM_Unsent_Jobs_Notice( $wp_api );
+		$wpml_tm_unsent_jobs_notice_hooks = new WPML_TM_Unsent_Jobs_Notice_Hooks( $wpml_tm_unsent_jobs_notice, $wp_api, WPML_Notices::DISMISSED_OPTION_KEY );
+		$wpml_tm_unsent_jobs_notice_hooks->add_hooks();
+
+		$user_jobs_notification_settings = new WPML_User_Jobs_Notification_Settings();
+		$user_jobs_notification_settings->add_hooks();
+
+		$twig_loader = new WPML_Twig_Template_Loader( array( WPML_TM_PATH . '/templates/user-profile/' ) );
+		$notification_template = new  WPML_User_Jobs_Notification_Settings_Template( $twig_loader->get_template() );
+
+		$user_jobs_notification_settings_render = new WPML_User_Jobs_Notification_Settings_Render( $notification_template );
+		$user_jobs_notification_settings_render->add_hooks();
+	}
+
 
 	if ( ! isset( $wpml_tm_mailer ) ) {
 		require_once WPML_TM_PATH . '/inc/local-translation/wpml-tm-mail-notification.class.php';
