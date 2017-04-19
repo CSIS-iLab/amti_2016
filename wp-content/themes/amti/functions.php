@@ -636,3 +636,21 @@ function features_save_meta_box_data( $post_id ){
 	}
 }
 add_action( 'save_post', 'features_save_meta_box_data' );
+
+function wpse_29570_where_filter($where){
+        global $wpdb;
+        if( is_search() ) {
+            $search= get_query_var('s');
+            // $query=$wpdb->prepare("SELECT user_id  FROM $wpdb->usermeta WHERE ( meta_key='first_name' AND meta_value LIKE '%%%s%%' ) or ( meta_key='last_name' AND meta_value LIKE '%%%s%%' )", $search ,$search);
+            $query=$wpdb->prepare("SELECT ID  FROM $wpdb->users WHERE ( display_name LIKE '%%%s%%' )", $search ,$search);
+            $authorID= $wpdb->get_var( $query );
+
+            if($authorID){
+                $where = "  AND  ( wp_posts.post_author = {$authorID} ) ";
+            }
+
+         }
+         return $where;
+    }
+
+    add_filter('posts_where','wpse_29570_where_filter');
