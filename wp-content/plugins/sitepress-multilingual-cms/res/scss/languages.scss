@@ -1,6 +1,13 @@
 @import "mixins";
 @import "variables";
 
+.wpml-settings-container {
+	.spinner {
+		float: none;
+		margin-top: -1px;
+	}
+}
+
 #icl_save_default_button,
 #icl_cancel_default_button,
 #icl_theme_localization {

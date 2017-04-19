@@ -201,7 +201,11 @@ final class WP_Installer{
     }
 
     public function load_locale(){
-        $locale = get_locale();
+        if( function_exists('get_user_locale') ){
+	        $locale = get_user_locale();
+        }else{
+	        $locale = get_locale();
+        }
         $locale = apply_filters( 'plugin_locale', $locale, 'installer' );
         $mo_file = $this->plugin_path() . '/locale/installer-' . $locale . '.mo';
         if(file_exists($mo_file)){
@@ -467,7 +471,14 @@ final class WP_Installer{
                 $this->settings = unserialize($_settings);
             }
 
-            if (is_multisite() && isset($this->settings['repositories'])) {
+            // Initialize
+            if( empty( $this->settings ) ){
+                $this->settings = array(
+                        'repositories' => array()
+                );
+            }
+
+            if ( is_multisite() ) {
                 $network_settings = maybe_unserialize(get_site_option('wp_installer_network'));
                 if ($network_settings) {
                     foreach ($this->settings['repositories'] as $rep_id => $repository) {
@@ -551,20 +562,16 @@ final class WP_Installer{
     private function _pre_1_6_backwards_compatibility($settings){
 
         if( version_compare($this->version(), '1.8', '<') && !empty($settings['repositories']) ){
-
             foreach ($settings['repositories'] as $repository_id => $repository) {
-
-                foreach ($repository['data']['downloads']['plugins'] as $slug => $download) {
-
-                    $settings['repositories'][$repository_id]['data']['downloads']['plugins'][$slug]['slug'] = $download['basename'];
-
+                if( isset( $repository['data'] ) ) {
+	                foreach ( $repository['data']['downloads']['plugins'] as $slug => $download ) {
+		                $settings['repositories'][ $repository_id ]['data']['downloads']['plugins'][ $slug ]['slug'] = $download['basename'];
+	                }
                 }
             }
-
         }
 
         return $settings;
-
     }
 
     //backward compatibility - support old products list format (downloads under products instead of global downloads list)
@@ -573,61 +580,41 @@ final class WP_Installer{
         if( version_compare($this->version(), '1.8', '<') && !empty($settings['repositories']) && empty($this->_old_products_format_backwards_compatibility) ) {
 
             foreach ($settings['repositories'] as $repository_id => $repository) {
-
                 $populate_downloads = false;
+	            if( isset( $repository['data'] ) ) {
 
-                foreach ($repository['data']['packages'] as $package_id => $package) {
+		            foreach ( $repository['data']['packages'] as $package_id => $package ) {
+			            foreach ( $package['products'] as $product_id => $product ) {
+				            if ( ! isset( $product['plugins'] ) ) {
+					            $populate_downloads = true;
+					            foreach ( $product['downloads'] as $download_id => $download ) {
+						            $settings['repositories'][ $repository_id ]['data']['packages'][ $package_id ]['products'][ $product_id ]['plugins'][] = $download['slug'];
+					            }
+				            }
+			            }
+		            }
 
-                    foreach ($package['products'] as $product_id => $product) {
-
-                        if (!isset($product['plugins'])) {
-
-                            $populate_downloads = true;
-
-                            foreach ($product['downloads'] as $download_id => $download) {
-
-                                $settings['repositories'][$repository_id]['data']['packages'][$package_id]['products'][$product_id]['plugins'][] = $download['slug'];
-
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                if ($populate_downloads) {
-
-                    // Add downloads branch
-                    foreach ($repository['data']['packages'] as $package_id => $package) {
-
-                        foreach ($package['products'] as $product_id => $product) {
-
-                            foreach ($product['downloads'] as $download_id => $download) {
-
-                                if (!isset($settings['repositories'][$repository_id]['data']['downloads']['plugins'][$download['slug']])) {
-                                    $settings['repositories'][$repository_id]['data']['downloads']['plugins'][$download['slug']] = $download;
-                                }
-
-                                $settings['repositories'][$repository_id]['data']['packages'][$package_id]['products'][$product_id]['plugins'][] = $download['slug'];
-                            }
-
-                            unset($settings['repositories'][$repository_id]['data']['packages'][$package_id]['products'][$product_id]['downloads']);
-
-                        }
-
-                    }
-
-                }
-
+		            if ( $populate_downloads ) {
+			            // Add downloads branch
+			            foreach ( $repository['data']['packages'] as $package_id => $package ) {
+				            foreach ( $package['products'] as $product_id => $product ) {
+					            foreach ( $product['downloads'] as $download_id => $download ) {
+						            if ( ! isset( $settings['repositories'][ $repository_id ]['data']['downloads']['plugins'][ $download['slug'] ] ) ) {
+							            $settings['repositories'][ $repository_id ]['data']['downloads']['plugins'][ $download['slug'] ] = $download;
+						            }
+						            $settings['repositories'][ $repository_id ]['data']['packages'][ $package_id ]['products'][ $product_id ]['plugins'][] = $download['slug'];
+					            }
+					            unset( $settings['repositories'][ $repository_id ]['data']['packages'][ $package_id ]['products'][ $product_id ]['downloads'] );
+				            }
+			            }
+		            }
+	            }
             }
 
             $this->_old_products_format_backwards_compatibility = true;
-
         }
 
         return $settings;
-
     }
 
     public function get_installer_site_url( $repository_id = false ){
@@ -979,11 +966,8 @@ final class WP_Installer{
                 // downloads
                 if(isset($subscription_type) && !$expired && ($product['subscription_type'] == $subscription_type || $product['subscription_type_equivalent'] == $subscription_type)){
                     foreach($product['plugins'] as $plugin_slug){
-
-                        $row['downloads'][] = $this->settings['repositories'][$repository_id]['data']['downloads']['plugins'][$plugin_slug];
-
+                        $row['downloads'][ $plugin_slug ] = $this->settings['repositories'][$repository_id]['data']['downloads']['plugins'][$plugin_slug];
                     }
-
                 }
 
                 //subpackages
@@ -1120,7 +1104,11 @@ final class WP_Installer{
                 $subscription_data = $this->fetch_subscription_data( $repository_id, $site_key, self::SITE_KEY_VALIDATION_SOURCE_REGISTRATION );
 
                 if ( $subscription_data ) {
-                    $this->settings['repositories'][$repository_id]['subscription'] = array('key' => $site_key, 'data' => $subscription_data);
+                    $this->settings['repositories'][$repository_id]['subscription'] = array(
+                            'key' => $site_key,
+                            'data' => $subscription_data,
+                            'registered_by' => get_current_user_id()
+                    );
                     $this->save_settings();
                 } else {
                     $error = __( 'Invalid site key for the current site.', 'installer' )
@@ -1215,7 +1203,11 @@ final class WP_Installer{
                     $subscription_data = $this->fetch_subscription_data( $repository_id, $site_key, self::SITE_KEY_VALIDATION_SOURCE_UPDATES_CHECK );
 
                     if ( $subscription_data ) {
-                        $this->settings['repositories'][$repository_id]['subscription'] = array('key' => $site_key, 'data' => $subscription_data);
+                        $this->settings['repositories'][$repository_id]['subscription'] = array(
+                                'key' => $site_key,
+                                'data' => $subscription_data,
+                                'registered_by' => get_current_user_id()
+                        );
 
                         //also refresh products information
                         $this->refresh_repositories_data();

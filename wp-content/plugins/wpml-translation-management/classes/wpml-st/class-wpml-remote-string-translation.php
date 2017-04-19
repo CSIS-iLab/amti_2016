@@ -1,10 +1,6 @@
 <?php
 
 class WPML_Remote_String_Translation {
-	/**
-	 * @var WPML_String_Translation_Job_Email_Notification
-	 */
-	private static $email_notification;
 
 	/**
 	 * @param $item_type_name
@@ -94,11 +90,10 @@ class WPML_Remote_String_Translation {
 	}
 
 	public static function translation_send_strings_local( $string_ids, $target, $translator_id = null, $basket_name = null ) {
-		$added = 0;
 		$batch_id = TranslationProxy_Batch::update_translation_batch( $basket_name );
 
 		foreach ( $string_ids as $string_id ) {
-			$result = icl_add_string_translation( $string_id,
+			$string_translation_id = icl_add_string_translation( $string_id,
 				$target,
 				null,
 				ICL_TM_WAITING_FOR_TRANSLATOR,
@@ -107,35 +102,14 @@ class WPML_Remote_String_Translation {
 				$batch_id
 			);
 
-			if ( $result ) {
-				$added ++;
+			if ( $string_translation_id ) {
+				$job = new WPML_String_Translation_Job( $string_translation_id );
+				do_action( 'wpml_tm_local_string_sent', $job );
 			}
-		}
-
-		if ( $added ) {
-			$source_lang = TranslationProxy_Basket::get_source_language();
-			self::create_email_notification()->notify( $source_lang, $target, $translator_id );
 		}
 
 		return 1;
 	}
-
-	/**
-	 * @return WPML_String_Translation_Job_Email_Notification
-	 */
-	private static function create_email_notification() {
-		if ( ! self::$email_notification ) {
-			global $sitepress, $wpdb;
-			self::$email_notification = new WPML_String_Translation_Job_Email_Notification(
-				$sitepress,
-				$wpdb,
-				wpml_tm_load_blog_translators()
-			);
-		}
-
-		return self::$email_notification;
-	}
-
 
 	public static function display_string_menu( $lang_filter ) {
 		global $sitepress;

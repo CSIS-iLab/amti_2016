@@ -6,6 +6,7 @@ class WPML_TM_Page_Builders {
 
 	const FIELD_STYLE_AREA = 'AREA';
 	const FIELD_STYLE_VISUAL = 'VISUAL';
+	const FIELD_STYLE_LINK = 'LINK';
 
 	/**
 	 * @param array $translation_package
@@ -29,14 +30,15 @@ class WPML_TM_Page_Builders {
 
 					foreach ( $strings as $string ) {
 
-						/* @var stdClass $string */
-						$field_name = WPML_TM_Page_Builders_Field_Wrapper::generate_field_slug( $package_id, $string->id );
+						if ( $string->type != self::FIELD_STYLE_LINK ) {
+							$field_name = WPML_TM_Page_Builders_Field_Wrapper::generate_field_slug( $package_id, $string->id );
 
-						$translation_package['contents'][ $field_name ] = array(
-							'translate'       => 1,
-							'data'            => base64_encode( $string->value ),
-							'format'          => 'base64',
-						);
+							$translation_package['contents'][ $field_name ] = array(
+								'translate' => 1,
+								'data'      => base64_encode( $string->value ),
+								'format'    => 'base64',
+							);
+						}
 					}
 				}
 			}
@@ -74,7 +76,7 @@ class WPML_TM_Page_Builders {
 							$previous_translation[ $field->get_field_slug() ] = new WPML_TM_Translated_Field( $field->get_field_slug(),
 								$data['data'],
 								base64_encode( $string_translation ),
-								1 );
+								ICL_TM_COMPLETE == $translated_strings[ $string_name ][ $language ]['status'] ? 1 : 0 );
 						}
 					}
 				}

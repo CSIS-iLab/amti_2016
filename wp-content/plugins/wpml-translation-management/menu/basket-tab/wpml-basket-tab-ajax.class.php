@@ -102,6 +102,8 @@ class WPML_Basket_Tab_Ajax {
 			$errors[] = $e->getMessage();
 		}
 
+		do_action( 'wpml_tm_basket_committed' );
+
 		$this->send_json_response( $response, $errors );
 	}
 

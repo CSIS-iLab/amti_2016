@@ -35,6 +35,8 @@ class WPML_TM_Menus
     private $selected_posts = array();
     private $translation_filter;
 
+    private $found_documents;
+
 	function __construct() {
 		$this->odd_row                      = false;
 		$this->current_document_words_count = 0;
@@ -1096,6 +1098,9 @@ class WPML_TM_Menus
         if ( isset( $_GET[ 'type' ] ) ) {
             $this->translation_filter[ 'type' ] = $_GET[ 'type' ];
         }
+
+		$paged           = (int) filter_input( INPUT_GET, 'paged', FILTER_SANITIZE_NUMBER_INT );
+		$this->translation_filter['page'] = $paged ? $paged - 1 : 0;
         $this->filter_translation_type = isset( $this->translation_filter[ 'type' ] ) ? $this->translation_filter[ 'type' ] : false;
     }
 
@@ -1177,37 +1182,40 @@ class WPML_TM_Menus
     <?php
     }
 
-    private function build_content_dashboard_documents()
-    {
-        ?>
+	private function build_content_dashboard_documents() {
+		?>
 
         <input type="hidden" name="icl_tm_action" value="add_jobs"/>
         <input type="hidden" name="translate_from" value="<?php echo $this->translation_filter['from_lang'] ?>"/>
         <table class="widefat fixed" id="icl-tm-translation-dashboard" cellspacing="0">
             <thead>
-            <?php $this->build_content_dashboard_documents_head_footer_cells(); ?>
+			<?php $this->build_content_dashboard_documents_head_footer_cells(); ?>
             </thead>
             <tfoot>
-            <?php $this->build_content_dashboard_documents_head_footer_cells(); ?>
+			<?php $this->build_content_dashboard_documents_head_footer_cells(); ?>
             </tfoot>
             <tbody>
-            <?php
-            $this->build_content_dashboard_documents_body();
-            ?>
+			<?php
+			$this->build_content_dashboard_documents_body();
+			?>
             </tbody>
         </table>
         <div class="tablenav">
-		    <div style="float:left;margin-top:4px;">
-			    <strong><?php echo __( 'Word count estimate:', 'wpml-translation-management' ) ?></strong>
-			    <?php printf( __( '%s words', 'wpml-translation-management' ), '<span id="icl-tm-estimated-words-count">0</span>' ) ?>
-			    <span id="icl-tm-doc-wrap" style="display: none">
-	                <?php printf( __( 'in %s document(s)', 'wpml-translation-management' ), '<span id="icl-tm-sel-doc-count">0</span>' ); ?>
+            <div style="float:left;margin-top:4px;">
+                <strong><?php echo esc_html__( 'Word count estimate:', 'wpml-translation-management' ) ?></strong>
+				<?php printf( esc_html__( '%s words', 'wpml-translation-management' ), '<span id="icl-tm-estimated-words-count">0</span>' ) ?>
+                <span id="icl-tm-doc-wrap" style="display: none">
+	                <?php printf( esc_html__( 'in %s document(s)', 'wpml-translation-management' ), '<span id="icl-tm-sel-doc-count">0</span>' ); ?>
                 </span>
-		    </div>
+            </div>
+			<?php
+            if ( ! empty( $this->translation_filter['type'] ) ) {
+                do_action( 'wpml_tm_dashboard_pagination', $this->translation_filter['limit_no'], $this->found_documents );
+            }
+            ?>
         </div>
-        <?php
-
-    }
+		<?php
+	}
 
 	public function build_content_dashboard_fetch_translations_box() {
 		if ( TranslationProxy::is_current_service_active_and_authenticated() ) {
@@ -1394,8 +1402,12 @@ class WPML_TM_Menus
 
     private function build_dashboard_documents() {
         global $wpdb, $sitepress;
+	    $wpml_tm_dashboard_pagination = new WPML_TM_Dashboard_Pagination();
+	    $wpml_tm_dashboard_pagination->add_hooks();
         $tm_dashboard    = new WPML_TM_Dashboard( $wpdb, $sitepress );
-        $this->documents = $tm_dashboard->get_documents( $this->translation_filter );
+        $dashboard_data = $tm_dashboard->get_documents( $this->translation_filter );
+	    $this->documents = $dashboard_data['documents'];
+	    $this->found_documents = $dashboard_data['found_documents'];
     }
 
     public function get_dashboard_documents(){

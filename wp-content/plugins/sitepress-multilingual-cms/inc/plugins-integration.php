@@ -22,7 +22,7 @@ function wpml_plugins_integration_setup(){
 
     // NextGen Gallery
     if ( defined( 'NEXTGEN_GALLERY_PLUGIN_VERSION' ) ){
-        require_once ICL_PLUGIN_PATH . '/inc/plugin-integration-nextgen.php';
+        require_once WPML_PLUGIN_PATH . '/inc/plugin-integration-nextgen.php';
     }
 }
 

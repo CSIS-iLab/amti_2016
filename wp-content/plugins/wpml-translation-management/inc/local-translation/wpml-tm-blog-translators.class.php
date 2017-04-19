@@ -64,6 +64,8 @@ class WPML_TM_Blog_Translators {
 						if ( array_key_exists( $lang_to, $user_lang_to ) ) {
 							$is_translator = true;
 							break;
+						} else {
+							$is_translator = false;
 						}
 					}
 				} else {

@@ -414,7 +414,7 @@ class WPML_Pro_Translation extends WPML_TM_Job_Factory_User {
 		return $links;
 	}
 
-	public static function _content_make_links_sticky( $element_id, $element_type = 'post', $string_translation = true ) {
+	public static function _content_make_links_sticky( $element_id, $element_type = 'post' ) {
 
 		require_once ICL_PLUGIN_PATH . '/inc/absolute-links/absolute-links.class.php';
 		$icl_abs_links = new AbsoluteLinks;
@@ -422,7 +422,7 @@ class WPML_Pro_Translation extends WPML_TM_Job_Factory_User {
 		if ( strpos( $element_type, 'post' ) === 0 ) {
 			$icl_abs_links->process_post( $element_id );
 		} elseif($element_type=='string') {
-			$icl_abs_links->process_string( $element_id, $string_translation );
+			$icl_abs_links->process_string( $element_id );
 		}
 	}
 
@@ -441,9 +441,16 @@ class WPML_Pro_Translation extends WPML_TM_Job_Factory_User {
 			$body = $post->post_content;
 			$wpml_element_type = 'post_' . $post->post_type;
 		}elseif($element_type=='string'){
-			$body_prepared = $wpdb->prepare("SELECT value FROM {$wpdb->prefix}icl_string_translations WHERE id=%d", array($element_id));
-			$body = $wpdb->get_var($body_prepared);
+			$string_prepared    = $wpdb->prepare( "SELECT string_id, value FROM {$wpdb->prefix}icl_string_translations WHERE id=%d", array( $element_id ) );
+			$data               = $wpdb->get_row( $string_prepared );
+			$body               = $data->value;
+			$original_string_id = $data->string_id;
+			$string_type        = $wpdb->get_var( $wpdb->prepare( "SELECT type FROM {$wpdb->prefix}icl_strings WHERE id=%d", $original_string_id ) );
+			if ( 'LINK' === $string_type ) {
+				$body = '<a href="' . $body . '">removeit</a>';
+			}
 		}
+
 		$new_body = $body;
 
 		$base_url_parts = parse_url(site_url());
@@ -618,7 +625,13 @@ class WPML_Pro_Translation extends WPML_TM_Job_Factory_User {
 			if ( strpos( $element_type, 'post' ) === 0 ) {
 				$wpdb->update( $wpdb->posts, array( 'post_content' => $new_body ), array( 'ID' => $element_id) );
             } elseif ($element_type == 'string') {
-                $wpdb->update( $wpdb->prefix . 'icl_string_translations', array( 'value' => $new_body ), array( 'id' => $element_id ) );
+            	if ( 'LINK' === $string_type ) {
+            		$new_body = str_replace( array( '<a href="', '">removeit</a>' ), array( '', '' ), $new_body );
+		            $wpdb->update( $wpdb->prefix . 'icl_string_translations', array( 'value' => $new_body, 'status' => ICL_TM_COMPLETE ), array( 'id' => $element_id ) );
+		            do_action( 'icl_st_add_string_translation', $element_id );
+	            } else {
+		            $wpdb->update( $wpdb->prefix . 'icl_string_translations', array( 'value' => $new_body ), array( 'id' => $element_id ) );
+	            }
             }
         }
 		
