@@ -637,20 +637,66 @@ function features_save_meta_box_data( $post_id ){
 }
 add_action( 'save_post', 'features_save_meta_box_data' );
 
-function wpse_29570_where_filter($where){
-        global $wpdb;
-        if( is_search() ) {
-            $search= get_query_var('s');
-            // $query=$wpdb->prepare("SELECT user_id  FROM $wpdb->usermeta WHERE ( meta_key='first_name' AND meta_value LIKE '%%%s%%' ) or ( meta_key='last_name' AND meta_value LIKE '%%%s%%' )", $search ,$search);
-            $query=$wpdb->prepare("SELECT ID  FROM $wpdb->users WHERE ( display_name LIKE '%%%s%%' )", $search ,$search);
-            $authorID= $wpdb->get_var( $query );
-
-            if($authorID){
-                $where = "  AND  ( wp_posts.post_author = {$authorID} ) ";
-            }
-
-         }
-         return $where;
+/**
+ * Don't index pages where the robot index option
+ * in the Yoast SEO plugin is set to noindex.
+ *
+ * @param bool    $should_index
+ * @param WP_Post $post
+ *
+ * @return bool
+ */
+function filter_post( $should_index, WP_Post $post )
+{
+    if ( false === $should_index ) {
+        return false;
     }
 
-    add_filter('posts_where','wpse_29570_where_filter');
+    return get_post_meta($post->ID, '_yoast_wpseo_meta-robots-noindex', true) == 1 ? false : true;
+}
+
+// Hook into Algolia to manipulate the post that should be indexed.
+add_filter( 'algolia_should_index_searchable_post', 'filter_post', 10, 2 );
+
+/**
+ * Don't index pages where the robot index option
+ * in the Yoast SEO plugin is set to noindex.
+ *
+ * @param bool    $should_index
+ * @param WP_Post $post
+ *
+ * @return bool
+ */
+function filter_multilanguage_post( $should_index, WP_Post $post )
+{
+	if ( false === $should_index ) {
+        return false;
+    }
+    
+    $language_details = apply_filters( 'wpml_post_language_details', null,  $post->ID );
+
+    if($language_details['language_code'] != "en") {
+    	return false;
+    }
+    else {
+    	return true;
+    }
+}
+
+// Hook into Algolia to manipulate the post that should be indexed.
+add_filter( 'algolia_should_index_searchable_post', 'filter_multilanguage_post', 10, 2 );
+
+add_filter('algolia_autocomplete_config', function(array $config) {
+    $new_labels = array(
+        'searchable_posts' => 'Analysis & Features',
+        'users' => 'Authors',
+    );
+
+    foreach ($config as &$item) {
+        if(isset($new_labels[$item['index_id']])) {
+            $item['label'] = $new_labels[$item['index_id']];
+        }
+    }
+
+    return $config;
+});
