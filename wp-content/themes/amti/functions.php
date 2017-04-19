@@ -566,3 +566,73 @@ function new_nav_menu_items($items, $args) {
  
     return $items;
 }
+
+/*===============================================================
+=            Add Custom Meta Box to Features & Posts            =
+===============================================================*/
+/**
+ * Add meta box
+ *
+ * @param post $post The post object
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+ */
+function features_add_meta_boxes( $post ){
+	add_meta_box( 'features_meta_box', __( 'Feature Image', 'features_customMeta' ), 'features_build_meta_box', array('features','post'), 'side', 'low' );
+}
+add_action( 'add_meta_boxes', 'features_add_meta_boxes' );
+
+/**
+ * Build custom field meta box
+ *
+ * @param post $post The post object
+ */
+function features_build_meta_box( $post ){
+	// make sure the form request comes from WordPress
+	wp_nonce_field( basename( __FILE__ ), 'features_meta_box_nonce' );
+
+	// retrieve the _features_imageShadow current value
+	$current_imageShadow = get_post_meta( $post->ID, '_features_imageShadow', true );
+	if(isset($current_imageShadow) && strlen($current_imageShadow) == 0) {
+		$current_imageShadow = 1;
+	}
+
+	?>
+	<div class='inside'>
+		<strong><?php _e( 'Include shadow on image?', 'features_customMeta' ); ?></strong>
+		<p>
+			<input type="radio" name="imageShadow" value="1" <?php checked( $current_imageShadow, '1' ); ?> /> Yes<br />
+			<input type="radio" name="imageShadow" value="0" <?php checked( $current_imageShadow, '0' ); ?> /> No
+		</p>
+	</div>
+	<?php
+}
+
+/**
+ * Store custom field meta box data
+ *
+ * @param int $post_id The post ID.
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+ */
+function features_save_meta_box_data( $post_id ){
+	// verify meta box nonce
+	if ( !isset( $_POST['features_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['features_meta_box_nonce'], basename( __FILE__ ) ) ){
+		return;
+	}
+
+	// return if autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){
+		return;
+	}
+
+  // Check the user's permissions.
+	if ( ! current_user_can( 'edit_post', $post_id ) ){
+		return;
+	}
+
+	// store custom fields values
+	// imageShadow
+	if ( isset( $_REQUEST['imageShadow'] ) ) {
+		update_post_meta( $post_id, '_features_imageShadow', sanitize_text_field( $_POST['imageShadow'] ) );
+	}
+}
+add_action( 'save_post', 'features_save_meta_box_data' );
