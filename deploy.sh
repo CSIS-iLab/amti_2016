@@ -1,6 +1,6 @@
-chmod 600 /tmp/amti_rsa.pub
+chmod 600 /tmp/amti_travis
 eval "$(ssh-agent -s)" # Start the ssh agent
-ssh-add /tmp/amti_rsa.pub
+ssh-add /tmp/amti_travis
 git remote add amti_2016 git@git.wpengine.com:staging/amti2016.git # add remote for staging site
 git fetch --unshallow # fetch all repo history or wpengine complain
 git status # check git status
