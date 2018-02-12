@@ -424,8 +424,7 @@ function add_search_box( $items, $args ) {
 	    $search .= '<label for="navSearchInput" id="navSearchLabel"><i class="fa fa-search" aria-hidden="true"></i></label>';
 	    $search .= '</div></form>';
 	    $search .= '</li>';
-	    $twitter = "<li class='twitter'><a href='http://twitter.com/AsiaMTI' target='_blank'><i class='fa fa-twitter fa-lg' aria-hidden='true' title='AMTI on Twitter'></i></a></li>";
-	    return $items.$search.$twitter;
+	    return $items.$search;
 	}
 	return $items;
 }
@@ -499,3 +498,205 @@ function shortcode_fullWidth( $atts , $content = null ) {
 	return "<div class='fullWidthFeatureContent'>".$content."</div>";
 }
 add_shortcode( 'fullWidth', 'shortcode_fullWidth' );
+
+/*-----------------------------------------------------------------------------------*/
+/* WPML Custom Language Switcher
+/* Filter wp_nav_menu() to add additional links and other output
+/* Show only other language in language switcher
+/* Use the new filter: https://wpml.org/wpml-hook/wpml_active_languages/ 
+/*-----------------------------------------------------------------------------------*/
+add_filter('wp_nav_menu_items', 'new_nav_menu_items', 10, 2);
+function new_nav_menu_items($items, $args) {
+    // get languages
+    $languages = apply_filters( 'wpml_active_languages', NULL, 'skip_missing=1' );
+    
+    if ( $languages && $args->theme_location == 'primary') {
+
+ 
+        if(!empty($languages)){
+
+        	// Create Menu Item
+ 			$active = "";
+ 			$list = "";
+
+            foreach($languages as $l){
+
+            	// First Item
+            	if($l['active']) {
+            		if($l['language_code'] == 'zh-hans') {
+            			$label = "CH";
+            		}
+            		elseif($l['language_code'] == 'zh-hant') {
+            			$label = "TW";
+            		}
+            		else {
+            			$label = $l['language_code'];
+            		}
+
+        			$active = '<img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $label;
+            	}
+            	else {
+            		if($l['language_code'] == 'zh-hant') {
+            			$native = "正體中文";
+            		}
+            		else {
+            			$native = $l['native_name'];
+            		}
+                	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $native.'</a></li>';
+                }
+
+                $count++;
+            }
+
+            // Combine List Items into dropdown if we have more than one language available
+            if($list) {
+	            $items = $items . '<li class="menu-item-language menu-item menu-item-has-children wpml-ls-slot-2 wpml-ls-item wpml-ls-current-language wpml-ls-menu-item wpml-ls-first-item dropdown">
+	            <a href="#" data-toggle="dropdown" class="dropdown-toggle" aria-haspopup="true">'.$active.'<span class="caret"></span></a><ul role="menu" class="dropdown-menu">';
+	            $items = $items . $list;
+	            $items = $items . '<li class="last"><div>NOTE: Some content may not be available in all languages.</div></li>';
+	            $items = $items . '</ul></li>';
+	        }
+	        else {
+	        	$items = $items . '<li class="menu-item-language menu-item menu-item-has-children wpml-ls-slot-2 wpml-ls-item wpml-ls-current-language wpml-ls-menu-item wpml-ls-first-item">
+	            <a href="#">'.$active.'</a>';
+	        }
+
+        }
+    }
+ 
+    return $items;
+}
+
+/*===============================================================
+=            Add Custom Meta Box to Features & Posts            =
+===============================================================*/
+/**
+ * Add meta box
+ *
+ * @param post $post The post object
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+ */
+function features_add_meta_boxes( $post ){
+	add_meta_box( 'features_meta_box', __( 'Feature Image', 'features_customMeta' ), 'features_build_meta_box', array('features','post'), 'side', 'low' );
+}
+add_action( 'add_meta_boxes', 'features_add_meta_boxes' );
+
+/**
+ * Build custom field meta box
+ *
+ * @param post $post The post object
+ */
+function features_build_meta_box( $post ){
+	// make sure the form request comes from WordPress
+	wp_nonce_field( basename( __FILE__ ), 'features_meta_box_nonce' );
+
+	// retrieve the _features_imageShadow current value
+	$current_imageShadow = get_post_meta( $post->ID, '_features_imageShadow', true );
+	if(isset($current_imageShadow) && strlen($current_imageShadow) == 0) {
+		$current_imageShadow = 1;
+	}
+
+	?>
+	<div class='inside'>
+		<strong><?php _e( 'Include shadow on image?', 'features_customMeta' ); ?></strong>
+		<p>
+			<input type="radio" name="imageShadow" value="1" <?php checked( $current_imageShadow, '1' ); ?> /> Yes<br />
+			<input type="radio" name="imageShadow" value="0" <?php checked( $current_imageShadow, '0' ); ?> /> No
+		</p>
+	</div>
+	<?php
+}
+
+/**
+ * Store custom field meta box data
+ *
+ * @param int $post_id The post ID.
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+ */
+function features_save_meta_box_data( $post_id ){
+	// verify meta box nonce
+	if ( !isset( $_POST['features_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['features_meta_box_nonce'], basename( __FILE__ ) ) ){
+		return;
+	}
+
+	// return if autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ){
+		return;
+	}
+
+  // Check the user's permissions.
+	if ( ! current_user_can( 'edit_post', $post_id ) ){
+		return;
+	}
+
+	// store custom fields values
+	// imageShadow
+	if ( isset( $_REQUEST['imageShadow'] ) ) {
+		update_post_meta( $post_id, '_features_imageShadow', sanitize_text_field( $_POST['imageShadow'] ) );
+	}
+}
+add_action( 'save_post', 'features_save_meta_box_data' );
+
+/**
+ * Don't index pages where the robot index option
+ * in the Yoast SEO plugin is set to noindex.
+ *
+ * @param bool    $should_index
+ * @param WP_Post $post
+ *
+ * @return bool
+ */
+function filter_post( $should_index, WP_Post $post )
+{
+    if ( false === $should_index ) {
+        return false;
+    }
+
+    return get_post_meta($post->ID, '_yoast_wpseo_meta-robots-noindex', true) == 1 ? false : true;
+}
+
+// Hook into Algolia to manipulate the post that should be indexed.
+add_filter( 'algolia_should_index_searchable_post', 'filter_post', 10, 2 );
+
+/**
+ * Don't index pages where the robot index option
+ * in the Yoast SEO plugin is set to noindex.
+ *
+ * @param bool    $should_index
+ * @param WP_Post $post
+ *
+ * @return bool
+ */
+function filter_multilanguage_post( $should_index, WP_Post $post )
+{
+	if ( false === $should_index ) {
+        return false;
+    }
+    
+    $language_details = apply_filters( 'wpml_post_language_details', null,  $post->ID );
+
+    if($language_details['language_code'] != "en") {
+    	return false;
+    }
+    else {
+    	return true;
+    }
+}
+
+// Hook into Algolia to manipulate the post that should be indexed.
+add_filter( 'algolia_should_index_searchable_post', 'filter_multilanguage_post', 10, 2 );
+
+add_filter('algolia_autocomplete_config', function(array $config) {
+    $new_labels = array(
+        'searchable_posts' => 'Analysis & Features',
+        'users' => 'Authors',
+    );
+
+    foreach ($config as &$item) {
+        if(isset($new_labels[$item['index_id']])) {
+            $item['label'] = $new_labels[$item['index_id']];
+        }
+    }
+
+    return $config;
+});

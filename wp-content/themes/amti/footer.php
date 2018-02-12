@@ -24,7 +24,7 @@
 
 		<div class="site-info">
 			<div class="container">
-				&copy; <?php echo __('2016 The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies', 'transparency'); ?>
+				&copy; <?php echo date('Y') . __(' The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies', 'transparency'); ?>
 			</div>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->

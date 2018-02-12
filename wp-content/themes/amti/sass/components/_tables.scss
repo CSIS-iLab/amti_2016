@@ -1,4 +1,9 @@
 table {
+	td,th{
+		border:1px solid $gray;
+		padding: 6px;
+		text-align:left;
+	}
 	max-width:100%;
 	width: 100%;
 	margin-bottom: 20px;
