@@ -11,10 +11,18 @@ get_header();
 
 if ( has_post_format( 'image' )) { 
 	if(get_post_thumbnail_id($post->ID)) {
+		$current_imageShadow = get_post_meta( $post->ID, '_features_imageShadow', true );
+		if($current_imageShadow == 1 || strlen($current_imageShadow) == 0) {
+			$shadow = "<div class='backstretch'></div>";
+		}
+		else {
+			$shadow = "";
+		}
 		$feat_image = 'style="background-image:url('.wp_get_attachment_url( get_post_thumbnail_id($post->ID) ).');"';
 	}
 	else {
 		$feat_image = "";
+		$shadow = "";
 	}
 	?>
 
@@ -23,7 +31,7 @@ if ( has_post_format( 'image' )) {
 			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 			<hr>
 		</div>
-		<div class="backstretch"></div>
+		<?php echo $shadow; ?>
 	</header>
 	<div id="primary" class="container">
 <?
