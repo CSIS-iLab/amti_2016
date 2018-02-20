@@ -292,6 +292,246 @@ function create_countries_taxonomy() {
 // Include Countries custom meta
 include_once("js-countries-meta.php");
 
+
+
+/*----------  Custom Meta Fields  ----------*/
+/**
+ * Add meta box
+ *
+ * @param post $post The post object.
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+ */
+function islandtracker_add_meta_boxes( $post ) {
+add_meta_box( 'island-tracker_meta_box', __( 'Island Details', 'amti' ), 'islandtracker_build_meta_box', 'island-tracker', 'normal', 'high' );
+	
+}
+add_action( 'add_meta_boxes_island-tracker', 'islandtracker_add_meta_boxes' );
+
+
+/**
+ * Build custom field meta box
+ *
+ * @param post $post The post object.
+ */
+
+function amti_get_sample_options() {
+	$options = array (
+		'Option 1' => 'option1',
+		'Option 2' => 'option2',
+		'Option 3' => 'option3',
+	);
+	
+	return $options;
+}
+
+
+function islandtracker_build_meta_box( $post ) {
+	// Make sure the form request comes from WordPress.
+	wp_nonce_field( basename( __FILE__ ), 'island-tracker_meta_box_nonce' );
+
+	// Retrieve current value of fields.
+	$current_occupation = get_post_meta( $post->ID, '_island-tracker_occupation', true );
+	$current_status = get_post_meta( $post->ID, '_island-tracker_status', true );
+	$current_area = get_post_meta( $post->ID, '_island-tracker_area', true );
+	$current_usa = get_post_meta( $post->ID, '_island-tracker_usa', true );
+	$current_china = get_post_meta( $post->ID, '_island-tracker_china', true );
+	$current_taiwan = get_post_meta( $post->ID, '_island-tracker_taiwan', true );
+	$current_vietnam = get_post_meta( $post->ID, '_island-tracker_vietnam', true );
+	$current_philippines = get_post_meta( $post->ID, '_island-tracker_philippines', true );
+	$current_malaysia = get_post_meta( $post->ID, '_island-tracker_malaysia', true );
+	$current_gps = get_post_meta( $post->ID, '_island-tracker_gps', true );
+	$current_links = get_post_meta( $post->ID, '_island-tracker_links', true );
+	$repeatable_fields = get_post_meta($post->ID, 'repeatable_fields', true);
+	$options = amti_get_sample_options();
+
+	?>
+	<div class='inside'>
+<script type="text/javascript">
+	jQuery(document).ready(function( $ ){
+		$( '#add-row' ).on('click', function() {
+			var row = $( '.empty-row.screen-reader-text' ).clone(true);
+			row.removeClass( 'empty-row screen-reader-text' );
+			row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
+			return false;
+		});
+  	
+		$( '.remove-row' ).on('click', function() {
+			$(this).parents('tr').remove();
+			return false;
+		});
+	});
+	</script>
+		<p><strong><label style="display: inline-block; width: 15%;" for="occupation">Occupied by: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="occupation" value="<?php echo esc_attr( $current_occupation ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="status">Largal status: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="status" value="<?php echo esc_attr( $current_status ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="area">Total area of reclamation: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="area" value="<?php echo esc_attr( $current_area ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="gps">GPS: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="gps" value="<?php echo esc_attr( $current_gps ); ?>" /></p>
+		
+		<h3 style="margin-top: 50px;">Name Translations</h3>
+		<p><strong><label style="display: inline-block; width: 15%;" for="usa">Board of Geographic Names: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="usa" value="<?php echo esc_attr( $current_usa ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="china">China: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="china" value="<?php echo esc_attr( $current_china ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="taiwan">Taiwan: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="taiwan" value="<?php echo esc_attr( $current_taiwan ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="vietnam">Vietam: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="vietnam" value="<?php echo esc_attr( $current_vietnam ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="philippines">Philippines: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="philippines" value="<?php echo esc_attr( $current_philippines ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="malaysia">Malaysia: </label></strong>
+			<input type="text" style="width: 50%;" class="large-text" name="malaysia" value="<?php echo esc_attr( $current_malaysia ); ?>" /></p>
+
+
+<h3 style="margin-top: 50px;">Relevant Links</h3>
+<table id="repeatable-fieldset-one" width="100%">
+	<thead>
+		<tr>
+			<th width="40%">Link Title</th>
+			<th width="40%">URL</th>
+			<th width="20%"></th>
+		</tr>
+	</thead>
+	<tbody>
+<?php
+	
+	if ( $repeatable_fields ) :
+	
+	foreach ( $repeatable_fields as $field ) {
+	?>
+	<tr>
+		<td><input type="text" class="widefat" name="name[]" value="<?php if($field['name'] != '') echo esc_attr( $field['name'] ); ?>" /></td>
+	
+		<td><input type="text" class="widefat" name="url[]" value="<?php if ($field['url'] != '') echo esc_attr( $field['url'] ); else echo 'http://'; ?>" /></td>
+	
+		<td><a class="button remove-row" href="#">Remove</a></td>
+	</tr>
+	<?php
+	}
+	else :
+	// show a blank one
+	?>
+	<tr>
+		<td><input type="text" class="widefat" name="name[]" /></td>
+	
+		
+		<td><input type="text" class="widefat" name="url[]" value="http://" /></td>
+	
+		<td><a class="button remove-row" href="#">Remove</a></td>
+	</tr>
+	<?php endif; ?>
+	
+	<!-- empty hidden one for jQuery -->
+	<tr class="empty-row screen-reader-text">
+		<td><input type="text" class="widefat" name="name[]" /></td>
+	
+		
+		<td><input type="text" class="widefat" name="url[]" value="http://" /></td>
+		  
+		<td><a class="button remove-row" href="#">Remove</a></td>
+	</tr>
+	</tbody>
+	</table>
+	
+	<p><a id="add-row" class="button" href="#">Add another</a></p>
+	
+
+	</div>
+<?php
+}
+/**
+ * Store custom field meta box data
+ *
+ * @param int $post_id The post ID.
+ * @link https://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+ */
+function islandtracker_save_meta_box_data( $post_id ) {
+	// Verify meta box nonce.
+	if ( ! isset( $_POST['island-tracker_meta_box_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['island-tracker_meta_box_nonce'] ) ), basename( __FILE__ ) ) ) { // Input var okay.
+		return;
+	}
+	// Return if autosave.
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	// Check the user's permissions.
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+
+	// Occupation.
+	if ( isset( $_REQUEST['occupation'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_occupation', sanitize_text_field( $_POST['occupation'] ) );  // Input var okay.
+	}
+	// Status.
+	if ( isset( $_REQUEST['status'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_status', sanitize_text_field( $_POST['status'] ) );  // Input var okay.
+	}
+	// Area.
+	if ( isset( $_REQUEST['area'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_area', sanitize_text_field( $_POST['area'] ) );  // Input var okay.
+	}
+	// GPS.
+	if ( isset( $_REQUEST['gps'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_gps', sanitize_text_field( $_POST['gps'] ) );  // Input var okay.
+	}
+	// USA.
+	if ( isset( $_REQUEST['usa'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_usa', sanitize_text_field( $_POST['usa'] ) );  // Input var okay.
+	}
+	// China.
+	if ( isset( $_REQUEST['china'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_china', sanitize_text_field( $_POST['china'] ) );  // Input var okay.
+	}
+	// Taiwan.
+	if ( isset( $_REQUEST['taiwan'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_taiwan', sanitize_text_field( $_POST['taiwan'] ) );  // Input var okay.
+	}
+	// Vietnam.
+	if ( isset( $_REQUEST['vietnam'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_vietnam', sanitize_text_field( $_POST['vietnam'] ) );  // Input var okay.
+	}
+	// Philippines.
+	if ( isset( $_REQUEST['philippines'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_philippines', sanitize_text_field( $_POST['philippines'] ) );  // Input var okay.
+	}
+	// Malaysia.
+	if ( isset( $_REQUEST['malaysia'] ) ) {  // Input var okay.
+		update_post_meta( $post_id, '_island-tracker_malaysia', sanitize_text_field( $_POST['malaysia'] ) );  // Input var okay.
+	}
+		//New Links
+	$old = get_post_meta($post_id, 'repeatable_fields', true);
+	$new = array();
+	
+	$names = $_POST['name'];
+	$urls = $_POST['url'];
+	
+	$count = count( $names );
+	
+	for ( $i = 0; $i < $count; $i++ ) {
+		if ( $names[$i] != '' ) :
+			$new[$i]['name'] = stripslashes( strip_tags( $names[$i] ) );
+			
+		
+			if ( $urls[$i] == 'http://' )
+				$new[$i]['url'] = '';
+			else
+				$new[$i]['url'] = stripslashes( $urls[$i] ); // and however you want to sanitize
+		endif;
+	}
+	if ( !empty( $new ) && $new != $old )
+		update_post_meta( $post_id, 'repeatable_fields', $new );
+	elseif ( empty($new) && $old )
+		delete_post_meta( $post_id, 'repeatable_fields', $old );
+}
+
+	
+
+add_action( 'save_post_island-tracker', 'islandtracker_save_meta_box_data' );
+
+
 /*-----------------------------------------------------------------------------------*/
 /* Remove 'features' and 'island-tracker' from post slug
 /*-----------------------------------------------------------------------------------*/
@@ -700,3 +940,8 @@ add_filter('algolia_autocomplete_config', function(array $config) {
 
     return $config;
 });
+
+add_action( 'after_setup_theme', 'wpse_74735_replace_wp_caption_shortcode' );
+
+
+

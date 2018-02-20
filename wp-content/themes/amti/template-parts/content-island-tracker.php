@@ -27,25 +27,30 @@
 			<p>
 			<?
 			
-				$custom = get_post_custom();
+				$usa = get_post_meta($post->ID, '_island-tracker_usa', true);
+				$china = get_post_meta($post->ID, '_island-tracker_china', true);
+				$taiwan = get_post_meta($post->ID, '_island-tracker_taiwan', true);
+				$vietnam = get_post_meta($post->ID, '_island-tracker_vietnam', true);
+				$philippines = get_post_meta($post->ID, '_island-tracker_philippines', true);
+				$malaysia = get_post_meta($post->ID, '_island-tracker_malaysia', true);
 
-				if(isset($custom['us'])) {
-				    echo '<strong>'.__('U.S. Board of Geographic Names:', 'transparency').'</strong> '.$custom['us'][0]."<br />";
+				if(!empty($usa)) {
+				    echo '<strong>U.S. Board of Geographic Names: '.'</strong> '.esc_attr($usa)."<br />";
 				}
-				if(isset($custom['china'])) {
-				    echo '<strong>'.__('China:', 'transparency').'</strong> '.$custom['china'][0]."<br />";
+				if(!empty($china)) {
+				    echo '<strong>China: '.'</strong> '.esc_attr($china)."<br />";
 				}
-				if(isset($custom['philippines'])) {
-				    echo '<strong>'.__('Philippines:', 'transparency').'</strong> '.$custom['philippines'][0]."<br />";
+				if(!empty($philippines)) {
+				    echo '<strong>Philippines: '.'</strong> '.esc_attr($philippines)."<br />";
 				}
-				if(isset($custom['taiwan'])) {
-				    echo '<strong>'.__('Taiwan:', 'transparency').'</strong> '.$custom['taiwan'][0]."<br />";
+				if(!empty($taiwan)) {
+				    echo '<strong>Taiwan: '.'</strong> '.esc_attr($taiwan)."<br />";
 				}
-				if(isset($custom['malaysia'])) {
-				    echo '<strong>'.__('Malaysia:', 'transparency').'</strong> '.$custom['malaysia'][0]."<br />";
+				if(!empty($malaysia)) {
+				    echo '<strong>Malaysia: '.'</strong> '.esc_attr($malaysia)."<br />";
 				}
-				if(isset($custom['vietnam'])) {
-				    echo '<strong>'.__('Vietnam:', 'transparency').'</strong> '.$custom['vietnam'][0]."<br />";
+				if(!empty($vietnam)) {
+				    echo '<strong>Vietnam: '.'</strong> '.esc_attr($vietnam)."<br />";
 				}
 			?>
 			</p>

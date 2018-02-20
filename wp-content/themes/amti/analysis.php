@@ -35,6 +35,7 @@ get_header(); ?>
 					wp_reset_postdata();
 				?>
 
+
 				<div class="more-archives">
 					<a href="/archives"><?php echo __("Want more? Browse our full text-based archive of analysis.", "transparency"); ?></a>
 				</div>

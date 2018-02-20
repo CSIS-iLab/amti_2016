@@ -15,6 +15,8 @@ if(function_exists('icl_object_id') && ICL_LANGUAGE_CODE != "en") {
 
 $taxonomy = $wp_query->get_queried_object();
 $term_children = get_term_children( $taxonomy->term_id, $taxonomy->taxonomy );
+$test = get_queried_object()->term_id;
+$term = get_term_by( 'slug', get_query_var('term'), get_query_var('taxonomy') );
 
 ?>
 
@@ -26,7 +28,8 @@ $term_children = get_term_children( $taxonomy->term_id, $taxonomy->taxonomy );
 
 					<header class="page-header">
 						<?php
-							the_archive_title( '<h1 class="page-title">', '</h1>' );
+
+							echo "<h1 class='page-title'>" . $term->name . " Island Tracker</h1>";
 							echo "<hr>";
 							the_archive_description( '<div class="archive-description">', '</div>' );
 							echo '<div class="anchor-links">';

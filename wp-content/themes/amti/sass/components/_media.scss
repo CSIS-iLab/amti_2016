@@ -69,11 +69,22 @@ iframe {
 	}
 
 	.gallery-columns-3 & {
-		max-width: 33.33%;
+		max-width: 50%;
+
+		@include breakpoint("medium") {
+		max-width: calc(100% / 3);
+		}
 	}
 
 	.gallery-columns-4 & {
+		max-width: 50%;
+
+		@include breakpoint("medium") {
+		max-width: calc(100% / 3);
+		}
+		@include breakpoint("large") {
 		max-width: 25%;
+		}
 	}
 
 	.gallery-columns-5 & {
@@ -100,6 +111,8 @@ iframe {
 .gallery-caption {
 	display: block;
 }
+
+
 
 /*--------------------------------------------------------------
 ## Slideshow - Jetpack
