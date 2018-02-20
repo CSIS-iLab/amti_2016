@@ -5,9 +5,22 @@ jQuery(document).ready(function($){
 
     // Instantiates the variable that holds the media library frame.
     var meta_image_frame;
+    var buttonID, target;
 
     // Runs when the image button is clicked.
     $(document).on("click", '.choose-meta-image-button', function(e){
+
+        var self = this;
+        console.log(self);
+
+        // Get the data target (ID of the image input field)
+        buttonID = $(this).attr('id');
+        console.log("buttonID: "+buttonID);
+        target = $('#'+buttonID).attr("data-target");
+        console.log("Target: "+target);
+
+        // target = $(self).attr("data-target");
+        // console.log("Target: "+target);
 
         // Prevents the default action from occuring.
         e.preventDefault();
@@ -34,11 +47,16 @@ jQuery(document).ready(function($){
 
             var image_value = "/"+media_attachment.url.replace(/^(?:\/\/|[^\/]+)*\//, "");
 
+            console.log(self);
+
+            console.log("Target2: "+target);
+
             // Sends the attachment URL to our custom image input field.
-            $('#fb_image_input').val(image_value);
+            $('#'+target).val(image_value);
 
             // Show image & remove image button
-            $('.image_container').html("<img src='"+image_value+"' style='width:200px;height:auto;cursor:pointer;' class='choose-meta-image-button' title='Change Image' /><br /><input type='button' id='remove-meta-image-button' class='button' value='Remove Image' />");
+            $("#image-container-"+target).html("<img src='"+image_value+"' style='width:200px;height:auto;cursor:pointer;' class='choose-meta-image-button' title='Change Image' data-target='"+target+"' id='"+target+"' /><br /><input type='button' id='remove-meta-image-button' class='button' value='Remove Image' data-target='"+target+"' />");
+            // $("#image-container-"+target).html("Target: "+target);
         });
 
         // Opens the media library frame.
@@ -46,17 +64,21 @@ jQuery(document).ready(function($){
     });
 
     $(document).on("click", '#remove-meta-image-button', function(e){
+        var self = this;
 
         // Prevents the default action from occuring.
         e.preventDefault();
 
         console.log("remove");
 
+        // Get the data target (ID of the image input field)
+        target = $(self).attr("data-target");
+
         // Remove value of the custom field
-        $('#fb_image_input').val('');
+        $('#'+target).val('');
 
         // Destroy the image
-        $('.image_container').empty();
+        $("#image-container-"+target).empty();
     });
 
     // Color Picker for Options

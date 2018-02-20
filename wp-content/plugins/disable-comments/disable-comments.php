@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Disable Comments
-Plugin URI: http://wordpress.org/extend/plugins/disable-comments/
+Plugin URI: https://wordpress.org/plugins/disable-comments/
 Description: Allows administrators to globally disable comments on their site. Comments can be disabled according to post type.
-Version: 1.5.2
+Version: 1.7.1
 Author: Samir Shah
-Author URI: http://rayofsolaris.net/
+Author URI: http://www.rayofsolaris.net/
 License: GPL2
 Text Domain: disable-comments
 Domain Path: /languages/
@@ -28,7 +28,7 @@ class Disable_Comments {
 		return self::$instance;
 	}
 
-	private function __construct() {
+	function __construct() {
 		// are we network activated?
 		$this->networkactive = ( is_multisite() && array_key_exists( plugin_basename( __FILE__ ), (array) get_site_option( 'active_sitewide_plugins' ) ) );
 
@@ -52,11 +52,11 @@ class Disable_Comments {
 	}
 
 	private function check_compatibility() {
-		if ( version_compare( $GLOBALS['wp_version'], '3.8', '<' ) ) {
+		if ( version_compare( $GLOBALS['wp_version'], '3.9', '<' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 			deactivate_plugins( __FILE__ );
 			if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'activate' || $_GET['action'] == 'error_scrape' ) ) {
-				exit( sprintf( __( 'Disable Comments requires WordPress version %s or greater.', 'disable-comments' ), '3.8' ) );
+				exit( sprintf( __( 'Disable Comments requires WordPress version %s or greater.', 'disable-comments' ), '3.9' ) );
 			}
 		}
 	}
@@ -163,10 +163,12 @@ class Disable_Comments {
 		if( is_admin() ) {
 			if( $this->networkactive ) {
 				add_action( 'network_admin_menu', array( $this, 'settings_menu' ) );
+				add_action( 'network_admin_menu', array( $this, 'tools_menu' ) );
 				add_filter( 'network_admin_plugin_action_links', array( $this, 'plugin_actions_links'), 10, 2 );
 			}
 			else {
 				add_action( 'admin_menu', array( $this, 'settings_menu' ) );
+				add_action( 'admin_menu', array( $this, 'tools_menu' ) );
 				add_filter( 'plugin_action_links', array( $this, 'plugin_actions_links'), 10, 2 );
 				if( is_multisite() )	// We're on a multisite setup, but the plugin isn't network activated.
 					register_deactivation_hook( __FILE__, array( $this, 'single_site_deactivate' ) );
@@ -183,7 +185,8 @@ class Disable_Comments {
 
 			if( $this->options['remove_everywhere'] ) {
 				add_action( 'admin_menu', array( $this, 'filter_admin_menu' ), 9999 );	// do this as late as possible
-				add_action( 'admin_head', array( $this, 'hide_dashboard_bits' ) );
+				add_action( 'admin_print_styles-index.php', array( $this, 'admin_css' ) );
+				add_action( 'admin_print_styles-profile.php', array( $this, 'admin_css' ) );
 				add_action( 'wp_dashboard_setup', array( $this, 'filter_dashboard' ) );
 				add_filter( 'pre_option_default_pingback_flag', '__return_zero' );
 			}
@@ -194,7 +197,6 @@ class Disable_Comments {
 
 			if( $this->options['remove_everywhere'] ) {
 				add_filter( 'feed_links_show_comments_feed', '__return_false' );
-				add_action( 'wp_footer', array( $this, 'hide_meta_widget_link' ), 100 );
 			}
 		}
 	}
@@ -299,6 +301,14 @@ jQuery(document).ready(function($){
 		return add_query_arg( 'page', 'disable_comments_settings', $base );
 	}
 
+	/**
+	 * Return context-aware tools page URL
+	 */
+	private function tools_page_url() {
+		$base =  $this->networkactive ? network_admin_url( 'settings.php' ) : admin_url( 'tools.php' );
+		return add_query_arg( 'page', 'disable_comments_tools', $base );
+	}
+
 	public function setup_notice(){
 		if( strpos( get_current_screen()->id, 'settings_page_disable_comments_settings' ) === 0 )
 			return;
@@ -322,24 +332,16 @@ jQuery(document).ready(function($){
 		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 	}
 
-	public function hide_dashboard_bits(){
-		if( 'dashboard' == get_current_screen()->id )
-			add_action( 'admin_print_footer_scripts', array( $this, 'dashboard_js' ) );
-	}
-
-	public function dashboard_js(){
-		echo '<script>
-		jQuery(function($){
-			$("#dashboard_right_now .comment-count, #latest-comments").hide();
-		 	$("#welcome-panel .welcome-comments").parent().hide();
-		});
-		</script>';
-	}
-
-	public function hide_meta_widget_link(){
-		if ( is_active_widget( false, false, 'meta', true ) && wp_script_is( 'jquery', 'enqueued' ) ) {
-			echo '<script> jQuery(function($){ $(".widget_meta a[href=\'' . esc_url( get_bloginfo( 'comments_rss2_url' ) ) . '\']").parent().remove(); }); </script>';
-		}
+	public function admin_css(){
+		echo '<style>
+			#dashboard_right_now .comment-count,
+			#dashboard_right_now .comment-mod-count,
+			#latest-comments,
+			#welcome-panel .welcome-comments,
+			.user-comment-shortcuts-wrap {
+				display: none !important;
+			}
+		</style>';
 	}
 
 	public function filter_existing_comments($comments, $post_id) {
@@ -374,7 +376,8 @@ jQuery(document).ready(function($){
 		if( $file == $plugin && current_user_can('manage_options') ) {
 			array_unshift(
 				$links,
-				sprintf( '<a href="%s">%s</a>', esc_attr( $this->settings_page_url() ), __( 'Settings' ) )
+				sprintf( '<a href="%s">%s</a>', esc_attr( $this->settings_page_url() ), __( 'Settings' ) ),
+				sprintf( '<a href="%s">%s</a>', esc_attr( $this->tools_page_url() ), __( 'Tools' ) )
 			);
 		}
 
@@ -382,7 +385,7 @@ jQuery(document).ready(function($){
 	}
 
 	public function settings_menu() {
-		$title = __( 'Disable Comments', 'disable-comments' );
+		$title = _x( 'Disable Comments', 'settings menu title', 'disable-comments' );
 		if( $this->networkactive )
 			add_submenu_page( 'settings.php', $title, $title, 'manage_network_plugins', 'disable_comments_settings', array( $this, 'settings_page' ) );
 		else
@@ -391,6 +394,18 @@ jQuery(document).ready(function($){
 
 	public function settings_page() {
 		include dirname( __FILE__ ) . '/includes/settings-page.php';
+	}
+
+	public function tools_menu() {
+		$title = __( 'Delete Comments', 'disable-comments' );
+		if( $this->networkactive )
+			add_submenu_page( 'settings.php', $title, $title, 'manage_network_plugins', 'disable_comments_tools', array( $this, 'tools_page' ) );
+		else
+			add_submenu_page( 'tools.php', $title, $title, 'manage_options', 'disable_comments_tools', array( $this, 'tools_page' ) );
+	}
+
+	public function tools_page() {
+		include dirname( __FILE__ ) . '/includes/tools-page.php';
 	}
 
 	private function enter_permanent_mode() {
@@ -425,8 +440,6 @@ jQuery(document).ready(function($){
 		if( defined( 'DISABLE_COMMENTS_ALLOW_PERSISTENT_MODE' ) && DISABLE_COMMENTS_ALLOW_PERSISTENT_MODE == false ) {
 			return false;
 		}
-		// The filter below is deprecated and will be removed in future versions. Use the define instead.
-		return apply_filters( 'disable_comments_allow_persistent_mode', true );
 	}
 
 	public function single_site_deactivate() {

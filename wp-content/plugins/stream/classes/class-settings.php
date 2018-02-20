@@ -84,7 +84,12 @@ class Settings {
 			'message' => esc_html__( 'There was an error in the request', 'stream' ),
 		);
 
-		$search = wp_unslash( trim( wp_stream_filter_input( INPUT_POST, 'find' ) ) );
+		$search = '';
+		$input  = wp_stream_filter_input( INPUT_POST, 'find' );
+
+		if ( ! isset( $input['term'] ) ) {
+			$search = wp_unslash( trim( $input['term'] ) );
+		}
 
 		$request = (object) array(
 			'find' => $search,
@@ -123,6 +128,7 @@ class Settings {
 
 		$response->status  = true;
 		$response->message = '';
+		$response->roles   = $this->get_roles();
 		$response->users   = array();
 		$users_added_to_response = array();
 
@@ -143,7 +149,7 @@ class Settings {
 
 			$args['tooltip'] = esc_attr(
 				sprintf(
-					__( "ID: %d\nUser: %s\nEmail: %s\nRole: %s", 'stream' ),
+					__( 'ID: %1$d\nUser: %2$s\nEmail: %3$s\nRole: %4$s', 'stream' ),
 					$author->id,
 					$author->user_login,
 					$author->user_email,
@@ -263,7 +269,7 @@ class Settings {
 						'name'        => 'records_ttl',
 						'title'       => esc_html__( 'Keep Records for', 'stream' ),
 						'type'        => 'number',
-						'class'       => 'small-text hidden',
+						'class'       => 'small-text',
 						'desc'        => esc_html__( 'Maximum number of days to keep activity records.', 'stream' ),
 						'default'     => 30,
 						'min'         => 1,
@@ -800,7 +806,7 @@ class Settings {
 						$count = isset( $users['avail_roles'][ $role_id ] ) ? $users['avail_roles'][ $role_id ] : 0;
 
 						if ( ! empty( $count ) ) {
-							$args['user_count'] = sprintf( _n( '1 user', '%s users', absint( $count ), 'stream' ), absint( $count ) );
+							$args['user_count'] = sprintf( _n( '%d user', '%d users', absint( $count ), 'stream' ), absint( $count ) );
 						}
 
 						if ( $role_id === $author_or_role ) {

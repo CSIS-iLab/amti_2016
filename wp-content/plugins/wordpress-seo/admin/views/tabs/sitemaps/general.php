@@ -13,20 +13,36 @@ echo '<h2>' . esc_html__( 'Your XML Sitemap', 'wordpress-seo' ) . '</h2>';
 
 if ( $options['enablexmlsitemap'] === true ) {
 	echo '<p>';
-	printf( esc_html__( 'You can find your XML Sitemap here: %sXML Sitemap%s', 'wordpress-seo' ), '<a target="_blank" class="button" href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) ) . '">', '</a>' );
+	printf(
+		/* translators: %1$s opening tag of the link to the Sitemap, %2$s closing tag for the link. */
+		esc_html__( 'You can find your XML Sitemap here: %1$sXML Sitemap%2$s', 'wordpress-seo' ),
+		'<a target="_blank" href="' . esc_url( WPSEO_Sitemaps_Router::get_base_url( 'sitemap_index.xml' ) ) . '">',
+		'</a>'
+	);
 	echo '<br/>';
 	echo '<br/>';
-	_e( 'You do <strong>not</strong> need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' );
+	printf(
+		/* translators: 1: <strong> open tag; 2: close tag. */
+		esc_html__( 'You do %1$snot%2$s need to generate the XML sitemap, nor will it take up time to generate after publishing a post.', 'wordpress-seo' ),
+		'<strong>',
+		'</strong>'
+	);
 	echo '</p>';
 }
 else {
-	echo '<p>', __( 'Save your settings to activate your XML Sitemap.', 'wordpress-seo' ), '</p>';
+	echo '<p>', esc_html__( 'Save your settings to activate your XML Sitemap.', 'wordpress-seo' ), '</p>';
 }
 
 echo '<h2>' . esc_html__( 'Entries per sitemap page', 'wordpress-seo' ) . '</h2>';
 ?>
 	<p>
-		<?php printf( __( 'Please enter the maximum number of entries per sitemap page (defaults to %s, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ), WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' ) ); ?>
+		<?php
+		printf(
+			/* translators: %d expands to default number of entries per sitemap. */
+			esc_html__( 'Please enter the maximum number of entries per sitemap page (defaults to %d, you might want to lower this to prevent memory issues on some installs):', 'wordpress-seo' ),
+			(int) WPSEO_Options::get_default( 'wpseo_xml', 'entries-per-page' )
+		);
+		?>
 	</p>
 
 <?php

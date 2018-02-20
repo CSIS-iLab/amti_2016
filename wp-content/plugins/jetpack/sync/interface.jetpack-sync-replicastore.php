@@ -31,6 +31,7 @@ interface iJetpack_Sync_Replicastore {
 	public function delete_post( $post_id );
 
 	public function posts_checksum( $min_id = null, $max_id = null );
+	public function post_meta_checksum( $min_id = null, $max_id = null );
 
 	// comments
 	public function comment_count( $status = null, $min_id = null, $max_id = null );
@@ -52,6 +53,7 @@ interface iJetpack_Sync_Replicastore {
 	public function untrashed_post_comments( $post_id );
 
 	public function comments_checksum( $min_id = null, $max_id = null );
+	public function comment_meta_checksum( $min_id = null, $max_id = null );
 
 	// options
 	public function update_option( $option, $value );
@@ -117,6 +119,12 @@ interface iJetpack_Sync_Replicastore {
 	public function upsert_user( $user );
 
 	public function delete_user( $user_id );
+
+	public function upsert_user_locale( $user_id, $locale );
+
+	public function delete_user_locale( $user_id );
+
+	public function get_user_locale( $user_id );
 
 	public function get_allowed_mime_types( $user_id );
 

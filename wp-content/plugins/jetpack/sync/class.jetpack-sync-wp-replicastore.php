@@ -148,6 +148,11 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 		return $this->table_checksum( $wpdb->posts, Jetpack_Sync_Defaults::$default_post_checksum_columns , 'ID', Jetpack_Sync_Settings::get_blacklisted_post_types_sql(), $min_id, $max_id );
 	}
 
+	public function post_meta_checksum( $min_id = null, $max_id = null ) {
+		global $wpdb;
+		return $this->table_checksum( $wpdb->postmeta, Jetpack_Sync_Defaults::$default_post_meta_checksum_columns , 'meta_id', Jetpack_Sync_Settings::get_whitelisted_post_meta_sql(), $min_id, $max_id );
+	}
+
 	public function comment_count( $status = null, $min_id = null, $max_id = null ) {
 		global $wpdb;
 
@@ -277,7 +282,12 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 
 	public function comments_checksum( $min_id = null, $max_id = null ) {
 		global $wpdb;
-		return $this->table_checksum( $wpdb->comments, Jetpack_Sync_Defaults::$default_comment_checksum_columns, 'comment_ID', "comment_approved <> 'spam'", $min_id, $max_id );
+		return $this->table_checksum( $wpdb->comments, Jetpack_Sync_Defaults::$default_comment_checksum_columns, 'comment_ID', Jetpack_Sync_Settings::get_comments_filter_sql(), $min_id, $max_id );
+	}
+
+	public function comment_meta_checksum( $min_id = null, $max_id = null ) {
+		global $wpdb;
+		return $this->table_checksum( $wpdb->commentmeta, Jetpack_Sync_Defaults::$default_comment_meta_checksum_columns , 'meta_id', Jetpack_Sync_Settings::get_whitelisted_comment_meta_sql(), $min_id, $max_id );
 	}
 
 	public function options_checksum() {
@@ -343,7 +353,7 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 		if ( $exists ) {
 			$wpdb->update( $table, array(
 				'meta_key'   => $meta_key,
-				'meta_value' => serialize( $meta_value ),
+				'meta_value' => maybe_serialize( $meta_value ),
 			), array( 'meta_id' => $meta_id ) );
 		} else {
 			$object_id_field = $type . '_id';
@@ -351,7 +361,7 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 				'meta_id'        => $meta_id,
 				$object_id_field => $object_id,
 				'meta_key'       => $meta_key,
-				'meta_value'     => serialize( $meta_value ),
+				'meta_value'     => maybe_serialize( $meta_value ),
 			) );
 		}
 
@@ -520,12 +530,15 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 		global $wpdb;
 
 		if ( is_array( $tt_ids ) && ! empty( $tt_ids ) ) {
+			// escape
+			$tt_ids_sanitized = array_map( 'intval', $tt_ids );
+
 			$taxonomies = array();
-			foreach ( $tt_ids as $tt_id ) {
+			foreach ( $tt_ids_sanitized as $tt_id ) {
 				$term                            = get_term_by( 'term_taxonomy_id', $tt_id );
 				$taxonomies[ $term->taxonomy ][] = $tt_id;
 			}
-			$in_tt_ids = "'" . implode( "', '", $tt_ids ) . "'";
+			$in_tt_ids = implode( ", ", $tt_ids_sanitized );
 
 			/**
 			 * Fires immediately before an object-term relationship is deleted.
@@ -535,9 +548,10 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 			 * @param int $object_id Object ID.
 			 * @param array $tt_ids An array of term taxonomy IDs.
 			 */
-			do_action( 'delete_term_relationships', $object_id, $tt_ids );
+			do_action( 'delete_term_relationships', $object_id, $tt_ids_sanitized );
 			$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 			foreach ( $taxonomies as $taxonomy => $taxonomy_tt_ids ) {
+				$this->ensure_taxonomy( $taxonomy );
 				wp_cache_delete( $object_id, $taxonomy . '_relationships' );
 				/**
 				 * Fires immediately after an object-term relationship is deleted.
@@ -574,18 +588,35 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 		$this->invalid_call();
 	}
 
+	public function upsert_user_locale( $user_id, $local ) {
+		$this->invalid_call();
+	}
+
+	public function delete_user_locale( $user_id ) {
+		$this->invalid_call();
+	}
+	
+	public function get_user_locale( $user_id ) {
+		return jetpack_get_user_locale( $user_id );
+	}
+
 	public function get_allowed_mime_types( $user_id ) {
 
 	}
 
 	public function checksum_all() {
+		$post_meta_checksum = $this->checksum_histogram( 'post_meta', 1 );
+		$comment_meta_checksum = $this->checksum_histogram( 'comment_meta', 1 );
+
 		return array(
 			'posts'    => $this->posts_checksum(),
-			'comments' => $this->comments_checksum()
+			'comments' => $this->comments_checksum(),
+			'post_meta'=> reset( $post_meta_checksum ),
+			'comment_meta'=> reset( $comment_meta_checksum ),
 		);
 	}
 
-	function checksum_histogram( $object_type, $buckets, $start_id = null, $end_id = null, $columns = null ) {
+	function checksum_histogram( $object_type, $buckets, $start_id = null, $end_id = null, $columns = null, $strip_non_ascii = true ) {
 		global $wpdb;
 
 		$wpdb->queries = array();
@@ -595,16 +626,37 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 				$object_count = $this->post_count( null, $start_id, $end_id );
 				$object_table = $wpdb->posts;
 				$id_field     = 'ID';
+				$where_sql    = Jetpack_Sync_Settings::get_blacklisted_post_types_sql();
 				if ( empty( $columns ) ) {
 					$columns  = Jetpack_Sync_Defaults::$default_post_checksum_columns;
+				}
+				break;
+			case "post_meta":
+				$object_table = $wpdb->postmeta;
+				$where_sql    = Jetpack_Sync_Settings::get_whitelisted_post_meta_sql();
+				$object_count = $this->meta_count( $object_table, $where_sql, $start_id, $end_id );
+				$id_field     = 'meta_id';
+				
+				if ( empty( $columns ) ) {
+					$columns  = Jetpack_Sync_Defaults::$default_post_meta_checksum_columns;
 				}
 				break;
 			case "comments":
 				$object_count = $this->comment_count( null, $start_id, $end_id );
 				$object_table = $wpdb->comments;
 				$id_field     = 'comment_ID';
+				$where_sql    = Jetpack_Sync_Settings::get_comments_filter_sql();
 				if ( empty( $columns ) ) {
 					$columns  = Jetpack_Sync_Defaults::$default_comment_checksum_columns;
+				}
+				break;
+			case "comment_meta":
+				$object_table = $wpdb->commentmeta;
+				$where_sql    = Jetpack_Sync_Settings::get_whitelisted_comment_meta_sql();
+				$object_count = $this->meta_count( $object_table, $where_sql, $start_id, $end_id );
+				$id_field     = 'meta_id';
+				if ( empty( $columns ) ) {
+					$columns  = Jetpack_Sync_Defaults::$default_post_meta_checksum_columns;
 				}
 				break;
 			default:
@@ -632,7 +684,7 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 			);
 
 			// get the checksum value
-			$value = $this->table_checksum( $object_table, $columns, $id_field, '1=1', $first_id, $last_id );
+			$value = $this->table_checksum( $object_table, $columns, $id_field, $where_sql, $first_id, $last_id, $strip_non_ascii );
 
 			if ( is_wp_error( $value ) ) {
 				return $value;
@@ -652,12 +704,17 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 		return $histogram;
 	}
 
-	private function table_checksum( $table, $columns, $id_column, $where_sql = '1=1', $min_id = null, $max_id = null ) {
+	private function table_checksum( $table, $columns, $id_column, $where_sql = '1=1', $min_id = null, $max_id = null, $strip_non_ascii = true ) {
 		global $wpdb;
 
 		// sanitize to just valid MySQL column names
 		$sanitized_columns = preg_grep ( '/^[0-9,a-z,A-Z$_]+$/i', $columns );
-		$columns_sql = implode( ',', array_map( array( $this, 'strip_non_ascii_sql' ), $sanitized_columns ) );
+
+		if ( $strip_non_ascii ) {
+			$columns_sql = implode( ',', array_map( array( $this, 'strip_non_ascii_sql' ), $sanitized_columns ) );
+		} else {
+			$columns_sql = implode( ',', $sanitized_columns );
+		}
 
 		if ( $min_id !== null ) {
 			$min_id = intval( $min_id );
@@ -674,7 +731,6 @@ class Jetpack_Sync_WP_Replicastore implements iJetpack_Sync_Replicastore {
 				FROM $table
 				WHERE $where_sql
 ENDSQL;
-
 		$result = $wpdb->get_var( $query );
 
 		if ( $wpdb->last_error ) {
@@ -683,6 +739,20 @@ ENDSQL;
 
 		return $result;
 
+	}
+
+	private function meta_count( $table, $where_sql, $min_id, $max_id ) {
+		global $wpdb;
+
+		if ( $min_id != null ) {
+			$where_sql .= ' AND meta_id >= ' . intval( $min_id );
+		}
+
+		if ( $max_id != null ) {
+			$where_sql .= ' AND meta_id <= ' . intval( $max_id );
+		}
+
+		return $wpdb->get_var( "SELECT COUNT(*) FROM $table WHERE $where_sql" );
 	}
 
 	/**

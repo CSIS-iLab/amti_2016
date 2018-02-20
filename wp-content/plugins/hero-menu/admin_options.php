@@ -44,6 +44,22 @@ function js_hm_settings_init(  ) {
 	);
 
 	add_settings_field( 
+		'js_hm_include_excerpt', 
+		__( 'Include featured item\'s excerpt?', 'heroMenu' ), 
+		'js_hm_include_excerpt_render', 
+		'pluginPage', 
+		'js_hm_pluginPage_section' 
+	);
+
+	add_settings_field( 
+		'js_hm_include_date', 
+		__( 'Include featured item\'s date?', 'heroMenu' ), 
+		'js_hm_include_date_render', 
+		'pluginPage', 
+		'js_hm_pluginPage_section' 
+	);
+
+	add_settings_field( 
 		'js_hm_show_on_pages', 
 		__( 'Display menu on:', 'heroMenu' ), 
 		'js_hm_show_on_pages_render', 
@@ -73,7 +89,14 @@ function js_hm_settings_init(  ) {
 // Set Setting Defaults
 $defaults = array(
     'js_hm_default_cta'   => 'See More',
-    'js_hm_fb_color' => '#cccccc'
+    'js_hm_fb_color' => '#cccccc',
+    'js_hm_fb_image' => null,
+	'js_hm_include_featured' => 1,
+	'js_hm_include_excerpt' => 0,
+	'js_hm_include_date' => 0,
+	'js_hm_show_on_pages' => 'all',
+	'js_hm_layout_style' => 'side',
+	'js_hm_custom_css' => null	    
 
 );
 
@@ -82,16 +105,16 @@ function js_hm_fb_image_render(  ) {
 	global $defaults;
 	$options = wp_parse_args(get_option( 'js_hm_settings', $defaults ), $defaults);
 	?>
-	<input type='hidden' name='js_hm_settings[js_hm_fb_image]' value='<?php echo $options['js_hm_fb_image']; ?>' id='fb_image_input'>
-    <div class='image_container'>
+	<input type='hidden' name='js_hm_settings[js_hm_fb_image]' value='<?php echo $options['js_hm_fb_image']; ?>' id='fb_image_input' data-target='fb_image_input'>
+    <div id='image-container-fb_image_input'>
     	<?php
     		if($options['js_hm_fb_image']) {
-                    echo "<img src='".$options['js_hm_fb_image']."' style='width:200px;height:auto;cursor:pointer;' class='choose-meta-image-button' title='Change Image' /><br />";
-                    echo '<input type="button" id="remove-meta-image-button" class="button" value="Remove Image" />';
+                    echo "<img src='".$options['js_hm_fb_image']."' id='fb_image_input' style='width:200px;height:auto;cursor:pointer;' class='choose-meta-image-button' title='Change Image' data-target='fb_image_input' /><br />";
+                    echo '<input type="button" id="remove-meta-image-button" class="button" value="Remove Image" data-target="fb_image_input" />';
                 }
         ?>
     </div>
-    <input type="button" id="meta-image-button" class="button choose-meta-image-button" value="<?php _e( 'Choose or Upload an Image', 'text_domain' )?>" />
+    <input type="button" id="meta-image-button" class="button choose-meta-image-button" value="<?php _e( 'Choose or Upload an Image', 'text_domain' )?>" data-target="fb_image_input" />
 	<p class="description">If there is no featured image, this image will be used instead.</p>
 	<?php
 
@@ -127,12 +150,38 @@ function js_hm_include_featured_render(  ) {
 	$options = wp_parse_args(get_option( 'js_hm_settings', $defaults ), $defaults);
 	?>
 	<label for='js_hm_settings[js_hm_include_featured]'>
-		<input type='checkbox' name='js_hm_settings[js_hm_include_featured]' <?php checked( $options['js_hm_include_featured'], 1 ); ?> value='1'> 
-		Yes
+		<input type="radio" name="js_hm_settings[js_hm_include_featured]" value="1" <?php checked(1, $options['js_hm_include_featured'], true); ?>> Yes
+        <input type="radio" name="js_hm_settings[js_hm_include_featured]" value="0" <?php checked(0, $options['js_hm_include_featured'], true); ?>> No
 	</label>
 	<p class='description'>Should the featured item also be included on the side menu?</p>
 	<?php
 
+}
+
+function js_hm_include_excerpt_render(  ) { 
+
+	global $defaults;
+	$options = wp_parse_args(get_option( 'js_hm_settings', $defaults ), $defaults);
+	?>
+	<label for='js_hm_settings[js_hm_include_excerpt]'>
+		<input type="radio" name="js_hm_settings[js_hm_include_excerpt]" value="1" <?php checked(1, $options['js_hm_include_excerpt'], true); ?>> Yes
+        <input type="radio" name="js_hm_settings[js_hm_include_excerpt]" value="0" <?php checked(0, $options['js_hm_include_excerpt'], true); ?>> No
+	</label>
+	<p class='description'>Should the featured item's excerpt be displayed?</p>
+	<?php
+}
+
+function js_hm_include_date_render(  ) { 
+
+	global $defaults;
+	$options = wp_parse_args(get_option( 'js_hm_settings', $defaults ), $defaults);
+	?>
+	<label for='js_hm_settings[js_hm_include_date]'>
+		<input type="radio" name="js_hm_settings[js_hm_include_date]" value="1" <?php checked(1, $options['js_hm_include_date'], true); ?>> Yes
+        <input type="radio" name="js_hm_settings[js_hm_include_date]" value="0" <?php checked(0, $options['js_hm_include_date'], true); ?>> No
+	</label>
+	<p class='description'>Should the featured item's date be displayed?</p>
+	<?php
 }
 
 

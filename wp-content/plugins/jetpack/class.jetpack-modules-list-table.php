@@ -31,19 +31,28 @@ class Jetpack_Modules_List_Table extends WP_List_Table {
 
 		wp_register_script(
 			'models.jetpack-modules',
-			plugins_url( '_inc/jetpack-modules.models.js', JETPACK__PLUGIN_FILE ),
+			Jetpack::get_file_url_for_environment(
+				'_inc/build/jetpack-modules.models.min.js',
+				'_inc/jetpack-modules.models.js'
+			),
 			array( 'backbone', 'underscore' ),
 			JETPACK__VERSION
 		);
 		wp_register_script(
 			'views.jetpack-modules',
-			plugins_url( '_inc/jetpack-modules.views.js', JETPACK__PLUGIN_FILE ),
+			Jetpack::get_file_url_for_environment(
+				'_inc/build/jetpack-modules.views.min.js',
+				'_inc/jetpack-modules.views.js'
+			),
 			array( 'backbone', 'underscore', 'wp-util' ),
 			JETPACK__VERSION
 		);
 		wp_register_script(
 			'jetpack-modules-list-table',
-			plugins_url( '_inc/jetpack-modules.js', JETPACK__PLUGIN_FILE ),
+			Jetpack::get_file_url_for_environment(
+				'_inc/build/jetpack-modules.min.js',
+				'_inc/jetpack-modules.js'
+			),
 			array(
 				'views.jetpack-modules',
 				'models.jetpack-modules',
@@ -62,7 +71,6 @@ class Jetpack_Modules_List_Table extends WP_List_Table {
 			'nonces'  => array(
 				'bulk' => wp_create_nonce( 'bulk-jetpack_page_jetpack_modules' ),
 			),
-			'coreIconAvailable' => Jetpack::jetpack_site_icon_available_in_core(),
 		) );
 
 		wp_enqueue_script( 'jetpack-modules-list-table' );
@@ -83,24 +91,12 @@ class Jetpack_Modules_List_Table extends WP_List_Table {
 			<# var i = 0;
 			if ( data.items.length ) {
 			_.each( data.items, function( item, key, list ) {
-				if ( item === undefined ) return;
-				if ( jetpackModulesData.coreIconAvailable && 'site-icon' == item.module ) { #>
-				<tr class="jetpack-module deprecated <# if ( ++i % 2 ) { #> alternate<# } #>" id="site-icon-deprecated">
-					<th scope="row" class="check-column">
-					<input type="checkbox" name="modules[]" value="{{{ item.module }}}" disabled />
-					</th>
-					<td class='name column-name'>
-						<span class='info'>{{{ item.name }}}</span>
-						<div class="row-actions">
-							<span class="dep-msg"><?php _ex( 'WordPress now has Site Icon built in!', '"Site Icon" is the feature name.', 'jetpack' ); ?></span>
-							<span class='configure'><a href="<?php esc_html_e( admin_url( 'customize.php?autofocus[control]=site_icon' ), 'jetpack' ); ?>"><?php _e( 'Configure' , 'jetpack' ); ?></a></span>
-						</div>
-					</td>
-				</tr>
-				<# return; } #>
+				if ( item === undefined ) return; #>
 				<tr class="jetpack-module <# if ( ++i % 2 ) { #> alternate<# } #><# if ( item.activated ) { #> active<# } #><# if ( ! item.available ) { #> unavailable<# } #>" id="{{{ item.module }}}">
 					<th scope="row" class="check-column">
+						<# if ( 'videopress' !== item.module ) { #>
 						<input type="checkbox" name="modules[]" value="{{{ item.module }}}" />
+						<# } #>
 					</th>
 					<td class='name column-name'>
 						<span class='info'><a href="{{{item.learn_more_button}}}" target="blank">{{{ item.name }}}</a></span>
@@ -108,9 +104,9 @@ class Jetpack_Modules_List_Table extends WP_List_Table {
 						<# if ( item.configurable ) { #>
 							<span class='configure'>{{{ item.configurable }}}</span>
 						<# } #>
-						<# if ( item.activated && 'vaultpress' !== item.module && item.available ) { #>
+						<# if ( item.activated && 'vaultpress' !== item.module && 'search' !== item.module && item.available && 'videopress' !== item.module ) { #>
 							<span class='delete'><a href="<?php echo admin_url( 'admin.php' ); ?>?page=jetpack&#038;action=deactivate&#038;module={{{ item.module }}}&#038;_wpnonce={{{ item.deactivate_nonce }}}"><?php _e( 'Deactivate', 'jetpack' ); ?></a></span>
-						<# } else if ( item.available ) { #>
+						<# } else if ( item.available && 'videopress' !== item.module && 'search' !== item.module ) { #>
 							<span class='activate'><a href="<?php echo admin_url( 'admin.php' ); ?>?page=jetpack&#038;action=activate&#038;module={{{ item.module }}}&#038;_wpnonce={{{ item.activate_nonce }}}"><?php _e( 'Activate', 'jetpack' ); ?></a></span>
 						<# } #>
 						</div>

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Module Name: Post by Email
- * Module Description: Publish posts by sending an email.
+ * Module Name: Post by email
+ * Module Description: Publish posts by sending an email
  * First Introduced: 2.0
  * Sort Order: 14
  * Requires Connection: Yes
@@ -123,7 +123,7 @@ class Jetpack_Post_By_Email {
 						<?php echo esc_html( wptexturize( __( "If you don't have a WordPress.com account yet, you can sign up for free in just a few seconds.", 'jetpack' ) ) ); ?>
 					</p>
 					<p>
-						<a href="<?php echo $jetpack->build_connect_url( false, get_edit_profile_url( get_current_user_id() ) . '#post-by-email' ); ?>" class="button button-connector" id="wpcom-connect"><?php esc_html_e( 'Link account with WordPress.com', 'jetpack' ); ?></a>
+						<a href="<?php echo $jetpack->build_connect_url( false, get_edit_profile_url( get_current_user_id() ) . '#post-by-email', 'unlinked-user-pbe' ); ?>" class="button button-connector" id="wpcom-connect"><?php esc_html_e( 'Link account with WordPress.com', 'jetpack' ); ?></a>
 					</p>
 					<?php
 				} ?>
@@ -173,7 +173,7 @@ class Jetpack_Post_By_Email {
 	}
 
 	/**
-	 * Backend function to abstract the xmlrpc function calls to wpcom.
+	 * Back end function to abstract the xmlrpc function calls to wpcom.
 	 *
 	 * @param $endpoint
 	 * @param $error_message

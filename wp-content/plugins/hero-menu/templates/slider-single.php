@@ -7,8 +7,10 @@
 		<div class='overlay'>
 			<div class='featuredItem-container'>
 				<div class='featuredItem'>
-					<span class='description'><?php echo $feat_description; ?></span><br />
-					<?php echo $feat_title; ?><br />
+					<div class='description'><?php echo $feat_description; ?></div>
+					<div class='title'><a href='<?php echo $feat_link; ?>'><?php echo $feat_title; ?></a></div>
+					<?php echo $date; ?>
+					<?php echo $excerpt; ?>
 					<a href='<?php echo $feat_link; ?>' class='seeMore'><?php echo __($feat_cta, 'heroMenu'); ?></a>
 				</div>
 			</div>

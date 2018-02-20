@@ -42,14 +42,14 @@ class WPCOM_Widget_Goodreads extends WP_Widget {
 	}
 
 	function enqueue_style() {
-		if ( is_rtl() ) {
-			wp_enqueue_style( 'goodreads-widget', plugins_url( 'goodreads/css/rtl/goodreads-rtl.css', __FILE__ ) );
-		} else {
-			wp_enqueue_style( 'goodreads-widget', plugins_url( 'goodreads/css/goodreads.css', __FILE__ ) );
-		}
+		wp_enqueue_style( 'goodreads-widget', plugins_url( 'goodreads/css/goodreads.css', __FILE__ ) );
+		wp_style_add_data( 'goodreads-widget', 'rtl', 'replace' );
 	}
 
 	function widget( $args, $instance ) {
+		/** This action is documented in modules/widgets/gravatar-profile.php */
+		do_action( 'jetpack_stats_extra', 'widget_view', 'goodreads' );
+
 		/** This filter is documented in core/src/wp-includes/default-widgets.php */
 		$title = apply_filters( 'widget_title', isset( $instance['title'] ) ? $instance['title'] : '' );
 
@@ -59,7 +59,7 @@ class WPCOM_Widget_Goodreads extends WP_Widget {
 				echo '<p>' . sprintf(
 					__( 'You need to enter your numeric user ID for the <a href="%1$s">Goodreads Widget</a> to work correctly. <a href="%2$s" target="_blank">Full instructions</a>.', 'jetpack' ),
 					esc_url( admin_url( 'widgets.php' ) ),
-					'http://support.wordpress.com/widgets/goodreads-widget/#goodreads-user-id'
+					'https://support.wordpress.com/widgets/goodreads-widget/#goodreads-user-id'
 				) . '</p>';
 				echo $args['after_widget'];
 			}
@@ -85,18 +85,16 @@ class WPCOM_Widget_Goodreads extends WP_Widget {
 		echo '<script src="' . esc_url( $goodreads_url ) . '"></script>' . "\n";
 
 		echo $args['after_widget'];
-
-		/** This action is already documented in modules/widgets/gravatar-profile.php */
-		do_action( 'jetpack_stats_extra', 'widget', 'goodreads' );
 	}
 
 	function goodreads_user_id_exists( $user_id ) {
-		$url = "http://www.goodreads.com/user/show/$user_id/";
-		$response = wp_remote_head( $url, array( 'httpversion'=>'1.1', 'timeout'=>3, 'redirection'=> 2 ) );
-		if ( wp_remote_retrieve_response_code( $response ) === 200 )
+		$url = "https://www.goodreads.com/user/show/$user_id/";
+		$response = wp_remote_head( $url, array( 'httpversion' => '1.1', 'timeout' => 3, 'redirection' => 2 ) );
+		if ( 200 === wp_remote_retrieve_response_code( $response ) ) {
 			return true;
-		else
+		} else {
 			return false;
+		}
 	}
 
 	function update( $new_instance, $old_instance ) {

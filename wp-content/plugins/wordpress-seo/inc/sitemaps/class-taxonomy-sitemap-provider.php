@@ -105,7 +105,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 
-				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) == 0 ) {
+				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) === 0 ) {
 					continue;
 				}
 
@@ -253,11 +253,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ) ) ) {
+		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ), true ) ) {
 			return false;
 		}
 
-		if ( 'post_format' === $taxonomy_name && ! empty( $this->options['disable-post_format'] ) ) {
+		if ( 'post_format' === $taxonomy_name && ! empty( $options['disable-post_format'] ) ) {
 			return false;
 		}
 

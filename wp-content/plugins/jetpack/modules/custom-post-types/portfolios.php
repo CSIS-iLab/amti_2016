@@ -124,7 +124,7 @@ class Jetpack_Portfolio {
 	 */
 	function setting_html() {
 		if ( current_theme_supports( self::CUSTOM_POST_TYPE ) ) : ?>
-			<p><?php printf( __( 'Your theme supports <strong>%s</strong>', 'jetpack' ), self::CUSTOM_POST_TYPE ); ?></p>
+			<p><?php printf( /* translators: %s is the name of a custom post type such as "jetpack-portfolio" */ __( 'Your theme supports <strong>%s</strong>', 'jetpack' ), self::CUSTOM_POST_TYPE ); ?></p>
 		<?php else : ?>
 			<label for="<?php echo esc_attr( self::OPTION_NAME ); ?>">
 				<input name="<?php echo esc_attr( self::OPTION_NAME ); ?>" id="<?php echo esc_attr( self::OPTION_NAME ); ?>" <?php echo checked( get_option( self::OPTION_NAME, '0' ), true, false ); ?> type="checkbox" value="1" />
@@ -135,6 +135,7 @@ class Jetpack_Portfolio {
 		if ( get_option( self::OPTION_NAME, '0' ) || current_theme_supports( self::CUSTOM_POST_TYPE ) ) :
 			printf( '<p><label for="%1$s">%2$s</label></p>',
 				esc_attr( self::OPTION_READING_SETTING ),
+				/* translators: %1$s is replaced with an input field for numbers */
 				sprintf( __( 'Portfolio pages display at most %1$s projects', 'jetpack' ),
 					sprintf( '<input name="%1$s" id="%1$s" type="number" step="1" min="1" value="%2$s" class="small-text" />',
 						esc_attr( self::OPTION_READING_SETTING ),
@@ -251,6 +252,7 @@ class Jetpack_Portfolio {
 				'comments',
 				'publicize',
 				'wpcom-markdown',
+				'revisions',
 			),
 			'rewrite' => array(
 				'slug'       => 'portfolio',
@@ -291,6 +293,7 @@ class Jetpack_Portfolio {
 			'public'            => true,
 			'show_ui'           => true,
 			'show_in_nav_menus' => true,
+			'show_in_rest'      => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array( 'slug' => 'project-type' ),
@@ -320,6 +323,7 @@ class Jetpack_Portfolio {
 			'public'            => true,
 			'show_ui'           => true,
 			'show_in_nav_menus' => true,
+			'show_in_rest'      => true,
 			'show_admin_column' => true,
 			'query_var'         => true,
 			'rewrite'           => array( 'slug' => 'project-tag' ),
@@ -674,6 +678,7 @@ class Jetpack_Portfolio {
 				<?php
 				// The content
 				if ( false !== $atts['display_content'] ) {
+					add_filter( 'wordads_inpost_disable', '__return_true', 20 );
 					if ( 'full' === $atts['display_content'] ) {
 					?>
 						<div class="portfolio-entry-content"><?php the_content(); ?></div>
@@ -683,6 +688,7 @@ class Jetpack_Portfolio {
 						<div class="portfolio-entry-content"><?php the_excerpt(); ?></div>
 					<?php
 					}
+					remove_filter( 'wordads_inpost_disable', '__return_true', 20 );
 				}
 				?>
 				</div><!-- close .portfolio-entry -->

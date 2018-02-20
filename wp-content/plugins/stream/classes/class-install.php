@@ -76,8 +76,6 @@ class Install {
 	 * @return void
 	 */
 	public function check() {
-		global $wpdb;
-
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return;
 		}
@@ -97,15 +95,16 @@ class Install {
 		if ( ! $update ) {
 			$this->update_required = true;
 			$this->success_db      = $this->update( $this->db_version, $this->plugin->get_version(), array( 'type' => 'auto' ) );
-		} elseif ( 'update_and_continue' === $update ) {
+		}
+
+		if ( 'update_and_continue' === $update ) {
 			$this->success_db = $this->update( $this->db_version, $this->plugin->get_version(), array( 'type' => 'user' ) );
 		}
 
 		$versions = $this->db_update_versions();
 
-		if ( version_compare( end( $versions ), $this->db_version, '>' ) ) {
+		if ( ! $this->success_db && version_compare( end( $versions ), $this->db_version, '>' ) ) {
 			add_action( 'all_admin_notices', array( $this, 'update_notice_hook' ) );
-
 			return;
 		}
 
@@ -240,7 +239,7 @@ class Install {
 			$success_op = update_site_option( $this->option_key, $this->plugin->get_version() );
 		}
 
-		if ( ! empty( $this->success_db ) && ! empty( $success_op ) ) {
+		if ( ! empty( $this->success_db ) ) {
 			return;
 		}
 
@@ -290,13 +289,13 @@ class Install {
 	public function prompt_update() {
 		?>
 		<div class="error">
-			<form method="post" action="<?php echo esc_url( remove_query_arg( 'wp_stream_update' ) ) ?>">
-				<?php wp_nonce_field( 'wp_stream_update_db' ) ?>
+			<form method="post" action="<?php echo esc_url( remove_query_arg( 'wp_stream_update' ) ); ?>">
+				<?php wp_nonce_field( 'wp_stream_update_db' ); ?>
 				<input type="hidden" name="wp_stream_update" value="update_and_continue"/>
-				<p><strong><?php esc_html_e( 'Stream Database Update Required', 'stream' ) ?></strong></p>
-				<p><?php esc_html_e( 'Stream has updated! Before we send you on your way, we need to update your database to the newest version.', 'stream' ) ?></p>
-				<p><?php esc_html_e( 'This process could take a little while, so please be patient.', 'stream' ) ?></p>
-				<?php submit_button( esc_html__( 'Update Database', 'stream' ), 'primary', 'stream-update-db-submit' ) ?>
+				<p><strong><?php esc_html_e( 'Stream Database Update Required', 'stream' ); ?></strong></p>
+				<p><?php esc_html_e( 'Stream has updated! Before we send you on your way, we need to update your database to the newest version.', 'stream' ); ?></p>
+				<p><?php esc_html_e( 'This process could take a little while, so please be patient.', 'stream' ); ?></p>
+				<?php submit_button( esc_html__( 'Update Database', 'stream' ), 'primary', 'stream-update-db-submit' ); ?>
 			</form>
 		</div>
 		<?php
@@ -314,10 +313,10 @@ class Install {
 		$this->update_db_option();
 		?>
 		<div class="updated">
-			<form method="post" action="<?php echo esc_url( remove_query_arg( 'wp_stream_update' ) ) ?>" style="display:inline;">
-				<p><strong><?php esc_html_e( 'Update Complete', 'stream' ) ?></strong></p>
+			<form method="post" action="<?php echo esc_url( remove_query_arg( 'wp_stream_update' ) ); ?>" style="display:inline;">
+				<p><strong><?php esc_html_e( 'Update Complete', 'stream' ); ?></strong></p>
 				<p><?php printf( esc_html__( 'Your Stream database has been successfully updated from %1$s to %2$s!', 'stream' ), esc_html( $this->db_version ), esc_html( $this->plugin->get_version() ) ); ?></p>
-				<?php submit_button( esc_html__( 'Continue', 'stream' ), 'secondary', false ) ?>
+				<?php submit_button( esc_html__( 'Continue', 'stream' ), 'secondary', false ); ?>
 			</form>
 		</div>
 		<?php
@@ -337,6 +336,7 @@ class Install {
 		$db_update_versions = array(
 			'3.0.0' /* @version 3.0.0 Drop the stream_context table, changes to stream table */,
 			'3.0.2' /* @version 3.0.2 Fix uppercase values in stream table, connector column */,
+			'3.0.8' /* @version 3.0.8 Increase size of user role IDs, user_roll column */,
 		);
 
 		/**
@@ -399,7 +399,7 @@ class Install {
 			blog_id bigint(20) unsigned NOT NULL DEFAULT '1',
 			object_id bigint(20) unsigned NULL,
 			user_id bigint(20) unsigned NOT NULL DEFAULT '0',
-			user_role varchar(20) NOT NULL DEFAULT '',
+			user_role varchar(50) NOT NULL DEFAULT '',
 			summary longtext NOT NULL,
 			created datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
 			connector varchar(100) NOT NULL,
@@ -448,8 +448,8 @@ class Install {
 			meta_value varchar(200) NOT NULL,
 			PRIMARY KEY  (meta_id),
 			KEY record_id (record_id),
-			KEY meta_key (meta_key),
-			KEY meta_value (meta_value)
+			KEY meta_key (meta_key(191)),
+			KEY meta_value (meta_value(191))
 		)";
 
 		if ( ! empty( $wpdb->charset ) ) {

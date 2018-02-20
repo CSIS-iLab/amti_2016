@@ -267,6 +267,8 @@ var updateLinkedInCount = function( data ) {
 				} );
 				$more_sharing_buttons.data( 'timer', false );
 			} );
+		} else {
+			$( document.body ).addClass( 'jp-sharing-input-touch' );
 		}
 
 		$( document ).click(function() {
@@ -357,7 +359,7 @@ var updateLinkedInCount = function( data ) {
 					$( '#sharing_email form a.sharing_cancel' ).show();
 
 					// Reset reCATPCHA if exists.
-					if ( 'object' === typeof grecaptcha && 'function' === typeof grecaptcha.reset ) {
+					if ( 'object' === typeof grecaptcha && 'function' === typeof grecaptcha.reset && window.___grecaptcha_cfg.count ) {
 						grecaptcha.reset();
 					}
 
@@ -378,6 +380,8 @@ var updateLinkedInCount = function( data ) {
 					// Submit validation
 					$( '#sharing_email input[type=submit]' ).unbind( 'click' ).click( function() {
 						var form = $( this ).parents( 'form' );
+						var source_email_input = form.find( 'input[name=source_email]' );
+						var target_email_input = form.find( 'input[name=target_email]' );
 
 						// Disable buttons + enable loading icon
 						$( this ).prop( 'disabled', true );
@@ -387,12 +391,12 @@ var updateLinkedInCount = function( data ) {
 						$( '#sharing_email .errors' ).hide();
 						$( '#sharing_email .error' ).removeClass( 'error' );
 
-						if ( ! $( '#sharing_email input[name=source_email]' ).share_is_email() ) {
-							$( '#sharing_email input[name=source_email]' ).addClass( 'error' );
+						if ( ! source_email_input.share_is_email() ) {
+							source_email_input.addClass( 'error' );
 						}
 
-						if ( ! $( '#sharing_email input[name=target_email]' ).share_is_email() ) {
-							$( '#sharing_email input[name=target_email]' ).addClass( 'error' );
+						if ( ! target_email_input.share_is_email() ) {
+							target_email_input.addClass( 'error' );
 						}
 
 						if ( $( '#sharing_email .error' ).length === 0 ) {

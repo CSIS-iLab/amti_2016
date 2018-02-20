@@ -84,6 +84,9 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	    $title = empty( $item->label ) ? $title : $item->label;
 	    $description = empty( $item->description ) ? $item->type_label : $item->description;
 
+	    // Get our options
+	    $options = wp_parse_args(get_option( 'js_hm_settings'));
+
 	    ?>
 	    <li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode(' ', $classes ); ?>">
 	        <dl class="menu-item-bar">
@@ -179,13 +182,24 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	            <p class="field-custom description-wide">
 	                <label for="edit-menu-item-featured-image-<?php echo $item_id; ?>">
 	                    <?php _e( 'Featured Image (Overrides post featured image)' ); ?><br />
-	                    <input type="text" id="edit-menu-item-featured-image-<?php echo $item_id; ?>" class="widefat code edit-menu-item-featured-image" name="menu-item-featured-image[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->featured_image ); ?>" />
+	                    <input type="hidden" id="edit-menu-item-featured-image-<?php echo $item_id; ?>" class="widefat code edit-menu-item-featured-image" name="menu-item-featured-image[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->featured_image ); ?>" />
+				        <div id='image-container-edit-menu-item-featured-image-<?php echo $item_id; ?>'>
+				        	<?php
+					    		if($item->featured_image) {
+					                    echo "<img src='".$item->featured_image."' id='".$item_id."'style='width:200px;height:auto;cursor:pointer;' class='choose-meta-image-button' title='Change Image' data-target='edit-menu-item-featured-image-".$item_id."' /><br />";
+					                    echo '<input type="button" id="remove-meta-image-button" class="button" value="Remove Image" data-target="edit-menu-item-featured-image-'.$item_id.'" />';
+					                }
+					        ?>
+				        </div>
+				        <input type="button" id="meta-image-button-menu-item-featured-image-<?php echo $item_id; ?>" class="button choose-meta-image-button" data-target="edit-menu-item-featured-image-<?php echo $item_id; ?>" value="<?php _e( 'Choose or Upload an Image', 'text_domain' )?>" />
+
 	                </label>
 	            </p>
 	            <p class="field-custom description-wide">
 	                <label for="edit-menu-item-cta-<?php echo $item_id; ?>">
 	                    <?php _e( 'Call to Action Text' ); ?><br />
 	                    <input type="text" id="edit-menu-item-cta-<?php echo $item_id; ?>" class="widefat code edit-menu-item-cta" name="menu-item-cta[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->cta ); ?>" />
+	                    <span class="description"><?php _e('If left blank, button will say "'.$options['js_hm_default_cta'].'"'); ?></span>
 	                </label>
 	            </p>
 	            <p class="field-custom description-thin">
@@ -200,6 +214,36 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                    <input type="text" id="edit-menu-item-bgpos-y-<?php echo $item_id; ?>" class="widefat code edit-menu-item-bgpos-y" name="menu-item-bgpos-y[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->bgpos_y ); ?>" />
 	                </label>
 	            </p>
+
+	            <!-- Excerpt & Date only if setting is turned on -->
+	            <?php if($options['js_hm_include_excerpt']) { 
+	            	$postExcerpt = strip_tags(apply_filters('the_excerpt', get_post_field('post_excerpt', $item->object_id)));
+	            	$excerpt = empty( $item->excerpt ) ? $postExcerpt : $item->excerpt;
+	           	?>
+
+	            <p class="field-custom description-thin">
+	                <label for="edit-menu-item-excerpt-<?php echo $item_id; ?>">
+	                    <?php _e( 'Excerpt:' ); ?><br />
+	                    <textarea id="edit-menu-item-bgpos-x-<?php echo $item_id; ?>" class="widefat code edit-menu-item-excerpt" name="menu-item-excerpt[<?php echo $item_id; ?>]"><?php echo esc_attr( $excerpt ); ?></textarea>
+	                    <span class="description"><?php _e('25 word maximum'); ?></span>
+	                </label>
+	            </p>
+	            <?php } ?>
+
+	        	<?php if($options['js_hm_include_date']) { 
+
+	        		$postDate = get_the_date('',$item->object_id);
+	        		$date = empty( $item->date ) ? $postDate : $item->date;
+
+	        	?>
+	            <p class="field-custom description-thin">
+	                <label for="edit-menu-item-date-<?php echo $item_id; ?>">
+	                    <?php _e( 'Date:' ); ?><br />
+	                    <input type="text" id="edit-menu-item-date-<?php echo $item_id; ?>" class="widefat code edit-menu-item-date" name="menu-item-date[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $date ); ?>" />
+	                </label>
+	            </p>
+	            <?php } ?>
+
 	            <?php
 	            /*
 	             * end added field

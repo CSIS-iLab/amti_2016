@@ -24,7 +24,7 @@ class WPSEO_Metabox_Editor {
 	 */
 	public function add_css_inside_editor( $css_files ) {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
-		$styles = $asset_manager->special_styles();
+		$styles        = $asset_manager->special_styles();
 		/** @var WPSEO_Admin_Asset $inside_editor */
 		$inside_editor = $styles['inside-editor'];
 
@@ -51,7 +51,7 @@ class WPSEO_Metabox_Editor {
 		if ( ! empty( $tinymce_config['custom_elements'] ) ) {
 			$custom_elements = $tinymce_config['custom_elements'];
 
-			$custom_elements .= ',' . '~yoastmark';
+			$custom_elements .= ',~yoastmark';
 		}
 		else {
 			$custom_elements = '~yoastmark';

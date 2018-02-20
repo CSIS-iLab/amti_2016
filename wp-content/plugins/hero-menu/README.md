@@ -1,4 +1,4 @@
-# Hero Menu
+# Hero Menu v.1.2
 An easy to use WordPress plugin that allows you to display featured menu items as a hero in your site's homepage.
 
 ## Installation ##
@@ -13,6 +13,14 @@ An easy to use WordPress plugin that allows you to display featured menu items a
 - Fallback Background Color: If no item in the menu has a featured image and a fallback image is not defined, use this color as the background for the menu.
 - Default Call to Action Text: The default text to show in the call to action box below the featured menu item.
 - Include featured item on side menu?: If checked, the featured menu item will also be listed in the side menu.
+- Include featured item excerpt?: If checked, the featured menu item will also show a small excerpt beneath the title
+- Include featured item date?: If checked, the featured menu item will also show its published date
 - Display menu on: Choose from either All Pages or Front Page Only.
 - Menu Layout Style: Featured Item with Side Menu displays a featured menu item with call to action box and a separate overlaying menu of other menu items. Single Featured Item displays just the featured menu item with no side menu.
 - Custom CSS: Customize the look of the menu.
+
+## Custom Templates ##
+Create a custom template on a per theme basis by creating a file in a `hero-menu` directory in your theme directory. The contents of the file should model the `slider-single.php` or `slider-side.php` files included in the plugin's template directory.
+
+To use a custom template, use this command in the `header.php` file: `<?php putHeroMenu('[filename]'); ?>` where [filename] is the name of the template file you created.
+

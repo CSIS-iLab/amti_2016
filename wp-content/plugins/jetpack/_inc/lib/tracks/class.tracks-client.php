@@ -157,12 +157,31 @@ class Jetpack_Tracks_Client {
 
 				$anon_id = 'jetpack:' . base64_encode( $binary );
 
-				if ( ! headers_sent() ) {
+				if ( ! headers_sent()
+					&& ! ( defined( 'REST_REQUEST' ) && REST_REQUEST )
+					&& ! ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
+				) {
 					setcookie( 'tk_ai', $anon_id );
 				}
 			}
 		}
 
 		return $anon_id;
+	}
+
+	/**
+	 * Gets the WordPress.com user's Tracks identity, if connected.
+	 *
+	 * @return array|bool
+	 */
+	static function get_connected_user_tracks_identity() {
+		if ( ! $user_data = Jetpack::get_connected_user_data() ) {
+			return false;
+		}
+
+		return array(
+			'userid' => $user_data['ID'],
+			'username' => $user_data['login'],
+		);
 	}
 }
