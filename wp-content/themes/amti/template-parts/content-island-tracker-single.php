@@ -121,7 +121,7 @@
 		
 
 			<?php $repeatable_fields = get_post_meta($post->ID, 'repeatable_fields', true);  if ( $repeatable_fields ) : ?>
-				<h3 class="relinks">Relevant Links</h3>
+				<h3 class="relinks">Analysis of Outpost</h3>
 			    <div class="relatedlist">
 			    	  <div class="row">
 			        <?php foreach ( $repeatable_fields as $field ) { ?>
