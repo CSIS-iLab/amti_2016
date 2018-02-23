@@ -107,6 +107,7 @@ Thumbs.db
 # track these mu-plugins, plugins, and themes
 # add your own entries here
 !wp-content/themes/amti
+!wp-content/plugins/category-checklist-tree.php
 
 wp-content/themes/amti/.sass-cache
 **/.DS_Store
