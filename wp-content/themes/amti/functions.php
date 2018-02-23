@@ -265,17 +265,17 @@ function create_island_tracker_type() {
 add_action( 'init', 'create_countries_taxonomy', 0 );
 function create_countries_taxonomy() {
 	$labels = array(
-		'name'              => _x( 'Countries', 'taxonomy general name' ),
-		'singular_name'     => _x( 'Country', 'taxonomy singular name' ),
-		'search_items'      => __( 'Search Countries' ),
-		'all_items'         => __( 'All Countries' ),
+		'name'              => _x( 'Locations', 'taxonomy general name' ),
+		'singular_name'     => _x( 'Location', 'taxonomy singular name' ),
+		'search_items'      => __( 'Search Locations' ),
+		'all_items'         => __( 'All Locations' ),
 		'parent_item'       => __( 'Parent Country' ),
 		'parent_item_colon' => __( 'Parent Country:' ),
-		'edit_item'         => __( 'Edit Country' ),
-		'update_item'       => __( 'Update Country' ),
-		'add_new_item'      => __( 'Add New Country' ),
-		'new_item_name'     => __( 'New Country Name' ),
-		'menu_name'         => __( 'Countries' ),
+		'edit_item'         => __( 'Edit Location' ),
+		'update_item'       => __( 'Update Location' ),
+		'add_new_item'      => __( 'Add New Location' ),
+		'new_item_name'     => __( 'New Location Name' ),
+		'menu_name'         => __( 'Locations' ),
 	);
 	$args = array(
 		'hierarchical'      => true,
@@ -284,7 +284,7 @@ function create_countries_taxonomy() {
 		'show_admin_column' => true,
 		'query_var'         => true,
 		'rewrite'           => array( 'slug' => 'island-tracker' ),
-		'with_front'        => false,
+
 	);
 	register_taxonomy( 'countries', array( 'island-tracker' ), $args );
 }
