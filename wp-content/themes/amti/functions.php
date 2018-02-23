@@ -941,7 +941,5 @@ add_filter('algolia_autocomplete_config', function(array $config) {
     return $config;
 });
 
-add_action( 'after_setup_theme', 'wpse_74735_replace_wp_caption_shortcode' );
-
 
 
