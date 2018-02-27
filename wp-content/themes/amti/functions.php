@@ -138,6 +138,8 @@ function transparency_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+
+	wp_enqueue_script('clickgallery-settings', get_template_directory_uri() . '/js/custom-gallery-setting.js', array('jquery'), '20151215', true );
 }
 add_action( 'wp_enqueue_scripts', 'transparency_scripts' );
 
@@ -942,4 +944,63 @@ add_filter('algolia_autocomplete_config', function(array $config) {
 });
 
 
+
+
+// Full Width Shortcode
+// Add Shortcode
+// Add Shortcode
+function clickgallery( $atts ) {
+
+	// Attributes
+	$atts = shortcode_atts(
+		array(
+			'option-titles' => '',
+			'photo-ids' => '',
+		),
+		$atts
+	);
+
+	$str = $atts['option-titles'];
+	$titles = explode(",",$str);
+
+	$no_whitespaces = $atts['photo-ids'];
+	echo '<div class="slider row" id="main-slider"><div class="slider-container col-sm-12 col-md-8"><div class="slider-wrapper">';
+	$array = explode( ',', $no_whitespaces );
+	foreach ( $array as $index => $id ) { 
+
+
+		echo '<div class="slide '; 		
+
+
+		 echo ' " id="slide-' . $id . '" data-image="' . esc_url( wp_get_attachment_url( $id ) ) . '"></div>';
+	}
+	echo "</div></div>";
+	echo '<div class="slider-pagination col-sm-12 col-md-4">';
+
+
+	foreach ( $titles as $index => $title ) { 
+		$num = $array[$index];
+		echo '<div class="slide-info">';
+	echo '<a href="'. $num .'"';
+
+	if ($index == 0) {
+		echo ' class="current"';
+	}
+
+	echo '>'. trim($title) .'</a><div class="cg-description">';
+			$image = get_post($num);
+$image_caption = $image->post_excerpt;
+	echo $image_caption;
+	echo '</div></div>';
+}
+	echo '</div></div>';
+	//echo $titles[0];
+	$current_title = $titles[0];
+  global $wp;
+  $current_url = home_url( add_query_arg( array(), $wp->request ) );
+
+	$image = get_post($array[0]);
+	$current_caption = $image->post_excerpt;
+}
+add_shortcode( 'clickgallery', 'clickgallery' );
 
