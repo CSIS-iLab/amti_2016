@@ -10,6 +10,9 @@ img {
 }
 
 
+
+
+
 /*--------------------------------------------------------------
 ## Media
 --------------------------------------------------------------*/
@@ -24,6 +27,9 @@ img {
 }
 
 
+
+
+
 /* Make sure embeds and iframes fit their containers. */
 
 embed,
@@ -35,6 +41,9 @@ object {
 iframe {
 	border: 0px;
 }
+
+
+
 
 
 /*--------------------------------------------------------------
@@ -57,6 +66,9 @@ iframe {
 .wp-caption-text {
 	text-align: center;
 }
+
+
+
 
 
 
@@ -126,6 +138,9 @@ iframe {
 
 
 
+
+
+
 /*--------------------------------------------------------------
 ## Slideshow - Jetpack
 --------------------------------------------------------------*/
@@ -152,11 +167,17 @@ body {
 
 
 #main-slider {
-	    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+	//background-color: #f5f5f5;
+	border: 1px solid #e3e3e3;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	@include breakpoint("medium") {
+			flex-direction: row;
+		}
 }
 
 .slider {
@@ -206,6 +227,7 @@ body {
 
 
 
+
 .current {
 	@include transition(all .3s ease-in-out);
 }
@@ -217,27 +239,37 @@ body {
 
 .slider-pagination {
 
-	
+
 	text-align: left;
 	.cg-description {
 		font-size: 1.5rem;
-		
+		padding: 6px 0 20px;
 	}
 }
 
 
 .slider-pagination {
 	padding: 0;
-	&:before {
-		display: inline-block;
-		content: '';
-			height: 10px;
-			width: 10px;
-			background-color: transparent;
-			border-radius: 50%;
-			margin-right: .75rem;
-			
+	li {
+		position: relative;
+		padding-left: 4rem;
+		border-bottom: 1px solid $color__border-input;
 	}
+	li:last-of-type {
+
+		border-bottom: 0px solid $color__border-input;
+		    
+   
+	}
+	.slider-list {
+		list-style: none;
+		padding: 0;
+		display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+	}
+
+
 	a {
 		width: 100%;
 
@@ -247,12 +279,30 @@ body {
 		text-decoration: none;
 		display: inline-block;
 		color: black;
+
+		&:before {
+				//padding: .5rem 0rem;
+				display: block;
+				content: '';
+				height: 10px;
+				width: 10px;
+				border-radius: 50%;
+				background-color: black;
+				float: left;
+				top: 10px;
+				position: absolute;
+				background-color: transparent;
+				    margin-left: -18px;
+    margin-top: 8px;
+				@include transition(all .3s ease-in-out);
+			
+		}
 	}
 }
 
 .slide-info {
 	padding: .5rem 2rem;
-		@include transition(all .3s ease-in-out);
+	@include transition(all .3s ease-in-out);
 
 	&:hover {
 		background-color: white;
@@ -264,8 +314,35 @@ body {
 
 .slider-pagination .slide-info.current {
 	padding: 1rem 2rem;
+	padding-left: 4rem;
 	background-color: white;
-	&:before {
-		background-color: #00b29e;
+    flex: 1;
+	a:before {
+		@include transition(all .3s ease-in-out);
+		background-color: $light-green;
 	}
+}
+
+
+.slider-pagination {
+	width: 100%;
+	display: block;
+	float: left;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	@include breakpoint("medium") {
+			width: calc(40%);
+		}
+		ul {
+			flex:1 
+		}
+}
+.slider-container {
+		width: 100%;
+	display: block;
+	float: left;
+	@include breakpoint("medium") {
+			width: calc(60%);
+		}
 }

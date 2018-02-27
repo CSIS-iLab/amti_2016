@@ -964,23 +964,29 @@ function clickgallery( $atts ) {
 	$titles = explode(",",$str);
 
 	$no_whitespaces = $atts['photo-ids'];
-	echo '<div class="slider row" id="main-slider"><div class="slider-container col-sm-12 col-md-8"><div class="slider-wrapper">';
+	echo '<div class="slider" id="main-slider"><div class="slider-container"><div class="slider-wrapper">';
 	$array = explode( ',', $no_whitespaces );
 	foreach ( $array as $index => $id ) { 
 
 
-		echo '<div class="slide '; 		
+		echo '<div class="slide'; 		
 
 
-		 echo ' " id="slide-' . $id . '" data-image="' . esc_url( wp_get_attachment_url( $id ) ) . '"></div>';
+		 echo ' " id="slide-' . $id . '" data-index="' . $index . '" data-image="' . esc_url( wp_get_attachment_url( $id ) ) . '"></div>';
 	}
 	echo "</div></div>";
-	echo '<div class="slider-pagination col-sm-12 col-md-4">';
+	echo '<div class="slider-pagination">';
 
+	echo '<ul class="slider-list">';
+	
 
 	foreach ( $titles as $index => $title ) { 
 		$num = $array[$index];
-		echo '<div class="slide-info">';
+		echo '<li class="slide-info">';
+//		if ($index == 0) {
+		
+//	}
+
 	echo '<a href="'. $num .'"';
 
 	if ($index == 0) {
@@ -991,9 +997,10 @@ function clickgallery( $atts ) {
 			$image = get_post($num);
 $image_caption = $image->post_excerpt;
 	echo $image_caption;
-	echo '</div></div>';
+	do_shortcode('[addthis tool="addthis_inline_share_toolbox"]');
+	echo '</div></li>';
 }
-	echo '</div></div>';
+	echo '</ul></div></div>';
 	//echo $titles[0];
 	$current_title = $titles[0];
   global $wp;
@@ -1001,6 +1008,7 @@ $image_caption = $image->post_excerpt;
 
 	$image = get_post($array[0]);
 	$current_caption = $image->post_excerpt;
+
 }
 add_shortcode( 'clickgallery', 'clickgallery' );
 
