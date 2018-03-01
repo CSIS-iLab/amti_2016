@@ -520,7 +520,7 @@ function islandtracker_save_meta_box_data( $post_id ) {
 			if ( $urls[$i] == 'http://' )
 				$new[$i]['url'] = '';
 			else
-				$new[$i]['url'] = stripslashes( $urls[$i] ); // and however you want to sanitize
+				$new[$i]['url'] = stripslashes( esc_url( $urls[$i] ) ); // and however you want to sanitize
 		endif;
 	}
 	if ( !empty( $new ) && $new != $old )
