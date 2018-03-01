@@ -130,7 +130,7 @@
 			            <?php 
 			            if($field['name'] != '') 
 			            	echo 
-			            	'<a href="'. esc_url( $field['url'] ) . ' alt="'. esc_attr( $field['name'] ) . '">
+			            	'<a href="'. esc_url( $field['url'] ) . '" alt="'. esc_attr( $field['name'] ) . '">
 			            		<span class="field">'. esc_attr( $field['name'] ) .'
 			            		</span>
 			            	</a>'; ?>
