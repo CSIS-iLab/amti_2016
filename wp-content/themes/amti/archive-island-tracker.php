@@ -14,9 +14,9 @@ get_header(); ?>
 			<main id="main" class="col-xs-12" role="main">
 				<header class="page-header">
 					<?php
-					echo "<h1 class='page-title'>".__('Land Reclamation By Country', 'transparency')."</h1>";
+					echo "<h1 class='page-title'>".__('Occupation and Island Building', 'transparency')."</h1>";
 					echo "<hr>";
-					echo "<p>".__("China’s large-scale island-building in the South China Sea since late 2013 has focused international attention on the disputes and invited widespread criticism that Beijing is responsible for escalating tensions. China has responded by pointing out that other claimants have also engaged in land reclamation. Explore the scale of each claimants’ reclamation work, documented by satellite imagery, below.", 'transparency')."</p>";
+					echo "<p>".__("Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years. AMTI has gathered satellite imagery of each outpost, along with other relevant information, to document their current status and any changes they have undergone in recent years. Explore the database below.", 'transparency')."</p>";
 					?>
 				</header><!-- .page-header -->
 				<div class="row">
