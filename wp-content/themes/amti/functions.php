@@ -1000,9 +1000,11 @@ function clickgallery( $atts ) {
 	if ($index == 0) {
 		$output .=  ' class="current"';
 	}
-
-	$output .=  '>'. trim($title) .'</a><div class="cg-description">';
-			$image = get_post($num);
+	$image = get_post($num);
+	$image_title = $image->post_title;
+	$output .=  '>'. trim($image_title) .'</a><div class="cg-description">';
+			
+			
 	$image_caption = $image->post_excerpt;
 	$output .=  $image_caption;
 	do_shortcode('[addthis tool="addthis_inline_share_toolbox"]');
