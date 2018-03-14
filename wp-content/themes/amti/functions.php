@@ -963,9 +963,16 @@ function clickgallery( $atts ) {
 	$output;
 	$str = $atts['option-titles'];
 	$titles = explode(",",$str);
+	
+	if ( get_post_type( get_the_ID() ) == 'features' ) {
+   $postlayout .= "features-gallery";
+} else {
+	  $postlayout .= "";
+}
+	
 
 	$no_whitespaces = $atts['photo-ids'];
-	$output .= '<div class="slider" id="main-slider"><div class="slider-container"><div class="slider-wrapper">';
+	$output .= '<div class="slider ' . $postlayout . '" id="main-slider"><div class="slider-container"><div class="slider-wrapper">';
 	$array = explode( ',', $no_whitespaces );
 	foreach ( $array as $index => $id ) { 
 
