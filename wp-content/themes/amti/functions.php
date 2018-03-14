@@ -956,51 +956,52 @@ function clickgallery( $atts ) {
 		array(
 			'option-titles' => '',
 			'photo-ids' => '',
+
 		),
 		$atts
 	);
-
+	$output;
 	$str = $atts['option-titles'];
 	$titles = explode(",",$str);
 
 	$no_whitespaces = $atts['photo-ids'];
-	echo '<div class="slider" id="main-slider"><div class="slider-container"><div class="slider-wrapper">';
+	$output .= '<div class="slider" id="main-slider"><div class="slider-container"><div class="slider-wrapper">';
 	$array = explode( ',', $no_whitespaces );
 	foreach ( $array as $index => $id ) { 
 
 
-		echo '<div class="slide'; 		
+		$output .=  '<div class="slide'; 		
 
 
-		 echo ' " id="slide-' . $id . '" data-index="' . $index . '" data-image="' . esc_url( wp_get_attachment_url( $id ) ) . '"></div>';
+		 $output .=  ' " id="slide-' . $id . '" data-index="' . $index . '" data-image="' . esc_url( wp_get_attachment_url( $id ) ) . '"></div>';
 	}
-	echo "</div></div>";
-	echo '<div class="slider-pagination">';
+	$output .=  "</div></div>";
+	$output .=  '<div class="slider-pagination">';
 
-	echo '<ul class="slider-list">';
+	$output .=  '<ul class="slider-list">';
 	
 
 	foreach ( $titles as $index => $title ) { 
 		$num = $array[$index];
-		echo '<li class="slide-info">';
+		$output .=  '<li class="slide-info">';
 //		if ($index == 0) {
 		
 //	}
 
-	echo '<a href="'. $num .'"';
+	$output .=  '<a href="'. $num .'"';
 
 	if ($index == 0) {
-		echo ' class="current"';
+		$output .=  ' class="current"';
 	}
 
-	echo '>'. trim($title) .'</a><div class="cg-description">';
+	$output .=  '>'. trim($title) .'</a><div class="cg-description">';
 			$image = get_post($num);
-$image_caption = $image->post_excerpt;
-	echo $image_caption;
+	$image_caption = $image->post_excerpt;
+	$output .=  $image_caption;
 	do_shortcode('[addthis tool="addthis_inline_share_toolbox"]');
-	echo '</div></li>';
+	$output .=  '</div></li>';
 }
-	echo '</ul></div></div>';
+	$output .=  '</ul></div></div>';
 	//echo $titles[0];
 	$current_title = $titles[0];
   global $wp;
@@ -1008,6 +1009,8 @@ $image_caption = $image->post_excerpt;
 
 	$image = get_post($array[0]);
 	$current_caption = $image->post_excerpt;
+
+	return $output;
 
 }
 add_shortcode( 'clickgallery', 'clickgallery' );

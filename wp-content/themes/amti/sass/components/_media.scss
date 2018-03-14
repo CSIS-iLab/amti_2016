@@ -13,6 +13,7 @@ img {
 
 
 
+
 /*--------------------------------------------------------------
 ## Media
 --------------------------------------------------------------*/
@@ -30,6 +31,7 @@ img {
 
 
 
+
 /* Make sure embeds and iframes fit their containers. */
 
 embed,
@@ -41,6 +43,7 @@ object {
 iframe {
 	border: 0px;
 }
+
 
 
 
@@ -66,6 +69,7 @@ iframe {
 .wp-caption-text {
 	text-align: center;
 }
+
 
 
 
@@ -141,6 +145,7 @@ iframe {
 
 
 
+
 /*--------------------------------------------------------------
 ## Slideshow - Jetpack
 --------------------------------------------------------------*/
@@ -175,9 +180,19 @@ body {
 	padding: 1rem;
 	display: flex;
 	flex-direction: column;
+	margin-bottom: 3rem;
 	@include breakpoint("medium") {
-			flex-direction: row;
-		}
+		flex-direction: row;
+		margin-left: -20%;
+		margin-right: -20%;
+
+		width: calc(140%);
+	}
+	@include breakpoint("large") {
+		width: 1140px;
+		margin-left: -180px;
+		margin-right: -180px;
+	}
 }
 
 .slider {
@@ -258,15 +273,13 @@ body {
 	li:last-of-type {
 
 		border-bottom: 0px solid $color__border-input;
-		    
-   
 	}
 	.slider-list {
 		list-style: none;
 		padding: 0;
 		display: flex;
-    flex-direction: column;
-    margin-bottom: 0;
+		flex-direction: column;
+		margin-bottom: 0;
 	}
 
 
@@ -281,21 +294,20 @@ body {
 		color: black;
 
 		&:before {
-				//padding: .5rem 0rem;
-				display: block;
-				content: '';
-				height: 10px;
-				width: 10px;
-				border-radius: 50%;
-				background-color: black;
-				float: left;
-				top: 10px;
-				position: absolute;
-				background-color: transparent;
-				    margin-left: -18px;
-    margin-top: 8px;
-				@include transition(all .3s ease-in-out);
-			
+			//padding: .5rem 0rem;
+			display: block;
+			content: '';
+			height: 10px;
+			width: 10px;
+			border-radius: 50%;
+			background-color: black;
+			float: left;
+			top: 10px;
+			position: absolute;
+			background-color: transparent;
+			margin-left: -18px;
+			margin-top: 8px;
+			@include transition(all .3s ease-in-out);
 		}
 	}
 }
@@ -316,7 +328,7 @@ body {
 	padding: 1rem 2rem;
 	padding-left: 4rem;
 	background-color: white;
-    flex: 1;
+	flex: 1;
 	a:before {
 		@include transition(all .3s ease-in-out);
 		background-color: $light-green;
@@ -332,17 +344,24 @@ body {
 	flex-direction: column;
 	align-items: stretch;
 	@include breakpoint("medium") {
-			width: calc(40%);
-		}
-		ul {
-			flex:1 
-		}
+		width: calc(40%);
+	}
+	@include breakpoint("large") {
+		width: calc(30%);
+	}
+	ul {
+		flex: 1
+	}
 }
+
 .slider-container {
-		width: 100%;
+	width: 100%;
 	display: block;
 	float: left;
 	@include breakpoint("medium") {
-			width: calc(60%);
-		}
+		width: calc(60%);
+	}
+	@include breakpoint("large") {
+		width: calc(70%);
+	}
 }
