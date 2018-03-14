@@ -988,7 +988,7 @@ function clickgallery( $atts ) {
 	$output .=  '<ul class="slider-list">';
 	
 
-	foreach ( $titles as $index => $title ) { 
+	foreach ( $array as $index => $id ) { 
 		$num = $array[$index];
 		$output .=  '<li class="slide-info">';
 //		if ($index == 0) {
