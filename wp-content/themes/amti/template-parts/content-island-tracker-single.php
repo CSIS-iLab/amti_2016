@@ -58,19 +58,19 @@
 
 				
 				if(!empty($china)) {
-				    echo '<div><span class="name-label">China: '.'</span> '.esc_attr($china)."</div>";
+				    echo '<div><span class="name-label">'.esc_html_x( 'China:', 'transparency' ).' </span> '.esc_attr($china)."</div>";
 				}
 				if(!empty($philippines)) {
-				    echo '<div><span class="name-label">Philippines: '.'</span> '.esc_attr($philippines)."</div>";
+				    echo '<div><span class="name-label">'.esc_html_x( 'Philippines:', 'transparency' ).' </span> '.esc_attr($philippines)."</div>";
 				}
 				if(!empty($taiwan)) {
-				    echo '<div><span class="name-label">Taiwan: '.'</span> '.esc_attr($taiwan)."</div>";
+				    echo '<div><span class="name-label">'.esc_html_x( 'Taiwan:', 'transparency' ).' </span> '.esc_attr($taiwan)."</div>";
 				}
 				if(!empty($malaysia)) {
-				    echo '<div><span class="name-label">Malaysia: '.'</span> '.esc_attr($malaysia)."</div>";
+				    echo '<div><span class="name-label">'.esc_html_x( 'Malasia:', 'transparency' ).' </span> '.esc_attr($malaysia)."</div>";
 				}
 				if(!empty($vietnam)) {
-				    echo '<div><span class="name-label">Vietnam: '.'</span> '.esc_attr($vietnam)."</div>";
+				    echo '<div><span class="name-label">'.esc_html_x( 'Vietnam:', 'transparency' ).' </span> '.esc_attr($vietnam)."</div>";
 				}
 				?>
 				
@@ -83,16 +83,16 @@
 				<?php 
 
 				if(!empty($occupation)) {
-				    echo '<div><span>Occupied by: '.'</span> '.esc_attr($occupation)."</div>";
+				    echo '<div><span>'.esc_html_x( 'Occupied by:', 'transparency' ).' </span> '.esc_attr($occupation)."</div>";
 				}
 				if(!empty($status)) {
-				    echo '<div><span>Legal Status: '.'</span> '.esc_attr($status)."</div>";
+				    echo '<div><span>'.esc_html_x( 'Legal Status:', 'transparency' ).' </span> '.esc_attr($status)."</div>";
 				}
 				if(!empty($gps)) {
-				    echo '<div><span>GPS: '.'</span> '.esc_attr($gps)."</div>";
+				    echo '<div><span>'.esc_html_x( 'GPS:', 'transparency' ).' </span> '.esc_attr($gps)."</div>";
 				}
 				if(!empty($area)) {
-				    echo '<div class="reclam-title"><span>Total area of reclamation: '.'</span> '.esc_attr($area)."</div>";
+				    echo '<div class="reclam-title"><span>'.esc_html_x( 'Total area of reclamation:', 'transparency' ).' </span> '.esc_attr($area)."</div>";
 				}
 			?>
 			
@@ -121,7 +121,9 @@
 		
 
 			<?php $repeatable_fields = get_post_meta($post->ID, 'repeatable_fields', true);  if ( $repeatable_fields ) : ?>
-				<h3 class="relinks">Analysis of Outpost</h3>
+
+				<?php echo '<h3 class="relinks">'.esc_html_x( 'Analysis of Outpost', 'transparency' ).'</h3>'; ?>
+				
 			    <div class="relatedlist">
 			    	  <div class="row">
 			        <?php foreach ( $repeatable_fields as $field ) { ?>
