@@ -35,22 +35,22 @@
 				$malaysia = get_post_meta($post->ID, '_island-tracker_malaysia', true);
 
 				if(!empty($usa)) {
-				    echo '<strong>'.esc_html_x( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> '.esc_attr($usa)."<br />";
+				    echo '<strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> '.esc_attr($usa)."<br />";
 				}
 				if(!empty($china)) {
-				    echo '<strong>'.esc_html_x( 'China:', 'transparency' ).' </strong> '.esc_attr($china)."<br />";
+				    echo '<strong>'.esc_html__( 'China:', 'transparency' ).' </strong> '.esc_attr($china)."<br />";
 				}
 				if(!empty($philippines)) {
-				    echo '<strong>'.esc_html_x( 'Philippines:', 'transparency' ).' </strong> '.esc_attr($philippines)."<br />";
+				    echo '<strong>'.esc_html__( 'Philippines:', 'transparency' ).' </strong> '.esc_attr($philippines)."<br />";
 				}
 				if(!empty($taiwan)) {
-				    echo '<strong>'.esc_html_x( 'Taiwan:', 'transparency' ).' </strong> '.esc_attr($taiwan)."<br />";
+				    echo '<strong>'.esc_html__( 'Taiwan:', 'transparency' ).' </strong> '.esc_attr($taiwan)."<br />";
 				}
 				if(!empty($malaysia)) {
-				    echo '<strong>'.esc_html_x( 'Malaysia:', 'transparency' ).' </strong> '.esc_attr($malaysia)."<br />";
+				    echo '<strong>'.esc_html__( 'Malaysia:', 'transparency' ).' </strong> '.esc_attr($malaysia)."<br />";
 				}
 				if(!empty($vietnam)) {
-				    echo '<strong>'.esc_html_x( 'Vietam:', 'transparency' ).' </strong> '.esc_attr($vietnam)."<br />";
+				    echo '<strong>'.esc_html__( 'Vietam:', 'transparency' ).' </strong> '.esc_attr($vietnam)."<br />";
 				}
 			?>
 			</p>
