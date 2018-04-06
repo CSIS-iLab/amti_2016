@@ -14,9 +14,9 @@ get_header(); ?>
 			<main id="main" class="col-xs-12" role="main">
 				<header class="page-header">
 					<?php
-					echo "<h1 class='page-title'>".__('Occupation and Island Building', 'transparency')."</h1>";
+					echo "<h1 class='page-title'>".esc_html__('Occupation and Island Building', 'transparency')."</h1>";
 					echo "<hr>";
-					echo "<p>".__("Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years. AMTI has gathered satellite imagery of each outpost, along with other relevant information, to document their current status and any changes they have undergone in recent years. Explore the database below.", 'transparency')."</p>";
+					echo "<p>".esc_html__("Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years. AMTI has gathered satellite imagery of each outpost, along with other relevant information, to document their current status and any changes they have undergone in recent years. Explore the database below.", 'transparency')."</p>";
 					?>
 				</header><!-- .page-header -->
 				<div class="row">
