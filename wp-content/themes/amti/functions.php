@@ -365,7 +365,7 @@ function islandtracker_build_meta_box( $post ) {
 	</script>
 		<p><strong><label style="display: inline-block; width: 15%;" for="occupation">Occupied by: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="occupation" value="<?php echo esc_attr( $current_occupation ); ?>" /></p>
-		<p><strong><label style="display: inline-block; width: 15%;" for="status">Largal status: </label></strong>
+		<p><strong><label style="display: inline-block; width: 15%;" for="status">Legal status: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="status" value="<?php echo esc_attr( $current_status ); ?>" /></p>
 		<p><strong><label style="display: inline-block; width: 15%;" for="area">Total area of reclamation: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="area" value="<?php echo esc_attr( $current_area ); ?>" /></p>
