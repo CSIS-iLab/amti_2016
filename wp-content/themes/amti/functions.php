@@ -379,8 +379,7 @@ function islandtracker_build_meta_box( $post ) {
 			<input type="text" style="width: 50%;" class="large-text" name="china" value="<?php echo esc_attr( $current_china ); ?>" /></p>
 		<p><strong><label style="display: inline-block; width: 15%;" for="taiwan">Taiwan: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="taiwan" value="<?php echo esc_attr( $current_taiwan ); ?>" /></p>
-		<p><strong><label style="display: inline-block; width: 15%;" for="vietnam">Vietam: </label></strong>
-			<input type="text" style="width: 50%;" class="large-text" name="vietnam" value="<?php echo esc_attr( $current_vietnam ); ?>" /></p>
+		<p><strong><label style="display: inline-block; width: 15%;" for="vietnam">Vietnam<input type="text" style="width: 50%;" class="large-text" name="vietnam" value="<?php echo esc_attr( $current_vietnam ); ?>" /></p>
 		<p><strong><label style="display: inline-block; width: 15%;" for="philippines">Philippines: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="philippines" value="<?php echo esc_attr( $current_philippines ); ?>" /></p>
 		<p><strong><label style="display: inline-block; width: 15%;" for="malaysia">Malaysia: </label></strong>

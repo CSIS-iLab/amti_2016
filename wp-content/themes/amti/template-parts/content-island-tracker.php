@@ -50,7 +50,7 @@
 				    echo '<strong>'.esc_html__( 'Malaysia:', 'transparency' ).' </strong> '.esc_attr($malaysia)."<br />";
 				}
 				if(!empty($vietnam)) {
-				    echo '<strong>'.esc_html__( 'Vietam:', 'transparency' ).' </strong> '.esc_attr($vietnam)."<br />";
+				    echo '<strong>'.esc_html__( 'Vietnam:', 'transparency' ).' </strong> '.esc_attr($vietnam)."<br />";
 				}
 			?>
 			</p>
