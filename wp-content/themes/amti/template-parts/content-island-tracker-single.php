@@ -67,7 +67,7 @@
 				    echo '<div><span class="name-label">'.esc_html__( 'Taiwan:', 'transparency' ).' </span> '.esc_attr($taiwan)."</div>";
 				}
 				if(!empty($malaysia)) {
-				    echo '<div><span class="name-label">'.esc_html__( 'Malasia:', 'transparency' ).' </span> '.esc_attr($malaysia)."</div>";
+				    echo '<div><span class="name-label">'.esc_html__( 'Malaysia:', 'transparency' ).' </span> '.esc_attr($malaysia)."</div>";
 				}
 				if(!empty($vietnam)) {
 				    echo '<div><span class="name-label">'.esc_html__( 'Vietnam:', 'transparency' ).' </span> '.esc_attr($vietnam)."</div>";
