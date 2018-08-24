@@ -140,15 +140,16 @@ class Jetpack_Slideshow_Shortcode {
 
 		$attachments = get_posts(
 			array(
-				'post_status'    => 'inherit',
-				'post_type'      => 'attachment',
-				'post_mime_type' => 'image',
-				'posts_per_page' => - 1,
-				'post_parent'    => $post_parent,
-				'order'          => $attr['order'],
-				'orderby'        => $attr['orderby'],
-				'include'        => $attr['include'],
-				'exclude'        => $attr['exclude'],
+				'post_status'      => 'inherit',
+				'post_type'        => 'attachment',
+				'post_mime_type'   => 'image',
+				'posts_per_page'   => - 1,
+				'post_parent'      => $post_parent,
+				'order'            => $attr['order'],
+				'orderby'          => $attr['orderby'],
+				'include'          => $attr['include'],
+				'exclude'          => $attr['exclude'],
+				'suppress_filters' => false,
 			)
 		);
 
@@ -227,7 +228,7 @@ class Jetpack_Slideshow_Shortcode {
 
 		if ( defined( 'JSON_HEX_AMP' ) ) {
 			// This is nice to have, but not strictly necessary since we use _wp_specialchars() below
-			$gallery = json_encode( $attr['gallery'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT );
+			$gallery = json_encode( $attr['gallery'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ); // phpcs:ignore PHPCompatibility
 		} else {
 			$gallery = json_encode( $attr['gallery'] );
 		}

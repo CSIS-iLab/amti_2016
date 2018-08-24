@@ -67,6 +67,13 @@ class Jetpack_Core_Json_Api_Endpoints {
 		$site_endpoint = new Jetpack_Core_API_Site_Endpoint();
 		$widget_endpoint = new Jetpack_Core_API_Widget_Endpoint();
 
+		register_rest_route( 'jetpack/v4', 'plans', array(
+			'methods'             => WP_REST_Server::READABLE,
+			'callback'            => __CLASS__ . '::get_plans',
+			'permission_callback' => __CLASS__ . '::connect_url_permission_callback',
+
+		) );
+
 		register_rest_route( 'jetpack/v4', '/jitm', array(
 			'methods'  => WP_REST_Server::READABLE,
 			'callback' => __CLASS__ . '::get_jitm_message',
@@ -113,6 +120,30 @@ class Jetpack_Core_Json_Api_Endpoints {
 			'methods' => WP_REST_Server::READABLE,
 			'callback' => __CLASS__ . '::get_user_connection_data',
 			'permission_callback' => __CLASS__ . '::get_user_connection_data_permission_callback',
+		) );
+
+		// Set the connection owner
+		register_rest_route( 'jetpack/v4', '/connection/owner', array(
+			'methods' => WP_REST_Server::EDITABLE,
+			'callback' => __CLASS__ . '::set_connection_owner',
+			'permission_callback' => __CLASS__ . '::set_connection_owner_permission_callback',
+		) );
+
+		// Current user: get or set tracking settings.
+		register_rest_route( 'jetpack/v4', '/tracking/settings', array(
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => __CLASS__ . '::get_user_tracking_settings',
+				'permission_callback' => __CLASS__ . '::view_admin_page_permission_check',
+			),
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => __CLASS__ . '::update_user_tracking_settings',
+				'permission_callback' => __CLASS__ . '::view_admin_page_permission_check',
+				'args'                => array(
+					'tracks_opt_out' => array( 'type' => 'boolean' ),
+				),
+			),
 		) );
 
 		// Disconnect site from WordPress.com servers
@@ -349,6 +380,29 @@ class Jetpack_Core_Json_Api_Endpoints {
 		) );
 	}
 
+	public static function get_plans( $request ) {
+		$request = Jetpack_Client::wpcom_json_api_request_as_user(
+			'/plans?_locale=' . get_user_locale(),
+			'2',
+			array(
+				'method'  => 'GET',
+				'headers' => array(
+					'X-Forwarded-For' => Jetpack::current_user_ip( true ),
+				),
+			)
+		);
+
+		$body = wp_remote_retrieve_body( $request );
+		if ( 200 === wp_remote_retrieve_response_code( $request ) ) {
+			$data = $body;
+		} else {
+			// something went wrong so we'll just return the response without caching
+			return $body;
+		}
+
+		return $data;
+	}
+
 	/**
 	 * Asks for a jitm, unless they've been disabled, in which case it returns an empty array
 	 *
@@ -512,6 +566,21 @@ class Jetpack_Core_Json_Api_Endpoints {
 	}
 
 	/**
+	 * Check that user has permission to change the master user.
+	 *
+	 * @since 6.2.0
+	 *
+	 * @return bool|WP_Error True if user is able to change master user.
+	 */
+	public static function set_connection_owner_permission_callback() {
+		if ( get_current_user_id() === Jetpack_Options::get_option( 'master_user' ) ) {
+			return true;
+		}
+
+		return new WP_Error( 'invalid_user_permission_set_connection_owner', self::$user_permissions_error_msg, array( 'status' => self::rest_authorization_required_code() ) );
+	}
+
+	/**
 	 * Verify that a user can use the /connection/user endpoint. Has to be a registered user and be currently linked.
 	 *
 	 * @since 4.3.0
@@ -667,7 +736,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 		}
 
 		$body = wp_remote_retrieve_body( $response );
-		
+
 		return json_decode( $body );
 	}
 
@@ -770,59 +839,72 @@ class Jetpack_Core_Json_Api_Endpoints {
 	}
 
 	/**
-	 * Returns the proper name for Jetpack Holiday Snow setting.
-	 * When the REST route starts, the holiday-snow.php file where jetpack_holiday_snow_option_name() function is defined is not loaded,
-	 * so where using this to replicate it and have the same functionality.
+	 * Change the master user.
 	 *
-	 * @since 4.4.0
-	 *
-	 * @return string
-	 */
-	public static function holiday_snow_option_name() {
-		/** This filter is documented in modules/holiday-snow.php */
-		return apply_filters( 'jetpack_holiday_snow_option_name', 'jetpack_holiday_snow_enabled' );
-	}
-
-	/**
-	 * Update a single miscellaneous setting for this Jetpack installation, like Holiday Snow.
-	 *
-	 * @since 4.3.0
+	 * @since 6.2.0
 	 *
 	 * @param WP_REST_Request $request The request sent to the WP REST API.
 	 *
-	 * @return object Jetpack miscellaneous settings.
+	 * @return bool|WP_Error True if owner successfully changed.
 	 */
-	public static function update_setting( $request ) {
-		// Get parameters to update the module.
-		$param = $request->get_params();
-
-		// Exit if no parameters were passed.
-		if ( ! is_array( $param ) ) {
-			return new WP_Error( 'missing_setting', esc_html__( 'Missing setting.', 'jetpack' ), array( 'status' => 404 ) );
+	public static function set_connection_owner( $request ) {
+		if ( ! isset( $request['owner'] ) ) {
+			return new WP_Error(
+				'invalid_param',
+				esc_html__( 'Invalid Parameter', 'jetpack' ),
+				array( 'status' => 400 )
+			);
 		}
 
-		// Get option name and value.
-		$option = key( $param );
-		$value  = current( $param );
-
-		// Log success or not
-		$updated = false;
-
-		switch ( $option ) {
-			case self::holiday_snow_option_name():
-				$updated = update_option( $option, ( true == (bool) $value ) ? 'letitsnow' : '' );
-				break;
+		$new_owner_id = $request['owner'];
+		if ( ! user_can( $new_owner_id, 'administrator' ) ) {
+			return new WP_Error(
+				'new_owner_not_admin',
+				esc_html__( 'New owner is not admin', 'jetpack' ),
+				array( 'status' => 400 )
+			);
 		}
 
-		if ( $updated ) {
-			return rest_ensure_response( array(
-				'code' 	  => 'success',
-				'message' => esc_html__( 'Setting updated.', 'jetpack' ),
-				'value'   => $value,
-			) );
+		if ( $new_owner_id === get_current_user_id() ) {
+			return new WP_Error(
+				'new_owner_is_current_user',
+				esc_html__( 'New owner is same as current user', 'jetpack' ),
+				array( 'status' => 400 )
+			);
 		}
 
-		return new WP_Error( 'setting_not_updated', esc_html__( 'The setting was not updated.', 'jetpack' ), array( 'status' => 400 ) );
+		if ( ! Jetpack::is_user_connected( $new_owner_id ) ) {
+			return new WP_Error(
+				'new_owner_not_connected',
+				esc_html__( 'New owner is not connected', 'jetpack' ),
+				array( 'status' => 400 )
+			);
+		}
+
+		// Update the master user in Jetpack
+		$updated = Jetpack_Options::update_option( 'master_user', $new_owner_id );
+
+		// Notify WPCOM about the master user change
+		Jetpack::load_xml_rpc_client();
+		$xml = new Jetpack_IXR_Client( array(
+			'user_id' => get_current_user_id(),
+		) );
+		$xml->query( 'jetpack.switchBlogOwner', array(
+			'new_blog_owner' => $new_owner_id,
+		) );
+
+		if ( $updated && ! $xml->isError() ) {
+			return rest_ensure_response(
+				array(
+					'code' => 'success',
+				)
+			);
+		}
+		return new WP_Error(
+			'error_setting_new_owner',
+			esc_html__( 'Could not confirm new owner.', 'jetpack' ),
+			array( 'status' => 500 )
+		);
 	}
 
 	/**
@@ -850,6 +932,74 @@ class Jetpack_Core_Json_Api_Endpoints {
 		}
 
 		return new WP_Error( 'unlink_user_failed', esc_html__( 'Was not able to unlink the user.  Please try again.', 'jetpack' ), array( 'status' => 400 ) );
+	}
+
+	/**
+	 * Gets current user's tracking settings.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param  WP_REST_Request $request The request sent to the WP REST API.
+	 *
+	 * @return WP_REST_Response|WP_Error Response, else error.
+	 */
+	public static function get_user_tracking_settings( $request ) {
+		if ( ! Jetpack::is_user_connected() ) {
+			$response = array(
+				'tracks_opt_out' => true, // Default to opt-out if not connected to wp.com.
+			);
+		} else {
+			$response = Jetpack_Client::wpcom_json_api_request_as_user(
+				'/jetpack-user-tracking',
+				'v2',
+				array(
+					'method'  => 'GET',
+					'headers' => array(
+						'X-Forwarded-For' => Jetpack::current_user_ip( true ),
+					),
+				)
+			);
+			if ( ! is_wp_error( $response ) ) {
+				$response = json_decode( wp_remote_retrieve_body( $response ), true );
+			}
+		}
+
+		return rest_ensure_response( $response );
+	}
+
+	/**
+	 * Updates current user's tracking settings.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param  WP_REST_Request $request The request sent to the WP REST API.
+	 *
+	 * @return WP_REST_Response|WP_Error Response, else error.
+	 */
+	public static function update_user_tracking_settings( $request ) {
+		if ( ! Jetpack::is_user_connected() ) {
+			$response = array(
+				'tracks_opt_out' => true, // Default to opt-out if not connected to wp.com.
+			);
+		} else {
+			$response = Jetpack_Client::wpcom_json_api_request_as_user(
+				'/jetpack-user-tracking',
+				'v2',
+				array(
+					'method'  => 'PUT',
+					'headers' => array(
+						'Content-Type'    => 'application/json',
+						'X-Forwarded-For' => Jetpack::current_user_ip( true ),
+					),
+				),
+				wp_json_encode( $request->get_params() )
+			);
+			if ( ! is_wp_error( $response ) ) {
+				$response = json_decode( wp_remote_retrieve_body( $response ), true );
+			}
+		}
+
+		return rest_ensure_response( $response );
 	}
 
 	/**
@@ -1578,14 +1728,14 @@ class Jetpack_Core_Json_Api_Endpoints {
 
 			// Related Posts
 			'show_headline' => array(
-				'description'       => esc_html__( 'Show a "Related" header to more clearly separate the related section from posts', 'jetpack' ),
+				'description'       => esc_html__( 'Highlight related content with a heading', 'jetpack' ),
 				'type'              => 'boolean',
 				'default'           => 1,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
 				'jp_group'          => 'related-posts',
 			),
 			'show_thumbnails' => array(
-				'description'       => esc_html__( 'Use a large and visually striking layout', 'jetpack' ),
+				'description'       => esc_html__( 'Show a thumbnail image where available', 'jetpack' ),
 				'type'              => 'boolean',
 				'default'           => 0,
 				'validate_callback' => __CLASS__ . '::validate_boolean',
@@ -1731,7 +1881,7 @@ class Jetpack_Core_Json_Api_Endpoints {
 			'enable_header_ad' => array(
 				'description'        => esc_html__( 'Display an ad unit at the top of each page.', 'jetpack' ),
 				'type'               => 'boolean',
-				'default'            => 0,
+				'default'            => 1,
 				'validate_callback'  => __CLASS__ . '::validate_boolean',
 				'jp_group'           => 'wordads',
 			),
@@ -1845,15 +1995,6 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'jp_group'          => 'stats',
 			),
 
-			// Settings - Not a module
-			self::holiday_snow_option_name() => array(
-				'description'       => '',
-				'type'              => 'boolean',
-				'default'           => 0,
-				'validate_callback' => __CLASS__ . '::validate_boolean',
-				'jp_group'          => 'settings',
-			),
-
 			// Akismet - Not a module, but a plugin. The options can be passed and handled differently.
 			'akismet_show_user_comments_approved' => array(
 				'description'       => '',
@@ -1889,25 +2030,30 @@ class Jetpack_Core_Json_Api_Endpoints {
 				'jp_group'          => 'settings',
 			),
 
+			'lang_id' => array(
+				'description' => esc_html__( 'Primary language for the site.', 'jetpack' ),
+				'type' => 'string',
+				'default' => 'en_US',
+				'jp_group' => 'settings',
+			),
+
 			'onboarding' => array(
 				'description'       => '',
 				'type'              => 'object',
 				'default'           => array(
-					'token'            => '',
-					'siteTitle'        => '',
-					'siteDescription'  => '',
-					'genre'            => 'blog',
-					'businessPersonal' => 'personal',
-					'businessInfo'     => array(
-						'businessName'     => '',
-						'businessAddress'  => '',
-						'businessCity'     => '',
-						'businessState'    => '',
-						'businessZipCode'  => '',
+					'siteTitle'          => '',
+					'siteDescription'    => '',
+					'siteType'           => 'personal',
+					'homepageFormat'     => 'posts',
+					'addContactForm'     => 0,
+					'businessAddress'    => array(
+						'name'   => '',
+						'street' => '',
+						'city'   => '',
+						'state'  => '',
+						'zip'    => '',
 					),
-					'homepageFormat'   => 'news',
-					'addContactForm'   => false,
-					'end'              => false,
+					'installWooCommerce' => false,
 				),
 				'validate_callback' => __CLASS__ . '::validate_onboarding',
 				'jp_group'          => 'settings',

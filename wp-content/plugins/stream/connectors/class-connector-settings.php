@@ -287,7 +287,7 @@ class Connector_Settings extends Connector {
 					'background_attachment',
 					'background_color',
 				),
-				'custom_header' => array(
+				'custom_header'     => array(
 					'header_image',
 					'header_textcolor',
 				),
@@ -458,10 +458,10 @@ class Connector_Settings extends Connector {
 	 */
 	public function action_links( $links, $record ) {
 		$context_labels = $this->get_context_labels();
-		$plugin = wp_stream_get_instance();
+		$plugin         = wp_stream_get_instance();
 
 		$rules = array(
-			'stream' => array(
+			'stream'            => array(
 				'menu_slug'    => 'wp_stream',
 				'submenu_slug' => $plugin->admin->settings_page_slug,
 				'url'          => function( $rule, $record ) use ( $plugin ) {
@@ -504,7 +504,7 @@ class Connector_Settings extends Connector {
 					return in_array( $record->context, array( 'custom_header', 'custom_background' ), true );
 				},
 			),
-			'general' => array(
+			'general'           => array(
 				'menu_slug'    => 'options-general.php',
 				'submenu_slug' => function( $record ) {
 					return sprintf( 'options-%s.php', $record->context );
@@ -516,7 +516,7 @@ class Connector_Settings extends Connector {
 					return ! empty( $submenu['options-general.php'] );
 				},
 			),
-			'network' => array(
+			'network'           => array(
 				'menu_slug'    => 'settings.php',
 				'submenu_slug' => function( $record ) {
 					return 'settings.php';
@@ -553,18 +553,22 @@ class Connector_Settings extends Connector {
 				if ( isset( $submenu[ $menu_slug ] ) ) {
 					$found_submenus = wp_list_filter(
 						$submenu[ $menu_slug ],
-						array( 2 => $submenu_slug )
+						array(
+							2 => $submenu_slug,
+						)
 					);
 				}
 
 				if ( ! empty( $found_submenus ) ) {
-					$target_submenu = array_pop( $found_submenus );
+					$target_submenu                  = array_pop( $found_submenus );
 					list( $menu_title, $capability ) = $target_submenu;
 
 					if ( current_user_can( $capability ) ) {
 						$url        = apply_filters( 'wp_stream_action_link_url', $url, $record );
-						$text       = sprintf( esc_html__( 'Edit %s Settings', 'stream' ), $context_labels[ $record->context ] );
 						$field_name = $record->get_meta( 'option_key', true );
+
+						// translators: Placeholder refers to a context (e.g. "Editor")
+						$text = sprintf( esc_html__( 'Edit %s Settings', 'stream' ), $context_labels[ $record->context ] );
 
 						if ( '' === $field_name ) {
 							$field_name = $record->get_meta( 'option', true );
@@ -682,8 +686,12 @@ class Connector_Settings extends Connector {
 		$options = array_merge(
 			(array) $whitelist_options,
 			(array) $new_whitelist_options,
-			array( 'permalink' => $this->permalink_options ),
-			array( 'network' => $this->network_options )
+			array(
+				'permalink' => $this->permalink_options,
+			),
+			array(
+				'network' => $this->network_options,
+			)
 		);
 
 		foreach ( $options as $key => $opts ) {
@@ -702,7 +710,7 @@ class Connector_Settings extends Connector {
 		if ( $this->is_option_group( $value ) ) {
 			foreach ( $this->get_changed_keys( $old_value, $value ) as $field_key ) {
 				if ( ! $this->is_key_ignored( $option, $field_key ) ) {
-					$key_context = $this->get_context_by_key( $option, $field_key );
+					$key_context       = $this->get_context_by_key( $option, $field_key );
 					$changed_options[] = array(
 						'label'      => $this->get_serialized_field_label( $option, $field_key ),
 						'option'     => $option,
@@ -725,6 +733,7 @@ class Connector_Settings extends Connector {
 
 		foreach ( $changed_options as $properties ) {
 			$this->log(
+				// translators: Placeholder refers to a setting name (e.g. "Language")
 				__( '"%s" setting was updated', 'stream' ),
 				$properties,
 				null,
@@ -744,7 +753,7 @@ class Connector_Settings extends Connector {
 		<script>
 			(function ($) {
 				$(function () {
-					var hashPrefix = <?php echo wp_stream_json_encode( self::HIGHLIGHT_FIELD_URL_HASH_PREFIX ) // xss ok ?>,
+					var hashPrefix = <?php echo wp_stream_json_encode( self::HIGHLIGHT_FIELD_URL_HASH_PREFIX ); // xss ok ?>,
 						hashFieldName = "",
 						fieldNames = [],
 						$select2Choices = {},
@@ -830,7 +839,7 @@ class Connector_Settings extends Connector {
 	public function sanitize_value( $value ) {
 		if ( is_array( $value ) ) {
 			return '';
-		} elseif ( is_object( $value ) && ! in_array( '__toString', get_class_methods( $value ) ) ) {
+		} elseif ( is_object( $value ) && ! in_array( '__toString', get_class_methods( $value ), true ) ) {
 			return '';
 		}
 

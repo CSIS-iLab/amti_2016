@@ -46,11 +46,13 @@ class DB {
 		 */
 		$record = apply_filters( 'wp_stream_record_array', $record );
 
-		array_walk( $record, function( &$value, &$key ) {
-			if ( ! is_array( $value ) ) {
-				$value = strip_tags( $value );
+		array_walk(
+			$record, function( &$value, &$key ) {
+				if ( ! is_array( $value ) ) {
+					$value = strip_tags( $value );
+				}
 			}
-		});
+		);
 
 		if ( empty( $record ) ) {
 			return false;
@@ -197,7 +199,7 @@ class DB {
 		 */
 		$args = apply_filters( 'wp_stream_query_args', $args );
 
-		$result = (array) $this->driver->get_records( $args );
+		$result                    = (array) $this->driver->get_records( $args );
 		$this->found_records_count = isset( $result['count'] ) ? $result['count'] : 0;
 
 		return empty( $result['items'] ) ? array() : $result['items'];

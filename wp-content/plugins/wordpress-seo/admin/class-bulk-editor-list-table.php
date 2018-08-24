@@ -1,7 +1,9 @@
 <?php
 /**
+ * WPSEO plugin file.
+ *
  * @package WPSEO\Admin\Bulk Editor
- * @since      1.5.0
+ * @since   1.5.0
  */
 
 /**
@@ -244,7 +246,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		<?php } ?>
 		</div>
 
-	<?php
+		<?php
 	}
 
 	/**
@@ -285,10 +287,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$status_links = array();
 
-		$states          = get_post_stati( array( 'show_in_admin_all_list' => true ) );
-		$states['trash'] = 'trash';
-		$states          = esc_sql( $states );
-		$all_states      = "'" . implode( "', '", $states ) . "'";
+		$states     = get_post_stati( array( 'show_in_admin_all_list' => true ) );
+		$states     = esc_sql( $states );
+		$all_states = "'" . implode( "', '", $states ) . "'";
 
 		$subquery = $this->get_base_subquery();
 
@@ -405,7 +406,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				$post_type_filter = filter_input( INPUT_GET, 'post_type_filter' );
 				$selected         = ( ! empty( $post_type_filter ) ) ? sanitize_text_field( $post_type_filter ) : '-1';
 
-				$options = '<option value="-1">' . esc_html__( 'Show All Post Types', 'wordpress-seo' ) . '</option>';
+				$options = '<option value="-1">' . esc_html__( 'Show All Content Types', 'wordpress-seo' ) . '</option>';
 
 				if ( is_array( $post_types ) && $post_types !== array() ) {
 					foreach ( $post_types as $post_type ) {
@@ -422,7 +423,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				printf(
 					'<label for="%1$s" class="screen-reader-text">%2$s</label>',
 					esc_attr( 'post-type-filter-' . $instance_type ),
-					esc_html__( 'Filter by post type', 'wordpress-seo' )
+					esc_html__( 'Filter by content type', 'wordpress-seo' )
 				);
 				printf(
 					'<select name="post_type_filter" id="%2$s">%1$s</select>',
@@ -710,6 +711,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			if ( in_array( $requested_state, $states, true ) ) {
 				$states = array( $requested_state );
 			}
+
+			if ( $requested_state !== 'trash' ) {
+				unset( $states['trash'] );
+			}
 		}
 
 		$states     = esc_sql( $states );
@@ -717,7 +722,6 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		return $all_states;
 	}
-
 
 	/**
 	 * Based on $this->items and the defined columns, the table rows will be displayed.
@@ -1002,7 +1006,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$columns = array_merge(
 			array(
 				'col_page_title'  => __( 'WP Page Title', 'wordpress-seo' ),
-				'col_post_type'   => __( 'Post Type', 'wordpress-seo' ),
+				'col_post_type'   => __( 'Content Type', 'wordpress-seo' ),
 				'col_post_status' => __( 'Post Status', 'wordpress-seo' ),
 				'col_post_date'   => __( 'Publication date', 'wordpress-seo' ),
 				'col_page_slug'   => __( 'Page URL/Slug', 'wordpress-seo' ),

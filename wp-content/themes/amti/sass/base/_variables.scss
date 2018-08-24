@@ -3,18 +3,29 @@
 ==============================*/
 $white: #fff;
 $black: #000;
-$dark-blue: #023850;
 $purple: #4d384b;
-$dark-green: #0C8D79;
-$light-green: #00b29e;
 $gray: #555;
+$pinkish-grey: #cecece; /*2018*/
 
-$color__background-body: #F2F2F2;
-$color__background-screen: #F2F2F2;
+$dark-blue: #023850;
+$dark-teal: #023950; /*2018*/
+$darker-blue: #0e242e; /*2018*/
+$darker-teal: #02354b; /*2018*/
+$dark-blue-grey: #112b38; /*2018*/
+$darkest-bue: #022738; /*2018*/
+
+$light-green: #00b29e;
+$dark-green: #0c8d79;
+$topaz: #17b39a; /*2018*/
+$dark-topaz: #0faa91; /*2018*/
+$light-topaz: #4fc4b2; /*2018*/
+
+$color__background-body: #f2f2f2;
+$color__background-screen: #f2f2f2;
 $color__background-button: none;
 $color__background-pre: #eee;
 $color__background-ins: #fff9c0;
-$color__background-footer: #1a1a1a;
+$color__background-footer: $darker-teal;
 $color__background-footer-search: #383838;
 
 $color__text-screen: $gray;
@@ -25,7 +36,7 @@ $color__link-visited: $light-green;
 $color__link-hover: $light-green;
 $color__text-main: $gray;
 $color__text-button: $light-green;
-$color__text-footer: #9f9f9f;
+$color__text-footer: #dad7db;
 $color__text-footer-widget: #f5f5f5;
 
 $color__border-button: $light-green;
@@ -37,11 +48,11 @@ $color__border-abbr: $gray;
 /*==================================
 =            Typography            =
 ==================================*/
-@import 'https://fonts.googleapis.com/css?family=PT+Sans+Narrow|PT+Sans:400,700';
+@import "https://fonts.googleapis.com/css?family=PT+Sans+Narrow|PT+Sans:400,700";
 
-$font__OpenSans: 'Open Sans', sans-serif;
-$font__PTS: 'PT Sans', sans-serif;
-$font__PTSN: 'PT Sans Narrow', sans-serif;
+$font__OpenSans: "Open Sans", sans-serif;
+$font__PTS: "PT Sans", sans-serif;
+$font__PTSN: "PT Sans Narrow", sans-serif;
 $font__main: $font__PTS;
 $font__code: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
 $font__pre: "Courier 10 Pitch", Courier, monospace;

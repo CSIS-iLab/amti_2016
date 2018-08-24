@@ -11,8 +11,9 @@
 
 	.site-info {
 		margin-top: 40px;
-		background-color: rgba(0,0,0,0.8);
+		background-color: #022738;
 		padding: 30px 0;
+    @include font-size(14px);
 	}
 
 	.tagline {
