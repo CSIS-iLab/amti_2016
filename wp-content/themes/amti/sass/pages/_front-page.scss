@@ -1,52 +1,3 @@
-%p-normal {
-  font-size: 18px;
-  font-family: $font__PTS;
-  line-height: 1.39;
-}
-
-%h2-narrow {
-  font-size: 36px;
-  font-family: $font__PTSN;
-}
-
-%h3-narrow {
-  font-size: 32px;
-  font-family: $font__PTSN;
-}
-
-%h4-narrow {
-  font-size: 24px;
-  font-family: $font__PTSN;
-}
-
-%h5-narrow {
-  font-size: 20px;
-  font-family: $font__PTSN;
-  letter-spacing: 1.1px;
-  text-transform: uppercase;
-}
-
-%h6-narrow {
-  font-size: 16px;
-  font-family: $font__PTSN;
-  font-weight: bold;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-%h6-normal {
-  font-size: 16px;
-  font-family: $font__PTS;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-
-%h7-normal {
-  font-size: 15px;
-  font-family: $font__PTS;
-  line-height: 1.67;
-}
-
 #content {
   background-image: linear-gradient(
     to bottom,
@@ -61,7 +12,13 @@
     }
   }
   p {
-    @extend %p-normal;
+    font-size: 16px;
+    font-family: $font__PTS;
+    line-height: 1.75;
+    @include breakpoint("medium") {
+      font-size: 18px;
+      line-height: 1.39;
+    }
     margin-bottom: unset;
   }
 
@@ -77,11 +34,12 @@
 
   section.primary {
     display: grid;
+
     grid-template-columns: 100%;
 
     @include breakpoint("medium") {
       grid-template-columns:
-        minmax(50px, 1fr) repeat(3, minmax(325px, 480px))
+        minmax(50px, 1fr) repeat(3, minmax(25%, 480px))
         minmax(50px, 1fr);
       grid-template-rows: 48px repeat(2, minmax(min-content, 27px));
     }
@@ -106,22 +64,26 @@
       min-height: 175px;
     }
     .feature-heading {
+      padding: 20px 20px 0 36px;
       @include breakpoint("medium") {
         grid-area: 3 / 2 / 4 / 3;
+        padding: 30px 0 0 72px;
       }
-      padding: 30px 0 0 72px;
       align-self: start;
       position: relative;
       &:before {
         content: "";
-        width: 3px;
-        height: 230px;
         opacity: 0.62;
         background-color: $pinkish-grey;
         display: block;
-        left: 48px;
         position: absolute;
+        width: 3px;
+        height: 125%;
+        left: 20px;
         bottom: 0;
+        @include breakpoint("medium") {
+          left: 48px;
+        }
       }
 
       .feature-subtitle {
@@ -131,6 +93,10 @@
       .feature-title {
         @extend %h2-narrow;
         color: $black;
+        cursor: pointer;
+        &:hover {
+          color: $topaz;
+        }
       }
 
       .date {
@@ -140,20 +106,33 @@
     }
 
     .feature-excerpt {
+      padding: 18px 20px 24px 26px;
+      border-bottom: solid 1px $pinkish-grey;
       @include breakpoint("medium") {
+        padding: 18px 45px 60px 30px;
         grid-area: 3 / 3 / 4 / 4;
+        padding: 60px 45px 60px 30px;
       }
-      padding: 60px 45px 60px 30px;
 
       a {
-        @extend %h6-narrow;
+        @extend %h6-narrow-bold;
         color: $topaz;
         white-space: nowrap;
+        display: block;
+        text-align: right;
+        &:hover {
+          color: $dark-sea-green;
+        }
+        @include breakpoint("medium") {
+          display: inline-block;
+        }
       }
     }
 
     .recent-content {
+      padding: 32px 26px 0 20px;
       @include breakpoint("medium") {
+        padding-left: 30px;
         grid-area: 2 / 4 / 4 / 5;
       }
 
@@ -164,9 +143,20 @@
       .feature-list {
         .feature {
           display: grid;
+
           grid-template-columns: 60px 1fr;
           grid-gap: 0 20px;
-          margin-bottom: 33px;
+          margin-bottom: 30px;
+          cursor: pointer;
+
+          &:hover .title {
+            color: $topaz;
+          }
+
+          &:hover .date {
+            background-color: $dark-sea-green;
+          }
+
           .date {
             grid-area: 1 / 1 / 2 / 2;
             align-self: start;
@@ -190,6 +180,7 @@
           }
           .authors {
             grid-area: 2 / 2 / 3 / 3;
+            line-height: 2;
             @extend %h6-normal;
             a {
               color: $dark-topaz;
@@ -197,8 +188,17 @@
           }
         }
       }
-      padding-top: 32px;
-      padding-left: 30px;
+      button {
+        @extend %h6-narrow-bold;
+        margin: 0 42px 64px;
+        width: -moz-available;
+        width: -webkit-fill-available;
+        width: fill-available;
+        @include breakpoint("medium") {
+          margin: 0;
+          width: unset;
+        }
+      }
     }
 
     .margin-left {
@@ -218,11 +218,12 @@
   section.secondary {
     display: grid;
     grid-template-columns: 100%;
-    background: url(/wp-content/themes/amti/img/mischief_reef_final.png);
+    background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 84px;
     padding: 0 20px;
+    overflow: hidden;
 
     .feature-title {
       text-transform: uppercase;
@@ -239,12 +240,17 @@
       padding: unset;
       background-size: 100%;
       background-position: 0 24vw;
+
       grid-template-columns:
-        minmax(50px, 1fr) repeat(3, minmax(325px, 480px))
+        minmax(50px, 1fr) repeat(3, minmax(25%, 480px))
         minmax(50px, 1fr);
 
-      grid-template-rows: repeat(8, minmax(min-content, 84px));
+      grid-template-rows: repeat(7, minmax(min-content, 84px)) minmax(
+          31.25vw,
+          1fr
+        );
     }
+
     @include breakpoint("large") {
       background-position: 0 12vw;
     }
@@ -268,6 +274,7 @@
     .island-slideshow-slider {
       display: grid;
       grid-gap: 18px;
+
       grid-template-columns: repeat(4, auto);
       justify-content: space-around;
 
@@ -280,9 +287,17 @@
         color: $white;
         font-size: 33px;
         opacity: 0.5;
+        line-height: 0.5;
+        transition: 0.2s ease-in-out;
+        cursor: pointer;
+        &:hover:not(.active) {
+          color: $topaz;
+        }
+
         &.active {
           font-size: 66px;
           opacity: 0.75;
+          transition: 0.2s ease-in-out;
         }
         @include breakpoint("medium") {
           font-size: 27px;
@@ -290,6 +305,7 @@
           &.active {
             font-size: 54px;
             opacity: 0.75;
+            transition: 0.2s ease-in-out;
           }
         }
       }
@@ -304,11 +320,14 @@
       }
 
       & > * {
-        display: block;
+        display: inline-block;
+        @include breakpoint("medium") {
+          display: block;
+        }
       }
 
       .feature-subtitle {
-        @extend %h6-narrow;
+        @extend %h6-narrow-bold;
         color: $topaz;
       }
       .feature-caption {
@@ -318,7 +337,9 @@
     }
 
     .island-tracker {
+      padding: 36px 0 0 0;
       @include breakpoint("medium") {
+        padding: 48px 0 0 48px;
         grid-area: 1 / 3 / 3 / 4;
         background-color: $darker-blue;
 
@@ -327,51 +348,77 @@
           &:before {
             content: "";
             height: 3px;
-            width: calc(210% - 80px);
-            background-color: $pinkish-grey;
+            width: calc(300% - 36px);
+            background-color: #cecece;
             opacity: 0.32;
             top: 50%;
-            right: -170%;
+            right: calc(-250% - 36px);
             position: absolute;
           }
         }
       }
-      padding: 48px 0 0 48px;
 
       .feature-title {
-        @extend %h2-narrow;
+        @extend %h3-narrow-bold;
         color: $white;
-        font-weight: bold;
-
-        letter-spacing: 1.7px;
       }
       .feature-excerpt {
-        padding: 0 30px 21px 48px;
+        padding: 0;
+        @include breakpoint("medium") {
+          padding: 0 30px 21px 48px;
+        }
       }
     }
 
     .island-claimants {
+      padding: 0 0 225px 0;
       @include breakpoint("medium") {
         grid-area: 5 / 3 / 7 / 5;
-        padding-left: 84px;
+        padding: 0 0 0 84px;
       }
       .feature-description {
         font-style: italic;
+        padding: 36px 0;
+        @include breakpoint("medium") {
+          padding: 0;
+        }
       }
 
       .islands {
         display: grid;
-        grid-auto-flow: column;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: repeat(2, 1fr);
         grid-gap: 39px 0;
+
+        grid-template-columns: repeat(2, 1fr);
+        @include breakpoint("medium") {
+          grid-template-columns: repeat(3, 1fr);
+        }
         .island {
           display: grid;
-          grid-template-columns: minmax(40px, 72px) auto;
-          grid-auto-rows: 72px;
-          grid-gap: 0 39px;
-          .island-shape {
-            align-self: stretch;
+          grid-gap: 0 12px;
+          grid-template-columns: minmax(20px, 40px) auto;
+          grid-auto-rows: 40px;
+          cursor: pointer;
+
+          &:hover .island-shape path {
+            fill: $topaz;
           }
+
+          @include breakpoint("medium") {
+            grid-template-columns: minmax(40px, 72px) auto;
+            grid-auto-rows: 72px;
+          }
+          .island-shape {
+            place-self: center end;
+            height: 83.3%;
+            & svg {
+              height: 100%;
+              width: auto;
+              max-height: 100%;
+              max-width: 100%;
+            }
+          }
+
           .island-name {
             @extend %h4-narrow;
             color: $white;
@@ -390,24 +437,45 @@
         }
 
         .feature-title {
-          @extend %h2-narrow;
+          @extend %h3-narrow-bold;
           color: $dark-blue-grey;
-          font-weight: bold;
-
-          letter-spacing: 1.7px;
         }
         .feature-description {
-          padding: 0 30px 48px 72px;
+          margin-bottom: 6px;
+          padding: 0 30px 30px 30px;
           position: relative;
+          @include breakpoint("medium") {
+            padding: 0 30px 48px 72px;
+          }
           &:before {
             content: "";
-            width: 3px;
-            height: 230px;
             opacity: 0.62;
             background-color: $pinkish-grey;
             display: block;
-            left: 48px;
             position: absolute;
+            width: 3px;
+            height: 100%;
+            left: 15px;
+            @include breakpoint("medium") {
+              height: 115%;
+              left: 48px;
+            }
+          }
+        }
+
+        .seeMore {
+          margin: 30px 0 48px;
+          a {
+            @extend %h6-narrow-bold;
+            color: $black;
+            line-height: 0.4em;
+            margin: 0px;
+            padding: 12px 35px;
+            background-color: #fff;
+            border: 1px solid #fff;
+          }
+          @include breakpoint("medium") {
+            display: none;
           }
         }
       }
@@ -435,25 +503,39 @@
 
     .featured-in {
       @include breakpoint("medium") {
-        grid-area: 6 / 2 / 7 / 5;
+        grid-area: 8 / 2 / 9 / 5;
+        width: 72%;
+        align-self: end;
       }
       .section-title {
         @extend %h3-narrow;
         color: #4a4a4a;
+        text-align: center;
+        @include breakpoint("medium") {
+          text-align: left;
+        }
       }
       .line {
-        width: 72%;
-        height: 1px;
-        background-color: #ff5500;
+        @include breakpoint("medium") {
+          height: 1px;
+          background-color: #ff5500;
+          margin: 3px 0 15px;
+        }
       }
       .logos {
         display: grid;
-        width: 72%;
-        grid-auto-flow: column;
-        grid-template-rows: 1fr 1fr;
-        grid-gap: 18px 48px;
-        justify-items: stretch;
+        justify-items: center;
+
+        grid-gap: 24px 0;
+        @include breakpoint("medium") {
+          grid-template-rows: repeat(2, 1fr);
+          grid-template-columns: repeat(4, max-content);
+          grid-gap: 18px 48px;
+          align-items: center;
+        }
+
         .logo {
+          display: block;
         }
       }
     }

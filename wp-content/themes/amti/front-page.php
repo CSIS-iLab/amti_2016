@@ -95,6 +95,7 @@
             <div class="authors">by <a>Nguyen The Phuong</a></div>
           </div>
       </div>
+      <button>See More</button>
       </div>
 
       <div class="margin-left">
@@ -135,29 +136,29 @@
       </div>
 
       <div class="island-claimants">
-        <p class="feature-description">Explore the database by selecting a claimant below.</p>
+        <p class="feature-description">
+          Explore the database by selecting a claimant below.
+        </p>
         <div class="islands">
           <div class="island">
-              <img class="island-shape" src="/wp-content/themes/amti/img/island_tracker_icons/china-outline.svg">
-              <div class="island-name">China</div>
+              <a class="island-shape" href="island-tracker/china"><?php get_template_part("img/island_tracker_icons/china-outline.svg")?></a>
+              <a class="island-name" href="island-tracker/china">China</a>
           </div>
           <div class="island">
-              <img class="island-shape" src="/wp-content/themes/amti/img/island_tracker_icons/malaysia-outline.svg">
-              <div class="island-name">Malaysia</div>
+              <a class="island-shape" href="island-tracker/malaysia"><?php get_template_part("img/island_tracker_icons/malaysia-outline.svg")?></a>
+              <a class="island-name" href="island-tracker/malaysia">Malaysia</a>
           </div>
           <div class="island">
-              <img class="island-shape" src="/wp-content/themes/amti/img/island_tracker_icons/phillipines-outline.svg">
-              <div class="island-name">Phillipines
-
-</div>
+              <a class="island-shape" href="island-tracker/phillipines"><?php get_template_part("img/island_tracker_icons/phillipines-outline.svg")?></a>
+              <a class="island-name" href="island-tracker/phillipines">Phillipines</a>
           </div>
           <div class="island">
-              <img class="island-shape" src="/wp-content/themes/amti/img/island_tracker_icons/taiwan-outline.svg">
-              <div class="island-name">Taiwan</div>
+              <a class="island-shape" href="island-tracker/taiwan"><?php get_template_part("img/island_tracker_icons/taiwan-outline.svg")?></a>
+              <a class="island-name" href="island-tracker/taiwan">Taiwan</a>
           </div>
           <div class="island">
-              <img class="island-shape" src="/wp-content/themes/amti/img/island_tracker_icons/vietnam-outline.svg">
-              <div class="island-name">Vietnam</div>
+              <a class="island-shape" href="island-tracker/vietnam"><?php get_template_part("img/island_tracker_icons/vietnam-outline.svg")?></a>
+              <a class="island-name" href="island-tracker/vietnam">Vietnam</a>
           </div>
         </div>
       </div>
@@ -166,9 +167,13 @@
           <div class="island-maps feature-title">
             Maps of the Asia Pacific
           </div>
-          <p class="island-maps feature-description">
-            AMTI’s interactive maps strive to provide the most complete, accurate, and up-to-date source of geospatial information on maritime Asia.
-          </p>
+
+            <div class="island-maps feature-description">
+            <p class="island-maps">
+              AMTI’s interactive maps strive to provide the most complete, accurate, and up-to-date source of geospatial information on maritime Asia.
+            </p>
+            <div  class="seeMore"><a href="">View Maps</a></div>
+          </div>
         </div>
 
 
@@ -183,18 +188,16 @@
       <div class="featured-in">
         <div class="section-title">
         Featured In
-      </div>
-      <div class="line"></div>
-      <div class="logos">
-<img class="logo" src="/wp-content/themes/amti/img/featured_in/guardian.svg">
-<img class="logo" src="/wp-content/themes/amti/img/featured_in/nyt.svg">
-<img class="logo" src="/wp-content/themes/amti/img/featured_in/reuters.svg">
-<img class="logo" src="/wp-content/themes/amti/img/featured_in/smh.svg">
-<img class="logo" src="/wp-content/themes/amti/img/featured_in/wapo.svg">
-<img class="logo" src="/wp-content/themes/amti/img/featured_in/wsj.svg">
-
-
-      </div>
+        </div>
+        <div class="line"></div>
+        <div class="logos">
+          <img class="logo" src="/wp-content/themes/amti/img/featured_in/guardian.svg">
+          <img class="logo" src="/wp-content/themes/amti/img/featured_in/nyt.svg">
+          <img class="logo" src="/wp-content/themes/amti/img/featured_in/reuters.svg">
+          <img class="logo" src="/wp-content/themes/amti/img/featured_in/smh.svg">
+          <img class="logo" src="/wp-content/themes/amti/img/featured_in/wsj.svg">
+          <img class="logo" src="/wp-content/themes/amti/img/featured_in/wapo.svg">
+        </div>
       </div>
 
     </section>
@@ -206,26 +209,8 @@
 
 
 
-		<footer id="colophon" class="site-footer" role="contentinfo">
-			<?php if (is_active_sidebar('footer')) : ?>
-				<div class="container">
-					<div id="footer-widgets" class="widget-area row" role="complementary">
-						<?php dynamic_sidebar('footer'); ?>
-					</div><!-- #footer-widgets -->
-				</div>
-			<?php endif; ?>
-
-			<div class="site-info">
-				<div class="container">
-					&copy; <?php echo date('Y') . __(' The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies', 'transparency'); ?> | <a href="https://www.csis.org/privacy-policy" target="_blank" rel="nofollow">Privacy Policy</a>
-				</div>
-			</div><!-- .site-info -->
-		</footer><!-- #colophon -->
-	</div><!-- #page -->
-
-	<?php wp_footer(); ?>
 
 	<script src="http://amti.csis.test:35729/livereload.js?snipver=1"></script>
 
-	</body>
-	</html>
+  <?php
+  get_footer();

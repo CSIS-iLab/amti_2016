@@ -1,39 +1,196 @@
 /*==============================
 =            Footer            =
 ==============================*/
+%footer-title {
+  @extend %h4-narrow;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
 .site-footer {
-	bottom: 0;
-	width: 100%;
-	z-index: -1;
-	padding: 40px 0 0px;
-	background-color: $color__background-footer;
-	color: $color__text-footer;
+  bottom: 0;
+  width: 100%;
+  z-index: -1;
+  background-color: $color__background-footer;
+  color: $color__text-footer;
 
-	.site-info {
-		margin-top: 40px;
-		background-color: #022738;
-		padding: 30px 0;
-    @include font-size(14px);
-	}
+  p {
+    font-size: 16px;
+    font-family: $font__PTS;
+    line-height: 1.5;
+    @include breakpoint("medium") {
+      font-size: 18px;
+      line-height: 1.39;
+    }
+  }
 
-	.tagline {
-		font-size: 24px;
-		text-align:right;
-		color: $dark-green;
-	}
+  .footer {
+    display: grid;
+    width: unset;
+    padding: 40px;
+    @include breakpoint("medium") {
+      grid-template-columns: 1fr 2fr 4fr;
+      grid-gap: 0 100px;
+    }
 
-	.form-control {
-		background-color: $color__background-footer-search;
-	}
+    hr {
+      display: none;
+      @include breakpoint("medium") {
+        display: block;
+        margin-bottom: 36px;
+        grid-area: 2/1/3/4;
+
+        height: 2px;
+        opacity: 0.37;
+        background-image: -webkit-linear-gradient(
+          left,
+          transparent,
+          $dark-grey,
+          transparent
+        );
+        background-image: -moz-linear-gradient(
+          left,
+          transparent,
+          $dark-grey,
+          transparent
+        );
+        background-image: -ms-linear-gradient(
+          left,
+          transparent,
+          $dark-grey,
+          transparent
+        );
+        background-image: -o-linear-gradient(
+          left,
+          transparent,
+          $dark-grey,
+          transparent
+        );
+      }
+    }
+
+    .brand {
+      @include breakpoint("medium") {
+        grid-area: 1/1/2/4;
+        display: grid;
+
+        align-items: end;
+        grid-template-columns: max-content 1fr;
+      }
+
+      .section-title {
+        @extend %footer-title;
+      }
+
+      .image img {
+        text-align: left;
+        height: 40px;
+        opacity: 0.76;
+        @include breakpoint("medium") {
+          height: 60px;
+        }
+      }
+
+      .tagline {
+        display: none;
+        @extend %h2-narrow;
+        @include breakpoint("medium") {
+          display: block;
+          text-align: right;
+          font-size: 32px;
+        }
+      }
+    }
+
+    .connect {
+      @include breakpoint("medium") {
+        grid-area: 3/2/4/3;
+      }
+
+      .social {
+        .section-title {
+          @extend %footer-title;
+          display: none;
+          @include breakpoint("medium") {
+            display: block;
+          }
+        }
+        i {
+          font-size: 36px;
+          margin-right: 9px;
+
+          &:hover {
+            color: $white;
+          }
+        }
+      }
+
+      .contact {
+        .section-title {
+          @extend %footer-title;
+        }
+        .email {
+          margin-bottom: 12px;
+
+          a:hover {
+            color: $white;
+          }
+        }
+      }
+    }
+
+    .subscribe {
+      @include breakpoint("medium") {
+        grid-area: 3/3/4/4;
+      }
+      .section-title {
+        @extend %footer-title;
+      }
+
+      button {
+        @extend %h6-narrow-bold;
+        border-width: 3px;
+      }
+    }
+
+    .footer-menu {
+      display: none;
+      @include breakpoint("medium") {
+        line-height: 1.83;
+        display: block;
+        grid-area: 3/1/4/2;
+      }
+      ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 0;
+      }
+    }
+  }
+
+  .site-info {
+    background-color: $darkest-blue;
+    font-size: 14px;
+    font-family: $font__PTSN;
+    padding: 16px 20px;
+    height: 70px;
+    @include breakpoint("medium") {
+      padding: 24px 48px;
+    }
+  }
+
+  .form-control {
+    background-color: $color__background-footer-search;
+  }
 }
 
 .topbutton {
-	padding: 8px 15px;
-	position:fixed;
-	right:0px;
-	bottom:0px;
-	z-index:1;
-	background-color: $color__background-footer;
-	display:none;
-	color: $color__text-footer !important;
+  padding: 8px 15px;
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1;
+  background-color: $color__background-footer;
+  display: none;
+  color: $color__text-footer !important;
 }
