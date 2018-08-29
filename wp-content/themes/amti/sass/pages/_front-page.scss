@@ -41,7 +41,7 @@
       grid-template-columns:
         minmax(50px, 1fr) repeat(3, minmax(25%, 480px))
         minmax(50px, 1fr);
-      grid-template-rows: 48px repeat(2, minmax(min-content, 27px));
+      grid-template-rows: 48px 242px 1fr;
     }
 
     & > *:not(.feature-image) {
@@ -56,12 +56,12 @@
     }
 
     .feature-image {
+      min-height: 175px;
       @include breakpoint("medium") {
+        min-height: 290px;
         grid-area: 1 / 2 / 3 / 4;
         height: unset;
       }
-      max-height: 290px;
-      min-height: 175px;
     }
     .feature-heading {
       padding: 20px 20px 0 36px;
@@ -90,7 +90,7 @@
         @extend %h5-narrow;
         color: $light-topaz;
       }
-      .feature-title {
+      .title-latest {
         @extend %h2-narrow;
         color: $black;
         cursor: pointer;
@@ -112,6 +112,7 @@
         padding: 18px 45px 60px 30px;
         grid-area: 3 / 3 / 4 / 4;
         padding: 60px 45px 60px 30px;
+        border: none;
       }
 
       a {
@@ -149,7 +150,7 @@
           margin-bottom: 30px;
           cursor: pointer;
 
-          &:hover .title {
+          &:hover .title-author .title {
             color: $topaz;
           }
 
@@ -162,7 +163,7 @@
             align-self: start;
             text-align: center;
             border-radius: 60px;
-            padding: 12px;
+            padding: 9px;
             display: inline;
             background-color: $dark-topaz;
             @extend %h6-normal;
@@ -173,17 +174,19 @@
               font-weight: bold;
             }
           }
-          .title {
+
+          .title-author {
             grid-area: 1 / 2 / 2 / 3;
-            @extend %h4-narrow;
-            color: $black;
-          }
-          .authors {
-            grid-area: 2 / 2 / 3 / 3;
-            line-height: 2;
-            @extend %h6-normal;
-            a {
-              color: $dark-topaz;
+            .title {
+              @extend %h4-narrow;
+              color: $black;
+            }
+            .authors {
+              margin-top: 14px;
+              @extend %h6-normal;
+              a {
+                color: $dark-topaz;
+              }
             }
           }
         }
@@ -212,6 +215,12 @@
       @include breakpoint("medium") {
         grid-area: 1 / 4 / 2 / 6;
         background-color: $dark-teal;
+      }
+    }
+    .margin-bottom {
+      @include breakpoint("medium") {
+        grid-area: 4 / 1 / 5 / 6;
+        height: 75px;
       }
     }
   }
@@ -400,8 +409,9 @@
           grid-auto-rows: 40px;
           cursor: pointer;
 
-          &:hover .island-shape path {
+          &:hover .island-shape svg {
             fill: $topaz;
+            opacity: 1;
           }
 
           @include breakpoint("medium") {
@@ -416,6 +426,8 @@
               width: auto;
               max-height: 100%;
               max-width: 100%;
+              fill: $white;
+              opacity: 0.45;
             }
           }
 

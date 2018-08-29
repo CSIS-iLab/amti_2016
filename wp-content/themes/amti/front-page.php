@@ -58,50 +58,111 @@
 
  	<div id="content" class="site-content">
 
-
     <section class="primary">
+    <?php
 
-      <img class="feature-image"  src="/wp-content/themes/amti/img/vietnam.png">
+    $id = get_option( 'transparency_homepage_featured_post' );
+    $post = get_post($id);
+  setup_postdata($post);
 
-      <div class="feature-heading">
+      echo '<img class="feature-image"  src="' . wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), $size = 'large')[0] . '">
 
-        <div class="feature-title">
-          <div class="feature-subtitle">Latest Feature</div class="title-latest">
-            Vietnam Expands Another Outpost
-            <div class="date">June 13, 2018</div>
-          </div>
-      </div>
+        <div class="feature-heading">
 
-      <p class="feature-excerpt">
-        Vietnam continues modest expansions to its outposts in the Spratly Islands, most recently on Ladd Reef. Satellite imagery shows that Hanoi has dredged a new channel and is expanding one of its two facilities (the other is a small lighthouse to the west) at the feature. <a href="x">CONTINUE READING</a>
-      </p>
+          <div class="feature-title">
+            <div class="feature-subtitle">Latest Feature</div><a  class="title-latest" href="' . esc_url(get_permalink()) . '">
+            ' . get_the_title() . '
+              </a><div class="date">' . get_the_date() . '</div>
+            </div>
+        </div>
+
+        <p class="feature-excerpt">' . wp_strip_all_tags(get_the_excerpt()) . ' <a href="' . esc_url(get_permalink()) . '">CONTINUE READING</a>
+        </p>'
+    ?>
+
 
       <div class="recent-content">
         <div class="section-title">Recent Content</div>
         <div class="feature-list">
-          <div class="feature">
-            <div class="date"><span>jun</span> <span>22</span></div>
-            <div class="title">Guerrilla Warfare Over the South China Sea: Updating Vietnam’s Doctrine</div>
-            <div class="authors">by <a>Nguyen The Phuong</a></div>
-          </div>
-          <div class="feature">
-            <div class="date"><span>jun</span> <span>22</span></div>
-            <div class="title">Guerrilla Warfare Over the South China Sea: Updating Vietnam’s Doctrine</div>
-            <div class="authors">by <a>Nguyen The Phuong</a></div>
-          </div>
-          <div class="feature">
-            <div class="date"><span>jun</span> <span>22</span></div>
-            <div class="title">Guerrilla Warfare Over the South China Sea: Updating Vietnam’s Doctrine</div>
-            <div class="authors">by <a>Nguyen The Phuong</a></div>
-          </div>
+          <?php
+
+
+
+          $recent_post1 = get_option( 'transparency_homepage_recent_content_1' );
+          $recent_post2 = get_option( 'transparency_homepage_recent_content_2' );
+          $recent_post3 = get_option( 'transparency_homepage_recent_content_3' );
+
+          $featuredPostsArgs = array(
+            'post__in' => array(
+              $recent_post1,
+              $recent_post2,
+              $recent_post3,
+
+              ),
+              'orderby'=>'date',
+              'order'=>'DESC',
+              'post_type'=>'any'
+          );
+
+
+          $featured = get_posts($featuredPostsArgs);
+
+          $offset = 3  - count($featured);
+
+          $latest_post_ids = array(
+            'post_status' => 'publish',
+            'numberposts' => 3
+          );
+
+          $latest_posts = wp_get_recent_posts($latest_post_ids, OBJECT);
+
+            $latestPostsArgs = array(
+              'post__in' => array(
+               $latest_posts[0]->ID,
+               $latest_posts[1]->ID,
+               $latest_posts[2]->ID
+
+                ),
+                'orderby'=>'date',
+                'order'=>'DESC',
+              'numberposts' => $offset
+            );
+
+            $latest = get_posts($latestPostsArgs);
+
+
+            $all_posts =  sort_posts( array_merge($latest,$featured), 'post_date', $order = 'DESC', $unique = true );
+
+
+                  foreach($all_posts as $post) : setup_postdata($post);
+
+                    echo '<div class="feature">
+                      <div class="date"><span>' . get_the_date( 'M' ) . '</span> <span>' . get_the_date( 'j' ) . '</span></div>
+                      <div class="title-author">
+                        <a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>
+                        <div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>
+                      </div>
+                      </div>';
+
+
+                  endforeach;
+                wp_reset_postdata();
+              ?>
       </div>
-      <button>See More</button>
+
+
+      <a class="button" href="/analysis">
+        <button>See More</button>
+      </a>
       </div>
 
       <div class="margin-left">
       </div>
 
       <div class="margin-right">
+      </div>
+
+      <div class="margin-bottom">
       </div>
 
     </section>

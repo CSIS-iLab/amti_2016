@@ -29,119 +29,25 @@
  	submit_button();
  	echo '</form>';
  }
- add_action( 'admin_init', 'transparency_admin_init_section_footer' );
- /**
-  * Creates the "Footer" settings section.
-  */
- function transparency_admin_init_section_footer() {
- 	add_settings_section(
- 		'transparency_settings_section_footer',
- 		'Footer',
- 		'transparency_display_section_footer_message',
- 		'transparency-options-page'
- 	);
- 	add_settings_field(
- 		'transparency_description',
- 		'Description',
- 		'transparency_textarea_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_footer',
- 		array( 'transparency_description' )
- 	);
- 	add_settings_field(
- 		'transparency_newsletter_desc',
- 		'Newsletter Description',
- 		'transparency_textarea_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_footer',
- 		array( 'transparency_newsletter_desc' )
- 	);
- 	add_settings_field(
- 		'transparency_newsletter_url',
- 		'Newsletter URL',
- 		'transparency_text_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_footer',
- 		array( 'transparency_newsletter_url' )
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_description',
- 		'wp_filter_post_kses'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_newsletter_desc',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_newsletter_url',
- 		'esc_url'
- 	);
- }
- /**
-  * Footer section description.
-  */
- function transparency_display_section_footer_message() {
- 	echo 'Information visible in the site\'s footer.';
- }
- add_action( 'admin_init', 'transparency_admin_init_section_contact' );
- /**
-  * Creates the "Contact" settings section.
-  */
- function transparency_admin_init_section_contact() {
- 	add_settings_section(
- 		'transparency_settings_section_contact',
- 		'Contact Information',
- 		'transparency_display_section_contact_message',
- 		'transparency-options-page'
- 	);
- 	add_settings_field(
- 		'transparency_email',
- 		'Email',
- 		'transparency_text_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_contact',
- 		array( ' transparency_email' )
- 	);
- 	add_settings_field(
- 		'transparency_twitter',
- 		'Twitter',
- 		'transparency_text_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_contact',
- 		array( ' transparency_twitter' )
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_email',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_twitter',
- 		'sanitize_text_field'
- 	);
- }
- /**
-  * Contact section description.
-  */
- function transparency_display_section_contact_message() {
- 	echo 'The contact information for the site, email and social media accounts.';
- }
+
  add_action( 'admin_init', 'transparency_admin_init_section_homepage' );
  /**
   * Creates the "Homepage" settings section.
   */
  function transparency_admin_init_section_homepage() {
- 	$post_types = array( 'post', 'events', 'data' );
+ 	$post_types = array( 'post', 'features', 'island-tracker' );
+
  	$post_selection = array();
+
+
  	foreach( $post_types as $type ) {
  		$post_selection[$type] = get_posts(
  	        array(
  	            'post_type'  => $type,
- 	            'numberposts' => -1
+ 	            'numberposts' => -1,
+              'suppress_filters'=>0,
+              'orderby'=>'date',
+              'order'=>'DESC'
  	        )
  	    );
  	}
@@ -151,148 +57,84 @@
  		'transparency_display_section_homepage_message',
  		'transparency-options-page'
  	);
+
+
+  /**
+   * Featured Post.
+   */
+
  	add_settings_field(
- 		'transparency_homepage_featured_post_1',
- 		'Featured Post #1',
+ 		'transparency_homepage_featured_post',
+ 		'Featured Post',
  		'transparency_posts_callback',
  		'transparency-options-page',
  		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_featured_post_1', $post_selection['post'] )
+ 		array( 'transparency_homepage_featured_post', $post_selection['features'] )
  	);
+
+
+
+    /**
+     * Recent Posts.
+     */
+
+
  	add_settings_field(
- 		'transparency_homepage_featured_post_2',
- 		'Featured Post #2',
- 		'transparency_posts_callback',
+ 		'transparency_homepage_recent_content_1',
+ 		'Recent Content #1 (optional)',
+ 		'transparency_posts_features_callback',
  		'transparency-options-page',
  		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_featured_post_2', $post_selection['post'] )
+ 		array( 'transparency_homepage_recent_content_1', $post_selection['post'],$post_selection['features'] )
  	);
  	add_settings_field(
- 		'transparency_homepage_featured_post_3',
- 		'Featured Post #3',
- 		'transparency_posts_callback',
+ 		'transparency_homepage_recent_content_2',
+    'Recent Content #2 (optional)',
+ 		'transparency_posts_features_callback',
  		'transparency-options-page',
  		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_featured_post_3', $post_selection['post'] )
+ 		array( 'transparency_homepage_recent_content_2', $post_selection['post'],$post_selection['features'] )
  	);
  	add_settings_field(
- 		'transparency_homepage_featured_event',
- 		'Featured Event',
- 		'transparency_posts_callback',
+ 		'transparency_homepage_recent_content_3',
+    'Recent Content #3 (optional)',
+ 		'transparency_posts_features_callback',
  		'transparency-options-page',
  		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_featured_event', $post_selection['events'] )
+ 		array( 'transparency_homepage_recent_content_3', $post_selection['post'],$post_selection['features'] )
  	);
- 	add_settings_field(
- 		'transparency_homepage_featured_data_1',
- 		'Featured Data #1',
- 		'transparency_posts_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_featured_data_1', $post_selection['data'] )
- 	);
- 	add_settings_field(
- 		'transparency_homepage_featured_data_2',
- 		'Featured Data #2',
- 		'transparency_posts_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_featured_data_2', $post_selection['data'] )
- 	);
- 	add_settings_field(
- 		'transparency_homepage_transparency101_desc',
- 		'Transparency101 Description',
- 		'transparency_textarea_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_transparency101_desc' )
- 	);
- 	add_settings_field(
- 		'transparency_homepage_data_desc',
- 		'Data Repo Desc',
- 		'transparency_textarea_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_homepage',
- 		array( 'transparency_homepage_data_desc' )
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_featured_post_1',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_featured_post_2',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_featured_post_3',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_featured_event',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_featured_data_1',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_featured_data_2',
- 		'sanitize_text_field'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_transparency101_desc',
- 		'wp_filter_post_kses'
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_homepage_data_desc',
- 		'wp_filter_post_kses'
- 	);
+
+
+    register_setting(
+  		'transparency_settings',
+  		'transparency_homepage_featured_post',
+  		'sanitize_text_field'
+  	);
+
+
+    register_setting(
+		'transparency_settings',
+		'transparency_homepage_recent_content_1',
+		'sanitize_text_field'
+	);
+
+  register_setting(
+		'transparency_settings',
+		'transparency_homepage_recent_content_2',
+		'sanitize_text_field'
+	);
+
+  register_setting(
+		'transparency_settings',
+		'transparency_homepage_recent_content_3',
+		'sanitize_text_field'
+	);
+
  }
- /**
-  * Contact section description.
-  */
  function transparency_display_section_homepage_message() {
  	echo 'The featured posts shown on the home page.';
  }
- add_action( 'admin_init', 'transparency_admin_init_section_archives' );
- /**
-  * Creates the "Footer" settings section.
-  */
- function transparency_admin_init_section_archives() {
- 	add_settings_section(
- 		'transparency_settings_section_archives',
- 		'Archives',
- 		'transparency_display_section_archives_message',
- 		'transparency-options-page'
- 	);
- 	add_settings_field(
- 		'transparency_archives_transparency101_filter_limit',
- 		'Transparency101 Filter Tags Limit',
- 		'transparency_text_callback',
- 		'transparency-options-page',
- 		'transparency_settings_section_archives',
- 		array( 'transparency_archives_transparency101_filter_limit' )
- 	);
- 	register_setting(
- 		'transparency_settings',
- 		'transparency_archives_transparency101_filter_limit',
- 		'sanitize_text_field'
- 	);
- }
- /**
-  * Archives section description.
-  */
- function transparency_display_section_archives_message() {
- 	echo 'Information visible in the site\'s archives.';
- }
+
  /**
   * Renders the text input fields.
   *
@@ -317,9 +159,15 @@
   * @param  Array $args Array of arguments passed by callback function.
   */
  function transparency_posts_callback( $args ) {
+
+
+
+
  	$option = get_option( $args[0] );
  	echo '<select name="' . esc_attr( $args[0] ) . '" id="' . esc_attr( $args[0] ) . '" name="' . esc_attr( $args[0] ) . '">';
  	foreach( $args[1] as $post ) {
+
+
  		if ( $post->ID == esc_attr( $option ) ) {
  			$selected = "selected";
  		} else {
@@ -329,3 +177,32 @@
  	}
  	echo '</select>';
  }
+
+
+
+  function transparency_posts_features_callback( $args ) {
+
+     $post_list = array_merge($args[1],$args[2]);
+
+
+$sorted_posts = sort_posts( $post_list, 'post_date', $order = 'DESC', $unique = true );
+  	$option = get_option( $args[0] );
+  	echo '<select name="' . esc_attr( $args[0] ) . '" id="' . esc_attr( $args[0] ) . '" name="' . esc_attr( $args[0] ) . '">';
+    echo '<option value> -- </option>';
+
+  	foreach( $sorted_posts as $post ) {
+
+
+  		if ( $post->ID == esc_attr( $option ) ) {
+  			$selected = "selected";
+  		} else {
+  			$selected = '';
+  		}
+      if ($post->post_type== 'post'){
+  		    echo '<option value="' . esc_attr( $post->ID ) . '" ' . $selected . '>' . esc_attr( $post->post_title ) . ': ANALYSIS</option>';
+    	} else{
+        echo '<option value="' . esc_attr( $post->ID ) . '" ' . $selected . '>' . esc_attr( $post->post_title ) . ': FEATURE</option>';
+      }
+    }
+  	echo '</select>';
+  }

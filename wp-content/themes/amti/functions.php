@@ -7,6 +7,9 @@
  * @package Transparency
  */
 
+
+
+
 if ( ! function_exists( 'transparency_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -1023,6 +1026,44 @@ function clickgallery( $atts ) {
 
 }
 add_shortcode( 'clickgallery', 'clickgallery' );
+
+
+
+function sort_posts( $posts, $orderby, $order = 'ASC', $unique = true ) {
+	if ( ! is_array( $posts ) ) {
+		return false;
+	}
+
+	usort( $posts, array( new Sort_Posts( $orderby, $order ), 'sort' ) );
+
+	// use post ids as the array keys
+	if ( $unique && count( $posts ) ) {
+		$posts = array_combine( wp_list_pluck( $posts, 'ID' ), $posts );
+	}
+
+	return $posts;
+}
+class Sort_Posts {
+	var $order, $orderby;
+
+	function __construct( $orderby, $order ) {
+		$this->orderby = $orderby;
+		$this->order = ( 'desc' == strtolower( $order ) ) ? 'DESC' : 'ASC';
+	}
+
+	function sort( $a, $b ) {
+		if ( $a->{$this->orderby} == $b->{$this->orderby} ) {
+			return 0;
+		}
+
+		if ( $a->{$this->orderby} < $b->{$this->orderby} ) {
+			return ( 'ASC' == $this->order ) ? -1 : 1;
+		} else {
+			return ( 'ASC' == $this->order ) ? 1 : -1;
+		}
+	}
+}
+
 
 
 
