@@ -1,6 +1,7 @@
 /*==============================
 =            Footer            =
 ==============================*/
+
 %footer-title {
   @extend %h4-narrow;
   text-transform: uppercase;
@@ -23,151 +24,157 @@
       line-height: 1.39;
     }
   }
-
   .footer {
-    display: grid;
-    width: unset;
-    padding: 40px;
     @include breakpoint("medium") {
-      grid-template-columns: 1fr 2fr 4fr;
-      grid-gap: 0 100px;
+      display: grid;
+      grid-template-columns:
+        minmax(50px, 1fr) minmax(75%, 1440px)
+        minmax(50px, 1fr);
     }
-
-    hr {
-      display: none;
+    .footer-container {
+      padding: 40px 0;
       @include breakpoint("medium") {
-        display: block;
-        margin-bottom: 36px;
-        grid-area: 2/1/3/4;
-
-        height: 2px;
-        opacity: 0.37;
-        background-image: -webkit-linear-gradient(
-          left,
-          transparent,
-          $dark-grey,
-          transparent
-        );
-        background-image: -moz-linear-gradient(
-          left,
-          transparent,
-          $dark-grey,
-          transparent
-        );
-        background-image: -ms-linear-gradient(
-          left,
-          transparent,
-          $dark-grey,
-          transparent
-        );
-        background-image: -o-linear-gradient(
-          left,
-          transparent,
-          $dark-grey,
-          transparent
-        );
-      }
-    }
-
-    .brand {
-      @include breakpoint("medium") {
-        grid-area: 1/1/2/4;
+        grid-column: 2/3;
         display: grid;
-
-        align-items: end;
-        grid-template-columns: max-content 1fr;
+        grid-template-columns: 1fr 2fr 4fr;
+        grid-gap: 0 100px;
       }
 
-      .section-title {
-        @extend %footer-title;
-      }
-
-      .image img {
-        text-align: left;
-        height: 40px;
-        opacity: 0.76;
-        @include breakpoint("medium") {
-          height: 60px;
-        }
-      }
-
-      .tagline {
+      hr {
         display: none;
-        @extend %h2-narrow;
         @include breakpoint("medium") {
           display: block;
-          text-align: right;
-          font-size: 32px;
+          margin-bottom: 36px;
+          grid-area: 2/1/3/4;
+
+          height: 2px;
+          opacity: 0.37;
+          background-image: -webkit-linear-gradient(
+            left,
+            transparent,
+            $dark-grey,
+            transparent
+          );
+          background-image: -moz-linear-gradient(
+            left,
+            transparent,
+            $dark-grey,
+            transparent
+          );
+          background-image: -ms-linear-gradient(
+            left,
+            transparent,
+            $dark-grey,
+            transparent
+          );
+          background-image: -o-linear-gradient(
+            left,
+            transparent,
+            $dark-grey,
+            transparent
+          );
         }
       }
-    }
 
-    .connect {
-      @include breakpoint("medium") {
-        grid-area: 3/2/4/3;
-      }
+      .brand {
+        @include breakpoint("medium") {
+          grid-area: 1/1/2/4;
+          display: grid;
 
-      .social {
+          align-items: end;
+          grid-template-columns: max-content 1fr;
+        }
+
         .section-title {
           @extend %footer-title;
+        }
+
+        .image img {
+          text-align: left;
+          height: 40px;
+          opacity: 0.76;
+          @include breakpoint("medium") {
+            height: 60px;
+          }
+        }
+
+        .tagline {
           display: none;
+          @extend %h2-narrow;
           @include breakpoint("medium") {
             display: block;
-          }
-        }
-        i {
-          font-size: 36px;
-          margin-right: 9px;
-
-          &:hover {
-            color: $white;
+            text-align: right;
+            font-size: 32px;
           }
         }
       }
 
-      .contact {
+      .connect {
+        @include breakpoint("medium") {
+          grid-area: 3/2/4/3;
+        }
+
+        .social {
+          .section-title {
+            @extend %footer-title;
+            display: none;
+            @include breakpoint("medium") {
+              display: block;
+            }
+          }
+          i {
+            font-size: 36px;
+            margin-right: 9px;
+
+            &:hover {
+              color: $white;
+            }
+          }
+        }
+
+        .contact {
+          .section-title {
+            @extend %footer-title;
+          }
+          .email {
+            margin-bottom: 12px;
+
+            a:hover {
+              color: $white;
+            }
+          }
+        }
+      }
+
+      .subscribe {
+        @include breakpoint("medium") {
+          grid-area: 3/3/4/4;
+        }
         .section-title {
           @extend %footer-title;
         }
-        .email {
-          margin-bottom: 12px;
 
-          a:hover {
-            color: $white;
-          }
+        button {
+          @extend %h6-narrow-bold;
+          border-width: 3px;
         }
       }
-    }
 
-    .subscribe {
-      @include breakpoint("medium") {
-        grid-area: 3/3/4/4;
-      }
-      .section-title {
-        @extend %footer-title;
-      }
-
-      button {
-        @extend %h6-narrow-bold;
-        border-width: 3px;
-      }
-    }
-
-    .footer-menu {
-      display: none;
-      @include breakpoint("medium") {
-        line-height: 1.83;
-        display: block;
-        grid-area: 3/1/4/2;
-      }
-      ul {
-        list-style: none;
-        margin: 0;
-        padding-left: 0;
+      .footer-menu {
+        display: none;
+        @include breakpoint("medium") {
+          line-height: 1.83;
+          display: block;
+          grid-area: 3/1/4/2;
+        }
+        ul {
+          list-style: none;
+          margin: 0;
+          padding-left: 0;
+        }
       }
     }
   }
-
   .site-info {
     background-color: $darkest-blue;
     font-size: 14px;

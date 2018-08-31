@@ -57,15 +57,26 @@
      </nav>
 
  	<div id="content" class="site-content">
-
     <section class="primary">
     <?php
 
-    $id = get_option( 'transparency_homepage_featured_post' );
-    $post = get_post($id);
-  setup_postdata($post);
+      if (get_option('transparency_homepage_featured_post')) {
+          $id = get_option('transparency_homepage_featured_post');
+      } else {
+          $latest_post = wp_get_recent_posts(array(
+            'post_status' => 'publish',
+            'numberposts' => 1,
+            'post_type' => 'features',
+            'suppress_filters'=>0,
+          ), OBJECT);
 
-      echo '<img class="feature-image"  src="' . wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), $size = 'large')[0] . '">
+          $id = $latest_post[0]->ID;
+      }
+
+    $post = get_post($id);
+    setup_postdata($post);
+
+      echo '<img class="feature-image"  src="' . wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size = 'large')[0] . '">
 
         <div class="feature-heading">
 
@@ -88,9 +99,9 @@
 
 
 
-          $recent_post1 = get_option( 'transparency_homepage_recent_content_1' );
-          $recent_post2 = get_option( 'transparency_homepage_recent_content_2' );
-          $recent_post3 = get_option( 'transparency_homepage_recent_content_3' );
+          $recent_post1 = get_option('transparency_homepage_recent_content_1');
+          $recent_post2 = get_option('transparency_homepage_recent_content_2');
+          $recent_post3 = get_option('transparency_homepage_recent_content_3');
 
           $featuredPostsArgs = array(
             'post__in' => array(
@@ -131,13 +142,13 @@
             $latest = get_posts($latestPostsArgs);
 
 
-            $all_posts =  sort_posts( array_merge($latest,$featured), 'post_date', $order = 'DESC', $unique = true );
+            $all_posts =  sort_posts(array_merge($latest, $featured), 'post_date', $order = 'DESC', $unique = true);
 
 
-                  foreach($all_posts as $post) : setup_postdata($post);
+                  foreach ($all_posts as $post) : setup_postdata($post);
 
                     echo '<div class="feature">
-                      <div class="date"><span>' . get_the_date( 'M' ) . '</span> <span>' . get_the_date( 'j' ) . '</span></div>
+                      <div class="date"><span>' . get_the_date('M') . '</span> <span>' . get_the_date('j') . '</span></div>
                       <div class="title-author">
                         <a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>
                         <div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>
@@ -169,7 +180,6 @@
 
 
     <section class="secondary">
-
 
           <img class="island-slideshow-image"  src="/wp-content/themes/amti/img/mischief.png">
 
@@ -236,10 +246,18 @@
             <div  class="seeMore"><a href="">View Maps</a></div>
           </div>
         </div>
+        <?php
+
+          if (get_option('transparency_homepage_featured_map')) {
+              $id = get_option('transparency_homepage_featured_map');
+          } else {
+              $id = get_option('transparency_homepage_featured_map');
+          }
+
+        echo '<img class="island-maps feature-map"  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
 
 
-        <img class="island-maps feature-map"  src="/wp-content/themes/amti/img/map-territories.png">
-
+        ?>
       <div class="margin-left">
       </div>
 
@@ -251,6 +269,9 @@
         Featured In
         </div>
         <div class="line"></div>
+        <?php
+        print_r(get_option('transparency_homepage_featured_in'));
+         ?>
         <div class="logos">
           <img class="logo" src="/wp-content/themes/amti/img/featured_in/guardian.svg">
           <img class="logo" src="/wp-content/themes/amti/img/featured_in/nyt.svg">
@@ -260,6 +281,7 @@
           <img class="logo" src="/wp-content/themes/amti/img/featured_in/wapo.svg">
         </div>
       </div>
+      <div class="background"></div>
 
     </section>
 

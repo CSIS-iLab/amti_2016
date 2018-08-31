@@ -31,15 +31,15 @@
 // Breakpoints
 @mixin breakpoint($break) {
   @if $break == xx-large {
-    @media screen and (min-width: 2560px) {
+    @media screen and (min-width: 2500px) {
       @content;
     }
   } @else if $break == x-large {
-    @media screen and (min-width: 1600px) {
+    @media screen and (min-width: 1440px) {
       @content;
     }
   } @else if $break == large {
-    @media screen and (min-width: 1280px) {
+    @media screen and (min-width: 1136px) {
       @content;
     }
   } @else if $break == medium {

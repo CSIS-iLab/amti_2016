@@ -9,7 +9,6 @@
 
 
 
-
 if ( ! function_exists( 'transparency_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -790,7 +789,7 @@ function new_nav_menu_items($items, $args) {
                 	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $native.'</a></li>';
                 }
 
-                $count++;
+                // $count++;
             }
 
             // Combine List Items into dropdown if we have more than one language available
@@ -1026,6 +1025,8 @@ function clickgallery( $atts ) {
 
 }
 add_shortcode( 'clickgallery', 'clickgallery' );
+
+
 
 
 

@@ -13,7 +13,8 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer" role="contentinfo">
-			<div class="container footer">
+			<div class="footer">
+			<div class="footer-container ">
 				<div class="brand">
 					<span class="image">
 						<img src="/wp-content/uploads/2014/11/csis.png" >
@@ -69,6 +70,7 @@
 				</div>
 
 
+			</div>
 			</div>
 
 
