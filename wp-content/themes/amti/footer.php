@@ -75,8 +75,10 @@
 
 
 		<div class="site-info">
+			<div class="site-info-container">
 				 <?php echo date('Y') . __(' The Asia Maritime Transparency Initiative and The Center for Strategic and International Studies', 'transparency'); ?> | <a href="https://www.csis.org/privacy-policy" target="_blank" rel="nofollow">Privacy Policy</a>
 		</div><!-- .site-info -->
+	</div>
 	</footer><!-- #colophon -->
 </div><!-- #page -->
 

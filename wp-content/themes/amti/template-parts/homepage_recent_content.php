@@ -1,0 +1,77 @@
+<?php
+/**
+ * Template part for displaying recent content on homepage.
+ *
+ * @link https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package Transparency
+ */
+
+
+echo '<div class="section-title">Recent Content</div>
+<div class="feature-list">';
+  $recent_post1 = get_option('transparency_homepage_recent_content_1');
+  $recent_post2 = get_option('transparency_homepage_recent_content_2');
+  $recent_post3 = get_option('transparency_homepage_recent_content_3');
+
+  $featuredPostsArgs = array(
+    'post__in' => array(
+      $recent_post1,
+      $recent_post2,
+      $recent_post3,
+
+      ),
+      'orderby'=>'date',
+      'order'=>'DESC',
+      'post_type'=>'any'
+  );
+
+
+  $featured = get_posts($featuredPostsArgs);
+
+  $offset = 3  - count($featured);
+
+  $latest_post_ids = array(
+    'post_status' => 'publish',
+    'numberposts' => 3
+  );
+
+  $latest_posts = wp_get_recent_posts($latest_post_ids, OBJECT);
+
+    $latestPostsArgs = array(
+      'post__in' => array(
+       $latest_posts[0]->ID,
+       $latest_posts[1]->ID,
+       $latest_posts[2]->ID
+
+        ),
+        'orderby'=>'date',
+        'order'=>'DESC',
+      'numberposts' => $offset
+    );
+
+    $latest = get_posts($latestPostsArgs);
+
+
+    $all_posts =  sort_posts(array_merge($latest, $featured), 'post_date', $order = 'DESC', $unique = true);
+
+
+          foreach ($all_posts as $post) : setup_postdata($post);
+
+            echo '<div class="feature">
+              <div class="date"><span>' . get_the_date('M') . '</span> <span>' . get_the_date('j') . '</span></div>
+              <div class="title-author">
+                <a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>
+                <div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>
+              </div>
+              </div>';
+
+
+          endforeach;
+        wp_reset_postdata();
+echo '</div>
+
+
+<a class="button" href="/analysis">
+<button>See More</button>
+</a>'?>

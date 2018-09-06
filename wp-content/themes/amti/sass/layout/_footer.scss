@@ -26,15 +26,18 @@
   }
   .footer {
     @include breakpoint("medium") {
-      display: grid;
-      grid-template-columns:
-        minmax(50px, 1fr) minmax(75%, 1440px)
-        minmax(50px, 1fr);
+      // display: grid;
+      // grid-template-columns:
+      // minmax(50px, 1fr) minmax(60%, 1440px)
+      // minmax(50px, 1fr);
     }
     .footer-container {
-      padding: 40px 0;
+      padding: 40px 20px;
       @include breakpoint("medium") {
-        grid-column: 2/3;
+        // grid-column: 2/3;
+
+        max-width: 1440px;
+        margin: auto;
         display: grid;
         grid-template-columns: 1fr 2fr 4fr;
         grid-gap: 0 100px;
@@ -180,9 +183,13 @@
     font-size: 14px;
     font-family: $font__PTSN;
     padding: 16px 20px;
-    height: 70px;
+    min-height: 70px;
     @include breakpoint("medium") {
-      padding: 24px 48px;
+      padding: 24px 20px;
+    }
+    .site-info-container {
+      max-width: 1440px;
+      margin: auto;
     }
   }
 

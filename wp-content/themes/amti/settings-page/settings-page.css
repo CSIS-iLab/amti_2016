@@ -1,0 +1,47 @@
+#transparency_homepage_featured_map,
+#transparency_homepage_featured_satellites {
+  height: 400px;
+}
+
+#transparency_homepage_featured_in {
+  height: 200px;
+}
+
+select[id^="transparency_homepage_"] {
+  max-width: 100%;
+  white-space: pre-wrap;
+}
+
+option:checked {
+  outline: 6px solid OliveDrab;
+  outline-offset: -6px;
+  color: white;
+}
+
+select[id^="transparency_homepage_"] option {
+  height: 33%;
+}
+
+option {
+  background-size: contain;
+  background-position: center 24px;
+  background-repeat: no-repeat;
+  width: calc(25% - 18px);
+  margin: 6px;
+  padding-top: 6px;
+  display: inline-block;
+  color: MediumPurple;
+  font-size: 0.75vw;
+  text-align: center;
+}
+
+@media screen and (max-width: 782px) {
+  #wpbody .form-table td #transparency_homepage_featured_map,
+  #transparency_homepage_featured_satellites {
+    height: 400px;
+  }
+
+  #wpbody .form-table td #transparency_homepage_featured_in {
+    height: 200px;
+  }
+}

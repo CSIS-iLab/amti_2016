@@ -19,13 +19,29 @@
         'transparency_display_options_page'
     );
  }
- /**
+
+/**
+* JS AND CSS
+*/
+
+
+function options_enqueue_scripts()
+{
+    wp_enqueue_script('settings-page', get_template_directory_uri() . '/settings-page/settings-page.js');
+    wp_enqueue_style('settings-page', get_template_directory_uri() . '/settings-page/settings-page.css');
+}
+add_action('admin_menu', 'options_enqueue_scripts');
+
+
+
+
+/**
   * Displays the option page and creates the form.
   */
  function transparency_display_options_page()
  {
      echo '<h1>Transparency Settings</h1>';
-     echo '<form method="post" action="options.php">';
+     echo '<form method="post" id="transparency-settings" action="options.php">';
      do_settings_sections('transparency-options-page');
      settings_fields('transparency_settings');
      submit_button();
@@ -39,6 +55,7 @@
  function transparency_admin_init_section_homepage()
  {
      $post_types = array( 'post', 'features', 'island-tracker', 'attachment' );
+     $image_types = array( 'A Map Image', 'A Satellite Image', 'A Logo Image' );
 
      $post_selection = array();
      $image_selection = array();
@@ -47,6 +64,7 @@
      foreach ($post_types as $type) {
          $post_selection[$type] = get_posts(
             array(
+            'post_status' => 'publish',
               'post_type'  => $type,
               'numberposts' => -1,
               'suppress_filters'=>0,
@@ -54,15 +72,17 @@
               'order'=>'DESC'
             )
         );
+     }
 
+     foreach ($image_types as $type) {
          $image_selection[$type] = get_posts(
             array(
-              'post_type'  => $type,
+            'post_status' => 'publish',
+              'post_type'  => 'attachment',
               'numberposts' => -1,
-              'suppress_filters'=>0,
               'orderby'=>'date',
               'order'=>'DESC',
-              'category_name'=>'A Map Image'
+              'category_name'=> $type
             )
         );
      }
@@ -104,6 +124,7 @@
         'transparency_settings_section_homepage',
         array( 'transparency_homepage_recent_content_1', $post_selection['post'],$post_selection['features'] )
     );
+
      add_settings_field(
         'transparency_homepage_recent_content_2',
     'Recent Content #2 (optional)',
@@ -114,7 +135,7 @@
     );
      add_settings_field(
         'transparency_homepage_recent_content_3',
-    'Recent Content #3 (optional)',
+        'Recent Content #3 (optional)',
         'transparency_posts_features_callback',
         'transparency-options-page',
         'transparency_settings_section_homepage',
@@ -127,7 +148,16 @@
         'transparency_posts_featured_map_callback',
         'transparency-options-page',
         'transparency_settings_section_homepage',
-        array( 'transparency_homepage_featured_map', $image_selection['attachment'])
+        array( 'transparency_homepage_featured_map', $image_selection['A Map Image'] )
+    );
+
+     add_settings_field(
+        'transparency_homepage_featured_satellites',
+        'Featured Map of the Asia Pacific',
+        'transparency_posts_featured_satellites_callback',
+        'transparency-options-page',
+        'transparency_settings_section_homepage',
+        array( 'transparency_homepage_featured_satellites', $image_selection['A Satellite Image'] )
     );
 
      add_settings_field(
@@ -136,7 +166,7 @@
         'transparency_posts_featured_in_callback',
         'transparency-options-page',
         'transparency_settings_section_homepage',
-        array( 'transparency_homepage_featured_in')
+        array( 'transparency_homepage_featured_in', $image_selection['A Logo Image'])
     );
 
      register_setting(
@@ -172,8 +202,12 @@
 
      register_setting(
         'transparency_settings',
-        'transparency_homepage_featured_in',
-        'sanitize_text_field'
+        'transparency_homepage_featured_satellites'
+     );
+
+     register_setting(
+        'transparency_settings',
+        'transparency_homepage_featured_in'
     );
  }
  function transparency_display_section_homepage_message()
@@ -221,7 +255,7 @@
 
 
      $option = get_option($args[0]);
-     echo '<select name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+     echo '<select name="' . esc_attr($args[0]) . ' name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
      echo '<option value> -- </option>';
      echo '<option value="' . esc_attr($latest_post->ID) . '" ' . 'selected >' . esc_attr($latest_post->post_title) . '</option>';
 
@@ -247,10 +281,9 @@
   {
       $post_list = array_merge($args[1], $args[2]);
 
-
       $sorted_posts = sort_posts($post_list, 'post_date', $order = 'DESC', $unique = true);
       $option = get_option($args[0]);
-      echo '<select name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+      echo '<select name="' . esc_attr($args[0]) . '"  name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
       echo '<option value> -- </option>';
 
       foreach ($sorted_posts as $post) {
@@ -269,15 +302,10 @@
   }
 
 
-
-
-
-
-
   function transparency_posts_featured_map_callback($args)
   {
-      echo '<select  multiple  style="height: 50vh;width: 100%;" name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
-      echo '<option value> -- </option>';
+      $option = get_option($args[0]);
+      echo '<select size="9" name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
 
       foreach ($args[1] as $post) {
           if ($post->ID == esc_attr($option)) {
@@ -285,36 +313,44 @@
           } else {
               $selected = '';
           }
+
           $path = parse_url($post->guid)['path'];
 
-          echo '<option style="background-image:url(\'' . $path . '\'); background-size:contain; background-repeat:no-repeat; width: 200px; height: 200px; display: inline;float:left; margin: 0 3px; box-sizing: content-box;" value="' . esc_attr($post->ID) . '" ' . $selected . '>&nbsp;</option>';
+          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '><span>' . esc_attr($post->post_title) . '</span></option>';
       }
       echo '</select>';
   }
 
 
+  function transparency_posts_featured_satellites_callback($args)
+  {
+      $option = get_option($args[0]);
+      echo '<select multiple name="' . $args[0] . '[key][]" id="' . esc_attr($args[0]) . '">';
+
+      foreach ($args[1] as $post) {
+          $selected = in_array($post->ID, $option['key']) ? ' selected="selected" ' : '';
+
+          $path = parse_url($post->guid)['path'];
+
+          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '><span>' . esc_attr($post->post_title) . '</span></option>';
+      }
+      echo '</select>';
+  }
+
+
+
+
   function transparency_posts_featured_in_callback($args)
   {
-      echo '<input type="checkbox" name="' . esc_attr($args[0]) . '" value="Guardian">Guardian<br>';
-      echo '<input type="checkbox" name="' . esc_attr($args[0]) . '" value="NY Times">NY Times<br>';
-      echo '<input type="checkbox" name="' . esc_attr($args[0]) . '" value="Reuters">Reuters<br>';
-      echo '<input type="checkbox" name="' . esc_attr($args[0]) . '" value="Sydney Morning Herald">Sydney Morning Herald<br>';
-      echo '<input type="checkbox" name="' . esc_attr($args[0]) . '" value="Wall Street Journal">Wall Street Journal<br>';
-      echo '<input type="checkbox" name="' . esc_attr($args[0]) . ' checked" value="Washington Post">Washington Post<br>';
+      $option = get_option($args[0]);
+      echo '<select multiple class="logo" name="' . $args[0] . '[key][]" id="' . esc_attr($args[0]) . '">';
 
-      // if(isset($_POST['submit'])){
-      // if(!empty($_POST[$args[0]])) {
-      // // Counting number of checked checkboxes.
-      // $checked_count = count($_POST[$args[0]]);
-      // echo "You have selected following ".$checked_count." option(s): <br/>";
-      // // Loop to store and display values of individual checked checkbox.
-      // foreach($_POST[$args[0]] as $selected) {
-      // echo "<p>".$selected ."</p>";
-      // }
-      // echo "<br/><b>Note :</b> <span>Similarily, You Can Also Perform CRUD Operations using These Selected Values.</span>";
-      // }
-      // else{
-      // echo "<b>Please Select Atleast One Option.</b>";
-      // }
-      // }
+      foreach ($args[1] as $post) {
+          $selected = in_array($post->ID, $option['key']) ? ' selected="selected" ' : '';
+
+          $path = parse_url($post->guid)['path'];
+
+          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '><span>' . esc_attr($post->post_title) . '</span></option>';
+      }
+      echo '</select>';
   }

@@ -7,20 +7,20 @@
   background-repeat: no-repeat;
   border-color: transparent;
   @include transition(all 0.3s ease-in-out);
-  max-height: 50px;
+  min-height: 50px;
 
   @include breakpoint("medium") {
     background-image: url(/wp-content/themes/amti/img/header-background-imagesDesktop.png);
     max-height: unset;
-    display: grid;
-    grid-template-columns: minmax(50px, 1fr) minmax(75%, 1440px) minmax(
-        50px,
-        1fr
-      );
+    // display: grid;
+    // grid-template-columns: minmax(50px, 1fr) minmax(60%, 1440px) minmax(
+    //     50px,
+    //     1fr
+    //   );
   }
 
   .navbar-brand {
-    padding: 16px 0 0 13px;
+    padding: 16px 0 16px 13px;
 
     @include breakpoint("medium") {
       padding-top: 12px;
@@ -31,20 +31,21 @@
     padding: 12px 13px 0 0;
   }
   .container {
-    background-color: $dark-blue;
-    background-image: url(/wp-content/themes/amti/img/header-background-imagesMobile.png);
-    background-repeat: no-repeat;
-
+    background-image: linear-gradient(
+      to bottom,
+      transparent 50px,
+      $dark-blue 50px
+    );
     margin: 0;
     padding: 0;
     @include breakpoint("medium") {
-      background-color: $dark-blue;
-      background-image: url(/wp-content/themes/amti/img/header-background-imagesDesktop.png);
-      background-repeat: no-repeat;
+      background-image: unset;
       padding: unset;
-      margin: unset;
-      grid-column: 2 / 3;
-      width: 100%;
+      // margin: unset;
+      // grid-column: 2 / 3;
+      width: unset;
+      max-width: 1440px;
+      margin: auto;
     }
   }
 
@@ -131,7 +132,7 @@ body.logged-in .navbar-fixed-top {
 .navbar-brand {
   float: left;
   font-size: 18px;
-  height: 50px;
+  min-height: 50px;
   line-height: 20px;
   padding: 12px 0 0;
 
