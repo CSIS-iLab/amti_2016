@@ -128,6 +128,8 @@ function transparency_scripts() {
 
 	wp_enqueue_script( 'transparency-topbutton', get_template_directory_uri() . '/js/topbutton.js', array(), '20151215', true );
 
+	wp_enqueue_script( 'transparency-slider', get_template_directory_uri() . '/js/slider.js', array(), '20151215', true );
+
 	// Font Awesome
 	wp_enqueue_script('transparency-font-awesome', 'https://use.fontawesome.com/08b1a76eab.js');
 

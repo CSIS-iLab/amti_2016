@@ -77,7 +77,6 @@ add_action('admin_menu', 'options_enqueue_scripts');
      foreach ($image_types as $type) {
          $image_selection[$type] = get_posts(
             array(
-            'post_status' => 'publish',
               'post_type'  => 'attachment',
               'numberposts' => -1,
               'orderby'=>'date',
@@ -153,7 +152,7 @@ add_action('admin_menu', 'options_enqueue_scripts');
 
      add_settings_field(
         'transparency_homepage_featured_satellites',
-        'Featured Map of the Asia Pacific',
+        'Island Tracker Images',
         'transparency_posts_featured_satellites_callback',
         'transparency-options-page',
         'transparency_settings_section_homepage',
@@ -316,7 +315,7 @@ add_action('admin_menu', 'options_enqueue_scripts');
 
           $path = parse_url($post->guid)['path'];
 
-          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '><span>' . esc_attr($post->post_title) . '</span></option>';
+          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . '</option>';
       }
       echo '</select>';
   }
@@ -332,7 +331,7 @@ add_action('admin_menu', 'options_enqueue_scripts');
 
           $path = parse_url($post->guid)['path'];
 
-          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '><span>' . esc_attr($post->post_title) . '</span></option>';
+          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . '</option>';
       }
       echo '</select>';
   }
@@ -350,7 +349,7 @@ add_action('admin_menu', 'options_enqueue_scripts');
 
           $path = parse_url($post->guid)['path'];
 
-          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '><span>' . esc_attr($post->post_title) . '</span></option>';
+          echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . '</option>';
       }
       echo '</select>';
   }

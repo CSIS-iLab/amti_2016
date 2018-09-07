@@ -24,7 +24,7 @@
       <div class="recent-content">
         <!-- BEGIN RECENT CONTENT // -->
           <?php get_template_part('template-parts/homepage_recent_content'); ?>
-          <!-- // END RECENT CONTENT -->
+        <!-- // END RECENT CONTENT -->
       </div>
 
 
@@ -39,18 +39,10 @@
 
     <section class="secondary">
 
-        <img class="island-slideshow-image"  src="/wp-content/themes/amti/img/mischief.png">
-        <div class="island-slideshow-caption">
-          <span class="feature-subtitle">Photo:</span>
-          <span class="feature-caption">Mischief Reef</span>
-        </div>
+      <!-- BEGIN SLIDER // -->
+          <?php get_template_part('template-parts/homepage_slider'); ?>
+      <!-- // END SLIDER-->
 
-        <div class="island-slideshow-slider">
-          <span class="control">•</span>
-          <span class="control active">•</span>
-          <span class="control">•</span>
-          <span class="control">•</span>
-        </div>
 
       <div class="island-tracker">
         <div class="feature-title">
@@ -106,7 +98,6 @@
         $id = get_option('transparency_homepage_featured_map')
         ? $id = get_option('transparency_homepage_featured_map')
         : $id = wp_get_recent_posts(array(
-        'post_status' => 'publish',
           'post_type'  => 'attachment',
           'numberposts' => 1,
           'orderby'=>'date',
