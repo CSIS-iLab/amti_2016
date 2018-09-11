@@ -60,10 +60,13 @@ echo '<div class="section-title">Recent Content</div>
 
             echo '<div class="feature">
               <div class="date"><span>' . get_the_date('M') . '</span> <span>' . get_the_date('j') . '</span></div>
-              <div class="title-author">
-                <a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>
-                <div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>
-              </div>
+              <div class="title-author"><a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
+
+                  if ($post->post_type!=="features") {
+                      echo '<div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>';
+                  }
+
+              echo '</div>
               </div>';
 
 
@@ -74,4 +77,4 @@ echo '</div>
 
 <a class="button" href="/analysis">
 <button>See More</button>
-</a>'?>
+</a>';
