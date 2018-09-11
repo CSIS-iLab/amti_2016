@@ -11,12 +11,7 @@
 
   @include breakpoint("medium") {
     background-image: url(/wp-content/themes/amti/img/header-background-imagesDesktop.png);
-    max-height: unset;
-    // display: grid;
-    // grid-template-columns: minmax(50px, 1fr) minmax(60%, 1440px) minmax(
-    //     50px,
-    //     1fr
-    //   );
+    max-height: none;
   }
 
   .navbar-brand {
@@ -39,18 +34,16 @@
     margin: 0;
     padding: 0;
     @include breakpoint("medium") {
-      background-image: unset;
-      padding: unset;
-      // margin: unset;
-      // grid-column: 2 / 3;
-      width: unset;
+      background-image: none;
+      padding: 0;
+      width: 100%;
       max-width: 1440px;
       margin: auto;
     }
   }
 
   .row {
-    margin: unset;
+    margin: 0;
   }
 
   a {

@@ -29,7 +29,7 @@
       font-size: 18px;
       line-height: 1.39;
     }
-    margin-bottom: unset;
+    margin-bottom: 0;
   }
 
   .feature-image,
@@ -44,20 +44,26 @@
 
   section.primary {
     display: grid;
+    display: -ms-grid;
 
     grid-template-columns: 100%;
+    -ms-grid-columns: 100%;
 
     @include breakpoint("medium") {
       grid-template-columns:
         minmax(50px, 1fr) repeat(3, minmax(15%, 480px))
         minmax(50px, 1fr);
       grid-template-rows: 48px 242px 1fr;
+
+      -ms-grid-columns: minmax(50px, 1fr) minmax(15%, 480px) minmax(15%, 480px)
+        minmax(15%, 480px) minmax(50px, 1fr);
+      -ms-grid-rows: 48px 242px 1fr;
     }
 
     & > *:not(.feature-image) {
       padding: 0 20px;
       @include breakpoint("medium") {
-        padding: unset;
+        padding: 0;
       }
     }
 
@@ -70,12 +76,24 @@
       @include breakpoint("medium") {
         height: 290px;
         grid-area: 1 / 2 / 3 / 4;
+
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 2;
+        -ms-grid-column-span: 2;
       }
     }
     .feature-heading {
       padding: 20px 20px 0 36px;
       @include breakpoint("medium") {
         grid-area: 3 / 2 / 4 / 3;
+
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 2;
+        -ms-grid-column-span: 1;
+
+        -ms-grid-row-align: start;
         padding: 30px 0 0 72px;
       }
       align-self: start;
@@ -119,6 +137,12 @@
       border-bottom: solid 1px $pinkish-grey;
       @include breakpoint("medium") {
         grid-area: 3 / 3 / 4 / 4;
+
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 1;
+
         padding: 60px 45px 60px 30px;
         border: none;
       }
@@ -143,6 +167,11 @@
       @include breakpoint("medium") {
         padding-left: 30px;
         grid-area: 2 / 4 / 4 / 5;
+
+        -ms-grid-row: 2;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 4;
+        -ms-grid-column-span: 1;
       }
 
       .section-title {
@@ -152,8 +181,10 @@
       .feature-list {
         .feature {
           display: grid;
+          display: -ms-grid;
 
           grid-template-columns: 60px 1fr;
+          -ms-grid-columns: 60px 20px 1fr;
           grid-gap: 0 20px;
           margin-bottom: 30px;
           cursor: pointer;
@@ -168,7 +199,13 @@
 
           .date {
             grid-area: 1 / 1 / 2 / 2;
+
+            -ms-grid-row: 1;
+            -ms-grid-row-span: 1;
+            -ms-grid-column: 1;
+            -ms-grid-column-span: 1;
             align-self: start;
+            -ms-grid-row-align: start;
             text-align: center;
             border-radius: 60px;
             padding: 9px;
@@ -177,6 +214,12 @@
             @extend %h6-normal;
             color: $white;
             line-height: 1;
+            @media all and (-ms-high-contrast: none),
+              (-ms-high-contrast: active) {
+              display: block;
+              max-height: 60px;
+            }
+
             span:nth-child(2) {
               font-size: 26px;
               font-weight: bold;
@@ -185,6 +228,12 @@
 
           .title-author {
             grid-area: 1 / 2 / 2 / 3;
+
+            -ms-grid-row: 1;
+            -ms-grid-row-span: 1;
+            -ms-grid-column: 3;
+            -ms-grid-column-span: 1;
+
             .title {
               @extend %h4-narrow;
               color: $black;
@@ -215,6 +264,11 @@
     .margin-left {
       @include breakpoint("medium") {
         grid-area: 1 / 1 / 3 / 2;
+
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
         background-color: $dark-teal;
       }
     }
@@ -222,19 +276,31 @@
     .margin-right {
       @include breakpoint("medium") {
         grid-area: 1 / 4 / 2 / 6;
+
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 4;
+        -ms-grid-column-span: 2;
         background-color: $dark-teal;
       }
     }
     .margin-bottom {
       @include breakpoint("medium") {
         grid-area: 4 / 1 / 5 / 6;
+
+        -ms-grid-row: 4;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 5;
         height: 75px;
       }
     }
   }
   section.secondary {
     display: grid;
+    display: -ms-grid;
     grid-template-columns: 100%;
+    -ms-grid-columns: 100%;
     padding: 0 20px;
     overflow: hidden;
     background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
@@ -261,26 +327,42 @@
     }
 
     @include breakpoint("medium") {
-      padding: unset;
-      background-image: unset;
+      padding: 0;
+      background-image: none;
       grid-template-columns:
         minmax(50px, 1fr) repeat(3, minmax(15%, 480px))
         minmax(50px, 1fr);
 
       grid-template-rows: repeat(7, minmax(min-content, 84px)) minmax(18vw, 1fr);
+
+      -ms-grid-columns: minmax(50px, 1fr) minmax(15%, 480px) minmax(15%, 480px)
+        minmax(15%, 480px) minmax(50px, 1fr);
+
+      -ms-grid-rows: minmax(min-content, 84px) minmax(min-content, 84px)
+        minmax(min-content, 84px) minmax(min-content, 84px)
+        minmax(min-content, 84px) minmax(min-content, 84px)
+        minmax(min-content, 84px) minmax(18vw, 1fr);
     }
 
     .island-slideshow-image {
       overflow-x: hidden;
       height: 100%;
       cursor: pointer;
+      background-image: linear-gradient(
+        to bottom,
+        $darker-blue 37.5%,
+        $darker-blue 50%,
+        transparent 75%
+      );
 
       .frame {
         --n: 1;
         display: flex;
         align-items: center;
         overflow: hidden;
-        width: 100%; // fallback
+        position: relative;
+        z-index: 1;
+        width: 100%;
         width: calc(var(--n) * 100%);
         height: 100%;
         transform: translate(calc(var(--i, 0) / var(--n) * -100%));
@@ -292,12 +374,19 @@
           pointer-events: none;
           height: 100%;
         }
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+          img:nth-child(n + 2) {
+            display: none;
+          }
+        }
       }
 
       @include breakpoint("medium") {
         grid-area: 1 / 4 / 4 / 5;
-        position: relative;
-        z-index: 1;
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 3;
+        -ms-grid-column: 4;
+        -ms-grid-column-span: 1;
       }
     }
 
@@ -306,13 +395,21 @@
       grid-gap: 18px;
 
       grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+      -ms-grid-columns: repeat(auto-fit, minmax(20%, 1fr));
+
       justify-items: center;
       justify-content: space-around;
 
       align-items: center;
       @include breakpoint("medium") {
-        justify-content: center;
         grid-area: 4 / 4 / 5 / 5;
+        -ms-grid-row: 4;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 4;
+        -ms-grid-column-span: 1;
+
+        grid-template-columns: repeat(5, auto);
+        justify-content: center;
       }
       .control {
         color: $white;
@@ -340,12 +437,23 @@
           }
         }
       }
+
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        display: -ms-grid;
+        text-align: center;
+        display: none;
+      }
     }
 
     .island-slideshow-caption {
       @include breakpoint("medium") {
         grid-area: 3 / 3 / 4 / 4;
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 1;
         align-self: end;
+        -ms-grid-row-align: end;
         text-align: right;
         padding-right: 32px;
       }
@@ -373,12 +481,15 @@
       @include breakpoint("medium") {
         padding: 48px 0 0 48px;
         grid-area: 1 / 3 / 3 / 4;
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 1;
         background-image: linear-gradient(
           to bottom,
           $darker-blue 75%,
           transparent 100%
         );
-        background-position: 1px;
 
         .feature-title {
           position: relative;
@@ -411,6 +522,10 @@
       padding: 0 0 225px 0;
       @include breakpoint("medium") {
         grid-area: 5 / 3 / 7 / 5;
+        -ms-grid-row: 5;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 2;
         padding: 0 0 0 84px;
       }
       .feature-description {
@@ -427,14 +542,19 @@
         grid-gap: 39px 0;
 
         grid-template-columns: repeat(2, 1fr);
+
         @include breakpoint("medium") {
           grid-template-columns: repeat(3, 1fr);
         }
         .island {
           display: grid;
+          display: -ms-grid;
           grid-gap: 0 12px;
           grid-template-columns: minmax(20px, 40px) auto;
           grid-auto-rows: 40px;
+
+          -ms-grid-columns: minmax(20px, 40px) 12px auto;
+          -ms-grid-rows: 40px;
           cursor: pointer;
 
           &:hover .island-shape svg {
@@ -445,10 +565,22 @@
           @include breakpoint("medium") {
             grid-template-columns: minmax(40px, 72px) auto;
             grid-auto-rows: 72px;
+
+            -ms-grid-columns: minmax(40px, 72px) 12px auto;
+            -ms-grid-rows: 72px;
           }
           .island-shape {
-            place-self: center end;
             height: 83.3%;
+            place-self: center end;
+
+            -ms-grid-row-align: center;
+            -ms-grid-column-align: end;
+            -ms-grid-row: 1;
+            -ms-grid-row-span: 1;
+            -ms-grid-column: 1;
+            -ms-grid-column-span: 1;
+
+            display: inline;
             & svg {
               height: 100%;
               width: auto;
@@ -464,7 +596,30 @@
             color: $white;
             text-transform: uppercase;
             align-self: center;
+            -ms-grid-row-align: center;
+
+            -ms-grid-row: 1;
+            -ms-grid-row-span: 1;
+            -ms-grid-column: 3;
+            -ms-grid-column-span: 1;
+
+            display: inline-block;
           }
+          @media all and (-ms-high-contrast: none),
+            (-ms-high-contrast: active) {
+            max-width: 50%;
+            min-width: 33%;
+
+            margin-bottom: 39px;
+          }
+        }
+
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+          display: flex;
+          flex-wrap: wrap;
+          flex: 1 1 33%;
+
+          margin-bottom: -39px;
         }
       }
     }
@@ -472,7 +627,12 @@
     .island-maps {
       &.feature-heading {
         @include breakpoint("medium") {
-          grid-area: 1/2/2/3;
+          grid-area: 1 / 2 / 2 / 3;
+
+          -ms-grid-row: 1;
+          -ms-grid-row-span: 1;
+          -ms-grid-column: 2;
+          -ms-grid-column-span: 1;
           background-color: $white;
         }
 
@@ -497,7 +657,7 @@
             height: 100%;
             left: 15px;
             @include breakpoint("medium") {
-              height: 115%;
+              height: 150%;
               left: 48px;
             }
           }
@@ -526,7 +686,12 @@
       &.feature-map {
         height: auto;
         @include breakpoint("medium") {
-          grid-area: 2/2/7/3;
+          grid-area: 2 / 2 / 7 / 3;
+
+          -ms-grid-row: 2;
+          -ms-grid-row-span: 5;
+          -ms-grid-column: 2;
+          -ms-grid-column-span: 1;
         }
       }
     }
@@ -534,6 +699,11 @@
     .margin-left {
       @include breakpoint("medium") {
         grid-area: 1 / 1 / 3 / 2;
+
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 1;
         background-color: $white;
       }
     }
@@ -541,6 +711,11 @@
     .margin-right {
       @include breakpoint("medium") {
         grid-area: 1 / 5 / 3 / 6;
+
+        -ms-grid-row: 1;
+        -ms-grid-row-span: 2;
+        -ms-grid-column: 5;
+        -ms-grid-column-span: 1;
         background-image: linear-gradient(
           to bottom,
           $darker-blue 75%,
@@ -551,11 +726,18 @@
 
     .background {
       grid-row: 5 /10;
+      -ms-grid-row: 5;
+      -ms-grid-row-span: 5;
       @include breakpoint("medium") {
         position: relative;
         z-index: -1;
         display: block;
         grid-area: 2 / 1 / 9 / 6;
+
+        -ms-grid-row: 2;
+        -ms-grid-row-span: 7;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 5;
         &:before {
           content: "";
           display: block;
@@ -576,7 +758,7 @@
           }
           @include breakpoint("x-large") {
             background-size: 145vw;
-            background-position: -12vw -24vw;
+            background-position: -12vw -22vw;
           }
         }
       }
@@ -584,8 +766,14 @@
     .featured-in {
       @include breakpoint("medium") {
         grid-area: 8 / 2 / 9 / 5;
+
+        -ms-grid-row: 8;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 2;
+        -ms-grid-column-span: 3;
         width: 72%;
-        align-self: end;
+        align-self: start;
+        -ms-grid-row-align: start;
       }
       .section-title {
         @extend %h3-narrow;
@@ -605,19 +793,21 @@
         }
       }
       .logos {
-        display: grid;
-        justify-items: center;
+        display: flex;
+        flex-wrap: wrap;
 
-        grid-gap: 24px 0;
+        margin-right: -48px;
+        margin-bottom: -24px;
+
+        justify-items: center;
         @include breakpoint("medium") {
-          grid-template-rows: repeat(2, 1fr);
-          grid-template-columns: repeat(4, max-content);
-          grid-gap: 18px 48px;
           align-items: center;
         }
 
         .logo {
-          display: block;
+          max-height: 42px;
+          margin-right: 48px;
+          margin-bottom: 24px;
         }
       }
     }

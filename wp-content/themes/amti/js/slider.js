@@ -80,33 +80,22 @@ function drag(e) {
 function move(e) {
   if (locked) {
     let dx, s, f;
-    if (unify(e).clientX - x0 === 0) {
+    dx = unify(e).clientX - x0;
+    if (dx === 0) {
       ini = i;
-      if (i === N - 1) {
-        fin = 0;
-      } else {
-        fin = i + 1;
-      }
-      f = 1;
+      fin = i === N - 1 ? 0 : i + 1;
       i = fin;
     } else {
-      dx = unify(e).clientX - x0;
-      s = Math.sign(dx);
-      f = +((s * dx) / w).toFixed(2);
-      ini = i - s * f;
-      if (i === N - 1 && dx < 0) {
-        fin = 0;
-        i = fin;
-      } else if (i === 0 && dx > 0) {
-        fin = N - 1;
-        i = fin;
-      } else {
-        fin = i + 1;
-        i -= s;
+      if (dx < 0) {
+        fin = i === N - 1 ? 0 : i + 1;
+      } else if (dx > 0) {
+        fin = i === 0 ? N - 1 : i - 1;
       }
-      f = 1 - f;
+      i = fin;
+      ini = i;
     }
 
+    f = 1;
     anf = Math.round(f * NF);
     n = 2 + Math.round(f);
     ani();
@@ -119,18 +108,19 @@ function move(e) {
 
 function control(e) {
   if (e.target.classList.contains("control")) {
-    i = [...document.querySelectorAll(".control")].indexOf(e.target);
+    fin = [...document.querySelectorAll(".control")].indexOf(e.target);
+    i = i || 0;
+
+    ini = i;
+    i = fin > i ? i : i * -1;
 
     let f = 1;
-    ini = i;
-    fin = i;
-
     anf = Math.round(f * NF);
     n = 2 + Math.round(f);
     ani();
     x0 = null;
     locked = false;
-
+    i = fin;
     status(i);
   }
 }
