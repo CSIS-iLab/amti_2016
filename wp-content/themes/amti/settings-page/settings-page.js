@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     })
   );
   select.onchange = function() {
-    if (this.selectedOptions.length > 4) {
+    if (this.selectedOptions.length > 5) {
       alert("Choose 5 or Fewer Maps");
       let selectedIds = select.getAttribute("data-originalValue").split(",");
       [...select.options]

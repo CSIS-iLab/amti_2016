@@ -1,4 +1,4 @@
-let i = 0,
+let i,
   x0 = null,
   locked = false,
   w,
@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
       return 0.5 * (Math.sin((k - 0.5) * Math.PI) + 1);
     }
   };
+
+  i = 0;
 
   size();
   _C.style.setProperty("--n", N);
@@ -101,7 +103,6 @@ function move(e) {
     ani();
     x0 = null;
     locked = false;
-
     status(i);
   }
 }

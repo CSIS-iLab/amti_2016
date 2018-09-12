@@ -415,7 +415,7 @@
         color: $white;
         font-size: 33px;
         opacity: 0.5;
-        line-height: 0.5;
+        line-height: 33px;
         transition: 0.2s ease-in-out;
         cursor: pointer;
         &:hover:not(.active) {
@@ -766,14 +766,8 @@
     .featured-in {
       @include breakpoint("medium") {
         grid-area: 8 / 2 / 9 / 5;
-
-        -ms-grid-row: 8;
-        -ms-grid-row-span: 1;
-        -ms-grid-column: 2;
-        -ms-grid-column-span: 3;
         width: 72%;
-        align-self: start;
-        -ms-grid-row-align: start;
+        align-self: end;
       }
       .section-title {
         @extend %h3-narrow;
@@ -793,21 +787,19 @@
         }
       }
       .logos {
-        display: flex;
-        flex-wrap: wrap;
-
-        margin-right: -48px;
-        margin-bottom: -24px;
-
+        display: grid;
         justify-items: center;
+
+        grid-gap: 24px 0;
         @include breakpoint("medium") {
+          grid-template-rows: repeat(2, 1fr);
+          grid-template-columns: repeat(4, max-content);
+          grid-gap: 18px 48px;
           align-items: center;
         }
 
         .logo {
-          max-height: 42px;
-          margin-right: 48px;
-          margin-bottom: 24px;
+          display: block;
         }
       }
     }
