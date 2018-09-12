@@ -1,127 +1,226 @@
 body {
-	color: $color__text-main;
-	font-family: $font__main;
-	font-size:18px;
-	font-weight:300;
-	-webkit-font-smoothing: antialiased;
+  color: $color__text-main;
+  font-family: $font__main;
+  font-size: 18px;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
-	font-family: $font__PTSN;
-	font-weight: 900;
-	margin-top:30px;
-	margin-bottom:20px;
+h1,
+h2,
+h3 {
+  font-family: $font__PTSN;
+  font-weight: 900;
+  margin-top: 30px;
+  margin-bottom: 20px;
 
-	&.page-title {
-		font-weight: 700;
-    	color: $dark-blue;
-    	text-transform: uppercase;
-	}
+  &.page-title {
+    font-weight: 700;
+    color: $dark-blue;
+    text-transform: uppercase;
+  }
 }
 
-h1, h3 {
-	color: $dark-green;
+h1,
+h3 {
+  color: $dark-green;
 }
 
 h2 {
-	color: $dark-blue;
+  color: $dark-blue;
 }
 
 p {
-	margin-bottom:25px;
-	line-height: 1.8;
-	font-size:18px;
+  margin-bottom: 25px;
+  line-height: 1.8;
+  font-size: 18px;
 
-	&.title-description {
-		font-size: 22px;
-		margin: 0 15px 0;
-		font-family: $font__PTSN;
-	}
+  &.title-description {
+    font-size: 22px;
+    margin: 0 15px 0;
+    font-family: $font__PTSN;
+  }
 }
 
-dfn, cite, em, i {
-	font-style: italic;
+dfn,
+cite,
+em,
+i {
+  font-style: italic;
 }
 
 blockquote {
-	margin: 0 1.5em 25px 1.5em;
-	padding: 10px 20px;
-    border-left: 5px solid $dark-blue;
-    font-weight: 600;
-    line-height: 22px;
-    font-family: $font__PTSN;
-    color: $dark-blue;
+  margin: 0 1.5em 25px 1.5em;
+  padding: 10px 20px;
+  border-left: 5px solid $dark-blue;
+  font-weight: 600;
+  line-height: 22px;
+  font-family: $font__PTSN;
+  color: $dark-blue;
 
-    &, p {
-    	font-size: 22px;
-    }
+  &,
+  p {
+    font-size: 22px;
+  }
 }
 
-blockquote, q {
-	quotes: "" "";
+blockquote,
+q {
+  quotes: "" "";
 
-	&:before,
-	&:after {
-		content: "";
-	}
+  &:before,
+  &:after {
+    content: "";
+  }
 }
 
 hr {
-	border: 0;
-    height: 1px;
-    background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-    background-image: -moz-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-    background-image: -ms-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-    background-image: -o-linear-gradient(left, rgba(0,0,0,0), rgba(0,0,0,0.75), rgba(0,0,0,0));
-    display: block;
-    margin: 1em 0;
-    padding: 0;
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(
+    left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+  background-image: -moz-linear-gradient(
+    left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+  background-image: -ms-linear-gradient(
+    left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+  background-image: -o-linear-gradient(
+    left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0)
+  );
+  display: block;
+  margin: 1em 0;
+  padding: 0;
 }
 
 /*----------  Links  ----------*/
 a {
-	color: $color__link;
-	word-wrap: break-word;
-	@include transition(all .3s ease-in-out);
+  color: $color__link;
+  word-wrap: break-word;
+  @include transition(all 0.3s ease-in-out);
 
-	&:visited {
-		color: $color__link-visited;
-	}
-	&:hover,
-	&:focus,
-	&:active {
-		color: $color__link-hover;
-		text-decoration:none;
-	}
-	&:focus {
-		outline: thin dotted;
-	}
-	&:hover,
-	&:active {
-		outline: 0;
-	}
+  &:visited {
+    color: $color__link-visited;
+  }
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color__link-hover;
+    text-decoration: none;
+  }
+  &:focus {
+    outline: thin dotted;
+  }
+  &:hover,
+  &:active {
+    outline: 0;
+  }
 }
 
 /*----------  Helpers  ----------*/
 .greentext {
-	color: $dark-green;
+  color: $dark-green;
 }
 
 .bluetext {
-	color: $dark-blue;
+  color: $dark-blue;
 }
 
 .intro-sentence {
-	color: $dark-green;
-    font-weight: bold;
-    line-height: 1.8;
+  color: $dark-green;
+  font-weight: bold;
+  line-height: 1.8;
 }
 
 .photo-captions {
-	color: $dark-green;
-    font-size: 22px;
-    text-align: left;
-    line-height: 1.2;
-    font-weight: 700;
-    margin-bottom: 20px;
+  color: $dark-green;
+  font-size: 22px;
+  text-align: left;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/*----------  Front Page typography  ----------*/
+%h2-narrow {
+  font-family: $font__PTSN;
+  font-size: 30px;
+  @include breakpoint("medium") {
+    font-size: 36px;
+  }
+}
+
+%h3-narrow-bold {
+  font-family: $font__PTSN;
+  font-size: 28px;
+  font-weight: bold;
+  @include breakpoint("medium") {
+    font-size: 30px;
+    letter-spacing: 1.7px;
+  }
+}
+
+%h3-narrow {
+  font-size: 28px;
+  font-family: $font__PTSN;
+  @include breakpoint("medium") {
+    font-size: 32px;
+  }
+}
+
+%h4-narrow {
+  font-size: 22px;
+  line-height: 1.2;
+  font-family: $font__PTSN;
+  @include breakpoint("medium") {
+    font-size: 24px;
+  }
+}
+
+%h5-narrow {
+  font-family: $font__PTSN;
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  font-size: 18px;
+  @include breakpoint("medium") {
+    font-size: 20px;
+  }
+}
+
+%h6-narrow-bold {
+  font-size: 16px;
+  font-family: $font__PTSN;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+%h6-normal {
+  font-size: 14px;
+  font-family: $font__PTS;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  @include breakpoint("medium") {
+    font-size: 16px;
+  }
+}
+
+%h7-normal {
+  font-size: 15px;
+  font-family: $font__PTS;
+  line-height: 1.67;
 }
