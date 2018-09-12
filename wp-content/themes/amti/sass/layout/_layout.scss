@@ -1,28 +1,30 @@
 html {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-*, *:before, *:after { 
-	box-sizing: inherit;
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 body {
-	background: $color__background-body; /* Fallback for when there is no custom background color defined. */
-	-webkit-overflow-scrolling: touch;
+  background: $color__background-body; /* Fallback for when there is no custom background color defined. */
+  -webkit-overflow-scrolling: touch;
 }
 
 .site-content {
-	margin-top:55px;
+  margin-top: 30px;
 
-	@include breakpoint("medium") {
-		margin-top: 69px;
-	}
+  @include breakpoint("medium") {
+    margin-top: 45px;
+  }
 }
 
 .site-footer {
-	clear: both;
-	width: 100%;
-	margin-top:50px;
+  clear: both;
+  width: 100%;
+  margin-top: 50px;
 }
 
 @import "header";

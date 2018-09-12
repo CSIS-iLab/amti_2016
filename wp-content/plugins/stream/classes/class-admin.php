@@ -1,4 +1,5 @@
 <?php
+
 namespace WP_Stream;
 
 use DateTime;
@@ -8,6 +9,7 @@ use \WP_CLI;
 use \WP_Roles;
 
 class Admin {
+
 	/**
 	 * Hold Plugin class
 	 *
@@ -125,7 +127,7 @@ class Admin {
 
 		// Ensure function used in various methods is pre-loaded.
 		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
 		// User and role caps.
@@ -152,24 +154,49 @@ class Admin {
 		add_filter( 'admin_body_class', array( $this, 'admin_body_class' ) );
 
 		// Plugin action links.
-		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+		add_filter(
+			'plugin_action_links', array(
+				$this,
+				'plugin_action_links',
+			), 10, 2
+		);
 
 		// Load admin scripts and styles.
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action(
+			'admin_enqueue_scripts', array(
+				$this,
+				'admin_enqueue_scripts',
+			)
+		);
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_menu_css' ) );
 
 		// Reset Streams database.
-		add_action( 'wp_ajax_wp_stream_reset', array( $this, 'wp_ajax_reset' ) );
+		add_action(
+			'wp_ajax_wp_stream_reset', array(
+				$this,
+				'wp_ajax_reset',
+			)
+		);
 
 		// Uninstall Streams and Deactivate plugin.
 		$uninstall = $this->plugin->db->driver->purge_storage( $this->plugin );
 
 		// Auto purge setup.
 		add_action( 'wp_loaded', array( $this, 'purge_schedule_setup' ) );
-		add_action( 'wp_stream_auto_purge', array( $this, 'purge_scheduled_action' ) );
+		add_action(
+			'wp_stream_auto_purge', array(
+				$this,
+				'purge_scheduled_action',
+			)
+		);
 
 		// Ajax users list.
-		add_action( 'wp_ajax_wp_stream_filters', array( $this, 'ajax_filters' ) );
+		add_action(
+			'wp_ajax_wp_stream_filters', array(
+				$this,
+				'ajax_filters',
+			)
+		);
 	}
 
 	/**
@@ -331,7 +358,12 @@ class Admin {
 			do_action( 'wp_stream_admin_menu_screens' );
 
 			// Register the list table early, so it associates the column headers with 'Screen settings'.
-			add_action( 'load-' . $this->screen_id['main'], array( $this, 'register_list_table' ) );
+			add_action(
+				'load-' . $this->screen_id['main'], array(
+					$this,
+					'register_list_table',
+				)
+			);
 		}
 	}
 
@@ -358,7 +390,8 @@ class Admin {
 			wp_register_script( 'wp-stream-timeago-locale', $this->plugin->locations['url'] . sprintf( $file_tmpl, 'en' ), array( 'wp-stream-timeago' ), '1' );
 		}
 
-		wp_enqueue_style( 'wp-stream-admin', $this->plugin->locations['url'] . 'ui/css/admin.css', array(), $this->plugin->get_version() );
+		$min = wp_stream_min_suffix();
+		wp_enqueue_style( 'wp-stream-admin', $this->plugin->locations['url'] . 'ui/css/admin.' . $min . 'css', array(), $this->plugin->get_version() );
 
 		$script_screens = array( 'plugins.php' );
 
@@ -369,9 +402,24 @@ class Admin {
 			wp_enqueue_script( 'wp-stream-timeago' );
 			wp_enqueue_script( 'wp-stream-timeago-locale' );
 
-			wp_enqueue_script( 'wp-stream-admin', $this->plugin->locations['url'] . 'ui/js/admin.js', array( 'jquery', 'wp-stream-select2' ), $this->plugin->get_version() );
-			wp_enqueue_script( 'wp-stream-admin-exclude', $this->plugin->locations['url'] . 'ui/js/exclude.js', array( 'jquery', 'wp-stream-select2' ), $this->plugin->get_version() );
-			wp_enqueue_script( 'wp-stream-live-updates', $this->plugin->locations['url'] . 'ui/js/live-updates.js', array( 'jquery', 'heartbeat' ), $this->plugin->get_version() );
+			wp_enqueue_script(
+				'wp-stream-admin', $this->plugin->locations['url'] . 'ui/js/admin.' . $min . 'js', array(
+					'jquery',
+					'wp-stream-select2',
+				), $this->plugin->get_version()
+			);
+			wp_enqueue_script(
+				'wp-stream-admin-exclude', $this->plugin->locations['url'] . 'ui/js/exclude.' . $min . 'js', array(
+					'jquery',
+					'wp-stream-select2',
+				), $this->plugin->get_version()
+			);
+			wp_enqueue_script(
+				'wp-stream-live-updates', $this->plugin->locations['url'] . 'ui/js/live-updates.' . $min . 'js', array(
+					'jquery',
+					'heartbeat',
+				), $this->plugin->get_version()
+			);
 
 			wp_localize_script(
 				'wp-stream-admin',
@@ -392,10 +440,14 @@ class Admin {
 				'wp_stream_live_updates',
 				array(
 					'current_screen'      => $hook,
-					'current_page'        => isset( $_GET['paged'] ) ? esc_js( $_GET['paged'] ) : '1', // input var okay
-					'current_order'       => isset( $_GET['order'] ) ? esc_js( $_GET['order'] ) : 'desc', // input var okay
-					'current_query'       => wp_stream_json_encode( $_GET ), // input var okay
-					'current_query_count' => count( $_GET ), // input var okay
+					'current_page'        => isset( $_GET['paged'] ) ? esc_js( $_GET['paged'] ) : '1', // WPCS: CSRF ok.
+					// input var okay, CSRF okay
+					'current_order'       => isset( $_GET['order'] ) ? esc_js( $_GET['order'] ) : 'desc', // WPCS: CSRF ok.
+					// input var okay, CSRF okay
+					'current_query'       => wp_stream_json_encode( $_GET ), // WPCS: CSRF ok.
+					// input var okay, CSRF okay
+					'current_query_count' => count( $_GET ), // WPCS: CSRF ok.
+					// input var okay, CSRF okay
 				)
 			);
 		}
@@ -414,13 +466,14 @@ class Admin {
 		 */
 		$bulk_actions_threshold = apply_filters( 'wp_stream_bulk_actions_threshold', 100 );
 
-		wp_enqueue_script( 'wp-stream-global', $this->plugin->locations['url'] . 'ui/js/global.js', array( 'jquery' ), $this->plugin->get_version() );
+		wp_enqueue_script( 'wp-stream-global', $this->plugin->locations['url'] . 'ui/js/global.' . $min . 'js', array( 'jquery' ), $this->plugin->get_version() );
 		wp_localize_script(
 			'wp-stream-global',
 			'wp_stream_global',
 			array(
-				'bulk_actions' => array(
-					'i18n' => array(
+				'bulk_actions'       => array(
+					'i18n'      => array(
+						// translators: Placeholder refers to a number of items (e.g. "1,742")
 						'confirm_action' => sprintf( esc_html__( 'Are you sure you want to perform bulk actions on over %s items? This process could take a while to complete.', 'stream' ), number_format( absint( $bulk_actions_threshold ) ) ),
 					),
 					'threshold' => absint( $bulk_actions_threshold ),
@@ -463,8 +516,8 @@ class Admin {
 		if ( $this->is_stream_screen() ) {
 			$stream_classes[] = $this->admin_body_class;
 
-			if ( isset( $_GET['page'] ) ) {
-				$stream_classes[] = sanitize_key( $_GET['page'] ); // input var okay
+			if ( isset( $_GET['page'] ) ) { // CSRF okay
+				$stream_classes[] = sanitize_key( $_GET['page'] ); // input var okay, CSRF okay
 			}
 		}
 
@@ -487,14 +540,15 @@ class Admin {
 	 * @action admin_enqueue_scripts
 	 */
 	public function admin_menu_css() {
-		wp_register_style( 'wp-stream-datepicker', $this->plugin->locations['url'] . 'ui/css/datepicker.css', array(), $this->plugin->get_version() );
+		$min = wp_stream_min_suffix();
+		wp_register_style( 'wp-stream-datepicker', $this->plugin->locations['url'] . 'ui/css/datepicker.' . $min . 'css', array(), $this->plugin->get_version() );
 		wp_register_style( 'wp-stream-icons', $this->plugin->locations['url'] . 'ui/stream-icons/style.css', array(), $this->plugin->get_version() );
 
 		// Make sure we're working off a clean version
 		if ( ! file_exists( ABSPATH . WPINC . '/version.php' ) ) {
 			return;
 		}
-		include( ABSPATH . WPINC . '/version.php' );
+		include ABSPATH . WPINC . '/version.php';
 
 		if ( ! isset( $wp_version ) ) {
 			return;
@@ -555,8 +609,13 @@ class Admin {
 		\wp_add_inline_style( 'wp-admin', $css );
 	}
 
+	/**
+	 * Handle the reset AJAX request to reset logs.
+	 *
+	 * @return bool
+	 */
 	public function wp_ajax_reset() {
-		check_ajax_referer( 'stream_nonce', 'wp_stream_nonce' );
+		check_ajax_referer( 'stream_nonce_reset', 'wp_stream_nonce_reset' );
 
 		if ( ! current_user_can( $this->settings_cap ) ) {
 			wp_die(
@@ -631,8 +690,9 @@ class Admin {
 			return;
 		}
 
-		$days = $options['general_records_ttl'];
-		$date = new DateTime( 'now', $timezone = new DateTimeZone( 'UTC' ) );
+		$days     = $options['general_records_ttl'];
+		$timezone = new DateTimeZone( 'UTC' );
+		$date     = new DateTime( 'now', $timezone );
 
 		$date->sub( DateInterval::createFromDateString( "$days days" ) );
 
@@ -653,7 +713,7 @@ class Admin {
 	}
 
 	/**
-	 * @param array $links
+	 * @param array  $links
 	 * @param string $file
 	 *
 	 * @filter plugin_action_links
@@ -671,9 +731,17 @@ class Admin {
 		}
 
 		if ( is_network_admin() ) {
-			$admin_page_url = add_query_arg( array( 'page' => $this->network->network_settings_page_slug ), network_admin_url( $this->admin_parent_page ) );
+			$admin_page_url = add_query_arg(
+				array(
+					'page' => $this->network->network_settings_page_slug,
+				), network_admin_url( $this->admin_parent_page )
+			);
 		} else {
-			$admin_page_url = add_query_arg( array( 'page' => $this->settings_page_slug ), admin_url( $this->admin_parent_page ) );
+			$admin_page_url = add_query_arg(
+				array(
+					'page' => $this->settings_page_slug,
+				), admin_url( $this->admin_parent_page )
+			);
 		}
 
 		$links[] = sprintf( '<a href="%s">%s</a>', esc_url( $admin_page_url ), esc_html__( 'Settings', 'default' ) );
@@ -701,7 +769,7 @@ class Admin {
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 			<?php $this->list_table->display(); ?>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -715,8 +783,8 @@ class Admin {
 
 		$sections   = $this->plugin->settings->get_fields();
 		$active_tab = wp_stream_filter_input( INPUT_GET, 'tab' );
-
-		wp_enqueue_script( 'wp-stream-settings', $this->plugin->locations['url'] . 'ui/js/settings.js', array( 'jquery' ), $this->plugin->get_version(), true );
+		$min        = wp_stream_min_suffix();
+		wp_enqueue_script( 'wp-stream-settings', $this->plugin->locations['url'] . 'ui/js/settings.' . $min . 'js', array( 'jquery' ), $this->plugin->get_version(), true );
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
@@ -729,11 +797,11 @@ class Admin {
 
 			<?php if ( count( $sections ) > 1 ) : ?>
 				<h2 class="nav-tab-wrapper">
-					<?php $i = 0 ?>
+					<?php $i = 0; ?>
 					<?php foreach ( $sections as $section => $data ) : ?>
-						<?php $i ++ ?>
+						<?php $i++; ?>
 						<?php $is_active = ( ( 1 === $i && ! $active_tab ) || $active_tab === $section ); ?>
-						<a href="<?php echo esc_url( add_query_arg( 'tab', $section ) ); ?>" class="nav-tab<?php if ( $is_active ) { echo esc_attr( ' nav-tab-active' ); } ?>">
+						<a href="<?php echo esc_url( add_query_arg( 'tab', $section ) ); ?>" class="nav-tab <?php echo $is_active ? esc_attr( ' nav-tab-active' ) : ''; ?>">
 							<?php echo esc_html( $data['title'] ); ?>
 						</a>
 					<?php endforeach; ?>
@@ -743,32 +811,36 @@ class Admin {
 			<div class="nav-tab-content" id="tab-content-settings">
 				<form method="post" action="<?php echo esc_attr( $form_action ); ?>" enctype="multipart/form-data">
 					<div class="settings-sections">
-		<?php
-		$i = 0;
-		foreach ( $sections as $section => $data ) {
-			$i++;
+						<?php
+						$i = 0;
+						foreach ( $sections as $section => $data ) {
+							$i++;
 
-			$is_active = ( ( 1 === $i && ! $active_tab ) || $active_tab === $section );
+							$is_active = ( ( 1 === $i && ! $active_tab ) || $active_tab === $section );
 
-			if ( $is_active ) {
-				settings_fields( $option_key );
-				do_settings_sections( $option_key );
-			}
-		}
-		?>
+							if ( $is_active ) {
+								settings_fields( $option_key );
+								do_settings_sections( $option_key );
+							}
+						}
+						?>
 					</div>
 					<?php submit_button(); ?>
 				</form>
 			</div>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
 	 * Instantiate the list table
 	 */
 	public function register_list_table() {
-		$this->list_table = new List_Table( $this->plugin, array( 'screen' => $this->screen_id['main'] ) );
+		$this->list_table = new List_Table(
+			$this->plugin, array(
+				'screen' => $this->screen_id['main'],
+			)
+		);
 	}
 
 	/**
@@ -868,7 +940,11 @@ class Admin {
 		switch ( wp_stream_filter_input( INPUT_GET, 'filter' ) ) {
 			case 'user_id':
 				$users = array_merge(
-					array( 0 => (object) array( 'display_name' => 'WP-CLI' ) ),
+					array(
+						0 => (object) array(
+							'display_name' => 'WP-CLI',
+						),
+					),
 					get_users()
 				);
 
@@ -877,7 +953,7 @@ class Admin {
 					// `search` arg for get_users() is not enough
 					$users = array_filter(
 						$users,
-						function( $user ) use ( $search ) {
+						function ( $user ) use ( $search ) {
 							return false !== mb_strpos( mb_strtolower( $user->display_name ), mb_strtolower( $search ) );
 						}
 					);
@@ -907,11 +983,11 @@ class Admin {
 			$author = new Author( $args->ID );
 
 			$authors_records[ $user_id ] = array(
-				'text'     => $author->get_display_name(),
-				'id'       => $author->id,
-				'label'    => $author->get_display_name(),
-				'icon'     => $author->get_avatar_src( 32 ),
-				'title'    => '',
+				'text'  => $author->get_display_name(),
+				'id'    => $author->id,
+				'label' => $author->get_display_name(),
+				'icon'  => $author->get_avatar_src( 32 ),
+				'title' => '',
 			);
 		}
 
@@ -921,49 +997,52 @@ class Admin {
 	/**
 	 * Get user meta in a way that is also safe for VIP
 	 *
-	 * @param int $user_id
+	 * @param int    $user_id
 	 * @param string $meta_key
-	 * @param bool $single (optional)
+	 * @param bool   $single (optional)
 	 *
 	 * @return mixed
 	 */
-	function get_user_meta( $user_id, $meta_key, $single = true ) {
+	public function get_user_meta( $user_id, $meta_key, $single = true ) {
 		if ( wp_stream_is_vip() && function_exists( 'get_user_attribute' ) ) {
 			return get_user_attribute( $user_id, $meta_key );
 		}
+
 		return get_user_meta( $user_id, $meta_key, $single );
 	}
 
 	/**
 	 * Update user meta in a way that is also safe for VIP
 	 *
-	 * @param int $user_id
+	 * @param int    $user_id
 	 * @param string $meta_key
 	 * @param mixed  $meta_value
-	 * @param mixed $prev_value (optional)
+	 * @param mixed  $prev_value (optional)
 	 *
 	 * @return int|bool
 	 */
-	function update_user_meta( $user_id, $meta_key, $meta_value, $prev_value = '' ) {
+	public function update_user_meta( $user_id, $meta_key, $meta_value, $prev_value = '' ) {
 		if ( wp_stream_is_vip() && function_exists( 'update_user_attribute' ) ) {
 			return update_user_attribute( $user_id, $meta_key, $meta_value );
 		}
+
 		return update_user_meta( $user_id, $meta_key, $meta_value, $prev_value );
 	}
 
 	/**
 	 * Delete user meta in a way that is also safe for VIP
 	 *
-	 * @param int $user_id
+	 * @param int    $user_id
 	 * @param string $meta_key
-	 * @param mixed $meta_value (optional)
+	 * @param mixed  $meta_value (optional)
 	 *
 	 * @return bool
 	 */
-	function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
+	public function delete_user_meta( $user_id, $meta_key, $meta_value = '' ) {
 		if ( wp_stream_is_vip() && function_exists( 'delete_user_attribute' ) ) {
 			return delete_user_attribute( $user_id, $meta_key, $meta_value );
 		}
+
 		return delete_user_meta( $user_id, $meta_key, $meta_value );
 	}
 }

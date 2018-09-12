@@ -98,7 +98,7 @@ function wp_stream_get_sites( $args = array() ) {
 		$sites = get_sites( $args );
 	} else {
 		$sites = array();
-		foreach ( wp_get_sites( $args ) as $site ) {
+		foreach ( wp_get_sites( $args ) as $site ) { // @codingStandardsIgnoreLine Specifically for old version of WP first, in order to provide backward compatibility
 			$sites[] = WP_Site::get_instance( $site['blog_id'] );
 		}
 	}
@@ -122,4 +122,18 @@ function wp_stream_is_vip() {
  */
 function wp_stream_is_cron_enabled() {
 	return ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) ? false : true;
+}
+
+/**
+ * Get the asset min suffix if defined.
+ *
+ * @return string
+ */
+function wp_stream_min_suffix() {
+	$min = '';
+	if ( ! defined( 'SCRIPT_DEBUG' ) || false === SCRIPT_DEBUG ) {
+		$min = 'min.';
+	}
+
+	return $min;
 }

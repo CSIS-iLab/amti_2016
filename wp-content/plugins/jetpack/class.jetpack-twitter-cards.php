@@ -36,9 +36,23 @@ class Jetpack_Twitter_Cards {
 		}
 
 		if ( ! is_singular() || ! empty( $og_tags['twitter:card'] ) ) {
+			/**
+			 * Filter the default Twitter card image, used when no image can be found in a post.
+			 *
+			 * @module sharedaddy, publicize
+			 *
+			 * @since 5.9.0
+			 *
+			 * @param string $str Default image URL.
+			 */
+			$image = apply_filters( 'jetpack_twitter_cards_image_default', '' );
+			if ( ! empty( $image ) ) {
+				$og_tags['twitter:image'] = $image;
+			}
+
 			return $og_tags;
 		}
-		
+
 		$the_title = get_the_title();
 		if ( ! $the_title ) {
 			$the_title = get_bloginfo( 'name' );
@@ -114,6 +128,14 @@ class Jetpack_Twitter_Cards {
 			}
 		}
 
+		if ( empty( $og_tags['twitter:image'] ) && empty( $og_tags['twitter:image:src'] ) ) {
+			/** This action is documented in class.jetpack-twitter-cards.php */
+			$image = apply_filters( 'jetpack_twitter_cards_image_default', '' );
+			if ( ! empty( $image ) ) {
+				$og_tags['twitter:image'] = $image;
+			}
+		}
+
 		return $og_tags;
 	}
 
@@ -186,7 +208,9 @@ class Jetpack_Twitter_Cards {
 	}
 
 	static function site_tag() {
-		$site_tag = Jetpack_Options::get_option_and_ensure_autoload( 'jetpack-twitter-cards-site-tag', '' );
+		$site_tag = ( defined( 'IS_WPCOM' ) && IS_WPCOM  ) ?
+            trim( get_option( 'twitter_via' ) ) :
+            Jetpack_Options::get_option_and_ensure_autoload( 'jetpack-twitter-cards-site-tag', '' );
 		if ( empty( $site_tag ) ) {
 			if ( defined( 'IS_WPCOM' ) && IS_WPCOM ) {
 				return 'wordpressdotcom';
