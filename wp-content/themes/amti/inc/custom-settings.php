@@ -241,33 +241,20 @@ add_action('admin_menu', 'options_enqueue_scripts');
   */
  function transparency_posts_callback($args)
  {
-     $latest_posts = wp_get_recent_posts(array(
-     'post_status' => 'publish',
-     'numberposts' => 1,
-     'post_type' => 'features',
-     'suppress_filters'=>0,
-   ), OBJECT);
-
-     $id = $latest_posts[0]->ID;
-
-     $latest_post = get_post($id);
-
-
      $option = get_option($args[0]);
-     echo '<select name="' . esc_attr($args[0]) . ' name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+     echo '<select name="' . esc_attr($args[0]) . '"  name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
      echo '<option value> -- </option>';
-     echo '<option value="' . esc_attr($latest_post->ID) . '" ' . 'selected >' . esc_attr($latest_post->post_title) . '</option>';
 
-     foreach ($args[1] as $key=>$post) {
-         if ($key == 0) {
-             continue;
+     foreach ($args[1] as $post) {
+         if ($post->ID == esc_attr($option)) {
+             $selected = "selected";
          } else {
-             if ($post->ID == esc_attr($option)) {
-                 $selected = "selected";
-             } else {
-                 $selected = '';
-             }
-             echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . '</option>';
+             $selected = '';
+         }
+         if ($post->post_type== 'post') {
+             echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . ': ANALYSIS</option>';
+         } else {
+             echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . ': FEATURE</option>';
          }
      }
      echo '</select>';
