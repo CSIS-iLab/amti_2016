@@ -30,7 +30,6 @@
 # mu-plugins, plugins, and themes directories
 wp-content/*
 !wp-content/mu-plugins/
-!wp-content/plugins/
 !wp-content/themes/
 
 # ignore all mu-plugins, plugins, and themes
@@ -108,6 +107,9 @@ Thumbs.db
 # add your own entries here
 !wp-content/themes/amti
 !wp-content/plugins/category-checklist-tree.php
+!wp-content/plugins/transparency-google-analytics.php
+!wp-content/plugins/post-meta-manager
+!wp-content/plugins/hero-menu
 
 wp-content/themes/amti/.sass-cache
 **/.DS_Store

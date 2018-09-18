@@ -7,6 +7,8 @@
  * @package Transparency
  */
 
+
+
 if ( ! function_exists( 'transparency_setup' ) ) :
 /**
  * Sets up theme defaults and registers support for various WordPress features.
@@ -125,6 +127,8 @@ function transparency_scripts() {
 	wp_enqueue_script( 'transparency-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'transparency-topbutton', get_template_directory_uri() . '/js/topbutton.js', array(), '20151215', true );
+
+	wp_enqueue_script( 'transparency-slider', get_template_directory_uri() . '/js/slider.js', array(), '20151215', true );
 
 	// Font Awesome
 	wp_enqueue_script('transparency-font-awesome', 'https://use.fontawesome.com/08b1a76eab.js');
@@ -305,7 +309,7 @@ include_once("js-countries-meta.php");
  */
 function islandtracker_add_meta_boxes( $post ) {
 add_meta_box( 'island-tracker_meta_box', __( 'Island Details', 'amti' ), 'islandtracker_build_meta_box', 'island-tracker', 'normal', 'high' );
-	
+
 }
 add_action( 'add_meta_boxes_island-tracker', 'islandtracker_add_meta_boxes' );
 
@@ -322,7 +326,7 @@ function amti_get_sample_options() {
 		'Option 2' => 'option2',
 		'Option 3' => 'option3',
 	);
-	
+
 	return $options;
 }
 
@@ -356,7 +360,7 @@ function islandtracker_build_meta_box( $post ) {
 			row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
 			return false;
 		});
-  	
+
 		$( '.remove-row' ).on('click', function() {
 			$(this).parents('tr').remove();
 			return false;
@@ -371,7 +375,7 @@ function islandtracker_build_meta_box( $post ) {
 			<input type="text" style="width: 50%;" class="large-text" name="area" value="<?php echo esc_attr( $current_area ); ?>" /></p>
 		<p><strong><label style="display: inline-block; width: 15%;" for="gps">GPS: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="gps" value="<?php echo esc_attr( $current_gps ); ?>" /></p>
-		
+
 		<h3 style="margin-top: 50px;">Name Translations</h3>
 		<p><strong><label style="display: inline-block; width: 15%;" for="usa">Board of Geographic Names: </label></strong>
 			<input type="text" style="width: 50%;" class="large-text" name="usa" value="<?php echo esc_attr( $current_usa ); ?>" /></p>
@@ -398,16 +402,16 @@ function islandtracker_build_meta_box( $post ) {
 	</thead>
 	<tbody>
 <?php
-	
+
 	if ( $repeatable_fields ) :
-	
+
 	foreach ( $repeatable_fields as $field ) {
 	?>
 	<tr>
 		<td><input type="text" class="widefat" name="name[]" value="<?php if($field['name'] != '') echo esc_attr( $field['name'] ); ?>" /></td>
-	
+
 		<td><input type="text" class="widefat" name="url[]" value="<?php if ($field['url'] != '') echo esc_attr( $field['url'] ); else echo 'http://'; ?>" /></td>
-	
+
 		<td><a class="button remove-row" href="#">Remove</a></td>
 	</tr>
 	<?php
@@ -417,28 +421,28 @@ function islandtracker_build_meta_box( $post ) {
 	?>
 	<tr>
 		<td><input type="text" class="widefat" name="name[]" /></td>
-	
-		
+
+
 		<td><input type="text" class="widefat" name="url[]" value="http://" /></td>
-	
+
 		<td><a class="button remove-row" href="#">Remove</a></td>
 	</tr>
 	<?php endif; ?>
-	
+
 	<!-- empty hidden one for jQuery -->
 	<tr class="empty-row screen-reader-text">
 		<td><input type="text" class="widefat" name="name[]" /></td>
-	
-		
+
+
 		<td><input type="text" class="widefat" name="url[]" value="http://" /></td>
-		  
+
 		<td><a class="button remove-row" href="#">Remove</a></td>
 	</tr>
 	</tbody>
 	</table>
-	
+
 	<p><a id="add-row" class="button" href="#">Add another</a></p>
-	
+
 
 	</div>
 <?php
@@ -506,17 +510,17 @@ function islandtracker_save_meta_box_data( $post_id ) {
 		//New Links
 	$old = get_post_meta($post_id, 'repeatable_fields', true);
 	$new = array();
-	
+
 	$names = $_POST['name'];
 	$urls = $_POST['url'];
-	
+
 	$count = count( $names );
-	
+
 	for ( $i = 0; $i < $count; $i++ ) {
 		if ( $names[$i] != '' ) :
 			$new[$i]['name'] = stripslashes( strip_tags( $names[$i] ) );
-			
-		
+
+
 			if ( $urls[$i] == 'http://' )
 				$new[$i]['url'] = '';
 			else
@@ -529,7 +533,7 @@ function islandtracker_save_meta_box_data( $post_id ) {
 		delete_post_meta( $post_id, 'repeatable_fields', $old );
 }
 
-	
+
 
 add_action( 'save_post_island-tracker', 'islandtracker_save_meta_box_data' );
 
@@ -745,16 +749,16 @@ add_shortcode( 'fullWidth', 'shortcode_fullWidth' );
 /* WPML Custom Language Switcher
 /* Filter wp_nav_menu() to add additional links and other output
 /* Show only other language in language switcher
-/* Use the new filter: https://wpml.org/wpml-hook/wpml_active_languages/ 
+/* Use the new filter: https://wpml.org/wpml-hook/wpml_active_languages/
 /*-----------------------------------------------------------------------------------*/
 add_filter('wp_nav_menu_items', 'new_nav_menu_items', 10, 2);
 function new_nav_menu_items($items, $args) {
     // get languages
     $languages = apply_filters( 'wpml_active_languages', NULL, 'skip_missing=1' );
-    
+
     if ( $languages && $args->theme_location == 'primary') {
 
- 
+
         if(!empty($languages)){
 
         	// Create Menu Item
@@ -787,7 +791,7 @@ function new_nav_menu_items($items, $args) {
                 	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $native.'</a></li>';
                 }
 
-                $count++;
+                // $count++;
             }
 
             // Combine List Items into dropdown if we have more than one language available
@@ -805,7 +809,7 @@ function new_nav_menu_items($items, $args) {
 
         }
     }
- 
+
     return $items;
 }
 
@@ -914,7 +918,7 @@ function filter_multilanguage_post( $should_index, WP_Post $post )
 	if ( false === $should_index ) {
         return false;
     }
-    
+
     $language_details = apply_filters( 'wpml_post_language_details', null,  $post->ID );
 
     if($language_details['language_code'] != "en") {
@@ -963,21 +967,21 @@ function clickgallery( $atts ) {
 	$output;
 	$str = $atts['option-titles'];
 	$titles = explode(",",$str);
-	
+
 	if ( get_post_type( get_the_ID() ) == 'features' ) {
    $postlayout .= "features-gallery";
 } else {
 	  $postlayout .= "";
 }
-	
+
 
 	$no_whitespaces = $atts['photo-ids'];
 	$output .= '<div class="slider ' . $postlayout . '" id="main-slider"><div class="slider-container"><div class="slider-wrapper">';
 	$array = explode( ',', $no_whitespaces );
-	foreach ( $array as $index => $id ) { 
+	foreach ( $array as $index => $id ) {
 
 
-		$output .=  '<div class="slide'; 		
+		$output .=  '<div class="slide';
 
 
 		 $output .=  ' " id="slide-' . $id . '" data-index="' . $index . '" data-image="' . esc_url( wp_get_attachment_url( $id ) ) . '"></div>';
@@ -986,13 +990,13 @@ function clickgallery( $atts ) {
 	$output .=  '<div class="slider-pagination">';
 
 	$output .=  '<ul class="slider-list">';
-	
 
-	foreach ( $array as $index => $id ) { 
+
+	foreach ( $array as $index => $id ) {
 		$num = $array[$index];
 		$output .=  '<li class="slide-info">';
 //		if ($index == 0) {
-		
+
 //	}
 
 	$output .=  '<a href="'. $num .'"';
@@ -1003,8 +1007,8 @@ function clickgallery( $atts ) {
 	$image = get_post($num);
 	$image_title = $image->post_title;
 	$output .=  '>'. trim($image_title) .'</a><div class="cg-description">';
-			
-			
+
+
 	$image_caption = $image->post_excerpt;
 	$output .=  $image_caption;
 	do_shortcode('[addthis tool="addthis_inline_share_toolbox"]');
@@ -1024,3 +1028,49 @@ function clickgallery( $atts ) {
 }
 add_shortcode( 'clickgallery', 'clickgallery' );
 
+
+
+
+
+function sort_posts( $posts, $orderby, $order = 'ASC', $unique = true ) {
+	if ( ! is_array( $posts ) ) {
+		return false;
+	}
+
+	usort( $posts, array( new Sort_Posts( $orderby, $order ), 'sort' ) );
+
+	// use post ids as the array keys
+	if ( $unique && count( $posts ) ) {
+		$posts = array_combine( wp_list_pluck( $posts, 'ID' ), $posts );
+	}
+
+	return $posts;
+}
+class Sort_Posts {
+	var $order, $orderby;
+
+	function __construct( $orderby, $order ) {
+		$this->orderby = $orderby;
+		$this->order = ( 'desc' == strtolower( $order ) ) ? 'DESC' : 'ASC';
+	}
+
+	function sort( $a, $b ) {
+		if ( $a->{$this->orderby} == $b->{$this->orderby} ) {
+			return 0;
+		}
+
+		if ( $a->{$this->orderby} < $b->{$this->orderby} ) {
+			return ( 'ASC' == $this->order ) ? -1 : 1;
+		} else {
+			return ( 'ASC' == $this->order ) ? 1 : -1;
+		}
+	}
+}
+
+
+
+
+/**
+ * Load custom settings.
+ */
+require get_template_directory() . '/inc/custom-settings.php';

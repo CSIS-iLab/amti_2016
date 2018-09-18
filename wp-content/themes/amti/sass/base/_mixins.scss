@@ -11,36 +11,50 @@
 
 // Center block
 @mixin center-block {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 // Clearfix
 @mixin clearfix() {
-	content: "";
-	display: table;
-	table-layout: fixed;
+  content: "";
+  display: table;
+  table-layout: fixed;
 }
 
 // Clear after (not all clearfix need this also)
 @mixin clearfix-after() {
-	clear: both;
+  clear: both;
 }
 
 // Breakpoints
 @mixin breakpoint($break) {
-	@if $break == large {
-		@media screen and (min-width:1200px) { @content; }
-	}
-	@else if $break == medium {
-		@media screen and (min-width:992px) { @content; }
-	}
-	@else if $break == small {
-		@media screen and (min-width: 768px) { @content; }
-	} @else {
-		@media ($break) { @content; }
-	}
+  @if $break == xx-large {
+    @media screen and (min-width: 2500px) {
+      @content;
+    }
+  } @else if $break == x-large {
+    @media screen and (min-width: 1440px) {
+      @content;
+    }
+  } @else if $break == large {
+    @media screen and (min-width: 1136px) {
+      @content;
+    }
+  } @else if $break == medium {
+    @media screen and (min-width: 992px) {
+      @content;
+    }
+  } @else if $break == small {
+    @media screen and (min-width: 768px) {
+      @content;
+    }
+  } @else {
+    @media ($break) {
+      @content;
+    }
+  }
 }
 
 // Transitions

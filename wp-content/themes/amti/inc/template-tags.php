@@ -7,6 +7,29 @@
  * @package Transparency
  */
 
+
+ if ( ! function_exists( 'transparency_post_format' ) ) :
+ 	/**
+ 	 * Returns HTML with post format.
+ 	 *
+ 	 * @param int $id Post ID.
+ 	 */
+ 	function transparency_post_format( $id ) {
+ 		$post_type = get_post_type();
+ 		if ( in_array( $post_type, array( 'post', 'feature', 'analysis', 'data', 'page' ), true ) ) {
+ 			if ( 'post' === $post_type ) {
+ 				$post_types = get_the_terms( $id, 'post_types' );
+ 				if ( ! empty( $post_types ) && ! is_wp_error( $post_types ) ) {
+ 					$post_types = wp_list_pluck( $post_types, 'name' );
+ 					$post_format = $post_types[0];
+ 				}
+ 			} 
+
+
+ 		}
+ 	}
+ endif;
+
 if ( ! function_exists( 'transparency_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
