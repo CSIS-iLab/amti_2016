@@ -127,5 +127,11 @@
 	</div>
 
 
+
+
+
+
+	<script src="http://amti.csis.test:35729/livereload.js?snipver=1"></script>
+
   <?php
   get_footer();

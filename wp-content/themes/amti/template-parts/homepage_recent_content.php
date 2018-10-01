@@ -28,37 +28,33 @@ echo '<div class="section-title">Recent Content</div>
 
 
   $featured = get_posts($featuredPostsArgs);
+
   $offset = 3  - count($featured);
 
-  if($offset > 0){
+  $latest_post_ids = array(
+    'post_status' => 'publish',
+    'numberposts' => 3
+  );
 
-    $latest_post_ids = array(
-      'post_status' => 'publish',
-      'numberposts' => 3
+  $latest_posts = wp_get_recent_posts($latest_post_ids, OBJECT);
+
+    $latestPostsArgs = array(
+      'post__in' => array(
+       $latest_posts[0]->ID,
+       $latest_posts[1]->ID,
+       $latest_posts[2]->ID
+
+        ),
+        'orderby'=>'date',
+        'order'=>'DESC',
+      'numberposts' => $offset
     );
 
-    $latest_posts = wp_get_recent_posts($latest_post_ids, OBJECT);
+    $latest = get_posts($latestPostsArgs);
 
-      $latestPostsArgs = array(
-        'post__in' => array(
-         $latest_posts[0]->ID,
-         $latest_posts[1]->ID,
-         $latest_posts[2]->ID
 
-          ),
-          'orderby'=>'date',
-          'order'=>'DESC',
-        'numberposts' => $offset
-      );
+    $all_posts =  sort_posts(array_merge($latest, $featured), 'post_date', $order = 'DESC', $unique = true);
 
-      $latest = get_posts($latestPostsArgs);
-
-      $all_posts =  sort_posts(array_merge($latest, $featured), 'post_date', $order = 'DESC', $unique = true);
-
-  } else {
-      $all_posts =  sort_posts($featured, 'post_date', $order = 'DESC', $unique = true);
-
-  }
 
           foreach ($all_posts as $post) : setup_postdata($post);
 
