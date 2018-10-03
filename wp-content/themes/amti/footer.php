@@ -27,7 +27,7 @@
 				<div class="connect">
 					<div class="social">
 						<div class="section-title">
-							Follow Us
+							<?php echo __('Follow Us', 'transparency')?>
 						</div>
 						<p>
 							<a href="https://www.facebook.com/AsiaMaritimeTransparencyInitiative" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true"></i></a>
@@ -37,7 +37,7 @@
 
 					<div class="contact">
 						<div class="section-title">
-							Contact
+							<?php echo __('Contact', 'transparency')?>
 						</div>
 						<div class="email">
 		          <a href="mailto:?subject=<?php echo get_bloginfo( 'title', 'display' ) ?>">
@@ -53,7 +53,7 @@
 
 				<div class="subscribe">
 					<div class="section-title">
-						Subscribe
+						<?php echo __('Subscribe', 'transparency')?>
 					</div>
 					<p>
 						Get the AMTI Brief, our monthly feature on political, military, and environmental developments in the South and East China Seas and the claimants bordering them.
@@ -64,7 +64,15 @@
 				</div>
 
 				<div class="footer-menu">
+					<div class="section-title">
+						<?php echo __('Explore', 'transparency')?>
+					</div>
 					<?php
+
+
+
+
+
 						wp_nav_menu( array('menu' => 'Footer Menu') );
 					?>
 				</div>

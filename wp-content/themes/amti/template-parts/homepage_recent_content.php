@@ -8,7 +8,7 @@
  */
 
 
-echo '<div class="section-title">Recent Content</div>
+echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
 <div class="feature-list">';
   $recent_post1 = get_option('transparency_homepage_recent_content_1');
   $recent_post2 = get_option('transparency_homepage_recent_content_2');
@@ -80,5 +80,5 @@ echo '</div>
 
 
 <a class="button" href="/analysis">
-<button>See More</button>
+'.__('See More', 'transparency').'
 </a>';

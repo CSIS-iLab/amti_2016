@@ -28,11 +28,7 @@
       </div>
 
 
-      <div class="margin-left"></div>
 
-      <div class="margin-right"></div>
-
-      <div class="margin-bottom"></div>
 
     </section>
 
@@ -45,17 +41,17 @@
 
 
       <div class="island-tracker">
-        <div class="feature-title">
-          Island Tracker
-        </div>
+        <h2 class="feature-title">
+          <?php echo __('Island Tracker', 'transparency')?>
+        </h2>
         <p class="feature-excerpt">
-          Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years.
+          <?php echo __('Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years.', 'transparency')?>
         </p>
       </div>
 
       <div class="island-claimants">
         <p class="feature-description">
-          Explore the database by selecting a claimant below.
+          <?php echo __('Explore the database by selecting a claimant below.', 'transparency')?>
         </p>
         <div class="islands">
           <div class="island">
@@ -82,15 +78,17 @@
       </div>
 
         <div class="island-maps feature-heading">
-          <div class="island-maps feature-title">
-            Maps of the Asia Pacific
-          </div>
+          <h2 class="island-maps feature-title">
+            <?php echo __('Maps of the Asia Pacific', 'transparency')?>
+          </h2>
 
             <div class="island-maps feature-description">
             <p class="island-maps">
-              AMTI’s interactive maps strive to provide the most complete, accurate, and up-to-date source of geospatial information on maritime Asia.
+              <?php echo __('AMTI’s interactive maps strive to provide the most complete, accurate, and up-to-date source of geospatial information on maritime Asia.', 'transparency')?>
             </p>
-            <div  class="seeMore"><a href="">View Maps</a></div>
+            <div class="seeMore"><a href="/maps">
+              <?php echo __('View Maps', 'transparency')?>
+            </a></div>
           </div>
         </div>
 
@@ -107,9 +105,7 @@
         echo '<img class="island-maps feature-map"  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
         ?>
 
-      <div class="margin-left"></div>
 
-      <div class="margin-right"></div>
 
       <div class="featured-in">
 

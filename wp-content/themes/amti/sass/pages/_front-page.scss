@@ -1,18 +1,19 @@
 #content {
   position: relative;
   &:before {
-    background-image: linear-gradient(
-      to bottom,
-      #fff 80%,
-      #fafafa 95%,
-      #f5f5f5 100%
-    );
     content: "";
     z-index: -2;
     display: block;
     position: absolute;
     width: 100%;
     height: 100%;
+    background-image: linear-gradient(
+      to bottom,
+      #fff 40%,
+      #fafafa 50%,
+      #f5f5f5 75%,
+      #f2f2f2 100%
+    );
   }
 
   [class^="margin-"] {
@@ -32,31 +33,33 @@
     margin-bottom: 0;
   }
 
-  .feature-image,
+  .feature-image img,
   .island-slideshow-image img,
   .feature-map {
     width: 100%;
   }
-  .feature-image,
+
+  .feature-image img {
+    object-fit: cover;
+  }
+
   .island-slideshow-image img {
     object-fit: cover;
+    object-position: 100% 100%;
   }
 
   section.primary {
     display: grid;
     display: -ms-grid;
-
     grid-template-columns: 100%;
     -ms-grid-columns: 100%;
+    justify-content: center;
 
     @include breakpoint("medium") {
-      grid-template-columns:
-        minmax(50px, 1fr) repeat(3, minmax(15%, 480px))
-        minmax(50px, 1fr);
+      padding: 0 50px;
+      grid-template-columns: repeat(3, minmax(15%, 480px));
       grid-template-rows: 48px 242px 1fr;
-
-      -ms-grid-columns: minmax(50px, 1fr) minmax(15%, 480px) minmax(15%, 480px)
-        minmax(15%, 480px) minmax(50px, 1fr);
+      -ms-grid-columns: minmax(15%, 480px) minmax(15%, 480px) minmax(15%, 480px);
       -ms-grid-rows: 48px 242px 1fr;
     }
 
@@ -72,32 +75,53 @@
     }
 
     .feature-image {
-      min-height: 175px;
-      @include breakpoint("medium") {
-        height: 290px;
-        grid-area: 1 / 2 / 3 / 4;
+      position: relative;
 
+      @include breakpoint("medium") {
+        grid-area: 1 / 1 / 3 / 3;
         -ms-grid-row: 1;
         -ms-grid-row-span: 2;
-        -ms-grid-column: 2;
+        -ms-grid-column: 1;
         -ms-grid-column-span: 2;
+
+        &:before {
+          right: 100%;
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          width: calc((100vw - 100%) / 2);
+          height: 100%;
+          background-color: $darker-teal;
+        }
+      }
+
+      img {
+        height: 100%;
+        min-height: 25vh;
+
+        @include breakpoint("medium") {
+          height: 290px;
+          min-height: 290px;
+        }
       }
     }
+
     .feature-heading {
       padding: 20px 20px 0 36px;
-      @include breakpoint("medium") {
-        grid-area: 3 / 2 / 4 / 3;
+      align-self: start;
+      position: relative;
 
+      @include breakpoint("medium") {
+        grid-area: 3 / 1 / 4 / 2;
         -ms-grid-row: 3;
         -ms-grid-row-span: 1;
-        -ms-grid-column: 2;
+        -ms-grid-column: 1;
         -ms-grid-column-span: 1;
-
         -ms-grid-row-align: start;
         padding: 30px 0 0 72px;
       }
-      align-self: start;
-      position: relative;
+
       &:before {
         content: "";
         opacity: 0.62;
@@ -117,9 +141,13 @@
         @extend %h5-narrow;
         color: $light-topaz;
       }
+
       .title-latest {
         @extend %h2-narrow;
         color: $black;
+        line-height: 1.2;
+        display: block;
+        margin-bottom: 0.5rem;
         cursor: pointer;
         &:hover {
           color: $topaz;
@@ -135,14 +163,13 @@
     .feature-excerpt {
       padding: 18px 20px 24px 26px;
       border-bottom: solid 1px $pinkish-grey;
-      @include breakpoint("medium") {
-        grid-area: 3 / 3 / 4 / 4;
 
+      @include breakpoint("medium") {
+        grid-area: 3 / 2 / 4 / 3;
         -ms-grid-row: 3;
         -ms-grid-row-span: 1;
-        -ms-grid-column: 3;
+        -ms-grid-column: 2;
         -ms-grid-column-span: 1;
-
         padding: 60px 45px 60px 30px;
         border: none;
       }
@@ -152,37 +179,52 @@
         color: $topaz;
         white-space: nowrap;
         display: block;
-        text-align: right;
+        text-align: center;
+        padding-top: 1rem;
+
         &:hover {
           color: $dark-sea-green;
         }
         @include breakpoint("medium") {
           display: inline-block;
+          padding-top: 0;
         }
       }
     }
 
     .recent-content {
-      padding: 32px 26px 0 20px;
-      @include breakpoint("medium") {
-        padding-left: 30px;
-        grid-area: 2 / 4 / 4 / 5;
+      padding: 32px 26px 64px 20px;
+      position: relative;
 
+      @include breakpoint("medium") {
+        padding: 32px 26px 0 30px;
+        grid-area: 2 / 3 / 4 / 4;
         -ms-grid-row: 2;
         -ms-grid-row-span: 2;
-        -ms-grid-column: 4;
+        -ms-grid-column: 3;
         -ms-grid-column-span: 1;
+
+        &:before {
+          bottom: 100%;
+          content: "";
+          display: block;
+          position: absolute;
+          height: 50px;
+          left: 0px;
+          width: calc((100vw - 100% - 15px) / 2);
+          background-color: $darker-teal;
+        }
       }
 
       .section-title {
         @extend %h3-narrow;
         color: #4a4a4a;
       }
+
       .feature-list {
         .feature {
           display: grid;
           display: -ms-grid;
-
           grid-template-columns: 60px 1fr;
           -ms-grid-columns: 60px 20px 1fr;
           grid-gap: 0 20px;
@@ -199,7 +241,6 @@
 
           .date {
             grid-area: 1 / 1 / 2 / 2;
-
             -ms-grid-row: 1;
             -ms-grid-row-span: 1;
             -ms-grid-column: 1;
@@ -214,6 +255,7 @@
             @extend %h6-normal;
             color: $white;
             line-height: 1;
+
             @media all and (-ms-high-contrast: none),
               (-ms-high-contrast: active) {
               display: block;
@@ -228,7 +270,6 @@
 
           .title-author {
             grid-area: 1 / 2 / 2 / 3;
-
             -ms-grid-row: 1;
             -ms-grid-row-span: 1;
             -ms-grid-column: 3;
@@ -238,8 +279,9 @@
               @extend %h4-narrow;
               color: $black;
             }
+
             .authors {
-              margin-top: 14px;
+              margin-top: 0.5rem;
               @extend %h6-normal;
               a {
                 color: $dark-topaz;
@@ -248,59 +290,40 @@
           }
         }
       }
-      button {
+
+      .button {
         @extend %h6-narrow-bold;
-        margin: 0 42px 64px;
-        width: -moz-available;
-        width: -webkit-fill-available;
-        width: fill-available;
+        background-color: $color__background-button-grey;
+        border: none;
+        color: $black;
+        line-height: 0.4em;
+        padding: 24px 0;
+        text-align: center;
+        margin: 1rem auto 0;
+        display: block;
+        max-width: 300px;
+        width: 50vw;
+
         @include breakpoint("medium") {
-          margin: 0;
-          width: unset;
+          margin: 1rem 0 0;
+          width: auto;
+          max-width: 125px;
+        }
+
+        &:hover {
+          color: #fff;
+          background-color: #00b29e;
         }
       }
     }
-
-    .margin-left {
-      @include breakpoint("medium") {
-        grid-area: 1 / 1 / 3 / 2;
-
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 2;
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 1;
-        background-color: $dark-teal;
-      }
-    }
-
-    .margin-right {
-      @include breakpoint("medium") {
-        grid-area: 1 / 4 / 2 / 6;
-
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 1;
-        -ms-grid-column: 4;
-        -ms-grid-column-span: 2;
-        background-color: $dark-teal;
-      }
-    }
-    .margin-bottom {
-      @include breakpoint("medium") {
-        grid-area: 4 / 1 / 5 / 6;
-
-        -ms-grid-row: 4;
-        -ms-grid-row-span: 1;
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 5;
-        height: 75px;
-      }
-    }
   }
+
   section.secondary {
     display: grid;
     display: -ms-grid;
     grid-template-columns: 100%;
     -ms-grid-columns: 100%;
+    justify-content: center;
     padding: 0 20px;
     overflow: hidden;
     background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
@@ -318,6 +341,7 @@
     .feature-title {
       text-transform: uppercase;
     }
+
     p:not(.island-maps) {
       color: $pinkish-grey;
     }
@@ -327,97 +351,127 @@
     }
 
     @include breakpoint("medium") {
-      padding: 0;
+      padding: 3rem 50px 0;
       background-image: none;
-      grid-template-columns:
-        minmax(50px, 1fr) repeat(3, minmax(15%, 480px))
-        minmax(50px, 1fr);
-
+      grid-template-columns: repeat(3, minmax(15%, 480px));
       grid-template-rows: repeat(7, minmax(min-content, 84px)) minmax(18vw, 1fr);
-
-      -ms-grid-columns: minmax(50px, 1fr) minmax(15%, 480px) minmax(15%, 480px)
-        minmax(15%, 480px) minmax(50px, 1fr);
-
+      -ms-grid-columns: minmax(15%, 480px) minmax(15%, 480px) minmax(15%, 480px);
       -ms-grid-rows: minmax(min-content, 84px) minmax(min-content, 84px)
         minmax(min-content, 84px) minmax(min-content, 84px)
         minmax(min-content, 84px) minmax(min-content, 84px)
         minmax(min-content, 84px) minmax(18vw, 1fr);
     }
 
-    .island-slideshow-image {
-      overflow-x: hidden;
-      height: 100%;
-      cursor: pointer;
+    .island-slideshow-container {
+      position: relative;
       background-image: linear-gradient(
         to bottom,
-        $darker-blue 37.5%,
-        $darker-blue 50%,
-        transparent 75%
+        $darker-blue 90%,
+        transparent 100%
       );
 
-      .frame {
-        --n: 1;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        width: calc(var(--n) * 100%);
-        height: 100%;
-        transform: translate(calc(var(--i, 0) / var(--n) * -100%));
-        img {
-          width: 100%;
-          width: calc(100% / var(--n));
-
-          user-select: none;
-          pointer-events: none;
-          height: 100%;
-        }
-        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-          img:nth-child(n + 2) {
-            display: none;
-          }
-        }
-      }
-
-      @include breakpoint("medium") {
-        grid-area: 1 / 4 / 4 / 5;
+      @media screen and (min-width: 992px) {
+        grid-area: 1 / 3 / 4 / 4;
         -ms-grid-row: 1;
         -ms-grid-row-span: 3;
-        -ms-grid-column: 4;
+        -ms-grid-column: 3;
         -ms-grid-column-span: 1;
+        max-height: none;
+      }
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background-color: $darker-blue;
+        width: calc(calc((100vw - 100%) / 2) - 50%);
+        left: 100%;
+      }
+
+      .island-slideshow-image {
+        overflow: hidden;
+        height: 100%;
+        cursor: pointer;
+
+        .frame {
+          --n: 1;
+          display: flex;
+          align-items: top;
+          overflow: hidden;
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          width: calc(var(--n) * 100%);
+          transform: translate(calc(var(--i, 0) / var(--n) * -100%));
+
+          img {
+            width: 100%;
+            width: calc(100% / var(--n));
+            max-height: 400px;
+            user-select: none;
+            pointer-events: none;
+            height: 100%;
+
+            @include breakpoint("medium") {
+              max-height: calc(100vw / 3 - 50px * 2);
+            }
+          }
+
+          @media screen and (min-width: 1080px) {
+            height: 100%;
+          }
+
+          @media all and (-ms-high-contrast: none),
+            (-ms-high-contrast: active) {
+            img:nth-child(n + 2) {
+              display: none;
+            }
+          }
+        }
       }
     }
 
     .island-slideshow-slider {
-      display: grid;
-      grid-gap: 18px;
-
-      grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
-      -ms-grid-columns: repeat(auto-fit, minmax(20%, 1fr));
-
-      justify-items: center;
-      justify-content: space-around;
-
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      @include breakpoint("medium") {
-        grid-area: 4 / 4 / 5 / 5;
+      max-width: 500px;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+
+      @media screen and (min-width: 992px) {
+        grid-area: 3 / 3 / 4 / 4;
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 1;
+        justify-content: center;
+        align-items: start;
+        left: 0;
+        transform: translateX(0);
+      }
+
+      @media screen and (min-width: 1080px) {
+        grid-area: 4 / 3 / 5 / 4;
         -ms-grid-row: 4;
         -ms-grid-row-span: 1;
-        -ms-grid-column: 4;
+        -ms-grid-column: 3;
         -ms-grid-column-span: 1;
-
-        grid-template-columns: repeat(5, auto);
-        justify-content: center;
+        align-items: center;
       }
+
       .control {
         color: $white;
         font-size: 33px;
         opacity: 0.5;
         line-height: 33px;
+        margin: 0 12px;
         transition: 0.2s ease-in-out;
         cursor: pointer;
+
         &:hover:not(.active) {
           color: $topaz;
         }
@@ -427,6 +481,7 @@
           opacity: 0.75;
           transition: 0.2s ease-in-out;
         }
+
         @include breakpoint("medium") {
           font-size: 27px;
 
@@ -446,20 +501,39 @@
     }
 
     .island-slideshow-caption {
-      @include breakpoint("medium") {
+      @media screen and (min-width: 992px) {
+        grid-area: 2 / 3 / 3 / 4;
+        -ms-grid-row: 2;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 1;
+        align-self: center;
+        text-align: center;
+        z-index: 1;
+      }
+      @media screen and (min-width: 1080px) {
         grid-area: 3 / 3 / 4 / 4;
         -ms-grid-row: 3;
         -ms-grid-row-span: 1;
         -ms-grid-column: 3;
         -ms-grid-column-span: 1;
+      }
+      @media screen and (min-width: 1230px) {
+        grid-area: 3 / 2 / 4 / 3;
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 2;
+        -ms-grid-column-span: 1;
         align-self: end;
         -ms-grid-row-align: end;
         text-align: right;
         padding-right: 32px;
+        padding: 0 32px 0 96px;
       }
 
       & > * {
         display: inline-block;
+
         @include breakpoint("medium") {
           display: block;
         }
@@ -469,6 +543,7 @@
         @extend %h6-narrow-bold;
         color: $topaz;
       }
+
       .feature-caption {
         @extend %h7-normal;
         color: $pinkish-grey;
@@ -480,19 +555,16 @@
 
       @include breakpoint("medium") {
         padding: 48px 0 0 48px;
-        grid-area: 1 / 3 / 3 / 4;
+        grid-area: 1 / 2 / 3 / 3;
         -ms-grid-row: 1;
         -ms-grid-row-span: 2;
-        -ms-grid-column: 3;
+        -ms-grid-column: 2;
         -ms-grid-column-span: 1;
-        background-image: linear-gradient(
-          to bottom,
-          $darker-blue 75%,
-          transparent 100%
-        );
+        background-color: $darker-blue;
 
         .feature-title {
           position: relative;
+
           &:before {
             content: "";
             height: 3px;
@@ -510,8 +582,10 @@
         @extend %h3-narrow-bold;
         color: $white;
       }
+
       .feature-excerpt {
         padding: 0;
+
         @include breakpoint("medium") {
           padding: 0 30px 21px 48px;
         }
@@ -520,17 +594,20 @@
 
     .island-claimants {
       padding: 0 0 225px 0;
+
       @include breakpoint("medium") {
-        grid-area: 5 / 3 / 7 / 5;
+        grid-area: 5 / 2 / 7 / 4;
         -ms-grid-row: 5;
         -ms-grid-row-span: 2;
-        -ms-grid-column: 3;
+        -ms-grid-column: 2;
         -ms-grid-column-span: 2;
         padding: 0 0 0 84px;
       }
+
       .feature-description {
         font-style: italic;
         padding: 36px 0;
+
         @include breakpoint("medium") {
           padding: 0;
         }
@@ -539,20 +616,20 @@
       .islands {
         display: grid;
         grid-template-rows: repeat(2, 1fr);
-        grid-gap: 39px 0;
-
+        grid-gap: 16px 0;
         grid-template-columns: repeat(2, 1fr);
 
         @include breakpoint("medium") {
+          grid-gap: 0;
           grid-template-columns: repeat(3, 1fr);
         }
+
         .island {
           display: grid;
           display: -ms-grid;
           grid-gap: 0 12px;
           grid-template-columns: minmax(20px, 40px) auto;
           grid-auto-rows: 40px;
-
           -ms-grid-columns: minmax(20px, 40px) 12px auto;
           -ms-grid-rows: 40px;
           cursor: pointer;
@@ -565,14 +642,12 @@
           @include breakpoint("medium") {
             grid-template-columns: minmax(40px, 72px) auto;
             grid-auto-rows: 72px;
-
             -ms-grid-columns: minmax(40px, 72px) 12px auto;
             -ms-grid-rows: 72px;
           }
           .island-shape {
             height: 83.3%;
             place-self: center end;
-
             -ms-grid-row-align: center;
             -ms-grid-column-align: end;
             -ms-grid-row: 1;
@@ -597,19 +672,16 @@
             text-transform: uppercase;
             align-self: center;
             -ms-grid-row-align: center;
-
             -ms-grid-row: 1;
             -ms-grid-row-span: 1;
             -ms-grid-column: 3;
             -ms-grid-column-span: 1;
-
             display: inline-block;
           }
           @media all and (-ms-high-contrast: none),
             (-ms-high-contrast: active) {
             max-width: 50%;
             min-width: 33%;
-
             margin-bottom: 39px;
           }
         }
@@ -618,7 +690,6 @@
           display: flex;
           flex-wrap: wrap;
           flex: 1 1 33%;
-
           margin-bottom: -39px;
         }
       }
@@ -627,26 +698,28 @@
     .island-maps {
       &.feature-heading {
         @include breakpoint("medium") {
-          grid-area: 1 / 2 / 2 / 3;
-
+          grid-area: 1 / 1 / 2 / 2;
           -ms-grid-row: 1;
           -ms-grid-row-span: 1;
-          -ms-grid-column: 2;
+          -ms-grid-column: 1;
           -ms-grid-column-span: 1;
-          background-color: $white;
+          background-color: transparent;
         }
 
         .feature-title {
           @extend %h3-narrow-bold;
           color: $dark-blue-grey;
         }
+
         .feature-description {
           margin-bottom: 6px;
           padding: 0 30px 30px 30px;
           position: relative;
+
           @include breakpoint("medium") {
             padding: 0 30px 48px 72px;
           }
+
           &:before {
             content: "";
             opacity: 0.62;
@@ -656,6 +729,7 @@
             width: 3px;
             height: 100%;
             left: 15px;
+
             @include breakpoint("medium") {
               height: 150%;
               left: 48px;
@@ -684,43 +758,18 @@
         }
       }
       &.feature-map {
-        height: auto;
-        @include breakpoint("medium") {
-          grid-area: 2 / 2 / 7 / 3;
+        object-fit: cover;
+        object-position: 50% 100%;
+        max-height: 400px;
 
+        @include breakpoint("medium") {
+          grid-area: 2 / 1 / 7 / 2;
           -ms-grid-row: 2;
           -ms-grid-row-span: 5;
-          -ms-grid-column: 2;
+          -ms-grid-column: 1;
           -ms-grid-column-span: 1;
+          max-height: calc(100vw / 3 - 50px * 2);
         }
-      }
-    }
-
-    .margin-left {
-      @include breakpoint("medium") {
-        grid-area: 1 / 1 / 3 / 2;
-
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 2;
-        -ms-grid-column: 1;
-        -ms-grid-column-span: 1;
-        background-color: $white;
-      }
-    }
-
-    .margin-right {
-      @include breakpoint("medium") {
-        grid-area: 1 / 5 / 3 / 6;
-
-        -ms-grid-row: 1;
-        -ms-grid-row-span: 2;
-        -ms-grid-column: 5;
-        -ms-grid-column-span: 1;
-        background-image: linear-gradient(
-          to bottom,
-          $darker-blue 75%,
-          transparent 100%
-        );
       }
     }
 
@@ -728,16 +777,19 @@
       grid-row: 5 /10;
       -ms-grid-row: 5;
       -ms-grid-row-span: 5;
+
       @include breakpoint("medium") {
+        margin-left: calc((100vw - 100%) / -2);
+        margin-right: calc((100vw - 100%) / -2);
         position: relative;
         z-index: -1;
         display: block;
-        grid-area: 2 / 1 / 9 / 6;
-
-        -ms-grid-row: 2;
-        -ms-grid-row-span: 7;
+        grid-area: 3 / 1 / 9 / 6;
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 6;
         -ms-grid-column: 1;
         -ms-grid-column-span: 5;
+
         &:before {
           content: "";
           display: block;
@@ -746,51 +798,48 @@
           height: 100%;
           background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png);
           background-repeat: no-repeat;
-          background-size: 200vw;
-          background-position: -12vw -36vw;
-          @include breakpoint("medium") {
-            background-size: 145vw;
-            background-position: -12vw -15vw;
-          }
-          @include breakpoint("large") {
-            background-size: 145vw;
-            background-position: -12vw -18vw;
-          }
-          @include breakpoint("x-large") {
-            background-size: 145vw;
-            background-position: -12vw -22vw;
-          }
+          background-size: cover;
+          background-position: center -6vw;
         }
       }
     }
+
     .featured-in {
       @include breakpoint("medium") {
-        grid-area: 8 / 2 / 9 / 5;
+        grid-area: 8 / 1 / 9 / 4;
+        -ms-grid-row: 8;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 3;
         width: 72%;
         align-self: end;
       }
+
       .section-title {
         @extend %h3-narrow;
         color: #4a4a4a;
         text-align: center;
         margin: 24px 0;
+
         @include breakpoint("medium") {
           text-align: left;
           margin: 0;
         }
       }
+
       .line {
         @include breakpoint("medium") {
           height: 1px;
-          background-color: #ff5500;
+          // background-color: #ff5500;
           margin: 3px 0 15px;
         }
       }
+
       .logos {
         display: grid;
         justify-items: center;
-
         grid-gap: 24px 0;
+
         @include breakpoint("medium") {
           grid-template-rows: repeat(2, 1fr);
           grid-template-columns: repeat(4, max-content);
