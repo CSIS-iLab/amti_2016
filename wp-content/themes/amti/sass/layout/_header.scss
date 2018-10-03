@@ -8,10 +8,12 @@
   border-color: transparent;
   @include transition(all 0.3s ease-in-out);
   min-height: 50px;
+  display: flex;
+  align-items: center;
 
   @include breakpoint("medium") {
     background-image: url(/wp-content/themes/amti/img/header-background-imagesDesktop.png);
-    max-height: none;
+    height: 70px;
   }
 
   .navbar-brand {

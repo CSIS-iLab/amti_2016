@@ -29,12 +29,14 @@ echo '<img class="feature-image"  src="' . wp_get_attachment_image_src(get_post_
   <div class="feature-heading">
 
     <div class="feature-title">
-      <div class="feature-subtitle">Latest Feature</div><a  class="title-latest" href="' . esc_url(get_permalink()) . '">
+      <div class="feature-subtitle">'.__('Latest Feature', 'transparency').'</div><a  class="title-latest" href="' . esc_url(get_permalink()) . '">
       ' . get_the_title() . '
         </a><div class="date">' . get_the_date() . '</div>
       </div>
   </div>
 
-  <p class="feature-excerpt">' . wp_strip_all_tags(get_the_excerpt()) . ' <a href="' . esc_url(get_permalink()) . '">CONTINUE READING</a>
+  <p class="feature-excerpt">' . wp_strip_all_tags(get_the_excerpt()) . ' <a href="' . esc_url(get_permalink()) . '">'
+.__('Continue Reading', 'transparency').
+ '</a>
   </p>'
 ?>

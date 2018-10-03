@@ -26,9 +26,9 @@ echo '<div class="island-slideshow-caption">
 
  foreach ($satellites as $key=>$post) : setup_postdata($post);
     if ($key == 0) {
-        echo '<span class="feature-caption">' . $post->post_title . '</span>';
+        echo '<span class="feature-caption">&nbsp;' . $post->post_title . '</span>';
     } else {
-        echo '<span class="feature-caption" style="display:none">' . $post->post_title . '</span>';
+        echo '<span class="feature-caption" style="display:none">&nbsp;' . $post->post_title . '</span>';
     }
  endforeach;
 

@@ -32,9 +32,13 @@
         margin: auto;
         display: grid;
         display: -ms-grid;
-        grid-template-columns: 1fr 2fr 4fr;
-        -ms-grid-columns: 1fr 2fr 4fr;
+        grid-template-columns: 1fr 1fr 2fr;
+        -ms-grid-columns: 1fr 1fr 2fr;
         grid-gap: 0 100px;
+      }
+
+      .section-title {
+        @extend %footer-title;
       }
 
       hr {
@@ -96,10 +100,6 @@
           -ms-grid-columns: max-content 1fr;
         }
 
-        .section-title {
-          @extend %footer-title;
-        }
-
         .image img {
           text-align: left;
           height: 40px;
@@ -144,7 +144,6 @@
 
         .social {
           .section-title {
-            @extend %footer-title;
             display: none;
             @include breakpoint("medium") {
               display: block;
@@ -161,9 +160,6 @@
         }
 
         .contact {
-          .section-title {
-            @extend %footer-title;
-          }
           .email {
             margin-bottom: 12px;
 
@@ -182,9 +178,6 @@
           -ms-grid-row-span: 1;
           -ms-grid-column: 3;
           -ms-grid-column-span: 1;
-        }
-        .section-title {
-          @extend %footer-title;
         }
 
         button {

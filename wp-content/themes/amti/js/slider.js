@@ -132,7 +132,8 @@ function status(x) {
     if (index !== i) control.classList.remove("active");
   });
 
-  [...document.querySelectorAll(".feature-caption")][x].style.display = "block";
+  [...document.querySelectorAll(".feature-caption")][x].style.display =
+    "inline-block";
 
   [...document.querySelectorAll(".feature-caption")].forEach(function(
     caption,
