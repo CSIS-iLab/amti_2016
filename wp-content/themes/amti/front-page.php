@@ -28,11 +28,7 @@
       </div>
 
 
-      <div class="margin-left"></div>
 
-      <div class="margin-right"></div>
-
-      <div class="margin-bottom"></div>
 
     </section>
 
@@ -109,9 +105,7 @@
         echo '<img class="island-maps feature-map"  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
         ?>
 
-      <div class="margin-left"></div>
 
-      <div class="margin-right"></div>
 
       <div class="featured-in">
 

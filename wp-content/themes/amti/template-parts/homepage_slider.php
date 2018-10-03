@@ -15,11 +15,11 @@
    'post__in' => $satellite_ids
  ));
 
-echo '<div class="island-slideshow-image"><div class="frame">';
+echo '<div class="island-slideshow-container"><div class="island-slideshow-image"><div class="frame">';
    foreach ($satellites as $post) : setup_postdata($post);
      echo '<img src="' . wp_get_attachment_image_src($post->ID, $size = 'large')[0] . '">';
    endforeach;
-echo '</div></div>';
+echo '</div></div></div>';
 
 echo '<div class="island-slideshow-caption">
     <span class="feature-subtitle">Photo:</span>';

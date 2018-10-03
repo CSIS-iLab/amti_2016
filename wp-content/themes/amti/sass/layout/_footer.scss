@@ -152,7 +152,10 @@
           i {
             font-size: 36px;
             margin-right: 9px;
-
+            margin-top: 12px;
+            @include breakpoint("medium") {
+              margin-top: 0;
+            }
             &:hover {
               color: $white;
             }

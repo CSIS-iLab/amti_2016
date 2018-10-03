@@ -24,7 +24,9 @@ if (get_option('transparency_homepage_featured_post')) {
 $post = get_post($id);
 setup_postdata($post);
 
-echo '<img class="feature-image"  src="' . wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size = 'large')[0] . '">
+echo '<div class="feature-image">
+<img src="' . wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size = 'large')[0] . '">
+</div>
 
   <div class="feature-heading">
 
