@@ -27,8 +27,10 @@
   .footer {
     .footer-container {
       padding: 40px 20px;
+
       @include breakpoint("medium") {
-        max-width: 1440px;
+        padding: 40px 50px;
+        max-width: 1540px;
         margin: auto;
         display: grid;
         display: -ms-grid;

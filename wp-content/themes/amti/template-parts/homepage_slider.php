@@ -19,20 +19,9 @@ echo '<div class="island-slideshow-container"><div class="island-slideshow-image
    foreach ($satellites as $post) : setup_postdata($post);
      echo '<img src="' . wp_get_attachment_image_src($post->ID, $size = 'large')[0] . '">';
    endforeach;
-echo '</div></div></div>';
+echo '</div></div>';
 
-echo '<div class="island-slideshow-caption">
-    <span class="feature-subtitle">Photo:</span>';
 
- foreach ($satellites as $key=>$post) : setup_postdata($post);
-    if ($key == 0) {
-        echo '<span class="feature-caption">&nbsp;' . $post->post_title . '</span>';
-    } else {
-        echo '<span class="feature-caption" style="display:none">&nbsp;' . $post->post_title . '</span>';
-    }
- endforeach;
-
-echo '</div>';
  wp_reset_postdata();
 
  echo '<div class="island-slideshow-slider">';
@@ -43,4 +32,18 @@ echo '</div>';
          echo '<span class="control">•</span>';
      }
  }
+   echo '</div></div>';
+
+
+echo '<div class="island-slideshow-caption">
+       <span class="feature-subtitle">Photo:</span>';
+
+    foreach ($satellites as $key=>$post) : setup_postdata($post);
+       if ($key == 0) {
+           echo '<span class="feature-caption">&nbsp;' . $post->post_title . '</span>';
+       } else {
+           echo '<span class="feature-caption" style="display:none">&nbsp;' . $post->post_title . '</span>';
+       }
+    endforeach;
+
    echo '</div>';

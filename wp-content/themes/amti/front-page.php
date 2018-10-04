@@ -77,8 +77,9 @@
         </div>
       </div>
 
-        <div class="island-maps feature-heading">
-          <h2 class="island-maps feature-title">
+        <div class="island-maps">
+        <div class="feature-heading">
+          <h2 class="feature-title">
             <?php echo __('Maps of the Asia Pacific', 'transparency')?>
           </h2>
 
@@ -90,7 +91,8 @@
               <?php echo __('View Maps', 'transparency')?>
             </a></div>
           </div>
-        </div>
+          </div>
+
 
         <?php
         $id = get_option('transparency_homepage_featured_map')
@@ -102,10 +104,10 @@
           'order'=>'DESC',
           'category_name'=> 'A Map Image'
       ), OBJECT)[0]->ID;
-        echo '<img class="island-maps feature-map"  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
+        echo '<img class="feature-map"  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
         ?>
 
-
+  </div>
 
       <div class="featured-in">
 
@@ -121,6 +123,7 @@
 
 
 	</div>
+  <script src="http://amti.csis.test:35729/livereload.js?snipver=1"></script>
 
 
   <?php
