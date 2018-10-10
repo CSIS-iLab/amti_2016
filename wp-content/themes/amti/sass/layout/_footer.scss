@@ -30,7 +30,6 @@
 
       @include breakpoint("medium") {
         padding: 40px 50px;
-        max-width: 1540px;
         margin: auto;
         display: grid;
         display: -ms-grid;
@@ -218,11 +217,7 @@
     padding: 16px 20px;
     min-height: 70px;
     @include breakpoint("medium") {
-      padding: 24px 20px;
-    }
-    .site-info-container {
-      max-width: 1440px;
-      margin: auto;
+      padding: 24px 50px;
     }
   }
 

@@ -1,20 +1,5 @@
 #content {
   position: relative;
-  &:before {
-    content: "";
-    z-index: -2;
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(
-      to bottom,
-      #fff 40%,
-      #fafafa 50%,
-      #f5f5f5 75%,
-      #f2f2f2 100%
-    );
-  }
 
   [class^="margin-"] {
     display: none;
@@ -33,37 +18,37 @@
     margin-bottom: 0;
   }
 
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .wrapper {
+      max-width: 1540px;
+      margin: 0 auto;
+    }
+  }
+
   .feature-image img,
   .island-slideshow-image img,
-  .feature-map {
+  .feature-map img {
     width: 100%;
-  }
-
-  .feature-image img {
-    object-fit: cover;
-  }
-
-  .island-slideshow-image img {
-    object-fit: cover;
-    object-position: 100% 100%;
   }
 
   section.primary {
     display: grid;
-    display: -ms-grid;
     grid-template-columns: 100%;
     -ms-grid-columns: 100%;
     justify-content: center;
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-      margin-left: calc((100vw - 100%) / 2);
-    }
 
-    @include breakpoint("medium") {
+    @media all and (min-width: 992px) {
+      display: -ms-grid;
       padding: 0 50px;
       grid-template-columns: repeat(3, minmax(15%, 480px));
-      grid-template-rows: 48px 242px 1fr;
+      // grid-template-rows: 48px repeat(3, auto);
+      grid-template-rows: 48px auto 0.75fr 2fr;
       -ms-grid-columns: minmax(15%, 480px) minmax(15%, 480px) minmax(15%, 480px);
-      -ms-grid-rows: 48px 242px 1fr;
+      -ms-grid-rows: 48px auto 0.75fr;
+    }
+
+    @media all and (min-width: 1230px) {
+      grid-template-rows: 48px auto 0.75fr auto;
     }
 
     & > *:not(.feature-image) {
@@ -79,6 +64,11 @@
 
     .feature-image {
       position: relative;
+
+      height: 25vh;
+      @include breakpoint("medium") {
+        height: 290px;
+      }
 
       @include breakpoint("medium") {
         grid-area: 1 / 1 / 3 / 3;
@@ -101,7 +91,18 @@
 
       img {
         height: 100%;
-        min-height: 25vh;
+        max-height: 25vh;
+        object-fit: cover;
+
+        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+          max-height: none;
+          width: auto !important;
+          height: auto !important;
+          min-width: 100% !important;
+          min-height: 100% !important;
+          max-width: none;
+          position: absolute;
+        }
 
         @include breakpoint("medium") {
           height: 290px;
@@ -113,16 +114,24 @@
     .feature-heading {
       padding: 20px 20px 0 36px;
       align-self: start;
+      -ms-grid-row-align: start;
       position: relative;
 
-      @include breakpoint("medium") {
+      @media screen and (min-width: 992px) {
+        grid-area: 3 / 1 / 4 / 3;
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 2;
+        padding: 30px 0 0 72px;
+      }
+
+      @media screen and (min-width: 1230px) {
         grid-area: 3 / 1 / 4 / 2;
         -ms-grid-row: 3;
         -ms-grid-row-span: 1;
         -ms-grid-column: 1;
         -ms-grid-column-span: 1;
-        -ms-grid-row-align: start;
-        padding: 30px 0 0 72px;
       }
 
       &:before {
@@ -164,17 +173,26 @@
     }
 
     .feature-excerpt {
-      padding: 18px 20px 24px 26px;
+      padding: 18px 20px 24px 36px;
       border-bottom: solid 1px $pinkish-grey;
 
-      @include breakpoint("medium") {
+      @media screen and (min-width: 992px) {
+        grid-area: 4 / 1 / 5 / 3;
+        -ms-grid-row: 4;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 1;
+        -ms-grid-column-span: 2;
+        padding: 30px 45px 60px 70px;
+        border: none;
+      }
+
+      @media screen and (min-width: 1230px) {
+        padding-top: 60px;
         grid-area: 3 / 2 / 4 / 3;
         -ms-grid-row: 3;
         -ms-grid-row-span: 1;
         -ms-grid-column: 2;
         -ms-grid-column-span: 1;
-        padding: 60px 45px 60px 30px;
-        border: none;
       }
 
       a {
@@ -201,9 +219,9 @@
 
       @include breakpoint("medium") {
         padding: 32px 26px 0 30px;
-        grid-area: 2 / 3 / 4 / 4;
+        grid-area: 2 / 3 / 5 / 4;
         -ms-grid-row: 2;
-        -ms-grid-row-span: 2;
+        -ms-grid-row-span: 3;
         -ms-grid-column: 3;
         -ms-grid-column-span: 1;
 
@@ -214,7 +232,7 @@
           position: absolute;
           height: 50px;
           left: 0px;
-          width: calc((100vw - 100% - 15px) / 2);
+          width: calc((100vw - 100%) / 2);
           background-color: $darker-teal;
         }
       }
@@ -323,27 +341,67 @@
 
   section.secondary {
     display: grid;
-    display: -ms-grid;
     grid-template-columns: 100%;
     -ms-grid-columns: 100%;
     justify-content: center;
 
     padding: 0 20px;
-    overflow: hidden;
+    background-repeat: no-repeat, no-repeat;
+
+    background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
+      -webkit-linear-gradient(top, #fff 5%, $darker-blue 5%, $darker-blue 45%, #fff
+            45%, #fff 100%);
+
     background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
       linear-gradient(
         to bottom,
         #fff 5%,
         $darker-blue 5%,
         $darker-blue 45%,
-        rgba(0, 0, 0, 0) 45%
+        #fff 45%,
+        #fff 100%
       );
-    background-repeat: no-repeat, no-repeat;
-    background-size: 200vw, 100vw;
-    background-position: 0 45%, 0 0;
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-      margin-left: calc((100vw - 100%) / 2);
+
+    background-size: 150%, 100%;
+    background-position: 25% 45%, 0 0;
+
+    @media screen and (min-width: 770px) {
+      background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
+        -webkit-linear-gradient(top, #fff 5%, $darker-blue 5%, $darker-blue 35%, #fff
+              35%);
+
+      background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
+        linear-gradient(
+          to bottom,
+          #fff 5%,
+          $darker-blue 5%,
+          $darker-blue 35%,
+          #fff 35%
+        );
+      background-size: 150%;
+      background-position: 25% 35%, 0 0;
     }
+
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 1) 10%,
+        rgba(14, 36, 46, 1) 10%,
+        rgba(14, 36, 46, 1) 35%,
+        rgba(255, 255, 255, 1) 35%
+      );
+      background-image: url(/wp-content/themes/amti/img/mischief_reef_final.png),
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 1) 10%,
+          rgba(14, 36, 46, 1) 10%,
+          rgba(14, 36, 46, 1) 35%,
+          rgba(255, 255, 255, 1) 35%
+        );
+      background-position: 25% 35%, 0 0;
+      background-repeat: no-repeat !important;
+    }
+
     .feature-title {
       text-transform: uppercase;
     }
@@ -357,70 +415,89 @@
     }
 
     @include breakpoint("medium") {
+      display: -ms-grid;
       padding: 3rem 50px 0;
       background-image: none;
       grid-template-columns: repeat(3, minmax(15%, 480px));
       grid-template-rows: repeat(7, minmax(min-content, 84px)) minmax(18vw, 1fr);
       -ms-grid-columns: minmax(15%, 480px) minmax(15%, 480px) minmax(15%, 480px);
       -ms-grid-rows: minmax(min-content, 84px) minmax(min-content, 84px)
-        minmax(min-content, 84px) minmax(min-content, 84px)
-        minmax(min-content, 84px) minmax(min-content, 84px)
-        minmax(min-content, 84px) minmax(18vw, 1fr);
+        minmax(min-content, 84px) minmax(min-content, 84px) minmax(18vw, 1fr);
     }
 
     .island-slideshow-container {
       position: relative;
+      height: 100%;
 
       @media screen and (min-width: 992px) {
-        grid-area: 1 / 3 / 4 / 4;
+        grid-area: 1 / 3 / 3 / 4;
         -ms-grid-row: 1;
-        -ms-grid-row-span: 3;
+        -ms-grid-row-span: 2;
         -ms-grid-column: 3;
         -ms-grid-column-span: 1;
         max-height: none;
-      }
 
-      &:after {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        height: 100%;
-        background-color: $darker-blue;
-        width: calc(calc((100vw - 100%) / 2) + 100%);
-        left: 0;
-        z-index: -1;
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          height: 100%;
+          background-color: $darker-blue;
+          width: calc((100vw - 100%) / 2);
+          left: 0;
+          z-index: -1;
+        }
       }
-
       .island-slideshow-image {
         overflow: hidden;
         cursor: pointer;
+        height: 100%;
 
         .frame {
           --n: 1;
           display: flex;
-          align-items: top;
+          align-items: start;
           overflow: hidden;
           position: relative;
           z-index: 1;
           width: 100%;
+          height: 100%;
           width: calc(var(--n) * 100%);
           transform: translate(calc(var(--i, 0) / var(--n) * -100%));
+
+          @media all and (-ms-high-contrast: none),
+            (-ms-high-contrast: active) {
+            position: relative;
+            margin-bottom: 39px;
+          }
 
           img {
             width: 100%;
             width: calc(100% / var(--n));
-            max-height: 400px;
             user-select: none;
             pointer-events: none;
+            max-height: 400px;
             height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+
+            @media all and (-ms-high-contrast: none),
+              (-ms-high-contrast: active) {
+              max-height: none;
+              height: auto;
+              position: absolute;
+              left: 50%;
+              top: 50%;
+              transform: translate(-50%, -50%);
+            }
 
             @include breakpoint("medium") {
-              max-height: calc(100vw / 3 - 50px * 2);
+              height: calc((100vw / 3) - 50px);
             }
           }
 
-          @media screen and (min-width: 1080px) {
+          @media screen and (min-width: 768px) {
             height: 100%;
           }
 
@@ -437,16 +514,24 @@
     .island-slideshow-slider {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      margin-top: 24px;
       max-width: 500px;
       position: relative;
-      margin-top: 39px;
       left: 50%;
       transform: translateX(-50%);
 
       @include breakpoint("medium") {
+        position: unset;
+        left: 0;
+        transform: translateX(0);
+
         justify-content: center;
-        align-items: center;
+
+        grid-area: 3 / 3 / 4 / 4;
+        -ms-grid-row: 3;
+        -ms-grid-row-span: 1;
+        -ms-grid-column: 3;
+        -ms-grid-column-span: 1;
       }
 
       .control {
@@ -488,36 +573,29 @@
 
     .island-slideshow-caption {
       text-align: center;
+      z-index: 1;
+
       @media screen and (min-width: 992px) {
         grid-area: 2 / 3 / 3 / 4;
         -ms-grid-row: 2;
         -ms-grid-row-span: 1;
-        -ms-grid-column: 3;
+        -ms-grid-column: 2;
         -ms-grid-column-span: 1;
-        align-self: end;
-        -ms-grid-row-align: end;
         text-align: center;
+        margin-top: 36px;
       }
 
       @media screen and (min-width: 1080px) {
-        grid-area: 4 / 3 / 5 / 4;
-        -ms-grid-row: 4;
-        -ms-grid-row-span: 1;
-        -ms-grid-column: 3;
-        -ms-grid-column-span: 1;
-        align-self: start;
-        -ms-grid-row-align: start;
+        grid-area: 2 / 2 / 3 / 3;
+
+        text-align: right;
+        padding-right: 32px;
       }
 
       @media screen and (min-width: 1230px) {
+        align-self: end;
+        -ms-grid-row-align: end;
         text-align: right;
-        padding-right: 32px;
-        padding: 0 32px 0 96px;
-        grid-area: 3 / 2 / 4 / 3;
-        -ms-grid-row: 3;
-        -ms-grid-row-span: 1;
-        -ms-grid-column: 2;
-        -ms-grid-column-span: 1;
       }
 
       & > * {
@@ -542,8 +620,13 @@
     .island-tracker {
       padding: 36px 0 0 0;
 
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        margin-top: 64px;
+      }
+
       @include breakpoint("medium") {
-        padding: 48px 0 0 48px;
+        margin-top: 0;
+        padding: 48px 30px 0 48px;
         grid-area: 1 / 2 / 2 / 3;
         -ms-grid-row: 1;
         -ms-grid-row-span: 1;
@@ -553,16 +636,17 @@
 
         .feature-title {
           position: relative;
-
-          &:before {
+          display: inline-block;
+          &:after {
             content: "";
             height: 3px;
-            width: calc(300% - 36px);
             background-color: #cecece;
             opacity: 0.32;
             top: 50%;
-            right: calc(-250% - 36px);
             position: absolute;
+            max-width: calc(((100vw - 100%) / 2) - 3rem);
+            width: calc((100vw - 100%) / 2);
+            left: calc(100% + 3rem);
           }
         }
       }
@@ -576,18 +660,18 @@
         padding: 0;
 
         @media screen and (min-width: 1230px) {
-          padding: 0 30px 21px 48px;
+          padding: 0 0 21px 48px;
         }
       }
     }
 
     .island-claimants {
-      padding: 0 0 225px 0;
+      padding: 0 0 200px 0;
 
       @include breakpoint("medium") {
-        grid-area: 5 / 2 / 7 / 4;
-        -ms-grid-row: 5;
-        -ms-grid-row-span: 2;
+        grid-area: 4 / 2 / 7 / 4;
+        -ms-grid-row: 4;
+        -ms-grid-row-span: 1;
         -ms-grid-column: 2;
         -ms-grid-column-span: 2;
         padding: 0 0 0 84px;
@@ -692,14 +776,27 @@
         -ms-grid-column: 1;
         -ms-grid-column-span: 1;
       }
-
       .feature-map {
-        object-fit: cover;
-        object-position: 50% 100%;
-        max-height: 400px;
+        img {
+          object-fit: cover;
+          object-position: 50% 50%;
+          max-height: 400px;
 
-        @include breakpoint("medium") {
-          max-height: calc(100vw / 3 - 50px * 2);
+          @media all and (-ms-high-contrast: none),
+            (-ms-high-contrast: active) {
+            width: auto !important;
+            height: auto !important;
+            min-width: 100% !important;
+            min-height: 100% !important;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          @include breakpoint("medium") {
+            max-height: calc(100vw / 3 - 100px);
+          }
         }
       }
 
@@ -716,10 +813,18 @@
             height: 200%;
             background-image: linear-gradient(
               to bottom,
-              transparent 35%,
-              #f2f2f2 75%,
+              transparent 0%,
+              #f2f2f2 33%,
               #f2f2f2 100%
             );
+
+            background: linear-gradient(
+              to bottom,
+              rgba(242, 242, 242, 0) 0%,
+              rgba(242, 242, 242, 1) 33%,
+              rgba(242, 242, 242, 1) 100%
+            );
+
             z-index: -1;
           }
         }
@@ -844,7 +949,6 @@
       .line {
         @include breakpoint("medium") {
           height: 1px;
-          // background-color: #ff5500;
           margin: 3px 0 15px;
         }
       }
@@ -858,9 +962,7 @@
           display: flex;
           flex-wrap: wrap;
         }
-
         @include breakpoint("medium") {
-          grid-template-rows: repeat(2, 1fr);
           grid-template-columns: repeat(4, max-content);
           grid-gap: 18px 48px;
           align-items: center;
@@ -868,13 +970,82 @@
 
         .logo {
           display: block;
-
-          @media all and (-ms-high-contrast: none),
-            (-ms-high-contrast: active) {
-            margin-right: 39px;
-          }
         }
       }
     }
+  }
+}
+
+_:-ms-input-placeholder,
+:root #content section.secondary .featured-in {
+  width: 100% !important;
+}
+
+_:-ms-input-placeholder,
+:root #content section.secondary .featured-in .logos .logo {
+  margin: auto auto 12px;
+  height: 50px;
+  line-height: 50px;
+  width: 100%;
+  text-align: center;
+}
+
+_:-ms-input-placeholder,
+:root #content section.secondary .island-maps .feature-map {
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+_:-ms-input-placeholder,
+:root #content section.secondary .island-slideshow-container {
+  height: 400px;
+}
+
+_:-ms-input-placeholder,
+:root #content section.primary .feature-image {
+  height: 25vh;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 992px) {
+  _:-ms-input-placeholder,
+  :root #content section.secondary .featured-in .logos .logo {
+    margin: auto 48px auto 0;
+    width: auto;
+  }
+
+  _:-ms-input-placeholder,
+  :root #content section.primary {
+    -ms-grid-rows: 48px auto 0.75fr 2fr;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  _:-ms-input-placeholder,
+  :root #content section.primary .feature-image {
+    height: 290px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  _:-ms-input-placeholder,
+  :root #content section.secondary .island-maps .feature-map {
+    height: calc(100vw / 3 - 100px);
+    max-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+}
+
+@media screen and (min-width: 1230px) {
+  _:-ms-input-placeholder,
+  :root #content section.primary {
+    -ms-grid-rows: 48px auto 0.75fr;
+  }
+  _:-ms-input-placeholder,
+  :root #content section.secondary .featured-in {
+    width: 72% !important;
   }
 }

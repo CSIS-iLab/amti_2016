@@ -17,7 +17,7 @@
  <div class="logos">';
        $logo_ids = get_option('transparency_homepage_featured_in')['key'];
        foreach ($logo_ids as $id) {
-           echo '<img class="logo" src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
+           echo '<div class="logo"><img src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></div>';
        }
      echo '</div>';
    }

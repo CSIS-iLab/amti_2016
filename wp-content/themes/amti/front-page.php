@@ -13,6 +13,8 @@
  */
 
     get_header(); ?>
+<div class="wrapper">
+
 
     <section class="primary">
 
@@ -104,7 +106,7 @@
           'order'=>'DESC',
           'category_name'=> 'A Map Image'
       ), OBJECT)[0]->ID;
-        echo '<img class="feature-map"  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '">';
+        echo '<div class="feature-map"><img  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></div>';
         ?>
 
   </div>
@@ -120,7 +122,7 @@
       <div class="background"></div>
 
     </section>
-
+</div>
 
 	</div>
   <script src="http://amti.csis.test:35729/livereload.js?snipver=1"></script>
