@@ -17,7 +17,7 @@
 
 echo '<div class="island-slideshow-container"><div class="island-slideshow-image"><div class="frame">';
    foreach ($satellites as $post) : setup_postdata($post);
-     echo '<img src="' . wp_get_attachment_image_src($post->ID, $size = 'large')[0] . '">';
+     echo '<img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($post->ID, $size = 'large')[0] . '">';
    endforeach;
 echo '</div></div></div>';
 
@@ -49,3 +49,5 @@ echo '</div></div></div>';
     endforeach;
 
    echo '</div>';
+
+   wp_reset_postdata();

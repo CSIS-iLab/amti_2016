@@ -106,7 +106,7 @@
           'order'=>'DESC',
           'category_name'=> 'A Map Image'
       ), OBJECT)[0]->ID;
-        echo '<div class="feature-map"><img  src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></div>';
+        echo '<div class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></div>';
         ?>
 
   </div>

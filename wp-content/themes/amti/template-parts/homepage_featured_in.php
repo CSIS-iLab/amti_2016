@@ -12,7 +12,6 @@
  echo '<h3 class="section-title">
 '.__('Featured In', 'transparency').'
  </h3>
- <div class="line"></div>
 
  <div class="logos">';
        $logo_ids = get_option('transparency_homepage_featured_in')['key'];
