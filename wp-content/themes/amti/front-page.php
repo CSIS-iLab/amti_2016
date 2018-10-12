@@ -61,7 +61,7 @@
           </div>
           <div class="island">
               <a class="island-shape" href="island-tracker/phillipines"><?php get_template_part("img/island_tracker_icons/phillipines-outline.svg")?></a>
-              <a class="island-name" href="island-tracker/philippines">Phillipines</a>
+              <a class="island-name" href="island-tracker/philippines">Philippines</a>
           </div>
           <div class="island">
               <a class="island-shape" href="island-tracker/taiwan"><?php get_template_part("img/island_tracker_icons/taiwan-outline.svg")?></a>
