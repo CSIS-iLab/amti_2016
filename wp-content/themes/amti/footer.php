@@ -58,9 +58,11 @@
 					<p>
 						Get the AMTI Brief, our monthly feature on political, military, and environmental developments in the South and East China Seas and the claimants bordering them.
 					</p>
-					<button>
-						Sign Up
-					</button>
+
+						<a class="button" href="mailto:amti@csis.org?subject=Subscribe to newsletter&body=Please add me to the AMTI mailing list:
+						%0A
+						Name:%0AAffiliation:%0AAddress:%0APhone Number (optional):">Sign Up</a>
+
 				</div>
 
 				<div class="footer-menu">

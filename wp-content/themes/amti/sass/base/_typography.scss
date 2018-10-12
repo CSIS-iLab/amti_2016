@@ -167,7 +167,7 @@ a {
   font-family: $font__PTSN;
   font-size: 28px;
   font-weight: bold;
-  margin-top: 0;
+  font-style: normal;
   @include breakpoint("medium") {
     font-size: 36px;
     letter-spacing: 1.7px;
@@ -177,8 +177,8 @@ a {
 %h3-narrow {
   font-size: 28px;
   font-family: $font__PTSN;
-  margin-top: 0;
-  font-weight: 400;
+  font-weight: bold;
+  font-style: normal;
   @include breakpoint("medium") {
     font-size: 32px;
   }

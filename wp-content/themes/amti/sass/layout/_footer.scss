@@ -184,9 +184,21 @@
           -ms-grid-column-span: 1;
         }
 
-        button {
+        .button {
           @extend %h6-narrow-bold;
-          border-width: 3px;
+          letter-spacing: 2px;
+          border: 3px solid $light-green;
+          color: $light-green;
+          transition: all 0.3s;
+          line-height: 0.4em;
+          text-align: center;
+          padding: 16px 18px;
+          display: inline-block;
+
+          &:hover {
+            background-color: $light-green;
+            color: $white;
+          }
         }
       }
 

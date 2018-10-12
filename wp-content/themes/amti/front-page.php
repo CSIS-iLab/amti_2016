@@ -37,7 +37,9 @@
 
       <div class="island-tracker">
         <h2 class="feature-title">
-          <?php echo __('Island Tracker', 'transparency')?>
+          <a href="island-tracker">
+            <?php echo __('Island Tracker', 'transparency')?>
+          </a>
         </h2>
         <p class="feature-excerpt">
           <?php echo __('Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years.', 'transparency')?>
@@ -75,7 +77,9 @@
         <div class="island-maps">
         <div class="feature-heading">
           <h2 class="feature-title">
-            <?php echo __('Maps of the Asia Pacific', 'transparency')?>
+            <a href="maps">
+              <?php echo __('Maps of the Asia Pacific', 'transparency')?>
+            </a>
           </h2>
 
             <div class="island-maps feature-description">
@@ -99,7 +103,7 @@
           'order'=>'DESC',
           'category_name'=> 'A Map Image'
       ), OBJECT)[0]->ID;
-        echo '<div class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></div>';
+        echo '<a href="maps/" class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></a>';
         ?>
 
   </div>

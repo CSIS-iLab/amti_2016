@@ -680,8 +680,14 @@
       }
 
       .feature-title {
-        @extend %h3-narrow-bold;
-        color: $white;
+        margin-top: 0;
+        a {
+          @extend %h3-narrow-bold;
+          color: $white;
+          &:hover {
+            color: $light-green;
+          }
+        }
       }
 
       .feature-excerpt {
@@ -805,6 +811,8 @@
         -ms-grid-column-span: 1;
       }
       .feature-map {
+        display: block;
+
         _:-ms-input-placeholder,
         :root & {
           height: 400px;
@@ -876,8 +884,18 @@
         }
 
         .feature-title {
-          @extend %h3-narrow-bold;
-          color: $dark-blue-grey;
+          margin-top: 0;
+          @media screen and (min-width: 992px) {
+            padding-right: 30px;
+          }
+
+          a {
+            @extend %h3-narrow-bold;
+            color: $dark-blue-grey;
+            &:hover {
+              color: $light-green;
+            }
+          }
         }
 
         .feature-description {
