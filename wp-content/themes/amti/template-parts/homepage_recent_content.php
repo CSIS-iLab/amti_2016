@@ -19,15 +19,14 @@ echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
       $recent_post1,
       $recent_post2,
       $recent_post3,
-
       ),
-      'orderby'=>'date',
-      'order'=>'DESC',
-      'post_type'=>'any'
+      'post_type'=>'any',
+      'orderby'=>'post__in'
   );
 
 
   $featured = get_posts($featuredPostsArgs);
+
   $offset = 3  - count($featured);
 
   if($offset > 0){
@@ -44,19 +43,18 @@ echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
          $latest_posts[0]->ID,
          $latest_posts[1]->ID,
          $latest_posts[2]->ID
-
           ),
-          'orderby'=>'date',
-          'order'=>'DESC',
-        'numberposts' => $offset
+
+        'numberposts' => $offset,
+        'orderby'=>'post__in'
       );
 
       $latest = get_posts($latestPostsArgs);
 
-      $all_posts =  sort_posts(array_merge($latest, $featured), 'post_date', $order = 'DESC', $unique = true);
+      $all_posts =  array_merge($latest, $featured);
 
   } else {
-      $all_posts =  sort_posts($featured, 'post_date', $order = 'DESC', $unique = true);
+      $all_posts =  $featured;
 
   }
 
@@ -66,7 +64,7 @@ echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
               <div class="date"><span>' . get_the_date('M') . '</span> <span>' . get_the_date('j') . '</span></div>
               <div class="title-author"><a class="title" href="' . esc_url(get_permalink()) . '">' . get_the_title() . '</a>';
 
-                  if ($post->post_type!=="features") {
+                  if ($post->post_type=="post") {
                       echo '<div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>';
                   }
 

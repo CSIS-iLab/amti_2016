@@ -265,7 +265,7 @@ add_action('admin_menu', 'options_enqueue_scripts');
 
   function transparency_posts_features_callback($args)
   {
-      $post_list = array_merge($args[1], $args[2]);
+    $post_list = array_merge(get_pages(),$args[1], $args[2]);
 
       $sorted_posts = sort_posts($post_list, 'post_date', $order = 'DESC', $unique = true);
       $option = get_option($args[0]);
@@ -280,8 +280,10 @@ add_action('admin_menu', 'options_enqueue_scripts');
           }
           if ($post->post_type== 'post') {
               echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . ': ANALYSIS</option>';
-          } else {
+          } else if ($post->post_type== 'features')  {
               echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . ': FEATURE</option>';
+          } else {
+              echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . ': PAGE</option>';
           }
       }
       echo '</select>';
