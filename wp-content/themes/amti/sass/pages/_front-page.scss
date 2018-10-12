@@ -7,28 +7,29 @@
       display: block;
     }
   }
-  p {
-    font-size: 16px;
-    font-family: $font__PTS;
-    line-height: 1.75;
-    @include breakpoint("medium") {
-      font-size: 18px;
-      line-height: 1.39;
-    }
-    margin-bottom: 0;
-  }
 
-  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .wrapper {
+  .wrapper {
+    p {
+      font-size: 16px;
+      font-family: $font__PTS;
+      line-height: 1.75;
+      @include breakpoint("medium") {
+        font-size: 18px;
+        line-height: 1.39;
+      }
+      margin-bottom: 0;
+    }
+
+    .feature-image img,
+    .island-slideshow-image img,
+    .feature-map img {
+      width: 100%;
+    }
+
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
       max-width: 1540px;
       margin: 0 auto;
     }
-  }
-
-  .feature-image img,
-  .island-slideshow-image img,
-  .feature-map img {
-    width: 100%;
   }
 
   section.primary {
