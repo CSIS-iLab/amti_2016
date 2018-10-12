@@ -15,13 +15,11 @@
     get_header(); ?>
 <div class="wrapper">
 
-
     <section class="primary">
 
       <!-- BEGIN MAIN FEATURE // -->
         <?php get_template_part('template-parts/homepage_feature'); ?>
       <!-- // END MAIN FEATURE -->
-
 
       <div class="recent-content">
         <!-- BEGIN RECENT CONTENT // -->
@@ -29,18 +27,13 @@
         <!-- // END RECENT CONTENT -->
       </div>
 
-
-
-
     </section>
-
 
     <section class="secondary">
 
       <!-- BEGIN SLIDER // -->
           <?php get_template_part('template-parts/homepage_slider'); ?>
       <!-- // END SLIDER-->
-
 
       <div class="island-tracker">
         <h2 class="feature-title">
