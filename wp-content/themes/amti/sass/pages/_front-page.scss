@@ -1,5 +1,6 @@
 #content {
   position: relative;
+  overflow: hidden;
 
   [class^="margin-"] {
     display: none;
@@ -43,7 +44,7 @@
       padding: 0 50px;
       grid-template-columns: repeat(3, minmax(15%, 480px));
       // grid-template-rows: 48px repeat(3, auto);
-      grid-template-rows: 48px auto 0.75fr 2fr;
+      grid-template-rows: 48px auto 0.75fr auto;
       -ms-grid-columns: minmax(15%, 480px) minmax(15%, 480px) minmax(15%, 480px);
       -ms-grid-rows: 48px auto 0.75fr;
 
@@ -100,7 +101,7 @@
           top: 0;
           width: calc((100vw - 100%) / 2);
           height: 100%;
-          background-color: $darker-teal;
+          background-color: $dark-teal;
         }
       }
 
@@ -211,6 +212,7 @@
       }
 
       @media screen and (min-width: 1230px) {
+        margin-bottom: 50px;
         padding-top: 60px;
         grid-area: 3 / 2 / 4 / 3;
         -ms-grid-row: 3;
@@ -257,11 +259,12 @@
           height: 50px;
           left: 0px;
           width: calc((100vw - 100%) / 2);
-          background-color: $darker-teal;
+          background-color: $dark-teal;
         }
       }
 
       .section-title {
+        margin-top: 0;
         @extend %h3-narrow;
         color: #4a4a4a;
       }
@@ -297,6 +300,7 @@
             padding: 9px;
             display: inline;
             background-color: $dark-topaz;
+            transition: 0.2s ease-in-out;
             @extend %h6-normal;
             color: $white;
             line-height: 1;
@@ -342,7 +346,7 @@
         border: none;
         color: $black;
         line-height: 0.4em;
-        padding: 24px 0;
+        padding: 24px 12px;
         text-align: center;
         margin: 1rem auto 0;
         display: block;
@@ -350,9 +354,9 @@
         width: 50vw;
 
         @include breakpoint("medium") {
+          display: inline-block;
           margin: 1rem 0 0;
           width: auto;
-          max-width: 125px;
         }
 
         &:hover {
@@ -543,7 +547,7 @@
     .island-slideshow-slider {
       display: flex;
       justify-content: space-between;
-      margin: 2rem 2rem;
+      margin: 2rem 0;
       max-width: 500px;
       position: relative;
       left: 50%;
@@ -771,6 +775,7 @@
               max-width: 100%;
               fill: $white;
               opacity: 0.45;
+              transition: 0.2s ease-in-out;
             }
           }
 
