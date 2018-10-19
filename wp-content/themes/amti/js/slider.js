@@ -13,35 +13,39 @@ let i,
   TFN;
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  _C = document.querySelector(".island-slideshow-image .frame");
-  N = _C.children.length;
-  NF = 30;
-  TFN = {
-    "ease-in-out": function(k) {
-      return 0.5 * (Math.sin((k - 0.5) * Math.PI) + 1);
-    }
-  };
+  if (!document.querySelector(".island-slideshow-image")) {
+    return;
+  } else {
+    _C = document.querySelector(".island-slideshow-image .frame");
+    N = _C.children.length;
+    NF = 30;
+    TFN = {
+      "ease-in-out": function(k) {
+        return 0.5 * (Math.sin((k - 0.5) * Math.PI) + 1);
+      }
+    };
 
-  i = 0;
+    i = 0;
 
-  size();
-  _C.style.setProperty("--n", N);
+    size();
+    _C.style.setProperty("--n", N);
 
-  addEventListener("resize", size, false);
+    addEventListener("resize", size, false);
 
-  _C.addEventListener("mousedown", lock, false);
-  _C.addEventListener("touchstart", lock, false);
+    _C.addEventListener("mousedown", lock, false);
+    _C.addEventListener("touchstart", lock, false);
 
-  _C.addEventListener("mousemove", drag, false);
-  _C.addEventListener("touchmove", drag, false);
+    _C.addEventListener("mousemove", drag, false);
+    _C.addEventListener("touchmove", drag, false);
 
-  _C.addEventListener("mouseup", move, false);
-  _C.addEventListener("touchend", move, false);
-  _C.addEventListener("click", move, false);
+    _C.addEventListener("mouseup", move, false);
+    _C.addEventListener("touchend", move, false);
+    _C.addEventListener("click", move, false);
 
-  document
-    .querySelector(".island-slideshow-slider")
-    .addEventListener("click", control, false);
+    document
+      .querySelector(".island-slideshow-slider")
+      .addEventListener("click", control, false);
+  }
 });
 
 function stopAni() {

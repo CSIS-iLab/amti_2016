@@ -489,7 +489,11 @@
 
         .frame {
           --n: 1;
-          display: flex;
+          display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+          display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+          display: -ms-flexbox; /* TWEENER - IE 10 */
+          display: -webkit-flex; /* NEW - Chrome */
+          display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
           align-items: start;
           overflow: hidden;
           position: relative;
@@ -545,7 +549,11 @@
     }
 
     .island-slideshow-slider {
-      display: flex;
+      display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+      display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+      display: -ms-flexbox; /* TWEENER - IE 10 */
+      display: -webkit-flex; /* NEW - Chrome */
+      display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
       justify-content: space-between;
       margin: 2rem 0;
       max-width: 500px;
@@ -800,8 +808,15 @@
         }
 
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-          display: flex;
+          display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+          display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+          display: -ms-flexbox; /* TWEENER - IE 10 */
+          display: -webkit-flex; /* NEW - Chrome */
+          display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+          -ms-flex-wrap: wrap;
           flex-wrap: wrap;
+          -webkit-box-flex: 1;
+          -ms-flex: 1 1 33%;
           flex: 1 1 33%;
           margin-bottom: -39px;
         }
@@ -1035,7 +1050,12 @@
         grid-gap: 24px 0;
 
         @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-          display: flex;
+          display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+          display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+          display: -ms-flexbox; /* TWEENER - IE 10 */
+          display: -webkit-flex; /* NEW - Chrome */
+          display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
+          -ms-flex-wrap: wrap;
           flex-wrap: wrap;
         }
 
