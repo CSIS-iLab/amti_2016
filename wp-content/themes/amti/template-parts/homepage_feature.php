@@ -8,8 +8,8 @@
  */
 
 
-if (get_option('transparency_homepage_featured_post')) {
-    $id = get_option('transparency_homepage_featured_post');
+if (get_option('transparency_homepage_featured_post-'.ICL_LANGUAGE_CODE)) {
+    $id = get_option('transparency_homepage_featured_post-'.ICL_LANGUAGE_CODE);
 } else {
     $latest_post = wp_get_recent_posts(array(
       'post_status' => 'publish',
@@ -40,5 +40,5 @@ echo '<div class="feature-image">
   <p class="feature-excerpt">' . wp_strip_all_tags(get_the_excerpt()) . ' <a href="' . esc_url(get_permalink()) . '">'
 .__('Continue Reading', 'transparency').
  '</a>
-  </p>'
+  </p>';
 ?>

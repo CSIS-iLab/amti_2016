@@ -10,9 +10,9 @@
 
 echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
 <div class="feature-list">';
-  $recent_post1 = get_option('transparency_homepage_recent_content_1');
-  $recent_post2 = get_option('transparency_homepage_recent_content_2');
-  $recent_post3 = get_option('transparency_homepage_recent_content_3');
+  $recent_post1 = get_option('transparency_homepage_recent_content_1-'.ICL_LANGUAGE_CODE);
+  $recent_post2 = get_option('transparency_homepage_recent_content_2-'.ICL_LANGUAGE_CODE);
+  $recent_post3 = get_option('transparency_homepage_recent_content_3-'.ICL_LANGUAGE_CODE);
 
   $featuredPostsArgs = array(
     'post__in' => array(
