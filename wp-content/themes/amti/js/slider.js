@@ -118,7 +118,7 @@ function move(e) {
 
 function control(e) {
   if (e.target.classList.contains("control")) {
-    fin = [...document.querySelectorAll(".control")].indexOf(e.target);
+    fin = Array.from(document.querySelectorAll(".control")).indexOf(e.target);
     i = i || 0;
 
     ini = i;
@@ -136,15 +136,18 @@ function control(e) {
 }
 
 function status(x) {
-  [...document.querySelectorAll(".control")][x].classList.add("active");
-  [...document.querySelectorAll(".control")].forEach(function(control, index) {
+  Array.from(document.querySelectorAll(".control"))[x].classList.add("active");
+  Array.from(document.querySelectorAll(".control")).forEach(function(
+    control,
+    index
+  ) {
     if (index !== i) control.classList.remove("active");
   });
 
-  [...document.querySelectorAll(".feature-caption")][x].style.display =
+  Array.from(document.querySelectorAll(".feature-caption"))[x].style.display =
     "inline-block";
 
-  [...document.querySelectorAll(".feature-caption")].forEach(function(
+  Array.from(document.querySelectorAll(".feature-caption")).forEach(function(
     caption,
     index
   ) {
