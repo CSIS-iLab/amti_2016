@@ -53,15 +53,20 @@ function stopAni() {
   rID = null;
 }
 
-function ani(cf = 0) {
-  _C.style.setProperty("--i", ini + (fin - ini) * TFN["ease-in-out"](cf / anf));
+function ani(cf) {
+  let arg = cf || 0;
 
-  if (cf === anf) {
+  _C.style.setProperty(
+    "--i",
+    ini + (fin - ini) * TFN["ease-in-out"](arg / anf)
+  );
+
+  if (arg === anf) {
     stopAni();
     return;
   }
 
-  rID = requestAnimationFrame(ani.bind(this, ++cf));
+  rID = requestAnimationFrame(ani.bind(this, ++arg));
 }
 
 function unify(e) {
