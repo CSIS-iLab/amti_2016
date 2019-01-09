@@ -20,7 +20,7 @@
 						<img src="/wp-content/uploads/2014/11/csis.png" >
 					</span>
 					<span class="tagline">
-						<?php echo get_bloginfo( 'description', 'display' ) ?>
+						<?php echo __('Promoting Transparency and Cooperation in East Asia', 'transparency')?>
 					</span>
 				</div>
 				 <hr/>
@@ -56,12 +56,14 @@
 						<?php echo __('Subscribe', 'transparency')?>
 					</div>
 					<p>
-						Get the AMTI Brief, our monthly feature on political, military, and environmental developments in the South and East China Seas and the claimants bordering them.
+						<?php echo __('Get the AMTI Brief, our monthly feature on political, military, and environmental developments in the South and East China Seas and the claimants bordering them.', 'transparency')?>
 					</p>
 
 						<a class="button" href="mailto:amti@csis.org?subject=Subscribe to newsletter&body=Please add me to the AMTI mailing list:
 						%0A
-						Name:%0AAffiliation:%0AAddress:%0APhone Number (optional):">Sign Up</a>
+						Name:%0AAffiliation:%0AAddress:%0APhone Number (optional):">
+							<?php echo __('Sign Up', 'transparency')?>
+						</a>
 
 				</div>
 
