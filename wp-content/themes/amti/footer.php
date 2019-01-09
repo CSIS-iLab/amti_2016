@@ -20,7 +20,7 @@
 						<img src="/wp-content/uploads/2014/11/csis.png" >
 					</span>
 					<span class="tagline">
-						<?php echo __('Promoting Transparency and Cooperation in East Asia', 'transparency')?>
+						<?php echo __('Promoting openness and exchange in maritime Asia', 'transparency')?>
 					</span>
 				</div>
 				 <hr/>
