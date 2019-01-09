@@ -38,7 +38,13 @@ echo '</div></div></div>';
 
 
    echo '<div class="island-slideshow-caption">
-       <span class="feature-subtitle">'.__('Photo', 'transparency').':</span>';
+       <span class="feature-subtitle">';
+ 		?>
+
+    <?php echo __('Photo:', 'transparency')?>
+
+
+    <?php echo '</span>';
 
     foreach ($satellites as $key=>$post) : setup_postdata($post);
        if ($key == 0) {
