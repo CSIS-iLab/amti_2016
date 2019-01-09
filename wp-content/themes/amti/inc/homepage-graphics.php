@@ -57,8 +57,7 @@ function transparency_admin_init_section_homepage_graphics()
 
     register_setting(
        'transparency_settings',
-       'transparency_homepage_featured_map',
-       'sanitize_text_field'
+       'transparency_homepage_featured_map'
    );
 
     register_setting(

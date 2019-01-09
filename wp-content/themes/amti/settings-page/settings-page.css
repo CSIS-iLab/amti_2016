@@ -1,5 +1,6 @@
 #transparency_homepage_featured_map,
-#transparency_homepage_featured_satellites {
+#transparency_homepage_featured_satellites,
+select[id^="transparency_homepage_featured_image-"] {
   height: 400px;
 }
 
@@ -18,11 +19,12 @@ option:checked {
   color: white;
 }
 
-select:not(.logo) option {
+select:not(.logo):not(.featured) option {
   height: 12vw;
 }
 
-select.logo option {
+select.logo option,
+select.featured option {
   height: calc(12vw / 2);
 }
 
@@ -42,7 +44,8 @@ option {
 
 @media screen and (max-width: 782px) {
   #wpbody .form-table td #transparency_homepage_featured_map,
-  #wpbody .form-table td #transparency_homepage_featured_satellites {
+  #wpbody .form-table td #transparency_homepage_featured_satellites,
+  select[id^="transparency_homepage_featured_image-"] {
     height: 400px;
   }
 

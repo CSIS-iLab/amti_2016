@@ -20,7 +20,7 @@
        }
 
        $post_list=$filteredPosts;
-     
+
 
      $option = get_option($args[0]);
      echo '<select name="' . esc_attr($args[0]) . '"  name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
@@ -34,6 +34,26 @@
          }
 
          echo '<option value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . ': FEATURE</option>';
+     }
+     echo '</select>';
+ }
+
+
+ function transparency_featured_image_callback($args)
+ {
+     $option = get_option($args[0]);
+     echo '<select size="9" class="featured" name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+
+     foreach ($args[1] as $post) {
+         if ($post->ID == esc_attr($option)) {
+             $selected = "selected";
+         } else {
+             $selected = '';
+         }
+
+         $path = parse_url($post->guid)['path'];
+
+         echo '<option style="background-image:url(\'' . $path . '\'); " value="' . esc_attr($post->ID) . '" ' . $selected . '>' . esc_attr($post->post_title) . '</option>';
      }
      echo '</select>';
  }

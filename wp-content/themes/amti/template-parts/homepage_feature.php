@@ -24,8 +24,18 @@ if (get_option('transparency_homepage_featured_post-'.ICL_LANGUAGE_CODE)) {
 $post = get_post($id);
 setup_postdata($post);
 
+if (get_option('transparency_homepage_featured_image-'.ICL_LANGUAGE_CODE)) {
+    $image_id = get_option('transparency_homepage_featured_image-'.ICL_LANGUAGE_CODE);
+   $image = wp_get_attachment_image_src($image_id, $size = 'large')[0];
+} else {
+    $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size = 'large')[0];
+}
+
+
 echo '<div class="feature-image">
-<img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size = 'large')[0] . '">
+  <a  class="title-latest" href="' . esc_url(get_permalink()) . '">
+    <img alt="' . $post->post_title  . '"src="' . $image . '">
+  </a>
 </div>
 
   <div class="feature-heading">

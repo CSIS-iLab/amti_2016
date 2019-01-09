@@ -86,6 +86,16 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
       );
    }
 
+   $image_selection = get_posts(
+      array(
+        'post_type'  => 'attachment',
+        'numberposts' => -1,
+        'orderby'=>'date',
+        'order'=>'DESC',
+        'category_name'=> 'A Featured Image'
+      )
+  );
+
      $languages = array( 'VI', 'MS', 'EN', 'ZH-HANS', 'ZH-HANT' );
 
      foreach ($languages as $language) {
@@ -100,6 +110,15 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
           'transparency-options-page',
           'transparency_settings_section_homepage',
           array( 'transparency_homepage_featured_post-'.$language, $post_selection['features'], $language)
+      );
+
+       add_settings_field(
+          'transparency_homepage_featured_image-'.$language,
+          'Featured Image (optional)-'.$language,
+          'transparency_featured_image_callback',
+          'transparency-options-page',
+          'transparency_settings_section_homepage',
+          array( 'transparency_homepage_featured_image-'.$language, $image_selection, $language)
       );
 
        add_settings_field(
@@ -133,6 +152,12 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
      register_setting(
         'transparency_settings-'.$language,
         'transparency_homepage_featured_post-'.$language,
+        'sanitize_text_field'
+    );
+
+     register_setting(
+        'transparency_settings-'.$language,
+        'transparency_homepage_featured_image-'.$language,
         'sanitize_text_field'
     );
 
