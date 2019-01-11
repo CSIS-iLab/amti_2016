@@ -9,6 +9,7 @@
     position: relative;
     flex-basis: 100%;
     margin-bottom: 2rem;
+    cursor: pointer;
 
     @include breakpoint("small") {
       flex-basis: calc(50% - 2rem);
@@ -33,7 +34,13 @@
     }
 
     &:hover .background {
-      transform: scale(1.5, 1.5);
+      transform: scale(1.1, 1.1);
+    }
+
+    &:hover span.title,
+    &:active span.title,
+    &:focus span.title {
+      background-color: $dark-blue;
     }
   }
 
@@ -55,10 +62,5 @@
     -ms-transition: background-color 0.3s ease-in-out;
     -o-transition: background-color 0.3s ease-in-out;
     -webkit-transition: background-color 0.3s ease-in-out;
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: $dark-blue;
-    }
   }
 }

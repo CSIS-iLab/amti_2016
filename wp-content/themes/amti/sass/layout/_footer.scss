@@ -154,6 +154,12 @@
             font-size: 36px;
             margin-right: 9px;
             margin-top: 12px;
+            -webkit-transition: color 0.3s ease-in-out;
+            -moz-transition: color 0.3s ease-in-out;
+            -ms-transition: color 0.3s ease-in-out;
+            -o-transition: color 0.3s ease-in-out;
+            transition: color 0.3s ease-in-out;
+
             @include breakpoint("medium") {
               margin-top: 0;
             }
@@ -218,6 +224,18 @@
           list-style: none;
           margin: 0;
           padding-left: 0;
+
+          li a {
+            -webkit-transition: color 0.3s ease-in-out;
+            -moz-transition: color 0.3s ease-in-out;
+            -ms-transition: color 0.3s ease-in-out;
+            -o-transition: color 0.3s ease-in-out;
+            transition: color 0.3s ease-in-out;
+
+            &:hover {
+              color: white;
+            }
+          }
         }
       }
     }
