@@ -1,6 +1,8 @@
 #mapContainer {
   display: flex;
   flex-wrap: wrap;
+  max-width: calc(100vw - 4rem);
+  margin: auto;
 
   .map {
     display: block;
