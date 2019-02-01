@@ -116,7 +116,7 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
           'transparency_feature_callback',
           'transparency-options-page',
           'transparency_settings_section_homepage',
-          array( 'transparency_homepage_featured_post-'.$language, $post_selection['features'], $language)
+          array( 'transparency_homepage_featured_post-'.$language, $post_selection['post'],$post_selection['features'], $language)
       );
 
        add_settings_field(
