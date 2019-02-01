@@ -34,7 +34,7 @@
                   if ($tab==$language){
                     settings_fields('transparency_settings-'.$language);
                 }
-}
+              }
 
 
             submit_button();
@@ -64,7 +64,6 @@ add_action('admin_menu', function () {
 require_once('homepage-content.php');
 require_once('homepage-graphics.php');
 add_action('admin_init', 'transparency_admin_init_section_homepage_content');
-add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
 
 
 
@@ -86,15 +85,23 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
       );
    }
 
-   $image_selection = get_posts(
-      array(
-        'post_type'  => 'attachment',
-        'numberposts' => -1,
-        'orderby'=>'date',
-        'order'=>'DESC',
-        'category_name'=> 'A Featured Image'
-      )
-  );
+  $image_types = array( 'A Map Image', 'A Satellite Image', 'A Logo Image', 'A Featured Image' );
+
+  $image_selection = array();
+
+
+  foreach ($image_types as $type) {
+      $image_selection[$type] = get_posts(
+         array(
+           'post_type'  => 'attachment',
+           'numberposts' => -1,
+           'orderby'=>'date',
+           'order'=>'DESC',
+           'category_name'=> $type
+         )
+     );
+  }
+
 
      $languages = array( 'VI', 'MS', 'EN', 'ZH-HANS', 'ZH-HANT' );
 
@@ -118,7 +125,7 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
           'transparency_featured_image_callback',
           'transparency-options-page',
           'transparency_settings_section_homepage',
-          array( 'transparency_homepage_featured_image-'.$language, $image_selection, $language)
+          array( 'transparency_homepage_featured_image-'.$language, $image_selection['A Featured Image'])
       );
 
        add_settings_field(
@@ -147,6 +154,36 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
           'transparency_settings_section_homepage',
           array( 'transparency_homepage_recent_content_3-'.$language, $post_selection['post'],$post_selection['features'], $language)
       );
+
+
+      add_settings_field(
+         'transparency_homepage_featured_map',
+         'Featured Map of the Asia Pacific',
+         'transparency_posts_featured_map_callback',
+         'transparency-options-page',
+         'transparency_settings_section_homepage',
+         array( 'transparency_homepage_featured_map', $image_selection['A Map Image'])
+     );
+
+      add_settings_field(
+         'transparency_homepage_featured_satellites',
+         'Island Tracker Images',
+         'transparency_posts_featured_satellites_callback',
+         'transparency-options-page',
+         'transparency_settings_section_homepage',
+         array( 'transparency_homepage_featured_satellites', $image_selection['A Satellite Image'] )
+     );
+
+      add_settings_field(
+         'transparency_homepage_featured_in',
+         'Featured In...',
+         'transparency_posts_featured_in_callback',
+         'transparency-options-page',
+         'transparency_settings_section_homepage',
+         array( 'transparency_homepage_featured_in', $image_selection['A Logo Image'])
+     );
+
+
     }
 
      register_setting(
@@ -157,8 +194,7 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
 
      register_setting(
         'transparency_settings-'.$language,
-        'transparency_homepage_featured_image-'.$language,
-        'sanitize_text_field'
+        'transparency_homepage_featured_image-'.$language
     );
 
      register_setting(
@@ -178,5 +214,21 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_graphics');
         'transparency_homepage_recent_content_3-'.$language,
         'sanitize_text_field'
     );
+
+    register_setting(
+       'transparency_settings-'.$language,
+       'transparency_homepage_featured_map'
+   );
+
+    register_setting(
+       'transparency_settings-'.$language,
+       'transparency_homepage_featured_satellites'
+    );
+
+    register_setting(
+       'transparency_settings-'.$language,
+       'transparency_homepage_featured_in'
+   );
+
  }
 }
