@@ -120,6 +120,15 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
       );
 
              add_settings_field(
+          'transparency_homepage_featured_post_title-'.$language,
+          'Featured Post Title (optional)-'.$language,
+          'transparency_custom_title_callback',
+          'transparency-options-page',
+          'transparency_settings_section_homepage',
+          array( 'transparency_homepage_featured_post_title-'.$language)
+      );
+
+             add_settings_field(
           'transparency_homepage_featured_image-'.$language,
           'Featured Image (optional)-'.$language,
           'transparency_featured_image_callback',
@@ -137,6 +146,17 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
           array( 'transparency_homepage_recent_content_1-'.$language, $post_selection['features'], $post_selection['post'],$language)
       );
 
+
+             add_settings_field(
+       'transparency_homepage_recent_content_1_title-'.$language,
+       'Recent Content #1 Title (optional)-'.$language,
+       'transparency_custom_title_callback',
+       'transparency-options-page',
+       'transparency_settings_section_homepage',
+       array( 'transparency_homepage_recent_content_1_title-'.$language)
+    );
+
+
              add_settings_field(
           'transparency_homepage_recent_content_2-'.$language,
           'Recent Content #2 (optional)-'.$language,
@@ -147,6 +167,16 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
       );
 
              add_settings_field(
+         'transparency_homepage_recent_content_2_title-'.$language,
+         'Recent Content #2 Title (optional)-'.$language,
+         'transparency_custom_title_callback',
+         'transparency-options-page',
+         'transparency_settings_section_homepage',
+         array( 'transparency_homepage_recent_content_2_title-'.$language)
+      );
+
+
+             add_settings_field(
           'transparency_homepage_recent_content_3-'.$language,
           'Recent Content #3 (optional)-'.$language,
           'transparency_recent_content_callback',
@@ -155,6 +185,14 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
           array( 'transparency_homepage_recent_content_3-'.$language, $post_selection['features'], $post_selection['post'],$language)
       );
 
+             add_settings_field(
+       'transparency_homepage_recent_content_3_title-'.$language,
+       'Recent Content #3 Title (optional)-'.$language,
+       'transparency_custom_title_callback',
+       'transparency-options-page',
+       'transparency_settings_section_homepage',
+       array( 'transparency_homepage_recent_content_3_title-'.$language)
+    );
 
              add_settings_field(
          'transparency_homepage_featured_map',
@@ -192,6 +230,12 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
 
          register_setting(
         'transparency_settings-'.$language,
+        'transparency_homepage_featured_post_title-'.$language,
+        'sanitize_text_field'
+    );
+
+         register_setting(
+        'transparency_settings-'.$language,
         'transparency_homepage_featured_image-'.$language
     );
 
@@ -210,6 +254,24 @@ add_action('admin_init', 'transparency_admin_init_section_homepage_content');
          register_setting(
         'transparency_settings-'.$language,
         'transparency_homepage_recent_content_3-'.$language,
+        'sanitize_text_field'
+    );
+
+         register_setting(
+        'transparency_settings-'.$language,
+        'transparency_homepage_recent_content_1_title-'.$language,
+        'sanitize_text_field'
+    );
+
+         register_setting(
+        'transparency_settings-'.$language,
+        'transparency_homepage_recent_content_2_title-'.$language,
+        'sanitize_text_field'
+    );
+
+         register_setting(
+        'transparency_settings-'.$language,
+        'transparency_homepage_recent_content_3_title-'.$language,
         'sanitize_text_field'
     );
 

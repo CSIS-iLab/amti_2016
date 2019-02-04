@@ -24,9 +24,19 @@ if (get_option('transparency_homepage_featured_post-'.ICL_LANGUAGE_CODE)) {
 $post = get_post($id);
 setup_postdata($post);
 
+if (get_option('transparency_homepage_featured_post_title-'.ICL_LANGUAGE_CODE)) {
+    $title = get_option('transparency_homepage_featured_post_title-'.ICL_LANGUAGE_CODE);
+} else {
+    $title =
+    $title = get_the_title();
+}
+
+
+
+
 if (get_option('transparency_homepage_featured_image-'.ICL_LANGUAGE_CODE)) {
     $image_id = get_option('transparency_homepage_featured_image-'.ICL_LANGUAGE_CODE);
-   $image = wp_get_attachment_image_src($image_id, $size = 'large')[0];
+    $image = wp_get_attachment_image_src($image_id, $size = 'large')[0];
 } else {
     $image = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size = 'large')[0];
 }
@@ -34,7 +44,7 @@ if (get_option('transparency_homepage_featured_image-'.ICL_LANGUAGE_CODE)) {
 
 echo '<div class="feature-image">
   <a  class="title-latest" href="' . esc_url(get_permalink()) . '">
-    <img alt="' . $post->post_title  . '"src="' . $image . '">
+    <img alt="' . $title  . '"src="' . $image . '">
   </a>
 </div>
 
@@ -42,7 +52,7 @@ echo '<div class="feature-image">
 
     <div class="feature-title">
       <div class="feature-subtitle">'.__('Latest Feature', 'transparency').'</div><a  class="title-latest" href="' . esc_url(get_permalink()) . '">
-      ' . get_the_title() . '
+      ' . $title . '
         </a><div class="date">' . get_the_date() . '</div>
       </div>
   </div>
@@ -51,4 +61,3 @@ echo '<div class="feature-image">
 .__('Continue Reading', 'transparency').
  '</a>
   </p>';
-?>

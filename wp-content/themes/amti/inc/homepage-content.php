@@ -6,6 +6,14 @@
  */
 
 
+
+  function transparency_custom_title_callback($args)
+  {
+      $value = get_option($args[0]);
+      echo '<input name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '" value="' . $value . '" type="text"/>';
+  }
+
+
  function transparency_feature_callback($args)
  {
      $pages = new WP_Query(array(
@@ -33,7 +41,7 @@
      $sorted_posts = sort_posts($post_list, 'post_date', $order = 'DESC', $unique = true);
      $option = get_option($args[0]);
 
-     echo '<select name="' . esc_attr($args[0]) . '"  name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+     echo '<select name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
      echo '<option value> -- </option>';
 
      foreach ($sorted_posts as $post) {
@@ -78,7 +86,7 @@
       $sorted_posts = sort_posts($post_list, 'post_date', $order = 'DESC', $unique = true);
       $option = get_option($args[0]);
 
-      echo '<select name="' . esc_attr($args[0]) . '"  name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+      echo '<select name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
       echo '<option value> -- </option>';
 
       foreach ($sorted_posts as $post) {
