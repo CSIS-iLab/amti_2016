@@ -17,14 +17,14 @@
 		<div class="row" >
 		<div class="col-xs-12 col-md-8" id="header-img">
 
-			
-				<?php echo get_the_post_thumbnail( $_post->ID, 'large' ); ?>
-		
-			
+
+				<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
+
+
 		</div>
 		<div class="col-xs-12  col-md-4" id="header-info">
 
-			<?php 
+			<?php
 				$occupation = get_post_meta($post->ID, '_island-tracker_occupation', true);
 				$status = get_post_meta($post->ID, '_island-tracker_status', true);
 				$area = get_post_meta($post->ID, '_island-tracker_area', true);
@@ -53,10 +53,13 @@
 
 		<div class="row" id="data-output">
 			<div id="tracker-names" class=" col-xs-12 col-sm-6 col-md-12">
-		
+
 				<?php
 
-				
+				echo '<p><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong><br /> ';
+				echo esc_attr($usa);
+				echo "</p>";
+
 				if(!empty($china)) {
 				    echo '<div><span class="name-label">'.esc_html__( 'China:', 'transparency' ).' </span> '.esc_attr($china)."</div>";
 				}
@@ -73,14 +76,14 @@
 				    echo '<div><span class="name-label">'.esc_html__( 'Vietnam:', 'transparency' ).' </span> '.esc_attr($vietnam)."</div>";
 				}
 				?>
-				
-			
+
+
 		</div>
 		<hr>
 			<div id="tracker-info" class="col-xs-12 col-sm-6 col-md-12">
 
-			
-				<?php 
+
+				<?php
 
 				if(!empty($occupation)) {
 				    echo '<div><span>'.esc_html__( 'Occupied by:', 'transparency' ).' </span> '.esc_attr($occupation)."</div>";
@@ -95,67 +98,82 @@
 				    echo '<div class="reclam-title"><span>'.esc_html__( 'Total area of reclamation:', 'transparency' ).' </span> '.esc_attr($area)."</div>";
 				}
 			?>
-			
-			
+
+
 		</div>
-			
+
 		</div>
 		</div>
 	</div>
 
 
 	</header><!-- .entry-header -->
-<?php 
+<?php
 
 
 ?>
 <div class="anchor-links">
 
 	</div>
-	
+
 	<div class="entry-content">
 		<?php
 			the_content();
 		?>
 		<hr>
-		
+
 
 			<?php $repeatable_fields = get_post_meta($post->ID, 'repeatable_fields', true);  if ( $repeatable_fields ) : ?>
 
 				<?php echo '<h3 class="relinks">'.esc_html__( 'Analysis of Outpost', 'transparency' ).'</h3>'; ?>
-				
+
 			    <div class="relatedlist">
 			    	  <div class="row">
 			        <?php foreach ( $repeatable_fields as $field ) { ?>
-			      
+
 			        <div class="col-xs-12">
-			            <?php 
-			            if($field['name'] != '') 
-			            	echo 
+			            <?php
+			            if($field['name'] != '')
+			            	echo
 			            	'<a href="'. esc_url( $field['url'] ) . '" alt="'. esc_attr( $field['name'] ) . '">
 			            		<span class="field">'. esc_attr( $field['name'] ) .'
 			            		</span>
 			            	</a>'; ?>
 
 					</div><!-- .col-xs-12 -->
-					<?php } ?> 
+					<?php } ?>
 				<?php endif; ?>
 				</div><!-- .row -->
 				</div><!-- .list -->
-	
+
 	</div><!-- .entry-content -->
-	
+
 
 	<footer>
 		<nav class="navigation posts-navigation" role="navigation">
+
+
+
+			<h2 class="screen-reader-text">Posts navigation</h2>
+
 			<?php
-				$terms = get_the_terms( $post->ID , 'countries' );
+				$terms = wp_get_post_terms( $post->ID , 'countries', array(
+		        'orderby' => 'term_id',
+		        'order' => 'ASC'
+		    ) );
+
+
 				if(function_exists('icl_object_id') && ICL_LANGUAGE_CODE != "en") {
 					$langQuery = "/?lang=".ICL_LANGUAGE_CODE;
+					echo	'<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/'.$terms[0]->slug.$langQuery.'"><i class="fa fa-angle-left" aria-hidden="true"></i> '. sprintf( __('Return to %s\'s Island Tracker', 'transparency'), $terms[0]->name ).'</a></div></div>';
+
+				} else {
+					echo	'<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/'.$terms[0]->slug.'"><i class="fa fa-angle-left" aria-hidden="true"></i> '. sprintf( __('Return to %s\'s Island Tracker', 'transparency'), $terms[0]->name ).'</a></div></div>';
+
 				}
-		  ?>
-			<h2 class="screen-reader-text">Posts navigation</h2>
-			<div class="nav-links"><div class="nav-previous"><a href="/island-tracker/<?php echo $terms[0]->slug.$langQuery; ?>"><i class="fa fa-angle-left" aria-hidden="true"></i> <?php echo sprintf( __('Return to %s\'s Island Tracker', 'transparency'), $terms[0]->name );?></a></div></div>
+			?>
+
+
 		</nav>
 	</footer>
 </article><!-- #post-## -->

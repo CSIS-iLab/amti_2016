@@ -36,16 +36,19 @@ get_header(); ?>
                                     $image = get_term_meta($term->term_id, 'countries_feature_image', true);
 
                                     if (function_exists('icl_object_id') && ICL_LANGUAGE_CODE != "en") {
-                                        $langQuery = "/?lang=".ICL_LANGUAGE_CODE;
-                                    } ?>
-
-									<?php	echo '<a href="' . $term->slug.$langQuery . '" class="country-listing">
-					 			 <span class="background" style="background-image:url('.$image .'");>
-					 			 </span>
-					 			 <span class="title">' . $term->name . '</span>
-					 			 </a>';
-
-		        
+                                      $langQuery = "/?lang=".ICL_LANGUAGE_CODE;
+																			echo '<a href="' . $term->slug.$langQuery . '" class="country-listing">
+																			 <span class="background" style="background-image:url('.$image .'");>
+																			 </span>
+																			 <span class="title">' . $term->name . '</span>
+																			 </a>';
+                                    } else {
+																		echo '<a href="' . $term->slug . '" class="country-listing">
+																		 <span class="background" style="background-image:url('.$image .'");>
+																		 </span>
+																		 <span class="title">' . $term->name . '</span>
+																		 </a>';
+																		}
                                 }
                             }
                             echo '</div>';

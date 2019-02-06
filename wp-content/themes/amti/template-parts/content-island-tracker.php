@@ -12,11 +12,12 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="row">
 		<div class="col-xs-12 col-sm-6">
-			<a href="<?php echo esc_url( get_permalink() ); ?>">
-				<?php echo get_the_post_thumbnail( $_post->ID, 'large' ); ?>
+				<?php echo '<a href="' . esc_url( get_permalink() ) . '">'; ?>
+				<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 			</a>
 		</div>
 		<div class="col-xs-12 col-sm-6">
+
 			<?php
 				if ( is_single() ) :
 				  the_title( '<h1 class="entry-title">', '</h1>' );
@@ -24,9 +25,11 @@
 						the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 				endif;
 			?>
+
 			<p>
-			<?
-			
+
+			<?php
+
 				$usa = get_post_meta($post->ID, '_island-tracker_usa', true);
 				$china = get_post_meta($post->ID, '_island-tracker_china', true);
 				$taiwan = get_post_meta($post->ID, '_island-tracker_taiwan', true);
@@ -35,24 +38,37 @@
 				$malaysia = get_post_meta($post->ID, '_island-tracker_malaysia', true);
 
 				if(!empty($usa)) {
-				    echo '<strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> '.esc_attr($usa)."<br />";
+				    echo '<strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> ';
+						echo esc_attr($usa);
+						echo "<br />";
 				}
 				if(!empty($china)) {
-				    echo '<strong>'.esc_html__( 'China:', 'transparency' ).' </strong> '.esc_attr($china)."<br />";
+				    echo '<strong>'.esc_html__( 'China:', 'transparency' ).' </strong> ';
+						echo esc_attr($china);
+						echo "<br />";
 				}
 				if(!empty($philippines)) {
-				    echo '<strong>'.esc_html__( 'Philippines:', 'transparency' ).' </strong> '.esc_attr($philippines)."<br />";
+				    echo '<strong>'.esc_html__( 'Philippines:', 'transparency' ).' </strong> ';
+						echo esc_attr($philippines);
+						echo "<br />";
 				}
 				if(!empty($taiwan)) {
-				    echo '<strong>'.esc_html__( 'Taiwan:', 'transparency' ).' </strong> '.esc_attr($taiwan)."<br />";
+				    echo '<strong>'.esc_html__( 'Taiwan:', 'transparency' ).' </strong> ';
+						echo esc_attr($taiwan);
+						echo "<br />";
 				}
 				if(!empty($malaysia)) {
-				    echo '<strong>'.esc_html__( 'Malaysia:', 'transparency' ).' </strong> '.esc_attr($malaysia)."<br />";
+				    echo '<strong>'.esc_html__( 'Malaysia:', 'transparency' ).' </strong> ';
+						echo esc_attr($malaysia);
+						echo "<br />";
 				}
 				if(!empty($vietnam)) {
-				    echo '<strong>'.esc_html__( 'Vietnam:', 'transparency' ).' </strong> '.esc_attr($vietnam)."<br />";
+				    echo '<strong>'.esc_html__( 'Vietnam:', 'transparency' ).' </strong> ';
+						echo esc_attr($vietnam);
+						echo "<br />";
 				}
 			?>
+
 			</p>
 			<p>
 				<a href="<?php echo esc_url( get_permalink() ); ?>"><button><?php echo __('Explore', 'transparency'); ?></button></a>

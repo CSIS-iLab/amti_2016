@@ -103,7 +103,7 @@ div.anchor-links {
 }
 
 #header-img {
-  img {
+  img:not(.wp-post-image) {
     overflow: hidden;
     display: flex;
     height: 100%;
@@ -144,7 +144,7 @@ h3.relinks {
     margin-top: 1rem;
     text-align: center;
     @include breakpoint("medium") {
-      margin-top: 2rem;
+      margin-top: 0;
       text-align: left;
     }
   }
@@ -181,7 +181,7 @@ h3.relinks {
     padding: 2rem 2rem 3rem 1rem;
     @include breakpoint("medium") {
       order: 2;
-      padding: 2rem 2rem 4rem 1rem;
+      padding: 0 2rem 4rem 1rem;
     }
 
     & > div {
