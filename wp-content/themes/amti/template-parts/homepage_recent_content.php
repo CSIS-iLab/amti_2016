@@ -85,6 +85,6 @@ echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
 echo '</div>
 
 
-<a class="button" href="/analysis">
+<a class="button" href="/analysis?lang=' . ICL_LANGUAGE_CODE . '">
 '.__('See More', 'transparency').'
 </a>';

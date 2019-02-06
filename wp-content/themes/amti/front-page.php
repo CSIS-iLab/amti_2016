@@ -103,7 +103,8 @@
           'order'=>'DESC',
           'category_name'=> 'A Map Image'
       ), OBJECT)[0]->ID;
-        echo '<a href="maps/" class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></a>';
+
+        echo '<a href="maps?lang=' . ICL_LANGUAGE_CODE . '" class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></a>';
         ?>
 
   </div>
