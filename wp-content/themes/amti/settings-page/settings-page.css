@@ -8,6 +8,10 @@ select[id^="transparency_homepage_featured_image-"] {
   height: 200px;
 }
 
+input[type="text"] {
+  width: 50%;
+}
+
 select[id^="transparency_homepage_"] {
   max-width: 100%;
   white-space: pre-wrap;
