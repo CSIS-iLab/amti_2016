@@ -12,7 +12,7 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="row">
 		<div class="hidden-xs col-sm-2">
-			<?php echo get_the_post_thumbnail( $_post->ID, 'thumbnail' ); ?>
+			<?php echo get_the_post_thumbnail( $post->ID, 'thumbnail' ); ?>
 		</div>
 		<div class="col-xs-12 col-sm-10">
 

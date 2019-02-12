@@ -56,7 +56,7 @@
 
 				<?php
 
-				echo '<p><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong><br /> ';
+				echo '<p class="island-names"><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong><br /> ';
 				echo esc_attr($usa);
 				echo "</p>";
 

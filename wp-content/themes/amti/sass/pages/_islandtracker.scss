@@ -204,9 +204,7 @@ h3.relinks {
       margin-bottom: 2rem; //font-size: 16px;
       //margin-top: auto;
     }
-    div {
-      margin: 0.2rem 0;
-    }
+
     .name-label {
       //font-style: italic;
       color: $gray;
@@ -259,4 +257,8 @@ h3.relinks {
       }
     }
   }
+}
+
+.island-names ~ div {
+  margin-bottom: 9px;
 }

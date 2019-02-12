@@ -4,73 +4,84 @@ input[type="reset"],
 input[type="submit"],
 .edit-link a,
 .btn-outline {
-	border: 2px solid $color__border-button;
-	color: $color__text-button;
-	border-radius: 0px;
-	background: $color__background-button;
-	text-transform: uppercase;
-	font-weight: 700;
-	@include transition(all .3s);
-	padding: 8px 18px;
-	display: inline-block;
-    margin-bottom: 0;
-    font-size: 14px;
-    line-height: 1.42857143;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  border: 2px solid $color__border-button;
+  color: $color__text-button;
+  border-radius: 0px;
+  background: $color__background-button;
+  text-transform: uppercase;
+  font-weight: 700;
+  @include transition(all 0.3s);
+  padding: 8px 18px;
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 14px;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
-	&:hover {
-		border-color: $color__border-button-hover;
-		background: $color__border-button-hover;
-		color: $white;
-	}
+  &:hover {
+    border-color: $color__border-button-hover;
+    background: $color__border-button-hover;
+    color: $white;
+  }
 
-	&:active,
-	&:focus {
-		border-color: $color__border-button-focus;
-		background: $color__border-button-focus;
-		color: $white;
-	}
+  &:hover a {
+    color: $white;
+  }
+
+  &:active,
+  &:focus {
+    border-color: $color__border-button-focus;
+    background: $color__border-button-focus;
+    color: $white;
+  }
+
+  &:active a,
+  &:focus a {
+    color: $white;
+  }
 }
 
 select {
-	border: 1px solid $color__border-input;
+  border: 1px solid $color__border-input;
 }
 
 textarea {
-	width: 100%;
+  width: 100%;
 }
 
-textarea:focus, input:focus, input[type]:focus, button:focus {   
-    border-color: rgba(12, 141, 121, 0.8);
-    box-shadow: 0 1px 1px rgba(12, 141, 121, 0.075) inset, 0 0 8px rgba(12, 141, 121, 0.6);
-    outline: 0 none;
+textarea:focus,
+input:focus,
+input[type]:focus,
+button:focus {
+  border-color: rgba(12, 141, 121, 0.8);
+  box-shadow: 0 1px 1px rgba(12, 141, 121, 0.075) inset,
+    0 0 8px rgba(12, 141, 121, 0.6);
+  outline: 0 none;
 }
 
 /*===================================
 =            Search Bars            =
 ===================================*/
 .form-control {
-	background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
+  color: $color__text-input-focus;
+  border: none;
+  border-radius: 0;
+  padding: 6px 8px;
+  height: 40px;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+
+  &:focus {
     color: $color__text-input-focus;
-    border: none;
-    border-radius: 0;
-    padding: 6px 8px;
-    height: 40px;
-    font-weight: bold;
-    letter-spacing: .7px;
-
-	&:focus {
-		color: $color__text-input-focus;
-	}
+  }
 }
-
-

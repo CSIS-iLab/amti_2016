@@ -11,7 +11,7 @@ h2,
 h3 {
   font-family: $font__PTSN;
   font-weight: 900;
-  margin-top: 30px;
+  margin-top: 0;
   margin-bottom: 20px;
 
   &.page-title {
@@ -31,8 +31,8 @@ h2 {
 }
 
 p {
-  margin-bottom: 25px;
-  line-height: 1.8;
+  margin-bottom: 18px;
+  line-height: 1.5;
   font-size: 18px;
 
   &.title-description {

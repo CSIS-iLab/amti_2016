@@ -26,7 +26,7 @@
 				endif;
 			?>
 
-			<p>
+
 
 			<?php
 
@@ -38,41 +38,41 @@
 				$malaysia = get_post_meta($post->ID, '_island-tracker_malaysia', true);
 
 				if(!empty($usa)) {
-				    echo '<strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> ';
+				    echo '<p class="island-names"><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> <br/>';
 						echo esc_attr($usa);
-						echo "<br />";
+						echo "</p>";
 				}
 				if(!empty($china)) {
-				    echo '<strong>'.esc_html__( 'China:', 'transparency' ).' </strong> ';
+				    echo '<div><strong>'.esc_html__( 'China:', 'transparency' ).' </strong> ';
 						echo esc_attr($china);
-						echo "<br />";
+						echo "</div>";
 				}
 				if(!empty($philippines)) {
-				    echo '<strong>'.esc_html__( 'Philippines:', 'transparency' ).' </strong> ';
+				    echo '<div><strong>'.esc_html__( 'Philippines:', 'transparency' ).' </strong> ';
 						echo esc_attr($philippines);
-						echo "<br />";
+						echo "</div>";
 				}
 				if(!empty($taiwan)) {
-				    echo '<strong>'.esc_html__( 'Taiwan:', 'transparency' ).' </strong> ';
+				    echo '<div><strong>'.esc_html__( 'Taiwan:', 'transparency' ).' </strong> ';
 						echo esc_attr($taiwan);
-						echo "<br />";
+						echo "</div>";
 				}
 				if(!empty($malaysia)) {
-				    echo '<strong>'.esc_html__( 'Malaysia:', 'transparency' ).' </strong> ';
+				    echo '<div><strong>'.esc_html__( 'Malaysia:', 'transparency' ).' </strong> ';
 						echo esc_attr($malaysia);
-						echo "<br />";
+						echo "</div>";
 				}
 				if(!empty($vietnam)) {
-				    echo '<strong>'.esc_html__( 'Vietnam:', 'transparency' ).' </strong> ';
+				    echo '<div><strong>'.esc_html__( 'Vietnam:', 'transparency' ).' </strong> ';
 						echo esc_attr($vietnam);
-						echo "<br />";
+						echo "</div>";
 				}
 			?>
 
-			</p>
-			<p>
-				<a href="<?php echo esc_url( get_permalink() ); ?>"><button><?php echo __('Explore', 'transparency'); ?></button></a>
-			</p>
+
+
+				<button><a href="<?php echo esc_url( get_permalink() ); ?>"><?php echo __('Explore', 'transparency'); ?></a></button>
+
 
 		</div>
 	</div>
