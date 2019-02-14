@@ -9,7 +9,7 @@ select[id^="transparency_homepage_featured_image-"] {
 }
 
 input[type="text"] {
-  width: 50%;
+  min-width: 75%;
 }
 
 select[id^="transparency_homepage_"] {

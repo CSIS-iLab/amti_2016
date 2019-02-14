@@ -3,10 +3,19 @@
     text-align: center;
   }
 
+  h2 {
+    margin-top: 0;
+  }
+
   h2 a {
     color: $dark-blue;
     font-style: italic;
   }
+}
+
+#tracker-names div,
+.island-tracker .row > div .entry-title ~ div {
+  margin-bottom: 6px;
 }
 
 #islandTrackerContainer {
@@ -194,6 +203,7 @@ h3.relinks {
       }
     }
   }
+
   #tracker-names {
     margin-top: 3rem;
     @include breakpoint("small") {
@@ -205,6 +215,9 @@ h3.relinks {
       //margin-top: auto;
     }
 
+    div {
+      margin-bottom: 6px;
+    }
     .name-label {
       //font-style: italic;
       color: $gray;
@@ -257,8 +270,4 @@ h3.relinks {
       }
     }
   }
-}
-
-.island-names ~ div {
-  margin-bottom: 9px;
 }
