@@ -38,9 +38,9 @@
 				$malaysia = get_post_meta($post->ID, '_island-tracker_malaysia', true);
 
 				if(!empty($usa)) {
-				    echo '<p class="island-names"><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> <br/>';
+				    echo '<div><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong> ';
 						echo esc_attr($usa);
-						echo "</p>";
+						echo "</div>";
 				}
 				if(!empty($china)) {
 				    echo '<div><strong>'.esc_html__( 'China:', 'transparency' ).' </strong> ';

@@ -15,14 +15,14 @@
 		<div id="island-track-head">
 
 		<div class="row" >
-		<div class="col-xs-12 col-md-8" id="header-img">
+		<div class="col-xs-12 col-md-6" id="header-img">
 
 
 				<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 
 
 		</div>
-		<div class="col-xs-12  col-md-4" id="header-info">
+		<div class="col-xs-12  col-md-6" id="header-info">
 
 			<?php
 				$occupation = get_post_meta($post->ID, '_island-tracker_occupation', true);
@@ -56,9 +56,9 @@
 
 				<?php
 
-				echo '<p class="island-names"><strong>'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </strong><br /> ';
+				echo '<div><span class="name-label">'.esc_html__( 'U.S. Board of Geographic Names:', 'transparency' ).' </span> ';
 				echo esc_attr($usa);
-				echo "</p>";
+				echo "</div>";
 
 				if(!empty($china)) {
 				    echo '<div><span class="name-label">'.esc_html__( 'China:', 'transparency' ).' </span> '.esc_attr($china)."</div>";
