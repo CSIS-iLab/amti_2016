@@ -12,7 +12,9 @@
  * @package Transparency
  */
 
-    get_header(); ?>
+    get_header();
+    $lang = ICL_LANGUAGE_CODE == 'en' ? '' : '?lang='.ICL_LANGUAGE_CODE;
+    ?>
 <div class="wrapper">
 
     <section class="primary">
@@ -37,9 +39,11 @@
 
       <div class="island-tracker">
         <h2 class="feature-title">
-          <a href="island-tracker">
-            <?php echo __('Island Tracker', 'transparency')?>
-          </a>
+          <?php echo
+          '<a href="island-tracker' . $lang . '">'
+             . __('Island Tracker', 'transparency') .
+          '</a>'
+          ?>
         </h2>
         <p class="feature-excerpt">
           <?php echo __('Five claimants occupy nearly 70 disputed reefs and islets spread across the South China Sea. They have built more than 90 outposts on these contested features, many of which have seen expansion in recent years.', 'transparency')?>
@@ -52,24 +56,48 @@
         </p>
         <div class="islands">
           <div class="island">
-              <a class="island-shape" href="island-tracker/china"><?php get_template_part("img/island_tracker_icons/china-outline.svg")?></a>
-              <a class="island-name" href="island-tracker/china">China</a>
+            <?php echo
+              '<a class="island-shape" href="island-tracker/china' . $lang . '">';
+
+              get_template_part("img/island_tracker_icons/china-outline.svg");
+
+              echo '</a><a class="island-name" href="island-tracker/china' . $lang . '">China</a>'
+              ?>
           </div>
           <div class="island">
-              <a class="island-shape" href="island-tracker/malaysia"><?php get_template_part("img/island_tracker_icons/malaysia-outline.svg")?></a>
-              <a class="island-name" href="island-tracker/malaysia">Malaysia</a>
+            <?php echo
+              '<a class="island-shape" href="island-tracker/malaysia' . $lang . '">';
+               get_template_part("img/island_tracker_icons/malaysia-outline.svg");
+
+               echo '</a><a class="island-name" href="island-tracker/malaysia' . $lang . '">Malaysia</a>'
+              ?>
           </div>
           <div class="island">
-              <a class="island-shape" href="island-tracker/phillipines"><?php get_template_part("img/island_tracker_icons/phillipines-outline.svg")?></a>
-              <a class="island-name" href="island-tracker/philippines">Philippines</a>
+            <?php echo
+              '<a class="island-shape" href="island-tracker/phillipines' . $lang . '">';
+
+              get_template_part("img/island_tracker_icons/phillipines-outline.svg");
+
+              echo '</a><a class="island-name" href="island-tracker/philippines' . $lang . '">Philippines</a>'
+              ?>
           </div>
           <div class="island">
-              <a class="island-shape" href="island-tracker/taiwan"><?php get_template_part("img/island_tracker_icons/taiwan-outline.svg")?></a>
-              <a class="island-name" href="island-tracker/taiwan">Taiwan</a>
+            <?php echo
+              '<a class="island-shape" href="island-tracker/taiwan' . $lang . '">';
+
+              get_template_part("img/island_tracker_icons/taiwan-outline.svg");
+
+              echo '</a><a class="island-name" href="island-tracker/taiwan' . $lang . '">Taiwan</a>'
+              ?>
           </div>
           <div class="island">
-              <a class="island-shape" href="island-tracker/vietnam"><?php get_template_part("img/island_tracker_icons/vietnam-outline.svg")?></a>
-              <a class="island-name" href="island-tracker/vietnam">Vietnam</a>
+            <?php echo
+              '<a class="island-shape" href="island-tracker/vietnam' . $lang . '">';
+
+              get_template_part("img/island_tracker_icons/vietnam-outline.svg");
+
+              echo '</a><a class="island-name" href="island-tracker/vietnam' . $lang . '">Vietnam</a>'
+              ?>
           </div>
         </div>
       </div>
@@ -77,9 +105,11 @@
         <div class="island-maps">
         <div class="feature-heading">
           <h2 class="feature-title">
-            <a href="maps">
-              <?php echo __('Maps of the Asia Pacific', 'transparency')?>
-            </a>
+              <?php echo
+                '<a href="maps' . $lang . '">'
+                . __('Maps of the Asia Pacific', 'transparency').
+            '</a>'
+            ?>
           </h2>
 
             <div class="island-maps feature-description">
@@ -104,7 +134,7 @@
           'category_name'=> 'A Map Image'
       ), OBJECT)[0]->ID;
 
-        echo '<a href="maps?lang=' . ICL_LANGUAGE_CODE . '" class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></a>';
+        echo '<a href="maps' . $lang . '" class="feature-map"><img alt="' . $post->post_title  . '"src="' . wp_get_attachment_image_src($id, $size = 'large')[0] . '"></a>';
         ?>
 
   </div>
