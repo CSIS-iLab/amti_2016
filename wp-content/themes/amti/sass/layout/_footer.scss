@@ -27,9 +27,9 @@
   .footer {
     .footer-container {
       padding: 40px 20px;
+      max-width: 1440px;
 
       @include breakpoint("medium") {
-        padding: 40px 50px;
         margin: auto;
         display: grid;
         display: -ms-grid;
@@ -38,6 +38,9 @@
         grid-gap: 0 100px;
       }
 
+      @media screen and (min-width: 1440px) {
+        padding: 40px 0;
+      }
       .section-title {
         @extend %footer-title;
       }

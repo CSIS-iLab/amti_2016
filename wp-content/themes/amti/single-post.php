@@ -10,73 +10,68 @@
 get_header();
 
 // Begin the post loop so we can get the post title and featured image to display in the header
-while ( have_posts() ) : the_post();
+while (have_posts()) : the_post();
 
-	if(get_post_thumbnail_id($post->ID)) {
-		$current_imageShadow = get_post_meta( $post->ID, '_features_imageShadow', true );
-		if($current_imageShadow == 1 || strlen($current_imageShadow) == 0) {
-			$shadow = "<div class='backstretch'></div>";
-		}
-		else {
-			$shadow = "";
-		}
-		$feat_image = 'style="background-image:url('.wp_get_attachment_url( get_post_thumbnail_id($post->ID) ).');"';
-	}
-	else {
-		$feat_image = "";
-		$shadow = "";
-	}
+if (get_post_thumbnail_id($post->ID)) {
+    $feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
+} else {
+    $feat_image = '/wp-content/uploads/2016/08/banner_3.jpg';
+}
+echo'<header class="entry-header entry-header--with-image full-width">
+	<div class="container">
+		<div class="entry-header_image"><div class="image-container"><img src="'.$feat_image.'"/><div class="entry-header_text">';
+
+        the_title('<h1 class="entry-title">', '</h1>');
+
+        echo '<hr>
+					</div>
+				</div>
+			</div>
+	</div>
+</header>';
 ?>
-	<header class="entry-header" <?php echo $feat_image; ?>>
-		<div class="container">
-			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-			<hr>
-		</div>
-		<?php echo $shadow; ?>
-	</header>
-
 	<div id="primary" class="container">
 		<div class="row">
-			<main id="main" class="col-xs-12 col-md-9" role="main">
+			<main id="main" class="" role="main">
 
 			<!-- START: Post Content -->
 				<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<header>
 						<?php
-						if ( 'post' === get_post_type() ) : ?>
+                        if ('post' === get_post_type()) : ?>
 						<div class="entry-meta">
 							<?php transparency_posted_on(); ?><br />
 							<?php transparency_entry_footer(); ?>
 						</div><!-- .entry-meta -->
 						<?php
-						endif; ?>
+                        endif; ?>
 					</header><!-- .entry-header -->
 
 					<div class="entry-content">
 						<?php
-							the_content( sprintf(
-								/* translators: %s: Name of current post. */
-								wp_kses( __( 'Continue reading %s <span class="meta-nav">&rarr;</span>', 'transparency' ), array( 'span' => array( 'class' => array() ) ) ),
-								the_title( '<span class="screen-reader-text">"', '"</span>', false )
-							) );
+                            the_content(sprintf(
+                                /* translators: %s: Name of current post. */
+                                wp_kses(__('Continue reading %s <span class="meta-nav">&rarr;</span>', 'transparency'), array( 'span' => array( 'class' => array() ) )),
+                                the_title('<span class="screen-reader-text">"', '"</span>', false)
+                            ));
 
-							wp_link_pages( array(
-								'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'transparency' ),
-								'after'  => '</div>',
-							) );
-						?>
+                            wp_link_pages(array(
+                                'before' => '<div class="page-links">' . esc_html__('Pages:', 'transparency'),
+                                'after'  => '</div>',
+                            ));
+                        ?>
 					</div><!-- .entry-content -->
 
 					<?php
-						if ( 'post' === get_post_type() ) : ?>
+                        if ('post' === get_post_type()) : ?>
 						<?php
-						endif; ?>
+                        endif; ?>
 
-					<?php foreach( get_coauthors() as $coauthor ): ?>
+					<?php foreach (get_coauthors() as $coauthor): ?>
 						<div class="author well gap">
 								<div class="media">
 				    				<div class="pull-left">
-									<?php echo get_avatar( $coauthor->user_email, '80' ); ?>
+									<?php echo get_avatar($coauthor->user_email, '80'); ?>
 								</div>
 
 								<div class="media-body">
@@ -93,19 +88,19 @@ while ( have_posts() ) : the_post();
 
 				<?php
 
-					the_post_navigation( array(
-						'prev_text'                  => __( '<h4>Previous Post</h4>%title' ),
-						'next_text'                  => __( '<h4>Next Post</h4>%title' ),
-			            'screen_reader_text' => __( 'Continue Reading' ),
-			        ) );
+                    the_post_navigation(array(
+                        'prev_text'                  => __('<h4>Previous Post</h4>%title'),
+                        'next_text'                  => __('<h4>Next Post</h4>%title'),
+                        'screen_reader_text' => __('Continue Reading'),
+                    ));
 
-				endwhile; // End of the loop.
-				?>
+                endwhile; // End of the loop.
+                ?>
 
 			</main><!-- #main -->
 			<?php
-				get_sidebar();
-			?>
+                get_sidebar();
+            ?>
 		</div><!-- .row -->
 	</div><!-- #primary -->
 

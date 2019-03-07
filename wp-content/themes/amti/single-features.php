@@ -9,42 +9,36 @@
 
 get_header();
 
-if ( has_post_format( 'image' )) { 
+if ( has_post_format( 'image' )) {
 	if(get_post_thumbnail_id($post->ID)) {
-		$current_imageShadow = get_post_meta( $post->ID, '_features_imageShadow', true );
-		if($current_imageShadow == 1 || strlen($current_imageShadow) == 0) {
-			$shadow = "<div class='backstretch'></div>";
-		}
-		else {
-			$shadow = "";
-		}
-		$feat_image = 'style="background-image:url('.wp_get_attachment_url( get_post_thumbnail_id($post->ID) ).');"';
+		$feat_image = wp_get_attachment_url( get_post_thumbnail_id($post->ID) );
 	}
 	else {
-		$feat_image = "";
-		$shadow = "";
+		$feat_image = '/wp-content/uploads/2016/08/banner_3.jpg';
 	}
-	?>
+	echo '<header class="entry-header entry-header--with-image full-width">
+		<div class="container">
+			<div class="entry-header_image"><div class="image-container"><img src="'.$feat_image.'"/><div class="entry-header_text">';
 
-	<header class="entry-header full-width" <?php echo $feat_image; ?>>
-		<div class="container">
-			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-			<hr>
+	        the_title('<h1 class="entry-title">', '</h1>');
+
+	        echo '<hr>
+						</div>
+					</div>
+				</div>
 		</div>
-		<?php echo $shadow; ?>
 	</header>
-	<div id="primary" class="container">
-<?
+	<div id="primary" class="container">';
 } else {
-	?>
-	<div id="primary" class="container">
-	<header class="entry-header">
-		<div class="container">
-			<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-			<hr>
+echo	'<header class="entry-header">
+	<div class="container">
+		<div class="entry-header_text">';
+				the_title('<h1 class="entry-title">', '</h1>');
+				echo '<hr>
 		</div>
-	</header>
-	<?
+	</div>
+</header>
+<div id="primary" class="container">';
 }
 ?>
 	<div class="row">

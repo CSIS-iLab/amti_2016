@@ -1,54 +1,46 @@
 /*----------  Change Container Width for Standard Width Features  ----------*/
-.single-features #primary .container, .single-features #primary.container {
-
-	.fullWidthFeatureContent {
-		width: 100vw;
-		position: relative;
-		left: 50%;
-		right: 50%;
-		margin-left: -50vw;
-		margin-right: -50vw;
-	}
-
-	max-width:780px;
-}
-
-
-.single-features header.entry-header {
-	text-align:center;
+.single-features #primary .container {
+  .fullWidthFeatureContent {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
 }
 
 .widget {
-	margin: 0 0 1.5em;
-	font-size:18px;
+  margin: 0 0 1.5em;
+  font-size: 18px;
 
-	.widget-title {
-		margin-top: 0;
-		margin-bottom:20px;
-	}
+  .widget-title {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
 
-	ul {
-		list-style:none;
-		margin: 0;
-		padding-left: 0;
-		li {
-			margin-bottom:6px;
-		}
-	}
+  ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    li {
+      margin-bottom: 6px;
+    }
+  }
 
-	/* Make sure select elements fit in widgets. */
-	select {
-		max-width: 100%;
-	}
+  /* Make sure select elements fit in widgets. */
+  select {
+    max-width: 100%;
+  }
 }
 
 .single-features article footer {
-	text-align:center;
+  text-align: center;
 }
 
 /*----------  Widgets in Footer  ----------*/
 .site-footer .widget {
-	.widget-title {
-		color: $color__text-footer-widget;
-	}
+  .widget-title {
+    color: $color__text-footer-widget;
+  }
 }

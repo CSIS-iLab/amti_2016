@@ -1,56 +1,58 @@
 .posts-index {
-	header.entry-header {
-		text-align:center;
+  header.entry-header {
+    text-align: center;
 
-		hr {
-			max-width:70%;
-			margin:1em auto;
-		}
-	}
+    hr {
+      max-width: 70%;
+      margin: 1em auto;
+    }
+  }
 
-	.search-container {
-		margin:0px auto 3em auto;
-		max-width:70%;
+  .search-container {
+    margin: 0px auto 3em auto;
+    max-width: 70%;
 
-		p {
-			font-size: 22px;
-			font-family: $font__PTSN;
-		}
-	}
+    p {
+      font-size: 22px;
+      font-family: $font__PTSN;
+    }
+  }
 
-	article {
+  article {
+    header {
+      text-align: left;
+    }
 
-		header {
-			text-align:left;
-		}
+    img {
+      width: 100%;
+    }
 
-		img {
-			width:100%;
-		}
+    h2.entry-title {
+      margin-top: 0px;
+    }
+  }
 
-		h2.entry-title {
-			margin-top:0px;
-		}
-	}
-
-	.more-archives {
-		font-size: 24px;
-		color: $light-green;
-		font-weight:700;
-		text-align:center;
-	}
+  .more-archives {
+    font-size: 24px;
+    color: $light-green;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
 }
 
 .archives-index header.entry-header {
-	margin-bottom:3em;
+  margin-bottom: 3em;
 }
 
 /*=====================================================
 =            Previous/Next Post Navigation            =
 =====================================================*/
-.posts-index .nav-links, .archives-index .nav-links, .search-results .nav-links {
-	div {
-		text-transform:uppercase;
-	}
+.posts-index .nav-links,
+.archives-index .nav-links,
+.search-results .nav-links {
+  div {
+    text-transform: uppercase;
+  }
 }
 /*=====  End of Previous/Next Post Navigation  ======*/
