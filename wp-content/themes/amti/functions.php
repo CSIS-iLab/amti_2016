@@ -245,6 +245,7 @@ function create_features_taxonomy() {
 		'show_admin_column' => true,
 		'query_var'         => true,
 		'rewrite'           => array( 'slug' => 'features' ),
+		'show_in_rest'    => true
 	);
 	register_taxonomy( 'categories', array( 'features' ), $args );
 }
@@ -290,6 +291,7 @@ function create_countries_taxonomy() {
 		'show_admin_column' => true,
 		'query_var'         => true,
 		'rewrite'           => array( 'slug' => 'island-tracker' ),
+		'show_in_rest'    => true
 
 	);
 	register_taxonomy( 'countries', array( 'island-tracker' ), $args );
