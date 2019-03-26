@@ -781,7 +781,7 @@ function new_nav_menu_items($items, $args) {
             			$label = $l['language_code'];
             		}
 
-        			$active = '<img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $label;
+        			$active = '<img src="/wp-content/themes/amti/img/' . $l['language_code'] . '.png" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $label;
             	}
             	else {
             		if($l['language_code'] == 'zh-hant') {
@@ -790,7 +790,7 @@ function new_nav_menu_items($items, $args) {
             		else {
             			$native = $l['native_name'];
             		}
-                	$list .= '<li><a href="'.$l['url'].'"><img src="' . $l['country_flag_url'] . '" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $native.'</a></li>';
+                	$list .= '<li><a href="'.$l['url'].'"><img src="/wp-content/themes/amti/img/' . $l['language_code'] . '.png" height="12" alt="' . $l['language_code'] . '" width="18" /> ' . $native.'</a></li>';
                 }
 
                 // $count++;
