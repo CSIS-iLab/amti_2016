@@ -111,6 +111,7 @@
   {
       $option = get_option($args[0]);
       echo '<select size="9" class="featured" name="' . esc_attr($args[0]) . '" id="' . esc_attr($args[0]) . '">';
+      echo '<option value="" selected data-default>select this to reset</option>';
 
       foreach ($args[1] as $post) {
           if ($post->ID == esc_attr($option)) {
