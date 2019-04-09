@@ -26,7 +26,6 @@ function transparency_posts_featured_map_callback($args)
     echo '</select>';
 }
 
-
 function transparency_posts_featured_satellites_callback($args)
 {
     $option = get_option($args[0]);
