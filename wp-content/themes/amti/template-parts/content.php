@@ -11,10 +11,16 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="row">
-		<div class="hidden-xs col-sm-2">
-			<?php echo get_the_post_thumbnail( $post->ID, 'thumbnail' ); ?>
+		<div class="hidden-xs col-sm-4 image-container">
+
+			<?php
+			$image = wp_get_attachment_image_src(get_post_thumbnail_id($r->ID), $size = 'large')[0];
+
+			echo '<a href="' . esc_url( get_permalink() ) . '" rel="bookmark"><img src="' . $image .'"/ ></a>';
+
+			 ?>
 		</div>
-		<div class="col-xs-12 col-sm-10">
+		<div class="col-sm-8">
 
 			<header>
 				<?php

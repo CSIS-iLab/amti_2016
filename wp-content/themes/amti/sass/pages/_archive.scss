@@ -23,8 +23,25 @@
       text-align: left;
     }
 
-    img {
-      width: 100%;
+    .image-container {
+      a {
+        display: block;
+        position: relative;
+        height: 0;
+        padding-bottom: 50%;
+        overflow: hidden;
+
+        img {
+          // width: 100%;
+          position: absolute;
+          left: 50%;
+          width: auto;
+          max-width: none;
+          height: 100%;
+          -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+        }
+      }
     }
 
     h2.entry-title {
@@ -37,7 +54,6 @@
     color: $light-green;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 3rem;
   }
 }
 
