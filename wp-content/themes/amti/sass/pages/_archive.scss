@@ -41,6 +41,7 @@
           -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
           object-fit: cover;
+          min-width: 100%;
         }
       }
     }
