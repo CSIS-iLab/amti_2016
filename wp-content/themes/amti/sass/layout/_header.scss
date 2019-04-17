@@ -56,11 +56,11 @@
 
     .row {
       position: relative;
-      width: calc(100vw - 40px);
+      max-width: calc(100vw - 40px);
       margin: 0 auto;
 
       @include breakpoint("medium") {
-        width: calc(100vw - 100px);
+        max-width: calc(100vw - 100px);
       }
     }
 
