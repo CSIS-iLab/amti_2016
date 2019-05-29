@@ -1,6 +1,6 @@
-#transparency_homepage_featured_map,
-#transparency_homepage_featured_satellites,
-select[id^="transparency_homepage_featured_image-"] {
+.wp-admin #transparency_homepage_featured_map,
+.wp-admin #transparency_homepage_featured_satellites,
+.wp-admin select[id^='transparency_homepage_featured_image-'] {
   height: 400px;
 }
 
@@ -8,11 +8,11 @@ select[id^="transparency_homepage_featured_image-"] {
   height: 200px;
 }
 
-input[type="text"] {
+input[type='text'] {
   min-width: 75%;
 }
 
-select[id^="transparency_homepage_"] {
+select[id^='transparency_homepage_'] {
   max-width: 100%;
   white-space: pre-wrap;
 }
@@ -49,7 +49,7 @@ option {
 @media screen and (max-width: 782px) {
   #wpbody .form-table td #transparency_homepage_featured_map,
   #wpbody .form-table td #transparency_homepage_featured_satellites,
-  select[id^="transparency_homepage_featured_image-"] {
+  select[id^='transparency_homepage_featured_image-'] {
     height: 400px;
   }
 
