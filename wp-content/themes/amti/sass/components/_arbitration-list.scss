@@ -1,0 +1,86 @@
+ul.arbitration {
+  padding: 0;
+  list-style: none;
+
+  a {
+    &,
+    &:visited {
+      color: $dark-green;
+    }
+    &:hover {
+      color: $light-green;
+    }
+  }
+
+  li {
+    a::before {
+      color: #555;
+      font-weight: bold;
+      content: 'Click for Analysis: ';
+      font-size: 0;
+      @include transition(font-size 0.1s ease-in-out);
+    }
+
+    &:hover {
+      a {
+        color: $light-green;
+
+        &::before {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+ul.arbitration li,
+div.arbitration-heading {
+  position: relative;
+  padding: 12px 15% 12px 24px;
+  background-color: #fff;
+  margin-bottom: 2rem;
+  border: 2px solid #555;
+  font-size: 20px;
+  color: #000;
+
+  &::after {
+    position: absolute;
+    width: 12.5%;
+    height: 100%;
+    right: 0;
+    top: 0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:not(.negative):not(.positive) {
+    &::after {
+      content: 'o';
+      font-weight: bold;
+      font-size: 48px;
+      line-height: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #888888;
+    }
+  }
+
+  &[class]::after {
+    font-size: 48px;
+  }
+
+  &.positive {
+    &::after {
+      background-color: #11a579;
+      content: '\2714';
+    }
+  }
+
+  &.negative {
+    &::after {
+      background-color: #e73f74;
+      content: '\2718';
+    }
+  }
+}
