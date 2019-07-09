@@ -11,26 +11,6 @@ ul.arbitration {
       color: $light-green;
     }
   }
-
-  li {
-    a::before {
-      color: #555;
-      font-weight: bold;
-      content: 'Click for Analysis: ';
-      font-size: 0;
-      @include transition(font-size 0.1s ease-in-out);
-    }
-
-    &:hover {
-      a {
-        color: $light-green;
-
-        &::before {
-          font-size: 20px;
-        }
-      }
-    }
-  }
 }
 
 ul.arbitration li,
