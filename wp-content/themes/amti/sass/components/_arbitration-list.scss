@@ -13,15 +13,22 @@ ul.arbitration {
   }
 }
 
+div.arbitration-heading {
+  background-color: #023950;
+  color: white;
+}
+
+ul.arbitration li {
+  background-color: #fff;
+}
+
 ul.arbitration li,
 div.arbitration-heading {
   position: relative;
   padding: 12px 15% 12px 24px;
-  background-color: #fff;
   margin-bottom: 2rem;
   border: 2px solid #555;
   font-size: 20px;
-  color: #000;
 
   &::after {
     position: absolute;
