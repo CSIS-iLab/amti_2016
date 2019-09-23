@@ -1,3 +1,7 @@
-# amti_2016
+# Notes
 
-WordPress theme for AMTI. Developed from _s.
+Insert notes about Transparency theme.
+
+# Bugs/Improvements
+
+# Issues
