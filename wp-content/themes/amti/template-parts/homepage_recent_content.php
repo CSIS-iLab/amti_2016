@@ -70,10 +70,12 @@ echo '<h3 class="section-title">'.__('Recent Content', 'transparency').'</h3>
 
             echo '<div class="feature">
               <div class="date"><span>' . get_the_date('M') . '</span> <span>' . get_the_date('j') . '</span></div>
-              <div class="title-author"><a class="title" href="' . esc_url(get_permalink()) . '">' . $title . '</a>';
+              <div class="title-author">
+              
+              <a class="title" href="' . esc_url(get_permalink()) . '">' . $title . '</a>';
 
                   if ($post->post_type=="post") {
-                      echo '<div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . get_the_author() . '</a></div>';
+                      echo '<div class="authors">by <a href="' . esc_url(get_permalink()) . '">' . coauthors_posts_links() . '</a></div>';
                   }
 
               echo '</div>
