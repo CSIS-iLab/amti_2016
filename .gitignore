@@ -110,7 +110,17 @@ Thumbs.db
 !wp-content/plugins/transparency-google-analytics.php
 !wp-content/plugins/post-meta-manager
 !wp-content/plugins/hero-menu
+!wp-content/themes/amti/.eslintignore
+!wp-content/themes/amti/.eslintrc.js
+!wp-content/themes/amti/.stylelintrc.json
+
+wp-content/themes/*/**/*.css
+wp-content/themes/amti/assets/img
+wp-content/themes/amti/assets/js
 
 wp-content/themes/amti/.sass-cache
 **/.DS_Store
 wp-content/themes/amti/*.css
+
+# Track any GitHub related files, like GitHub Action workflows.
+!.github/
