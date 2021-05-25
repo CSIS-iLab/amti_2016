@@ -1,0 +1,54 @@
+name: WP Engine Git Deploy
+on:
+  push:
+    branches:
+      - main
+      - development
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        working-directory: ./wp-content/themes/amti # Change to your theme directory
+        run: npm ci
+
+      - name: Build
+        working-directory: ./wp-content/themes/amti # Change to your theme directory
+        run: npm run build && rm -rf node_modules
+
+      - name: Git fetch
+        run: git fetch --prune --unshallow
+
+      - name: Set environment to production
+        if: endsWith(github.ref, '/main') ## Production Branch name
+        run: |
+          echo "WPE_ENVIRONMENT_NAME=${{ secrets.WPE_PROD_ENV_NAME }}" >> $GITHUB_ENV
+          echo "WPE_LOCAL_BRANCH=main" >> $GITHUB_ENV
+
+      - name: Set environment to development
+        if: endsWith(github.ref, '/development') ## Development Branch Name
+        run: |
+          echo "WPE_ENVIRONMENT_NAME=${{ secrets.WPE_DEV_ENV_NAME }}" >> $GITHUB_ENV
+          echo "WPE_LOCAL_BRANCH=development" >> $GITHUB_ENV
+
+      - name: Push to WP Engine
+        uses: epogeedesign/github-action-wpengine-git-deploy@master
+        env:
+          WPE_SSH_KEY_PRIVATE: ${{ secrets.WPE_SSH_KEY_PRIVATE }}
+          WPE_SSH_KEY_PUBLIC: ${{ secrets.WPE_SSH_KEY_PUBLIC }}
+          WPE_GIT_INCLUDE: ".github/wpe-git-include.txt"
+          WPE_GIT_EXCLUDE: ".github/wpe-git-exclude.txt"
