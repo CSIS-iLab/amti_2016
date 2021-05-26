@@ -13,6 +13,7 @@
  */
 
     get_header();
+    define('ICL_LANGUAGE_CODE', 'en');
     $lang = ICL_LANGUAGE_CODE == 'en' ? '' : '?lang='.ICL_LANGUAGE_CODE;
     ?>
 <div class="wrapper">
