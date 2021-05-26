@@ -30,6 +30,7 @@
 # mu-plugins, plugins, and themes directories
 wp-content/*
 !wp-content/mu-plugins/
+!wp-content/plugins/
 !wp-content/themes/
 
 # ignore all mu-plugins, plugins, and themes
@@ -89,9 +90,6 @@ Thumbs.db
 !README.md
 !CHANGELOG.md
 !composer.json
-!.travis.yml
-!deploy.sh
-!amti_travis.enc
 
 # track favicon files, if they exist
 !android-chrome-*.png
@@ -120,7 +118,6 @@ wp-content/themes/amti/assets/js
 
 wp-content/themes/amti/.sass-cache
 **/.DS_Store
-wp-content/themes/amti/*.css
 
 # Track any GitHub related files, like GitHub Action workflows.
 !.github/
