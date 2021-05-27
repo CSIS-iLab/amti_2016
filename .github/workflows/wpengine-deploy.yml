@@ -33,7 +33,7 @@ jobs:
       - name: Git fetch
         run: git fetch --prune --unshallow
 
-      - name: Set environment to staging
+      - name: Set environment to production
         if: endsWith(github.ref, '/main') ## Staging Branch name
         run: |
           echo "WPE_ENVIRONMENT_NAME=${{ secrets.WPE_STAGING_ENV_NAME }}" >> $GITHUB_ENV
