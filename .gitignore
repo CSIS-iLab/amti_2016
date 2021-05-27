@@ -30,6 +30,7 @@
 # mu-plugins, plugins, and themes directories
 wp-content/*
 !wp-content/mu-plugins/
+!wp-content/plugins/
 !wp-content/themes/
 
 # ignore all mu-plugins, plugins, and themes
@@ -89,9 +90,6 @@ Thumbs.db
 !README.md
 !CHANGELOG.md
 !composer.json
-!.travis.yml
-!deploy.sh
-!amti_travis.enc
 
 # track favicon files, if they exist
 !android-chrome-*.png
@@ -105,11 +103,12 @@ Thumbs.db
 
 # track these mu-plugins, plugins, and themes
 # add your own entries here
-!wp-content/themes/amti
-!wp-content/plugins/category-checklist-tree.php
 !wp-content/plugins/transparency-google-analytics.php
+!wp-content/plugins/category-checklist-tree.php
 !wp-content/plugins/post-meta-manager
 !wp-content/plugins/hero-menu
+
+!wp-content/themes/amti
 !wp-content/themes/amti/.eslintignore
 !wp-content/themes/amti/.eslintrc.js
 !wp-content/themes/amti/.stylelintrc.json
@@ -120,7 +119,6 @@ wp-content/themes/amti/assets/js
 
 wp-content/themes/amti/.sass-cache
 **/.DS_Store
-wp-content/themes/amti/*.css
 
 # Track any GitHub related files, like GitHub Action workflows.
 !.github/
