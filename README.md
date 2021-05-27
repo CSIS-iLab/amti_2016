@@ -22,8 +22,6 @@ $ npm install
 $ npm start
 ```
 
-## Usage
-
 ### CI/CD
 
 GitHub Actions will automatically build & deploy the theme to either the development, staging, or production environment on WPE depending on the settings specified in the deployment workflow.
