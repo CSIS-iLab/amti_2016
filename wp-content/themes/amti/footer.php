@@ -59,10 +59,7 @@
 						<?php echo __('Get the AMTI Brief, our monthly feature on political, military, and environmental developments in the South and East China Seas and the claimants bordering them.', 'transparency')?>
 					</p>
 
-						<a class="button" href="mailto:amti@csis.org?subject=Subscribe to newsletter&body=Please add me to the AMTI mailing list:
-						%0A
-						Name:%0AAffiliation:%0AAddress:%0APhone Number (optional):">
-							<?php echo __('Sign Up', 'transparency')?>
+						<a class="button" href="https://www.csis.org/subscribe#section-newsletters"><?php echo __('Sign Up', 'transparency')?>
 						</a>
 
 				</div>
@@ -72,11 +69,6 @@
 						<?php echo __('Explore', 'transparency')?>
 					</div>
 					<?php
-
-
-
-
-
 						wp_nav_menu( array('menu' => 'Footer Menu') );
 					?>
 				</div>
