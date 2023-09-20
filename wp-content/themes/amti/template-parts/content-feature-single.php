@@ -20,7 +20,8 @@
 	<div class="entry-content">
 		<?php
 			the_content();
-			echo do_shortcode('[ssba]');
+			// echo do_shortcode('[ssba]');
+			transparency_share();
 		?>
 	</div><!-- .entry-content -->
 	<footer>

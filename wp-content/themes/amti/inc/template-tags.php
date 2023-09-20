@@ -123,3 +123,17 @@ function transparency_category_transient_flusher() {
 }
 add_action( 'edit_category', 'transparency_category_transient_flusher' );
 add_action( 'save_post',     'transparency_category_transient_flusher' );
+
+/**
+ * Displays the AddToAny Share Links.
+ *
+ *
+ * @return string $html The share links.
+ */
+if (! function_exists('transparency_share')) :
+	function transparency_share() {
+		if ( function_exists( 'ADDTOANY_SHARE_SAVE_KIT' ) ) {
+			ADDTOANY_SHARE_SAVE_KIT();
+		}
+	}
+endif;
