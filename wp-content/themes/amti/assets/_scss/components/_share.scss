@@ -4,7 +4,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-left: 8px;
 
   @include breakpoint("large") {
     justify-content: start;
@@ -30,30 +30,53 @@
   /* stylelint-disable */
   .a2a_button_print img,
   .a2a_button_linkedin img {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
   }
   /* stylelint-enable */
 
-  /* stylelint-disable-next-line */
-  .a2a_button_email {
-    // width: calculateRem(64px);
-  }
+    /* stylelint-disable-next-line */
+    .a2a_button_email {
+      width: 46px;
+      height: 42px;
+    }
 
   /* stylelint-disable-next-line */
   .a2a_button_email img {
-    width: 24px;
-    height: 17px;
+    width: 52px;
+    height: 40px;
+  }
+
+  .a2a_button_facebook {
+    width: 26px;
+    height: 30px;
   }
 
   .a2a_button_facebook img {
-    width: 13px;
-    height: 24px;
+    width: 16px;
+    height: 30px;
   }
 
   /* stylelint-disable-next-line */
   .a2a_button_twitter img {
-    width: 24px;
-    height: 20px;
+    width: 30px;
+    height: 25px;
   }
+}
+
+.share-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  justify-content: center;
+
+  @include breakpoint("large") {
+    justify-content: start;
+  }
+}
+
+.share-label {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
