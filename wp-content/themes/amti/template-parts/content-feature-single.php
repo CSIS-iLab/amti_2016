@@ -20,8 +20,13 @@
 	<div class="entry-content">
 		<?php
 			the_content();
-			echo do_shortcode('[ssba]');
-		?>
+			?>
+		<div class="share-container">
+			<span class="share-label">Share</span>
+			<?php
+			transparency_share();
+			?>
+			</div>
 	</div><!-- .entry-content -->
 	<footer>
 		<a href="/features"><button><?php echo __('More Features', 'transparency'); ?></button></a>
