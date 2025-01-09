@@ -44,7 +44,7 @@
     "stylelint-scss": "^3.18.0",
     "through2": "^4.0.2",
     "vinyl-named": "^1.1.0",
-    "webpack": "^5.24.1",
+    "webpack": "^5.94.0",
     "webpack-stream": "^6.1.0",
     "yargs": "^17.0.1"
   },
